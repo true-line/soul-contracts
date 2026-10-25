@@ -4,8 +4,8 @@ One JSON Schema per record in draft 0.3 Appendix A, versioned per contract (`hq/
 
 | Record | Schema file | Status | Required fields (from the paper) |
 | --- | --- | --- | --- |
-| Hello (admission request) | `hello-admission-request.schema.json` | not started | Contract version, request ID, Soul ID, definition digest, installation ID, prior installation epoch on move, supported capabilities, requested roles. Reject an unaccepted definition or unsupported profile. |
-| Admission result | `admission-result.schema.json` | not started | Installation epoch, admitted runtime IDs, negotiated versions, channel bindings, profile, lease expiry, decision ID. Issued only by HQ. |
+| Hello (admission request) | `hq/v1/hello.schema.json` | draft 0.1 | Contract version, request ID, Soul ID, definition digest, installation ID, prior installation epoch on move, supported capabilities, requested roles. Reject an unaccepted definition or unsupported profile. |
+| Admission result | `hq/v1/admission-result.schema.json` | draft 0.1 | Installation epoch, admitted runtime IDs, negotiated versions, channel bindings, profile, lease expiry, decision ID. Issued only by HQ. |
 | Equip | `equip.schema.json` | not started | Runtime ID, one opaque grant handle per member bound to its channel, credential references, approved destinations, budget sub-allocations. Never a secret. |
 | Ready and lease renewal | `ready-and-lease-renewal.schema.json` | not started | Runtime ID, installation epoch, readiness state, adapter versions, lease generation, renewal sequence, observed health. HQ derives the caller, rejects replay, and returns the authoritative expiry. |
 | Lifecycle request | `lifecycle-request.schema.json` | not started | Request ID, operation, target installation, expected state revision, reason, deadline, owner session reference. HQ authenticates the local caller; returns a decision and resulting state. |

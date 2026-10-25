@@ -1,0 +1,35 @@
+{
+  "schema": "hq/v1/admission-result.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "HQ admits both roles under the protected profile.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "req_0001",
+    "decision_id": "dec_0001",
+    "installation_epoch": 5,
+    "profile": "managed-protected",
+    "negotiated_versions": {
+      "hq": 1,
+      "wire": 1
+    },
+    "admitted_runtimes": [
+      {
+        "member_id": "m_lead",
+        "role": "lead",
+        "runtime_id": "rt_lead_8",
+        "channel_binding": "chan_7f3a"
+      },
+      {
+        "member_id": "m_spec",
+        "role": "specialist",
+        "runtime_id": "rt_spec_3",
+        "channel_binding": "chan_9c1e"
+      }
+    ],
+    "lease_generation": 1,
+    "lease_expires_at": "2026-10-25T03:00:00Z",
+    "warnings": []
+  }
+}

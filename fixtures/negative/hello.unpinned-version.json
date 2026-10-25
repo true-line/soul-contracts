@@ -1,0 +1,40 @@
+{
+  "schema": "hq/v1/hello.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Unpinned adapter version; R12 requires a pin.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "req_0001",
+    "soul_id": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "definition_digest": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+    "installation_id": "inst_mbp_01",
+    "supported_versions": {
+      "hq": [
+        1
+      ],
+      "wire": [
+        1
+      ]
+    },
+    "capabilities": [
+      "sealed-inner-v1"
+    ],
+    "requested_profile": "managed-protected",
+    "requested_roles": [
+      {
+        "role": "lead",
+        "member_id": "m_lead",
+        "adapter_id": "claude-code",
+        "adapter_version": "latest"
+      },
+      {
+        "role": "specialist",
+        "member_id": "m_spec",
+        "adapter_id": "codex",
+        "adapter_version": "0.1.0"
+      }
+    ]
+  }
+}

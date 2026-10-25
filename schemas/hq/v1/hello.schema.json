@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json",
+  "title": "Hello (admission request)",
+  "description": "Sent by the Soul entry point over the hq/v1 control socket at clock-in. Source: Soul Agent Platform draft 0.3, Section 5 and Appendix A. HQ rejects an unaccepted definition (definition_not_accepted), an unsupported profile (profile_insufficient), an unsupported version (unsupported_version), and a prior epoch newer than its own record (stale_epoch).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "request_id",
+    "soul_id",
+    "definition_digest",
+    "installation_id",
+    "supported_versions",
+    "capabilities",
+    "requested_roles"
+  ],
+  "properties": {
+    "contract": {
+      "const": "hq/v1"
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+      "description": "Unique per request; a repeat with identical content returns the prior result."
+    },
+    "soul_id": {
+      "type": "string",
+      "pattern": "^agent_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Stable public identity (R1)."
+    },
+    "definition_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Digest of the accepted definition revision; not an identity or a token."
+    },
+    "installation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "prior_installation_epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Present only on a move; the epoch of the installation being replaced."
+    },
+    "supported_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hq",
+        "wire"
+      ],
+      "properties": {
+        "hq": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "wire": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+$"
+      },
+      "description": "Capability tokens the entry point supports, e.g. sealed-inner-v1. Unknown required capabilities fail closed (R7)."
+    },
+    "requested_profile": {
+      "type": "string",
+      "enum": [
+        "managed-protected",
+        "managed-cooperative",
+        "standalone-unenforced"
+      ],
+      "description": "Profile the Soul asks for; HQ may grant a weaker one and must say so (R8)."
+    },
+    "requested_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "member_id",
+          "adapter_id",
+          "adapter_version"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+            "description": "Role name from SoulInfo.json; exactly one 'lead'."
+          },
+          "member_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "adapter_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+            "description": "Adapter package id from soul-adapters; vendor names are allowed here, not in this schema."
+          },
+          "adapter_version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$"
+          }
+        }
+      },
+      "contains": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "const": "lead"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "minContains": 1,
+      "maxContains": 1,
+      "description": "Exactly one lead; specialists as declared in SoulInfo.json."
+    }
+  }
+}
