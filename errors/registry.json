@@ -1,0 +1,126 @@
+{
+  "version": "0.1.0",
+  "source": "Soul Agent Platform draft 0.3, Appendix A",
+  "codes": [
+    {
+      "code": "approval_mismatch",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "budget_exhausted",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "caller_mismatch",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "candidate_rejected",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "definition_not_accepted",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "destination_denied",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "dream_limit_exceeded",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "eval_coverage_missing",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "evidence_missing",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "frame_too_large",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "grant_revoked",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "lease_expired",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "mailbox_full",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "message_conflict",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "message_expired",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "outcome_unknown",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "profile_insufficient",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "render_failed",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "required_capability_missing",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "revision_conflict",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "source_chain_unapproved",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "stale_epoch",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "unsupported_version",
+      "description": "",
+      "retryable": null
+    },
+    {
+      "code": "write_scope_conflict",
+      "description": "",
+      "retryable": null
+    }
+  ]
+}

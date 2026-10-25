@@ -1,0 +1,21 @@
+# Schemas
+
+One JSON Schema per record in draft 0.3 Appendix A, versioned per contract (`hq/v1`, `task/v1`, `wire/v1`). Canonical form: RFC 8785 JCS. Status column is updated as schemas land.
+
+| Record | Schema file | Status | Required fields (from the paper) |
+| --- | --- | --- | --- |
+| Hello (admission request) | `hello-admission-request.schema.json` | not started | Contract version, request ID, Soul ID, definition digest, installation ID, prior installation epoch on move, supported capabilities, requested roles. Reject an unaccepted definition or unsupported profile. |
+| Admission result | `admission-result.schema.json` | not started | Installation epoch, admitted runtime IDs, negotiated versions, channel bindings, profile, lease expiry, decision ID. Issued only by HQ. |
+| Equip | `equip.schema.json` | not started | Runtime ID, one opaque grant handle per member bound to its channel, credential references, approved destinations, budget sub-allocations. Never a secret. |
+| Ready and lease renewal | `ready-and-lease-renewal.schema.json` | not started | Runtime ID, installation epoch, readiness state, adapter versions, lease generation, renewal sequence, observed health. HQ derives the caller, rejects replay, and returns the authoritative expiry. |
+| Lifecycle request | `lifecycle-request.schema.json` | not started | Request ID, operation, target installation, expected state revision, reason, deadline, owner session reference. HQ authenticates the local caller; returns a decision and resulting state. |
+| Approval record | `approval-record.schema.json` | not started | Approval ID, owner session reference, digest of the proposed action or policy change, scope, expiry, HQ signature. Any change to the proposed action invalidates it. |
+| Directive or query | `directive-or-query.schema.json` | not started | Message ID, authenticated issuer, recipient, kind, task or decision reference, policy or grant reference, expiry, payload. Peer content cannot acquire the directive kind through its text. |
+| Grant record | `grant-record.schema.json` | not started | Grant ID, issuer, principal, Soul, member or role scope, runtime binding, epoch, action and resource selectors, allowed destinations, data restrictions, budget, expiry, revocation version. Stored at HQ. |
+| Task record | `task-record.schema.json` | not started | Task ID, parent or peer reference, requester, accountable Soul, objective, done criteria, grant reference, restrictions, write scope, revision, status, waiting reason, budget, deadline, evidence, lease generation. |
+| Typed note | `typed-note.schema.json` | not started | Note ID, type, task, member, runtime, timestamp, sources, provenance set, disclosure restrictions, body, superseded note references. |
+| Action record | `action-record.schema.json` | not started | Operation ID, stable idempotency key, caller, task, expected revision, grant reference, request digest, state, remote reference, resolver (service lookup or owner session), outcome and receipt IDs. |
+| Transfer record | `transfer-record.schema.json` | not started | Soul ID, source and destination installations, definition digest, life selection, manifest digest, settled-operation watermark, unresolved operations, epoch handoff evidence. No secrets or reusable grants. |
+| Dream grant record | `dream-grant-record.schema.json` | not started | Grant ID, Soul, run ID, dream runtime binding, readable paths, writable paths, approved destinations and executor, maintenance share, wall-clock limit, cell cap, checkpoint interval, expiry. Issued only by HQ. |
+| Eval plan record | `eval-plan-record.schema.json` | not started | Run ID, candidate digest, baseline digest, cells (role, adapter at version, provider, model version), train and held-out task-set digests, tolerance, seed and temperature where fixed, cost cap. |
+| Candidate revision record | `candidate-revision-record.schema.json` | not started | Candidate ID, parent revision digest, candidate digest, change list (path, class, diff reference, rationale, evidence references, provenance set, disclosure labels), eval matrix with per-cell outcome and error codes, pinned adapter and renderer versions, status (proposed, evaluated, partially_passed, rejected, accepted, superseded), rollback target, life changes not undone by rollback. |
