@@ -30,10 +30,10 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
 - Fixtures: 2 positive and 4 negative. The negatives cover a Hello claiming a source, a bad app id, a missing source, and an unknown source.
 
 ## Unreleased
-- Adopts the platform (true-line/agent-bot-platform), read at `main` (platform PDR-0001 as amended in its discussion #20). `AGENTS.md` carries the platform block, which names no commit.
+- Adopts the platform (true-line/agent-bot-platform), read at `main` (platform PDR-0020). `AGENTS.md` carries the platform block, which names no commit.
 - The glossary, requirements, conformance tests, traceability matrix and papers moved to the platform. `glossary/`, `traceability/` and `papers/` now link to them on `main`.
 - `schemas/README.md` takes over the schema encodings and the enumerations, which are contract content.
-- `scripts/validate.py` replaces the paper-pin and traceability checks with platform checks. It fetches the platform's `main` on every run and fails, never skips, when it cannot. These must hold on `main`:
+- `scripts/validate.py` replaces the paper-pin and traceability checks with platform checks. It fetches the platform's `main` on every run, logs the commit SHA it checked, and fails, never skips, when it cannot. These must hold on `main`:
   - R1–R12 and T01–T30 are defined;
   - the error registry's paper hash equals S6 in `registry/sources.yaml`;
   - the `AGENTS.md` block is the read-at-main block;

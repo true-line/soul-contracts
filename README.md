@@ -31,7 +31,7 @@ pip install "jsonschema>=4.23" rfc3339-validator
 python scripts/validate.py   # BASE_REF=origin/main by default, for the registry ratchet
 ```
 
-`validate.py` fetches the platform's `main` (public, no credential) on every run and fails if it cannot reach it.
+`validate.py` fetches the platform's `main` (public, no credential) on every run, logs the commit SHA it checked, and fails if it cannot reach the platform.
 
 
 ## Work package

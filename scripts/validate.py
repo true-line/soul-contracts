@@ -10,7 +10,8 @@ Checks, in order:
   canonicalization  JCS vectors reproduce byte for byte
   registry        structure, contiguous numbering, add-only ratchet against
                   the merge base with $BASE_REF (default origin/main)
-  platform        fetched fresh at main (fails, never skips, if unreachable):
+  platform        fetched fresh at main and its commit SHA logged (fails,
+                  never skips, if unreachable):
                   R1-R12 and T01-T30 are defined; the error registry names
                   S6's hash; AGENTS.md has the read-at-main block; every
                   platform link uses main and resolves; contract artifacts
@@ -194,9 +195,9 @@ for fx in sorted((ROOT / "fixtures/positive").glob("error-response.*.json")):
 
 # --- platform ------------------------------------------------------------------
 # Requirements, tests, the glossary and the papers live in true-line/agent-bot-platform.
-# Agents read it at main (platform PDR-0001, amended), so this fetches main fresh on
-# every run. It fails rather than skips when the platform is unreachable: a check
-# against stale context is worse than no check.
+# Agents read it at main (platform PDR-0020), so this fetches main fresh on every run
+# and logs the commit it checked. It fails rather than skips when the platform is
+# unreachable: a check against stale context is worse than no check.
 PLATFORM = "https://github.com/true-line/agent-bot-platform.git"
 BLOCK = """<!-- platform:agent-bot-platform:start -->
 Platform: true-line/agent-bot-platform, read at main.
@@ -216,7 +217,9 @@ def pgit(*args):
 fetched = pgit("init", "-q").returncode == 0 and pgit("fetch", "-q", "--depth", "1", "--no-tags", PLATFORM, "main").returncode == 0
 report(fetched, "platform main fetched", f"cannot fetch main from {PLATFORM}; platform checks fail rather than skip")
 if fetched:
-    head = pgit("rev-parse", "--short", "FETCH_HEAD").stdout.strip()
+    sha = pgit("rev-parse", "FETCH_HEAD").stdout.strip()
+    head = sha[:7]
+    print(f"platform main checked at {sha}")
 
     def at_main(path):
         r = pgit("show", f"FETCH_HEAD:{path}")
