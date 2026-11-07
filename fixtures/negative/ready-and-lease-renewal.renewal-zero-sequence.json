@@ -2,7 +2,7 @@
   "schema": "hq/v1/ready-and-lease-renewal.schema.json",
   "base": {
     "fixture": "positive/ready-and-lease-renewal.warm.json",
-    "sha256": "sha256:899ce25de978c10b7757d4735db2e0fe4a3d4c2befee9807ea5301f975b5fe57"
+    "sha256": "sha256:72369c5c8dd2bea72606b61a7c0d0c09508b52f4eee0753491ed47b0518e82fc"
   },
   "expect": {
     "schema": "invalid"
@@ -13,6 +13,7 @@
     "runtime_id": "runtime_lead_8",
     "installation_epoch": 4,
     "readiness_state": "warm",
+    "auth_state": "authenticated",
     "adapter_versions": {
       "fake-adapter": "1.2.0"
     },

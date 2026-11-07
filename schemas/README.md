@@ -22,8 +22,9 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Dream grant record | `records/v1/dream-grant-record.schema.json` | 0.3.0 |
 | Eval plan record | `records/v1/eval-plan-record.schema.json` | 0.3.0 |
 | Candidate revision record | `records/v1/candidate-revision-record.schema.json` | 0.3.0 |
+| Typed refusal (error response) | `common/v1/error-response.schema.json` | 0.3.0 (paper: Appendix A, Minimum error codes) |
 
-`hq/v1`, `wire/v1` and `task/v1` are the versioned protocols (N and N−1 apply, R7). `records/v1` holds stored records that no protocol carries on its own; they are versioned with this repository.
+`hq/v1`, `wire/v1` and `task/v1` are the versioned protocols (N and N−1 apply, R7). `records/v1` holds stored records that no protocol carries on its own, and `common/v1` holds shapes every protocol shares (the typed refusal). Both are versioned with this repository.
 
 All versions are pre-release until an implementation pins them. Until then a shape change is made in place and recorded in `CHANGELOG.md`; after the first pin, a breaking change bumps the major and keeps the previous fixtures.
 
@@ -55,6 +56,9 @@ These are the places where a schema deliberately differs from the paper's illust
 - **`retryable` and `raised_by` in `errors/registry.json`** are WP1 proposals. The paper names the codes but not these attributes, except where Sections 6 and 9 state the behavior (for example, `credential_unavailable` is retried once the service returns).
 - **Hello `requested_roles`** carry member, adapter and pinned adapter version, not bare role names. Admission pins adapter versions, eval cells key on them, and the "exactly one lead" rule needs the structure.
 - **The admission result** echoes `request_id` and issues the first `lease_generation`. Ready and lease renewal requires a lease generation, and only admission can issue the first one (T07).
+
+- **Ready `auth_state`** (`authenticated`, `unauthenticated`, `expired`) carries the per-role auth state that Section 5 lists and Appendix A's field list omits. The three values are a WP1 proposal. `observed_health` (`healthy`, `degraded`, `unreachable`) is likewise a proposal; the paper says only that a missed lease makes reachability stale.
+- **The typed refusal** carries `error`, `explanation` and `correlation_id`, as the paper requires, plus an optional `request_id` echo and a `retry_after_seconds` hint that is allowed only for codes registered as retryable. Its code enumeration is the registry, and `validate.py` keeps the two equal.
 
 ## Validator
 

@@ -47,6 +47,7 @@ Source: Soul Agent Platform draft 0.4, Section 3 (SHA-256 `6e8b85af5aea5454314b7
 | Dream run | `records/v1/dream-grant-record.schema.json` |
 | Eval cell | `records/v1/eval-plan-record.schema.json` |
 | Candidate revision | `records/v1/candidate-revision-record.schema.json` |
+| Typed refusal | `common/v1/error-response.schema.json` |
 
 ## Enumerations
 

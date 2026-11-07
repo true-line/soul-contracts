@@ -178,6 +178,16 @@ else:
     probs += [f"{c['code']} renumbered" for c in old["codes"] if "n" in c and c["code"] in now and now[c["code"]]["n"] != c["n"]]
     report(not probs, f"registry add-only against {base_ref} ({mb[:7]})", "; ".join(probs))
 
+# --- error-response schema follows the registry --------------------------
+er = load(ROOT / "schemas/common/v1/error-response.schema.json")
+report(er["properties"]["error"]["enum"] == [c["code"] for c in registry["codes"]],
+       "error-response code enum equals errors/registry.json, in order")
+retryable = {c["code"] for c in registry["codes"] if c["retryable"]}
+for fx in sorted((ROOT / "fixtures/positive").glob("error-response.*.json")):
+    inp = load(fx)["input"]
+    report("retry_after_seconds" not in inp or inp["error"] in retryable,
+           f"{fx.relative_to(ROOT)} retry hint only on a retryable code")
+
 # --- paper pin ---------------------------------------------------------------
 paper = ROOT / "papers/Soul_Agent_Platform_draft_0.4.docx"
 want = registry["source"]["sha256"]

@@ -9,10 +9,11 @@
     "runtime_id": "runtime_spec_2",
     "installation_epoch": 4,
     "readiness_state": "cold",
+    "auth_state": "expired",
     "adapter_versions": {},
     "lease_generation": 1,
     "renewal_sequence": 1,
     "observed_health": "degraded"
   },
-  "canonical_sha256": "sha256:1e84c9f41cee925ea0dd4c0be51c34868e42b7cea1f604c9fc81d3117dd751c2"
+  "canonical_sha256": "sha256:85f71207666c985558de95f392c240b3b6f663b86a3e2365aefbddc7cfe848a0"
 }
