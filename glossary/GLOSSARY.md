@@ -1,5 +1,5 @@
 # Glossary
 
-The glossary moved to the platform, which is the single home for platform vocabulary: [glossary at baseline/3](https://github.com/true-line/agent-bot-platform/blob/f1008c8cd5e4e1b27125380731f4422b1f392392/docs/glossary.md).
+The glossary moved to the platform, which is the single home for platform vocabulary: [glossary](https://github.com/true-line/agent-bot-platform/blob/main/docs/glossary.md).
 
 What stays here is contract content: which schema encodes each term, and the enumeration values the schemas use. Both are in [schemas/README.md](../schemas/README.md).

@@ -10,13 +10,15 @@ Checks, in order:
   canonicalization  JCS vectors reproduce byte for byte
   registry        structure, contiguous numbering, add-only ratchet against
                   the merge base with $BASE_REF (default origin/main)
-  platform pin    platform.lock.json is well formed; the error registry, the
-                  AGENTS.md platform block and every link into the platform
-                  name the locked paper and commit; contract artifacts cite
-                  only requirement and test IDs that exist at that commit
+  platform        fetched fresh at main and its commit SHA logged (fails,
+                  never skips, if unreachable):
+                  R1-R12 and T01-T30 are defined; the error registry names
+                  S6's hash; AGENTS.md has the read-at-main block; every
+                  platform link uses main and resolves; contract artifacts
+                  cite only requirement and test IDs defined there
   vendor tokens   R10: no vendor name in any contract artifact
 """
-import hashlib, json, os, pathlib, re, subprocess, sys
+import hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
 from datetime import datetime
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -191,53 +193,73 @@ for fx in sorted((ROOT / "fixtures/positive").glob("error-response.*.json")):
     report("retry_after_seconds" not in inp or inp["error"] in retryable,
            f"{fx.relative_to(ROOT)} retry hint only on a retryable code")
 
-# --- platform pin ------------------------------------------------------------
+# --- platform ------------------------------------------------------------------
 # Requirements, tests, the glossary and the papers live in true-line/agent-bot-platform.
-# The lock (written by scripts/platform_lock.py) carries what these checks need, so they
-# run offline; CI checks the lock against the platform's registry at the locked tag.
-lock = load(ROOT / "platform.lock.json")
-commit, baseline = lock.get("commit", ""), lock.get("baseline", "")
-known = set(lock.get("requirements", [])) | set(lock.get("tests", []))
-probs = []
-if lock.get("platform") != "true-line/agent-bot-platform": probs.append("platform must be true-line/agent-bot-platform")
-if not re.fullmatch(r"[0-9a-f]{40}", commit): probs.append("commit must be a full SHA")
-if not re.fullmatch(r"baseline/[1-9][0-9]*", baseline): probs.append("baseline must be baseline/N")
-need = {f"R{n}" for n in range(1, 13)} | {f"T{n:02d}" for n in range(1, 31)}
-if need - known: probs.append("missing " + ", ".join(sorted(need - known)))
-report(not probs, "platform lock structure", "; ".join(probs))
-
-want = lock.get("sources", {}).get("S6")
-report(registry["source"]["sha256"] == want, f"{REG_PATH} source.sha256 is the locked S6 paper", f"lock has {want}")
-
-block = re.search(r"<!-- platform:agent-bot-platform:start -->\s*Platform: true-line/agent-bot-platform "
-                  r"at (\S+) \(commit (\S+)\)\.", (ROOT / "AGENTS.md").read_text(encoding="utf-8"))
-report(block is not None and block.groups() == (baseline, commit), "AGENTS.md platform block names the locked baseline and commit",
-       str(block.groups()) if block else "no platform block")
-
-links = [(p.relative_to(ROOT).as_posix(), ref) for p in sorted(ROOT.rglob("*.md")) if ".git" not in p.parts and p.name != "CHANGELOG.md"
-         for ref in re.findall(r"github\.com/true-line/agent-bot-platform/(?:blob|tree)/([^/\s)#]+)", p.read_text(encoding="utf-8"))]
-report(all(ref == commit for _, ref in links), f"{len(links)} platform links use the locked commit",
-       "; ".join(f"{f}: {ref}" for f, ref in links if ref != commit))
-
-ID = re.compile(r"(?<![\w/+=.-])(R\d{1,2}|T\d\d|QA-[A-Z0-9]{3,4}-\d\d)(?![\w-])")
+# Agents read it at main (platform PDR-0020), so this fetches main fresh on every run
+# and logs the commit it checked. It fails rather than skips when the platform is
+# unreachable: a check against stale context is worse than no check.
+PLATFORM = "https://github.com/true-line/agent-bot-platform.git"
+BLOCK = """<!-- platform:agent-bot-platform:start -->
+Platform: true-line/agent-bot-platform, read at main.
+This repository's charter, seams and requirements are in the platform's
+registry/repos.yaml entry for soul-contracts. Read the platform's AGENTS.md
+at the start of every task, and before changing a seam or anything a
+requirement covers.
+<!-- platform:agent-bot-platform:end -->"""
+plat = pathlib.Path(tempfile.mkdtemp(prefix="platform-main-"))
+GIT_ENV = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
 
 
-def cited(o, key=None):
-    if isinstance(o, dict):
-        for k, v in o.items():
-            yield from cited(v, k)
-    elif isinstance(o, list):
-        for v in o:
-            yield from cited(v, key)
-    elif isinstance(o, str) and key in ("description", "note"):
-        yield from ID.findall(o)
+def pgit(*args):
+    return subprocess.run(["git", "-C", str(plat), "-c", "credential.helper=", *args], capture_output=True, text=True, env=GIT_ENV)
 
 
-unknown = set()
-for p in [*(ROOT / "schemas").rglob("*.json"), *(ROOT / "fixtures").rglob("*.json"), ROOT / REG_PATH]:
-    unknown |= {f"{p.relative_to(ROOT)}: {i}" for i in cited(load(p)) if i not in known}
-unknown |= {f"schemas/README.md: {i}" for i in ID.findall((ROOT / "schemas/README.md").read_text(encoding="utf-8")) if i not in known}
-report(not unknown, f"contract artifacts cite only IDs that exist at {baseline}", "; ".join(sorted(unknown)))
+fetched = pgit("init", "-q").returncode == 0 and pgit("fetch", "-q", "--depth", "1", "--no-tags", PLATFORM, "main").returncode == 0
+report(fetched, "platform main fetched", f"cannot fetch main from {PLATFORM}; platform checks fail rather than skip")
+if fetched:
+    sha = pgit("rev-parse", "FETCH_HEAD").stdout.strip()
+    head = sha[:7]
+    print(f"platform main checked at {sha}")
+
+    def at_main(path):
+        r = pgit("show", f"FETCH_HEAD:{path}")
+        return r.stdout if r.returncode == 0 else ""
+
+    known = set(re.findall(r"^- id: (\S+)$", at_main("registry/requirements.yaml") + at_main("registry/tests.yaml"), re.M))
+    need = {f"R{n}" for n in range(1, 13)} | {f"T{n:02d}" for n in range(1, 31)}
+    report(not need - known, f"platform main ({head}) defines R1-R12 and T01-T30", "missing " + ", ".join(sorted(need - known)))
+
+    s6 = re.search(r"^- id: S6$(.*?)(?=^- id: |\Z)", at_main("registry/sources.yaml"), re.M | re.S)
+    s6 = s6 and re.search(r"^  sha256: ([0-9a-f]{64})$", s6.group(1), re.M)
+    want = s6.group(1) if s6 else None
+    report(registry["source"]["sha256"] == want, f"{REG_PATH} source.sha256 is S6 on platform main", f"platform has {want}")
+
+    report(BLOCK in (ROOT / "AGENTS.md").read_text(encoding="utf-8"), "AGENTS.md carries the read-at-main platform block")
+
+    links = [(p.relative_to(ROOT).as_posix(), ref, path) for p in sorted(ROOT.rglob("*.md")) if ".git" not in p.parts and p.name != "CHANGELOG.md"
+             for ref, path in re.findall(r"github\.com/true-line/agent-bot-platform/(?:blob|tree)/([^/\s)#]+)/([^\s)#]*)", p.read_text(encoding="utf-8"))]
+    bad = [f"{f}: {ref}/{path}" + ("" if ref == "main" else " (pinned)") for f, ref, path in links
+           if ref != "main" or pgit("cat-file", "-e", f"FETCH_HEAD:{path.rstrip('/')}").returncode != 0]
+    report(not bad, f"{len(links)} platform links use main and resolve there", "; ".join(bad))
+
+    ID = re.compile(r"(?<![\w/+=.-])(R\d{1,2}|T\d\d|QA-[A-Z0-9]{3,4}-\d\d)(?![\w-])")
+
+    def cited(o, key=None):
+        if isinstance(o, dict):
+            for k, val in o.items():
+                yield from cited(val, k)
+        elif isinstance(o, list):
+            for val in o:
+                yield from cited(val, key)
+        elif isinstance(o, str) and key in ("description", "note"):
+            yield from ID.findall(o)
+
+    unknown = set()
+    for p in [*(ROOT / "schemas").rglob("*.json"), *(ROOT / "fixtures").rglob("*.json"), ROOT / REG_PATH]:
+        unknown |= {f"{p.relative_to(ROOT)}: {i}" for i in cited(load(p)) if i not in known}
+    unknown |= {f"schemas/README.md: {i}" for i in ID.findall((ROOT / "schemas/README.md").read_text(encoding="utf-8")) if i not in known}
+    report(not unknown, "contract artifacts cite only IDs defined on platform main", "; ".join(sorted(unknown)))
+shutil.rmtree(plat, ignore_errors=True)
 
 # --- vendor tokens (R10) -----------------------------------------------------
 DENY = ["claude", "codex", "anthropic", "openai", "gpt-", "gemini", "google", "opencode", "copilot",

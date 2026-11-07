@@ -49,7 +49,7 @@ Every object is `additionalProperties: false`, so a record that tries to carry a
 
 ## Schema encodings
 
-Which schema encodes each term. The terms themselves are defined in the platform [glossary](https://github.com/true-line/agent-bot-platform/blob/f1008c8cd5e4e1b27125380731f4422b1f392392/docs/glossary.md).
+Which schema encodes each term. The terms themselves are defined in the platform [glossary](https://github.com/true-line/agent-bot-platform/blob/main/docs/glossary.md).
 
 | Term | Schema |
 | --- | --- |

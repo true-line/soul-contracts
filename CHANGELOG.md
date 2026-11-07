@@ -30,9 +30,14 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
 - Fixtures: 2 positive and 4 negative. The negatives cover a Hello claiming a source, a bad app id, a missing source, and an unknown source.
 
 ## Unreleased
-- Adopts the platform at `baseline/3` (true-line/agent-bot-platform). `AGENTS.md` carries the platform block, and `platform.lock.json` pins the platform commit with the requirement and test IDs that exist there.
-- The glossary, requirements, conformance tests, traceability matrix and papers moved to the platform. `glossary/`, `traceability/` and `papers/` now link to them at the pinned commit.
+- Adopts the platform (true-line/agent-bot-platform), read at `main` (platform PDR-0020). `AGENTS.md` carries the platform block, which names no commit.
+- The glossary, requirements, conformance tests, traceability matrix and papers moved to the platform. `glossary/`, `traceability/` and `papers/` now link to them on `main`.
 - `schemas/README.md` takes over the schema encodings and the enumerations, which are contract content.
-- `scripts/validate.py`: the paper-pin and traceability checks are replaced by platform-pin checks. The error registry's paper hash must equal the locked S6 pin, the `AGENTS.md` block and every platform link must name the locked commit, and contract artifacts may cite only requirement and test IDs in the lock. The R10 vendor scan now covers `schemas/README.md` instead of the moved files.
-- `scripts/platform_lock.py` writes or checks the lock from a local checkout of the platform.
-- CI fetches the public platform at the locked baseline tag and runs `scripts/platform_lock.py`, so the lock is checked against the platform's registry at the pinned commit. The script now also requires the baseline tag to point at the locked commit.
+- `scripts/validate.py` replaces the paper-pin and traceability checks with platform checks. It fetches the platform's `main` on every run, logs the commit SHA it checked, and fails, never skips, when it cannot. These must hold on `main`:
+  - R1–R12 and T01–T30 are defined;
+  - the error registry's paper hash equals S6 in `registry/sources.yaml`;
+  - the `AGENTS.md` block is the read-at-main block;
+  - every platform link uses `main` and resolves;
+  - contract artifacts cite only requirement and test IDs defined there.
+
+  The R10 vendor scan now covers `schemas/README.md` instead of the moved files.
