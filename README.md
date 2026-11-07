@@ -2,7 +2,7 @@
 
 Versioned contracts for the Soul Agent Platform: schemas, canonicalization vectors, fixtures and the error registry. This repository holds no runtime code.
 
-Requirements, tests, vocabulary, traceability and the source papers live in true-line/agent-bot-platform; `AGENTS.md` and `platform.lock.json` name the pinned commit. The source of record is the platform's S6, *Soul Agent Platform* draft 0.4 (2026-10-27), SHA-256 `6e8b85af5aea5454314b7563fef83d50b5582f2b6bd9bd2a8a9bd64cdedd3030`. `errors/registry.json` names it by that hash.
+Requirements, tests, vocabulary, traceability and the source papers live in true-line/agent-bot-platform, read at `main`. The source of record is the platform's S6, *Soul Agent Platform* draft 0.4 (2026-10-27), SHA-256 `6e8b85af5aea5454314b7563fef83d50b5582f2b6bd9bd2a8a9bd64cdedd3030`. `errors/registry.json` names it by that hash.
 
 ## Owns
 
@@ -10,7 +10,6 @@ Requirements, tests, vocabulary, traceability and the source papers live in true
 - `fixtures/` — golden records and negative vectors every implementation loads.
 - `errors/registry.json` — the error code registry; codes are added here before any implementation emits them.
 - `schemas/README.md` — the field encodings, which schema encodes each platform term, and the enumeration values.
-- `platform.lock.json` — the platform commit these contracts are written against, with the requirement and test IDs that exist there.
 
 `glossary/`, `traceability/` and `papers/` now hold only links to the platform.
 
@@ -32,13 +31,8 @@ pip install "jsonschema>=4.23" rfc3339-validator
 python scripts/validate.py   # BASE_REF=origin/main by default, for the registry ratchet
 ```
 
-To move the platform pin, from a local checkout of the platform:
+`validate.py` fetches the platform's `main` (public, no credential) on every run and fails if it cannot reach it.
 
-```sh
-python scripts/platform_lock.py <platform checkout> --commit <sha> --write
-```
-
-The commit must carry its `baseline/N` tag. Then update the platform block in `AGENTS.md` and the links in `glossary/`, `traceability/` and `papers/` in the same change; `validate.py` fails until they agree. CI fetches the platform at the locked tag and runs `platform_lock.py` to check the lock against its registry.
 
 ## Work package
 
