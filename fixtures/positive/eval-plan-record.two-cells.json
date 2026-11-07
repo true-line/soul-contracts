@@ -1,0 +1,35 @@
+{
+  "schema": "records/v1/eval-plan-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "eval plan two cells.",
+  "input": {
+    "run_id": "run_2026_11_07",
+    "candidate_digest": "sha256:5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d",
+    "baseline_digest": "sha256:6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e",
+    "cells": [
+      {
+        "role": "lead",
+        "adapter": "fake-adapter",
+        "adapter_version": "1.2.0",
+        "provider": "provider-a",
+        "model_version": "model-2026-09"
+      },
+      {
+        "role": "specialist",
+        "adapter": "fake-adapter",
+        "adapter_version": "1.2.0",
+        "provider": "provider-a",
+        "model_version": "model-2026-09"
+      }
+    ],
+    "train_task_set_digest": "sha256:708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f",
+    "held_out_task_set_digest": "sha256:08192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f7",
+    "tolerance": 0.05,
+    "seed": 7,
+    "temperature": 0,
+    "cost_cap": 10
+  },
+  "canonical_sha256": "sha256:ab8fce1a9f01846e2beb15b91b07c1d7a3bf28205adf39639303557d0e3210e0"
+}

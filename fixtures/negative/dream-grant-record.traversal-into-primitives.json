@@ -1,0 +1,31 @@
+{
+  "schema": "records/v1/dream-grant-record.schema.json",
+  "base": {
+    "fixture": "positive/dream-grant-record.standard.json",
+    "sha256": "sha256:7f96da7422a4e5d5def965bc8f2ddcf191f48f05582c7ada200ae3b177bf0ad1"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A traversal segment cannot reach primitives/ from an allowed prefix (0.4 section 10, T29); path patterns refuse '.' and '..' segments and empty segments.",
+  "input": {
+    "grant_id": "dream_grant_5",
+    "soul_id": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "run_id": "run_2026_11_08",
+    "runtime_binding": "runtime_dream_1",
+    "readable_paths": [
+      "dreams/inputs/",
+      "memorial/"
+    ],
+    "writable_paths": [
+      "dreams/runs/run_2026_11_08/../../../primitives/persona/"
+    ],
+    "approved_destinations": [
+      "inference:primary"
+    ],
+    "maintenance_share": 0.2,
+    "wall_clock_limit_seconds": 7200,
+    "cell_cap": 6,
+    "expiry": "2026-11-08T14:00:00Z"
+  }
+}

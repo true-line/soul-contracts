@@ -1,0 +1,25 @@
+{
+  "schema": "wire/v1/wire-frame.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "frame sealed task wake.",
+  "input": {
+    "wire_version": 1,
+    "message_id": "message_53",
+    "destination_soul": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "destination_epoch": 4,
+    "expires_at": "2026-11-08T18:00:00Z",
+    "payload_size": 2048,
+    "wake_class": "task",
+    "required_capabilities": [
+      "sealed-inner-v1"
+    ],
+    "sealed": {
+      "profile": "crypto-profile-pending",
+      "recipient_key_id": "key_destination_2",
+      "ciphertext": "ciphertext_illustrative_value_0123456789"
+    }
+  },
+  "canonical_sha256": "sha256:2c167fbed096d3692a92ff924469b2141abc92bcb4208cf8f67a0ab19e10e69a"
+}

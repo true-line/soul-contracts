@@ -1,0 +1,18 @@
+{
+  "schema": "hq/v1/lifecycle-request.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "lifecycle accept revision with deadline.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "request_78",
+    "operation": "accept-revision",
+    "target_installation_id": "install_1",
+    "expected_state_revision": 13,
+    "reason": "owner accepts candidate_3 digest after review",
+    "deadline": "2026-11-08T00:00:00Z",
+    "owner_session_reference": "session_owner_1"
+  },
+  "canonical_sha256": "sha256:90e45d8889a1347f7e81ec526ae5c6da17f99396d9db4c09fafea6a36eb26bd4"
+}

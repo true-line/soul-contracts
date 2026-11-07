@@ -1,0 +1,18 @@
+{
+  "schema": "task/v1/action-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "action prepared before send.",
+  "input": {
+    "operation_id": "operation_finish_17",
+    "idempotency_key": "idem_9f8e7d6c5b4a3210",
+    "caller": "runtime_lead_8",
+    "task_id": "task_17",
+    "expected_revision": 6,
+    "grant_reference": "grant_7",
+    "request_digest": "sha256:3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b",
+    "state": "prepared"
+  },
+  "canonical_sha256": "sha256:ab4324e7497fae87ebeabebb83f525bbf4b4431fbcbc37b3a9f60afa130ac591"
+}

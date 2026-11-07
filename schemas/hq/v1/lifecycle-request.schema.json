@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/lifecycle-request.schema.json",
+  "title": "hq/v1 Lifecycle request",
+  "description": "0.4 Appendix A: request ID, operation, target installation, expected state revision, reason, deadline, owner session reference. HQ authenticates the local caller and returns a decision and resulting state. Recovery is not an hq/v1 operation (0.4 §5).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "request_id",
+    "operation",
+    "target_installation_id",
+    "expected_state_revision",
+    "reason",
+    "owner_session_reference"
+  ],
+  "properties": {
+    "contract": {
+      "const": "hq/v1"
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "start",
+        "stop",
+        "pause",
+        "resume",
+        "drain",
+        "sleep",
+        "move",
+        "fork",
+        "accept-revision",
+        "rollback-revision",
+        "retire"
+      ]
+    },
+    "target_installation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "expected_state_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "owner_session_reference": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    }
+  }
+}

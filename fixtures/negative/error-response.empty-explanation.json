@@ -1,0 +1,17 @@
+{
+  "schema": "common/v1/error-response.schema.json",
+  "base": {
+    "fixture": "positive/error-response.stale-epoch.json",
+    "sha256": "sha256:f6bdb4c137c5f9ad7f06d9ee06984377b4f15f0c8d50fbc4e6713b01bd90fe0c"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Every refusal carries a safe explanation.",
+  "input": {
+    "error": "stale_epoch",
+    "explanation": "",
+    "correlation_id": "corr_8c21",
+    "request_id": "request_91"
+  }
+}

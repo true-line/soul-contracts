@@ -1,0 +1,17 @@
+{
+  "schema": "hq/v1/lifecycle-request.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "lifecycle pause.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "request_77",
+    "operation": "pause",
+    "target_installation_id": "install_1",
+    "expected_state_revision": 12,
+    "reason": "owner halted background work at a safe point",
+    "owner_session_reference": "session_owner_1"
+  },
+  "canonical_sha256": "sha256:c0c54d4ff281179af34d4ea9ac80d72602556c4ded3de161e00f3317857d6b1c"
+}

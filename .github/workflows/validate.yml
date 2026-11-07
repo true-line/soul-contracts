@@ -1,11 +1,28 @@
 name: validate
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   fixtures:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - run: pip install "jsonschema>=4.23" rfc3339-validator
-      - run: python scripts/validate.py
+      # This repository allows local actions only, so checkout and Python setup are plain shell.
+      - name: checkout
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref }}
+        run: |
+          git init -q .
+          git remote add origin "https://x-access-token:${TOKEN}@github.com/${REPO}.git"
+          git fetch -q --no-tags origin "+refs/heads/*:refs/remotes/origin/*" "+${REF}:refs/ci/head"
+          git checkout -q --detach refs/ci/head
+      - name: install
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install -q "jsonschema>=4.23" rfc3339-validator
+      - name: validate
+        env:
+          # The registry ratchet compares against the PR base, or main on push.
+          BASE_REF: origin/${{ github.base_ref || 'main' }}
+        run: .venv/bin/python scripts/validate.py

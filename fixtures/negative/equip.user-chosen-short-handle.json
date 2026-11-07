@@ -1,0 +1,30 @@
+{
+  "schema": "hq/v1/equip.schema.json",
+  "base": {
+    "fixture": "positive/equip.lead.json",
+    "sha256": "sha256:2f62df37cbc938a9ce2ddb1adad69a328fb03eebc773362220bba97a8b755637"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A production grant handle is a broker-generated opaque value, never a user-chosen string (0.4 Appendix A).",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_lead_8",
+    "grant_handles": [
+      {
+        "channel_binding": "bind_lead_0000000001",
+        "handle": "hnd_1",
+        "member_id": "lead"
+      }
+    ],
+    "credential_references": [],
+    "approved_destinations": [
+      "inference:primary"
+    ],
+    "budget_sub_allocations": {
+      "working": 5,
+      "maintenance": 1
+    }
+  }
+}

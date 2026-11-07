@@ -1,6 +1,6 @@
 # Requirement traceability
 
-Source: draft 0.3, Appendix D. Maintained by WP1; every new test or schema updates this file in the same change.
+Source: draft 0.4, Appendix D (unchanged from 0.3). Maintained by WP1; every new test or schema updates this file in the same change. Test definitions: TESTS.md. `scripts/validate.py` checks coverage.
 
 | Req                                          | Specified in                 | Verified by                                                      | First gate        |
 |----------------------------------------------|------------------------------|------------------------------------------------------------------|-------------------|
@@ -16,3 +16,7 @@ Source: draft 0.3, Appendix D. Maintained by WP1; every new test or schema updat
 | R10 Vendor-neutral contracts                 | 12, 13 (pilot configuration) | Schema review in WP1; no vendor token in any fixture             | 0                 |
 | R11 One harness to the user                  | 3, 8                         | Pilot rubric: tasks completed through terminal chat and ACP only | 3                 |
 | R12 Vendored and pinned, declared exceptions | 11                           | T16; clean-host activation reports missing toolchains            | 3                 |
+
+## Compatibility baseline (Appendix E)
+
+The WP1 compatibility inventory that draft 0.4 Appendix E asks for is the module inventory and dependency map in `true-line/agent-bot-daemon` `docs/daemon-plugin-split.md`: Appendix A, plus §2.3 (duplicated wire code) and §2.4 (cycles), at commit `6480b35`. It is referenced here, not copied, and is re-pinned when that inventory changes.

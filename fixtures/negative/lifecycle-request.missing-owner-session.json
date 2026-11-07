@@ -1,0 +1,19 @@
+{
+  "schema": "hq/v1/lifecycle-request.schema.json",
+  "base": {
+    "fixture": "positive/lifecycle-request.pause.json",
+    "sha256": "sha256:c6896992ddfb3cd5f001c31ff39e52a4a8d311604baaf3906a336f25eae1996e"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Every lifecycle request records the authenticated owner session (0.4 §4); without one HQ cannot bind the decision.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "request_80",
+    "operation": "stop",
+    "target_installation_id": "install_1",
+    "expected_state_revision": 13,
+    "reason": "owner stops the installation"
+  }
+}

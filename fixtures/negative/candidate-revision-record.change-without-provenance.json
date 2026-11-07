@@ -1,0 +1,34 @@
+{
+  "schema": "records/v1/candidate-revision-record.schema.json",
+  "base": {
+    "fixture": "positive/candidate-revision-record.evaluated-awaiting-owner.json",
+    "sha256": "sha256:ecb6bd0971211dc27d06c21e24f264cd7ea4e904cfb01b1b13dd2efafe65e3c4"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Without a provenance set the source chain cannot be checked (T30); a change derived from external-untrusted content must carry that label.",
+  "input": {
+    "candidate_id": "candidate_5",
+    "parent_revision_digest": "sha256:0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0",
+    "candidate_digest": "sha256:2a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f70819",
+    "changes": [
+      {
+        "path": "primitives/tool-guidance/",
+        "class": "tool_guidance",
+        "rationale": "Workaround learned from a downloaded document.",
+        "evidence_references": [
+          "note_89"
+        ]
+      }
+    ],
+    "eval_matrix": [
+      {
+        "role": "lead",
+        "adapter_version": "1.2.0",
+        "outcome": "pass"
+      }
+    ],
+    "status": "proposed"
+  }
+}

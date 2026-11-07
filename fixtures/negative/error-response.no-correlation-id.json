@@ -1,0 +1,16 @@
+{
+  "schema": "common/v1/error-response.schema.json",
+  "base": {
+    "fixture": "positive/error-response.stale-epoch.json",
+    "sha256": "sha256:f6bdb4c137c5f9ad7f06d9ee06984377b4f15f0c8d50fbc4e6713b01bd90fe0c"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Every refusal carries a correlation ID so the owner can find its receipt.",
+  "input": {
+    "error": "stale_epoch",
+    "explanation": "Commit refused: installation epoch 4 is older than the current epoch 5.",
+    "request_id": "request_91"
+  }
+}

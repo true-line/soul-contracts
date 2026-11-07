@@ -1,126 +1,300 @@
 {
-  "version": "0.1.0",
-  "source": "Soul Agent Platform draft 0.3, Appendix A",
+  "schema_version": 1,
+  "version": "0.3.0",
+  "description": "The Soul Agent Platform minimum contract error codes. Add-only: never remove, renumber, or change the meaning of a code; mark a retired one deprecated. A code is registered here before any implementation emits it. retryable and raised_by are WP1 curation, accepted 2026-11-07, where the paper is silent (schemas/README.md, Curation notes).",
+  "source": {
+    "document": "Soul Agent Platform, whitepaper draft 0.4 (2026-10-27), Minimum error codes",
+    "sha256": "6e8b85af5aea5454314b7563fef83d50b5582f2b6bd9bd2a8a9bd64cdedd3030"
+  },
+  "raised_by_values": [
+    "hq",
+    "broker",
+    "entry-point",
+    "soul-build",
+    "eval-gate",
+    "identity-service"
+  ],
   "codes": [
     {
-      "code": "approval_mismatch",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "budget_exhausted",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "caller_mismatch",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "candidate_rejected",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "definition_not_accepted",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "destination_denied",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "dream_limit_exceeded",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "eval_coverage_missing",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "evidence_missing",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "frame_too_large",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "grant_revoked",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "lease_expired",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "mailbox_full",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "message_conflict",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "message_expired",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "outcome_unknown",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "profile_insufficient",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "render_failed",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "required_capability_missing",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "revision_conflict",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "source_chain_unapproved",
-      "description": "",
-      "retryable": null
-    },
-    {
-      "code": "stale_epoch",
-      "description": "",
-      "retryable": null
-    },
-    {
+      "n": 1,
       "code": "unsupported_version",
-      "description": "",
-      "retryable": null
+      "description": "The peer's contract version is outside the supported N and N-1 window (T14).",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "broker"
+      ],
+      "registered": "0.3"
     },
     {
+      "n": 2,
+      "code": "required_capability_missing",
+      "description": "A frame requires a capability the receiver has not negotiated.",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 3,
+      "code": "caller_mismatch",
+      "description": "The authenticated caller does not match the claimed runtime or handle binding (T01).",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 4,
+      "code": "stale_epoch",
+      "description": "A commit carries an installation epoch older than the authoritative current one.",
+      "retryable": false,
+      "raised_by": [
+        "broker",
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 5,
+      "code": "lease_expired",
+      "description": "The runtime execution lease has expired; protected commits stop until a new lease is acquired.",
+      "retryable": true,
+      "raised_by": [
+        "hq",
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 6,
+      "code": "grant_revoked",
+      "description": "Authority was revoked; consume, wake, and execution refuse it (T08).",
+      "retryable": false,
+      "raised_by": [
+        "broker",
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 7,
+      "code": "destination_denied",
+      "description": "The destination is not approved for this task's data restrictions (T09).",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 8,
+      "code": "budget_exhausted",
+      "description": "The ceiling or sub-allocation is spent; new protected spend refuses (T26).",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 9,
+      "code": "revision_conflict",
+      "description": "Compare-and-swap on the expected task revision failed; retry with the fresh revision.",
+      "retryable": true,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 10,
+      "code": "message_conflict",
+      "description": "A message ID was reused with different content; the message is quarantined.",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 11,
+      "code": "mailbox_full",
+      "description": "Backpressure at the mailbox capacity limit; accepted work is never silently dropped (T18).",
+      "retryable": true,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 12,
+      "code": "frame_too_large",
+      "description": "The frame exceeds the inline size limit; use an authorized content reference.",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 13,
+      "code": "message_expired",
+      "description": "A queued message passed its expiry and is purged, not treated as new work (T25).",
+      "retryable": false,
+      "raised_by": [
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 14,
+      "code": "quarantined",
+      "description": "The message or Soul is quarantined (poison threshold, conflict, or crash loop) until the cause is resolved (T23).",
+      "retryable": false,
+      "raised_by": [
+        "broker",
+        "hq"
+      ],
+      "registered": "0.4"
+    },
+    {
+      "n": 15,
+      "code": "definition_not_accepted",
+      "description": "Hello presented a definition digest that is not an accepted revision.",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 16,
+      "code": "evidence_missing",
+      "description": "Completion criteria require evidence that was not supplied; supply it and retry.",
+      "retryable": true,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 17,
+      "code": "approval_mismatch",
+      "description": "The proposed action no longer matches its approval record digest (T24).",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "broker"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 18,
       "code": "write_scope_conflict",
-      "description": "",
-      "retryable": null
+      "description": "A task's write scope overlaps an active one without owner-allowed concurrent writers.",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 19,
+      "code": "outcome_unknown",
+      "description": "An external effect's outcome is ambiguous; reconcile through lookup, never blind replay (T06).",
+      "retryable": false,
+      "raised_by": [
+        "broker",
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 20,
+      "code": "eval_coverage_missing",
+      "description": "Candidate acceptance lacks a passing cell for a (role, harness version) pair (T27).",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 21,
+      "code": "candidate_rejected",
+      "description": "The whole candidate was rejected on a failed cell; a narrowed candidate may be re-evaluated (T28).",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 22,
+      "code": "render_failed",
+      "description": "A non-optional primitive could not be rendered for an adapter; the failure names the class. Retryability depends on the named class.",
+      "retryable": false,
+      "raised_by": [
+        "soul-build"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 23,
+      "code": "source_chain_unapproved",
+      "description": "A proposal derived from peer or external-untrusted content waits for owner approval of its source chain (T30).",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 24,
+      "code": "dream_limit_exceeded",
+      "description": "A dream run breached its wall-clock or maintenance limit; no candidate is emitted (T29).",
+      "retryable": false,
+      "raised_by": [
+        "hq"
+      ],
+      "registered": "0.3"
+    },
+    {
+      "n": 25,
+      "code": "credential_unavailable",
+      "description": "The identity service is unreachable; protected effects that need a fresh credential wait and retry when it returns.",
+      "retryable": true,
+      "raised_by": [
+        "hq",
+        "identity-service"
+      ],
+      "registered": "0.4"
+    },
+    {
+      "n": 26,
+      "code": "device_revoked",
+      "description": "The device is revoked; cached tokens are dropped and recovery requires new enrollment.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "identity-service"
+      ],
+      "registered": "0.4"
+    },
+    {
+      "n": 27,
+      "code": "profile_insufficient",
+      "description": "A protected claim was made under a weaker enforcement profile (T21).",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "broker"
+      ],
+      "registered": "0.3"
     }
   ]
 }

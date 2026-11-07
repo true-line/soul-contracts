@@ -1,0 +1,20 @@
+{
+  "schema": "hq/v1/approval-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "approval bounded class.",
+  "input": {
+    "approval_id": "approval_32",
+    "owner_session_reference": "session_owner_1",
+    "action_digest": "sha256:2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a",
+    "scope": {
+      "class": "bounded-class",
+      "action": "inference.request",
+      "resource": "soul:agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b"
+    },
+    "expiry": "2026-11-14T00:00:00Z",
+    "hq_signature": "sig_R2Z3x8yK9pQ2wE5rT7uI9oP0aS1dF2gH4"
+  },
+  "canonical_sha256": "sha256:c73b6458e4dc69763d4008f2eccbc84b7f2c42b043dffe06b402b595131245e0"
+}

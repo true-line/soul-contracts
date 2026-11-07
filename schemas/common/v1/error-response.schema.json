@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/common/v1/error-response.schema.json",
+  "title": "Typed refusal (error response)",
+  "description": "Returned by HQ, the broker, the identity service, or soul build in place of a result. Source: draft 0.4, Appendix A, Minimum error codes: errors include a safe explanation and correlation ID without exposing credentials or private content. The code enumeration is errors/registry.json, in registry order (validate.py checks they match). additionalProperties is false, so a refusal cannot carry a token, a payload, or a stack trace.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "error",
+    "explanation",
+    "correlation_id"
+  ],
+  "properties": {
+    "error": {
+      "type": "string",
+      "enum": [
+        "unsupported_version",
+        "required_capability_missing",
+        "caller_mismatch",
+        "stale_epoch",
+        "lease_expired",
+        "grant_revoked",
+        "destination_denied",
+        "budget_exhausted",
+        "revision_conflict",
+        "message_conflict",
+        "mailbox_full",
+        "frame_too_large",
+        "message_expired",
+        "quarantined",
+        "definition_not_accepted",
+        "evidence_missing",
+        "approval_mismatch",
+        "write_scope_conflict",
+        "outcome_unknown",
+        "eval_coverage_missing",
+        "candidate_rejected",
+        "render_failed",
+        "source_chain_unapproved",
+        "dream_limit_exceeded",
+        "credential_unavailable",
+        "device_revoked",
+        "profile_insufficient"
+      ]
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Safe for the caller to read and log: names the failed check, never a credential, private content, or another member's data."
+    },
+    "correlation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+      "description": "Joins this refusal to HQ's receipt and logs for the owner and agent-watcher."
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+      "description": "Echo of the refused request's ID when it had one."
+    },
+    "retry_after_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Only for codes registered as retryable; when the caller may try again."
+    }
+  }
+}

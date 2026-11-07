@@ -1,0 +1,24 @@
+{
+  "schema": "hq/v1/ready-and-lease-renewal.schema.json",
+  "base": {
+    "fixture": "positive/ready-and-lease-renewal.warm.json",
+    "sha256": "sha256:72369c5c8dd2bea72606b61a7c0d0c09508b52f4eee0753491ed47b0518e82fc"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Auth state is one of three values; a free-text state cannot be checked before Ready is accepted.",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_lead_8",
+    "installation_epoch": 4,
+    "readiness_state": "warm",
+    "auth_state": "probably-fine",
+    "adapter_versions": {
+      "fake-adapter": "1.2.0"
+    },
+    "lease_generation": 3,
+    "renewal_sequence": 17,
+    "observed_health": "healthy"
+  }
+}

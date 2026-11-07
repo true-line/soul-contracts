@@ -1,0 +1,22 @@
+{
+  "schema": "wire/v1/wire-frame.schema.json",
+  "base": {
+    "fixture": "positive/wire-frame.sealed-task-wake.json",
+    "sha256": "sha256:0084dcbc3e3a1c9732a1d8726cc7983e5402fd614bc3cdac5e2dcb516bd47e21"
+  },
+  "expect": {
+    "schema": "invalid",
+    "error": "frame_too_large"
+  },
+  "note": "Inline frames are limited to 256 KiB (0.4 §6); larger artifacts use authorized content references.",
+  "input": {
+    "wire_version": 1,
+    "message_id": "message_55",
+    "destination_soul": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "destination_epoch": 4,
+    "expires_at": "2026-11-08T18:00:00Z",
+    "payload_size": 262145,
+    "wake_class": "none",
+    "required_capabilities": []
+  }
+}

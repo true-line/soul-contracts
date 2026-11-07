@@ -1,0 +1,20 @@
+{
+  "schema": "task/v1/action-record.schema.json",
+  "base": {
+    "fixture": "positive/action-record.prepared-before-send.json",
+    "sha256": "sha256:d6a554ef6eb5cae09505849dc2a7e90ca4851cc8346cc799b09ebf1f6b721325"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Reconciliation depends on the five named action states (0.4 §7); unknown state names are unknown required semantics.",
+  "input": {
+    "operation_id": "operation_finish_17",
+    "idempotency_key": "idem_9f8e7d6c5b4a3210",
+    "caller": "runtime_lead_8",
+    "task_id": "task_17",
+    "expected_revision": 6,
+    "request_digest": "sha256:3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b",
+    "state": "done"
+  }
+}

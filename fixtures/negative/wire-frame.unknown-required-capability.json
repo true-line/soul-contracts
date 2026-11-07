@@ -1,0 +1,30 @@
+{
+  "schema": "wire/v1/wire-frame.schema.json",
+  "base": {
+    "fixture": "positive/wire-frame.sealed-task-wake.json",
+    "sha256": "sha256:0084dcbc3e3a1c9732a1d8726cc7983e5402fd614bc3cdac5e2dcb516bd47e21"
+  },
+  "expect": {
+    "schema": "valid",
+    "error": "required_capability_missing",
+    "rule": "capability-not-negotiated"
+  },
+  "context": {
+    "negotiated_capabilities": [
+      "sealed-inner-v1"
+    ]
+  },
+  "note": "The receiver refuses unknown required capabilities (T14). The negotiated set for this baseline is [\"sealed-inner-v1\"].",
+  "input": {
+    "wire_version": 1,
+    "message_id": "message_56",
+    "destination_soul": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "destination_epoch": 4,
+    "expires_at": "2026-11-08T18:00:00Z",
+    "payload_size": 128,
+    "wake_class": "notify",
+    "required_capabilities": [
+      "time-travel-v9"
+    ]
+  }
+}

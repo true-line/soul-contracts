@@ -1,0 +1,23 @@
+{
+  "schema": "records/v1/typed-note.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "note finding external derived.",
+  "input": {
+    "note_id": "note_89",
+    "type": "finding",
+    "member_id": "specialist_1",
+    "runtime_id": "runtime_spec_2",
+    "timestamp": "2026-11-07T09:05:00Z",
+    "sources": [
+      "document_4"
+    ],
+    "provenance": [
+      "member",
+      "external-untrusted"
+    ],
+    "body": "The downloaded document suggests a cause; treat as unverified."
+  },
+  "canonical_sha256": "sha256:bf237a9f0c92c6fc071c932c884d668bb1204d82c84e623e617439386e4fe05a"
+}
