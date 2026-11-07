@@ -28,3 +28,10 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
   - **Hello:** `requested_roles[].client` (`app_id`, optional `profile`) is the adapter's claim.
   - **Admission result:** `admitted_runtimes[].client` adds a required `source` (`adapter`, `process` or `owner-label`), so a weak identification is visible.
 - Fixtures: 2 positive and 4 negative. The negatives cover a Hello claiming a source, a bad app id, a missing source, and an unknown source.
+
+## Unreleased
+- Adopts the platform at `baseline/3` (true-line/agent-bot-platform). `AGENTS.md` carries the platform block, and `platform.lock.json` pins the platform commit with the requirement and test IDs that exist there.
+- The glossary, requirements, conformance tests, traceability matrix and papers moved to the platform. `glossary/`, `traceability/` and `papers/` now link to them at the pinned commit.
+- `schemas/README.md` takes over the schema encodings and the enumerations, which are contract content.
+- `scripts/validate.py`: the paper-pin and traceability checks are replaced by platform-pin checks. The error registry's paper hash must equal the locked S6 pin, the `AGENTS.md` block and every platform link must name the locked commit, and contract artifacts may cite only requirement and test IDs in the lock. The R10 vendor scan now covers `schemas/README.md` instead of the moved files.
+- `scripts/platform_lock.py` writes or checks the lock from a local checkout of the platform.
