@@ -1,0 +1,48 @@
+{
+  "schema": "hq/v1/admission-result.schema.json",
+  "base": {
+    "fixture": "positive/admission-result.client-identified.json",
+    "sha256": "sha256:e5041666a23bb67c593bdfdffc15c032e83f2af81548454defb25aa954b81fcd"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "The source is one of adapter, process, owner-label.",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "req_0003",
+    "decision_id": "dec_0003",
+    "installation_epoch": 5,
+    "profile": "managed-protected",
+    "negotiated_versions": {
+      "hq": 1,
+      "wire": 1
+    },
+    "admitted_runtimes": [
+      {
+        "member_id": "m_lead",
+        "role": "lead",
+        "runtime_id": "rt_lead_8",
+        "channel_binding": "bind_lead_0000000001",
+        "client": {
+          "app_id": "fake-client",
+          "profile": "desktop",
+          "source": "peer-claim"
+        }
+      },
+      {
+        "member_id": "m_spec",
+        "role": "specialist",
+        "runtime_id": "rt_spec_3",
+        "channel_binding": "bind_spec_0000000002",
+        "client": {
+          "app_id": "fake-client-cli",
+          "source": "process"
+        }
+      }
+    ],
+    "lease_generation": 1,
+    "lease_expires_at": "2026-10-25T03:00:00Z",
+    "warnings": []
+  }
+}

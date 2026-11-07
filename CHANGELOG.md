@@ -22,3 +22,9 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
 - `papers/Soul_Agent_Platform_draft_0.4.docx`, the governing source, checked by `validate.py` against its pinned SHA-256. T19 in `TESTS.md` is now verbatim from Section 14.
 - `common/v1/error-response.schema.json`: the typed refusal (error code, safe explanation, correlation ID), with its code enumeration kept equal to the registry. Ready and lease renewal gains a required `auth_state` (Section 5).
 - `.github/CODEOWNERS`: the owner (`@qwts`) is the integrator and reviews every contract change. The curation notes in `schemas/README.md` were accepted on 2026-11-07.
+
+## 0.4.0 — 2026-11-07
+- `hq/v1` client identity (decision C20, [discussion #23](https://github.com/true-line/soul-contracts/discussions/23)). These are optional fields, so earlier Hello and admission messages stay valid:
+  - **Hello:** `requested_roles[].client` (`app_id`, optional `profile`) is the adapter's claim.
+  - **Admission result:** `admitted_runtimes[].client` adds a required `source` (`adapter`, `process` or `owner-label`), so a weak identification is visible.
+- Fixtures: 2 positive and 4 negative. The negatives cover a Hello claiming a source, a bad app id, a missing source, and an unknown source.

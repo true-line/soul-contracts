@@ -39,6 +39,7 @@ Source: Soul Agent Platform draft 0.4, Section 3 (SHA-256 `6e8b85af5aea5454314b7
 | Term | Schema |
 | --- | --- |
 | Admission (clock-in) | `hq/v1/hello.schema.json`, `hq/v1/admission-result.schema.json` |
+| Session (device plus client app or profile) | `requested_roles[].client` in Hello; `admitted_runtimes[].client` in the admission result |
 | Grant handle, credential reference | `hq/v1/equip.schema.json` |
 | Approval | `hq/v1/approval-record.schema.json` |
 | Directive, query | `wire/v1/directive-or-query.schema.json` |
