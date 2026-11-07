@@ -43,9 +43,54 @@ All versions are pre-release until an implementation pins them. Until then a sha
 | Roles | `^[a-z][a-z0-9-]{0,31}$`; exactly one `lead` in Hello |
 | Adapter versions | Exact semver; pins are exact (R12) |
 | Paths inside a Soul | Relative; no `.` or `..` segment, no empty segment |
-| Profiles, provenance, states | The enumerations in `glossary/GLOSSARY.md` |
+| Profiles, provenance, states | The [enumerations](#enumerations) below |
 
 Every object is `additionalProperties: false`, so a record that tries to carry a secret, a handle, or any unknown field fails closed. hq/v1 socket messages (Hello, admission result, Equip, Ready and lease renewal, lifecycle request) carry `contract: "hq/v1"`, so a version mismatch is visible before any other field is read (T14).
+
+## Schema encodings
+
+Which schema encodes each term. The terms themselves are defined in the platform [glossary](https://github.com/true-line/agent-bot-platform/blob/f1008c8cd5e4e1b27125380731f4422b1f392392/docs/glossary.md).
+
+| Term | Schema |
+| --- | --- |
+| Admission (clock-in) | `hq/v1/hello.schema.json`, `hq/v1/admission-result.schema.json` |
+| Session (device plus client app or profile) | `requested_roles[].client` in Hello; `admitted_runtimes[].client` in the admission result |
+| Grant handle, credential reference | `hq/v1/equip.schema.json` |
+| Approval | `hq/v1/approval-record.schema.json` |
+| Directive, query | `wire/v1/directive-or-query.schema.json` |
+| Task | `task/v1/task-record.schema.json`, `task/v1/task-commitment.schema.json` |
+| Grant | `records/v1/grant-record.schema.json` |
+| Dream run | `records/v1/dream-grant-record.schema.json` |
+| Eval cell | `records/v1/eval-plan-record.schema.json` |
+| Candidate revision | `records/v1/candidate-revision-record.schema.json` |
+| Typed refusal | `common/v1/error-response.schema.json` |
+
+## Enumerations
+
+**Enforcement profiles (Section 4).** Every receipt names the profile in force; a protected claim under a weaker profile is refused with `profile_insufficient` (R8, T21).
+
+| Value | Meaning |
+| --- | --- |
+| `managed-protected` | Host-enforced member boundaries, broker-only protected egress, caller-bound grants, durable receipts |
+| `managed-cooperative` | HQ protects keys, but members share a trust domain or have bypass routes |
+| `standalone-unenforced` | Local stub and local credentials within the agent's trust domain |
+
+**Wake classes (Section 6).** A frame whose provenance is `external-untrusted` never cold-starts a Soul, whatever its declared class.
+
+| Value | May cold-start an idle Soul |
+| --- | --- |
+| `none` | No: mailbox only |
+| `notify` | No: warm session only |
+| `task` | Yes, when the local broker confirms wake grant and budget |
+| `owner` | Yes: originated by the authenticated owner through HQ |
+
+**Task states (Section 7):** `offered`, `accepted`, `running`, `waiting`, `reconciling`, `completed`, `failed`, `canceled`, `expired`. The active states are `accepted`, `running`, `waiting`, `reconciling`. A `waiting` task records one of `owner_input`, `owner_pause`, `dependency`, `provider_availability`, `credential_unavailable`, `reconciliation_decision`.
+
+**Action states (Section 7):** `prepared`, `submitted`, `succeeded`, `rejected`, `unknown`. An `unknown` outcome is reconciled by lookup, never by blind replay (T06).
+
+**Provenance (Section 4):** `owner`, `hq`, `member`, `peer`, `external-untrusted`. Source provenance is recorded separately from data sensitivity; derived outputs inherit the union of source restrictions, and a model cannot clear its own taint.
+
+**Error codes:** `errors/registry.json` (add-only, snake_case exactly as the paper lists them).
 
 ## Curation notes
 

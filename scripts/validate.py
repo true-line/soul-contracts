@@ -10,7 +10,10 @@ Checks, in order:
   canonicalization  JCS vectors reproduce byte for byte
   registry        structure, contiguous numbering, add-only ratchet against
                   the merge base with $BASE_REF (default origin/main)
-  traceability    R1-R12 and T01-T30 are covered; the matrix cites only known tests
+  platform pin    platform.lock.json is well formed; the error registry, the
+                  AGENTS.md platform block and every link into the platform
+                  name the locked paper and commit; contract artifacts cite
+                  only requirement and test IDs that exist at that commit
   vendor tokens   R10: no vendor name in any contract artifact
 """
 import hashlib, json, os, pathlib, re, subprocess, sys
@@ -188,32 +191,59 @@ for fx in sorted((ROOT / "fixtures/positive").glob("error-response.*.json")):
     report("retry_after_seconds" not in inp or inp["error"] in retryable,
            f"{fx.relative_to(ROOT)} retry hint only on a retryable code")
 
-# --- paper pin ---------------------------------------------------------------
-paper = ROOT / "papers/Soul_Agent_Platform_draft_0.4.docx"
-want = registry["source"]["sha256"]
-report(paper.is_file() and hashlib.sha256(paper.read_bytes()).hexdigest() == want,
-       "paper papers/Soul_Agent_Platform_draft_0.4.docx matches the pinned SHA-256", f"want {want}")
-for doc in ("traceability/TESTS.md", "glossary/GLOSSARY.md"):
-    report(want in (ROOT / doc).read_text(encoding="utf-8"), f"paper pin cited in {doc}")
+# --- platform pin ------------------------------------------------------------
+# Requirements, tests, the glossary and the papers live in true-line/agent-bot-platform.
+# It is private, so the lock (written by scripts/platform_lock.py) stands in for it here.
+lock = load(ROOT / "platform.lock.json")
+commit, baseline = lock.get("commit", ""), lock.get("baseline", "")
+known = set(lock.get("requirements", [])) | set(lock.get("tests", []))
+probs = []
+if lock.get("platform") != "true-line/agent-bot-platform": probs.append("platform must be true-line/agent-bot-platform")
+if not re.fullmatch(r"[0-9a-f]{40}", commit): probs.append("commit must be a full SHA")
+if not re.fullmatch(r"baseline/[1-9][0-9]*", baseline): probs.append("baseline must be baseline/N")
+need = {f"R{n}" for n in range(1, 13)} | {f"T{n:02d}" for n in range(1, 31)}
+if need - known: probs.append("missing " + ", ".join(sorted(need - known)))
+report(not probs, "platform lock structure", "; ".join(probs))
 
-# --- traceability ------------------------------------------------------------
-req = (ROOT / "traceability/REQUIREMENTS.md").read_text(encoding="utf-8")
-mat = (ROOT / "traceability/MATRIX.md").read_text(encoding="utf-8")
-tests = (ROOT / "traceability/TESTS.md").read_text(encoding="utf-8")
-for n in range(1, 13):
-    report(re.search(rf"^\| R{n}\s", req, re.M) is not None and re.search(rf"^\| R{n}\s", mat, re.M) is not None, f"traceability R{n}")
-defined = set(re.findall(r"^\| (T\d\d) ", tests, re.M))
-report(defined == {f"T{n:02d}" for n in range(1, 31)}, "traceability T01-T30 defined", str(sorted(defined)))
-cited = set(re.findall(r"T\d\d", mat))
-report(cited <= defined, "traceability matrix cites only defined tests", str(sorted(cited - defined)))
+want = lock.get("sources", {}).get("S6")
+report(registry["source"]["sha256"] == want, f"{REG_PATH} source.sha256 is the locked S6 paper", f"lock has {want}")
+
+block = re.search(r"<!-- platform:agent-bot-platform:start -->\s*Platform: true-line/agent-bot-platform "
+                  r"at (\S+) \(commit (\S+)\)\.", (ROOT / "AGENTS.md").read_text(encoding="utf-8"))
+report(block is not None and block.groups() == (baseline, commit), "AGENTS.md platform block names the locked baseline and commit",
+       str(block.groups()) if block else "no platform block")
+
+links = [(p.relative_to(ROOT).as_posix(), ref) for p in sorted(ROOT.rglob("*.md")) if ".git" not in p.parts and p.name != "CHANGELOG.md"
+         for ref in re.findall(r"github\.com/true-line/agent-bot-platform/(?:blob|tree)/([^/\s)#]+)", p.read_text(encoding="utf-8"))]
+report(all(ref == commit for _, ref in links), f"{len(links)} platform links use the locked commit",
+       "; ".join(f"{f}: {ref}" for f, ref in links if ref != commit))
+
+ID = re.compile(r"(?<![\w/+=.-])(R\d{1,2}|T\d\d|QA-[A-Z0-9]{3,4}-\d\d)(?![\w-])")
+
+
+def cited(o, key=None):
+    if isinstance(o, dict):
+        for k, v in o.items():
+            yield from cited(v, k)
+    elif isinstance(o, list):
+        for v in o:
+            yield from cited(v, key)
+    elif isinstance(o, str) and key in ("description", "note"):
+        yield from ID.findall(o)
+
+
+unknown = set()
+for p in [*(ROOT / "schemas").rglob("*.json"), *(ROOT / "fixtures").rglob("*.json"), ROOT / REG_PATH]:
+    unknown |= {f"{p.relative_to(ROOT)}: {i}" for i in cited(load(p)) if i not in known}
+unknown |= {f"schemas/README.md: {i}" for i in ID.findall((ROOT / "schemas/README.md").read_text(encoding="utf-8")) if i not in known}
+report(not unknown, f"contract artifacts cite only IDs that exist at {baseline}", "; ".join(sorted(unknown)))
 
 # --- vendor tokens (R10) -----------------------------------------------------
 DENY = ["claude", "codex", "anthropic", "openai", "gpt-", "gemini", "google", "opencode", "copilot",
         "cursor", "bedrock", "mistral", "llama", "qwen", "glm", "deepseek", "grok", "meta.ai", "huggingface"]
-artifacts = [*(ROOT / "schemas").rglob("*.json"), *(ROOT / "fixtures").rglob("*.*"), ROOT / REG_PATH,
-             *(ROOT / "glossary").glob("*.md"), *(ROOT / "traceability").glob("*.md")]
+artifacts = [*(ROOT / "schemas").rglob("*.json"), ROOT / "schemas/README.md", *(ROOT / "fixtures").rglob("*.*"), ROOT / REG_PATH]
 hits = [f"{p.relative_to(ROOT)}: {t}" for p in artifacts for t in DENY if t in p.read_text(encoding="utf-8").lower()]
-report(not hits, "R10 no vendor token in schemas, fixtures, registry, glossary, traceability", "; ".join(hits))
+report(not hits, "R10 no vendor token in schemas, fixtures, registry", "; ".join(hits))
 
 print(f"\n{'FAILED' if fails else 'passed'}: {fails} failure(s)")
 sys.exit(1 if fails else 0)
