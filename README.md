@@ -38,7 +38,7 @@ To move the platform pin, from a local checkout of the platform:
 python scripts/platform_lock.py <platform checkout> --commit <sha> --write
 ```
 
-Then update the platform block in `AGENTS.md` and the links in `glossary/`, `traceability/` and `papers/` in the same change; `validate.py` fails until they agree.
+The commit must carry its `baseline/N` tag. Then update the platform block in `AGENTS.md` and the links in `glossary/`, `traceability/` and `papers/` in the same change; `validate.py` fails until they agree. CI fetches the platform at the locked tag and runs `platform_lock.py` to check the lock against its registry.
 
 ## Work package
 

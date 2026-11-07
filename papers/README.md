@@ -10,5 +10,3 @@ The source papers moved to the platform, which keeps them frozen and cites them 
 | Soul Agent Platform operator questions | S8 | [operator-questions-2026-10-29.md](https://github.com/true-line/agent-bot-platform/blob/f1008c8cd5e4e1b27125380731f4422b1f392392/docs/papers/operator-questions-2026-10-29.md) |
 
 `errors/registry.json` still names draft 0.4 by its SHA-256, and `scripts/validate.py` checks that value against the S6 pin in `platform.lock.json`.
-
-The platform repository is private until it is released; agents and reviewers with access can follow these links.

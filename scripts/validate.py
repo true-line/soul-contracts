@@ -193,7 +193,8 @@ for fx in sorted((ROOT / "fixtures/positive").glob("error-response.*.json")):
 
 # --- platform pin ------------------------------------------------------------
 # Requirements, tests, the glossary and the papers live in true-line/agent-bot-platform.
-# It is private, so the lock (written by scripts/platform_lock.py) stands in for it here.
+# The lock (written by scripts/platform_lock.py) carries what these checks need, so they
+# run offline; CI checks the lock against the platform's registry at the locked tag.
 lock = load(ROOT / "platform.lock.json")
 commit, baseline = lock.get("commit", ""), lock.get("baseline", "")
 known = set(lock.get("requirements", [])) | set(lock.get("tests", []))

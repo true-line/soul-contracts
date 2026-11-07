@@ -35,3 +35,4 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
 - `schemas/README.md` takes over the schema encodings and the enumerations, which are contract content.
 - `scripts/validate.py`: the paper-pin and traceability checks are replaced by platform-pin checks. The error registry's paper hash must equal the locked S6 pin, the `AGENTS.md` block and every platform link must name the locked commit, and contract artifacts may cite only requirement and test IDs in the lock. The R10 vendor scan now covers `schemas/README.md` instead of the moved files.
 - `scripts/platform_lock.py` writes or checks the lock from a local checkout of the platform.
+- CI fetches the public platform at the locked baseline tag and runs `scripts/platform_lock.py`, so the lock is checked against the platform's registry at the pinned commit. The script now also requires the baseline tag to point at the locked commit.

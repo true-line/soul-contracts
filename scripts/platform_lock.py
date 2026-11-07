@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """Write or check platform.lock.json from a local checkout of the platform.
 
-    python scripts/platform_lock.py <platform checkout> --commit <sha> [--baseline baseline/N] [--write]
+    python scripts/platform_lock.py <platform checkout> [--commit <sha>] [--baseline baseline/N] [--write]
 
-The platform repository is private, so CI cannot read it. The lock records what
-this repository needs from the pinned platform commit: the requirement and test
-IDs that exist there and the SHA-256 of S6, the paper the error registry names.
-scripts/validate.py checks this repository against the lock.
+The lock records what this repository needs from the pinned platform commit: the
+requirement and test IDs that exist there and the SHA-256 of S6, the paper the
+error registry names. scripts/validate.py checks this repository against the lock,
+so it runs offline. CI fetches the public platform at the locked baseline tag and
+runs this script to prove the lock equals the platform's registry at that commit.
 
-Without --write the script compares the lock with the checkout and exits 1 on any
-difference. Standard library only.
+The baseline tag must exist in the checkout and point at the commit. Without
+--commit the lock's own commit and baseline are checked. Without --write the
+script compares the lock with the checkout and exits 1 on any difference.
+Standard library only.
 """
 import argparse, json, pathlib, re, subprocess, sys
 
@@ -35,15 +38,25 @@ def source_sha(text, sid):
     return sha.group(1)
 
 
+def rev(checkout, ref):
+    r = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"], cwd=checkout,
+                       capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
 def build(checkout, commit, baseline):
-    commit = subprocess.run(["git", "rev-parse", "--verify", f"{commit}^{{commit}}"], cwd=checkout,
-                            capture_output=True, text=True, check=True).stdout.strip()
+    sha = rev(checkout, commit)
+    if sha is None:
+        sys.exit(f"{commit} is not a commit in {checkout}")
     if baseline is None:
-        tags = subprocess.run(["git", "tag", "--points-at", commit, "baseline/*"], cwd=checkout,
+        tags = subprocess.run(["git", "tag", "--points-at", sha, "baseline/*"], cwd=checkout,
                               capture_output=True, text=True, check=True).stdout.split()
         if len(tags) != 1:
-            sys.exit(f"pass --baseline: {commit[:7]} carries {len(tags)} baseline tags")
+            sys.exit(f"pass --baseline: {sha[:7]} carries {len(tags)} baseline tags")
         baseline = tags[0]
+    if rev(checkout, f"refs/tags/{baseline}") != sha:
+        sys.exit(f"tag {baseline} is missing from {checkout} or does not point at {sha[:7]}")
+    commit = sha
     return {
         "platform": PLATFORM,
         "baseline": baseline,
@@ -57,10 +70,13 @@ def build(checkout, commit, baseline):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("checkout", type=pathlib.Path)
-    ap.add_argument("--commit", required=True)
+    ap.add_argument("--commit", help="default: the lock's commit and baseline")
     ap.add_argument("--baseline")
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
+    if a.commit is None:
+        lock = json.loads(LOCK.read_text(encoding="utf-8"))
+        a.commit, a.baseline = lock["commit"], a.baseline or lock["baseline"]
     want = build(a.checkout, a.commit, a.baseline)
     text = json.dumps(want, indent=2) + "\n"
     if a.write:
