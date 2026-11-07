@@ -2,7 +2,7 @@
 
 Versioned contracts for the Soul Agent Platform: schemas, glossary, fixtures, error registry, requirement traceability, and the papers that define them. This repository holds no runtime code.
 
-Source of record: *Soul Agent Platform* draft 0.4 (2026-10-27), pinned by SHA-256 `6e8b85af5aea5454314b7563fef83d50b5582f2b6bd9bd2a8a9bd64cdedd3030` (Section 2 requirements, Section 3 vocabulary, Section 14 tests, Appendix A records, Appendix D traceability). The 0.4 DOCX is not yet in `papers/`; until it lands, the hash is the pin. Draft 0.3 stays in `papers/` for history.
+Source of record: *Soul Agent Platform* draft 0.4 (2026-10-27), pinned by SHA-256 `6e8b85af5aea5454314b7563fef83d50b5582f2b6bd9bd2a8a9bd64cdedd3030` (Section 2 requirements, Section 3 vocabulary, Section 14 tests, Appendix A records, Appendix D traceability). The DOCX is `papers/Soul_Agent_Platform_draft_0.4.docx`, and `scripts/validate.py` checks it against that hash. Draft 0.3 stays in `papers/` for history.
 
 ## Owns
 

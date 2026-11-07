@@ -22,7 +22,7 @@ Source: Soul Agent Platform draft 0.4, Section 14 (SHA-256 `6e8b85af5aea5454314b
 | T16 Package attack | Import bad digest, traversal path, or dependency cycle | Validation refuses activation before untrusted execution | 3 |
 | T17 Cancellation race | Cancel while finalization or remote write races | One task outcome wins; in-flight effects remain visible and reconciled | 2b |
 | T18 Storage failure | Exhaust mailbox or lose durable storage | No false custody acknowledgement; backpressure or safe refusal is visible | 2b |
-| T19 Taint egress | Member sends externally derived content to a third-party destination | Egress blocked unless disclosure policy allows the destination; receipt names the source chain | 2b |
+| T19 Taint egress | A member sends a note derived from external-untrusted content to a third-party destination | Egress is blocked unless disclosure policy allows that destination; receipt names the source chain | 2b |
 | T20 Proposal only | A specialist posts a final answer directly to a task | It is recorded as a proposal; only the lead's commitment finalizes | 1 |
 | T21 Profile honesty | Run the protected suite under the cooperative profile | Every receipt names cooperative; any protected claim is refused with `profile_insufficient` | 2a |
 | T22 Self-activation | A sleep run with a passing evaluation activates its own candidate | Refused; candidate waits for owner acceptance with its evidence attached | 3 |

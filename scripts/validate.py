@@ -178,6 +178,14 @@ else:
     probs += [f"{c['code']} renumbered" for c in old["codes"] if "n" in c and c["code"] in now and now[c["code"]]["n"] != c["n"]]
     report(not probs, f"registry add-only against {base_ref} ({mb[:7]})", "; ".join(probs))
 
+# --- paper pin ---------------------------------------------------------------
+paper = ROOT / "papers/Soul_Agent_Platform_draft_0.4.docx"
+want = registry["source"]["sha256"]
+report(paper.is_file() and hashlib.sha256(paper.read_bytes()).hexdigest() == want,
+       "paper papers/Soul_Agent_Platform_draft_0.4.docx matches the pinned SHA-256", f"want {want}")
+for doc in ("traceability/TESTS.md", "glossary/GLOSSARY.md"):
+    report(want in (ROOT / doc).read_text(encoding="utf-8"), f"paper pin cited in {doc}")
+
 # --- traceability ------------------------------------------------------------
 req = (ROOT / "traceability/REQUIREMENTS.md").read_text(encoding="utf-8")
 mat = (ROOT / "traceability/MATRIX.md").read_text(encoding="utf-8")

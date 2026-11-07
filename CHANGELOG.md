@@ -19,3 +19,4 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
 - Fixtures: 29 positive, 46 negative, 8 JCS vectors. Negatives pin their base positive by SHA-256; parse refusals (duplicate keys) and rule-based semantic refusals with pinned context are new. Vendor adapter ids in the Hello fixtures replaced with `fake-adapter` (R10).
 - `scripts/jcs.py` (RFC 8785 and strict parse) and an extended `scripts/validate.py`: R10 vendor-token scan, traceability coverage, registry ratchet. CI fetches full history for the ratchet.
 - Glossary, requirements and matrix updated to draft 0.4; `traceability/TESTS.md` defines T01–T30. Glossary repository column follows decision D1 (HQ is agent-bot-daemon).
+- `papers/Soul_Agent_Platform_draft_0.4.docx`, the governing source, checked by `validate.py` against its pinned SHA-256. T19 in `TESTS.md` is now verbatim from Section 14.
