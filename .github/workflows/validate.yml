@@ -17,6 +17,13 @@ jobs:
           git remote add origin "https://x-access-token:${TOKEN}@github.com/${REPO}.git"
           git fetch -q --no-tags origin "+refs/heads/*:refs/remotes/origin/*" "+${REF}:refs/ci/head"
           git checkout -q --detach refs/ci/head
+      - name: platform pin
+        # The platform is public. Fetch the locked baseline tag and prove the lock equals its registry.
+        run: |
+          BASELINE=$(python3 -c 'import json; print(json.load(open("platform.lock.json"))["baseline"])')
+          git init -q "$RUNNER_TEMP/platform"
+          git -C "$RUNNER_TEMP/platform" fetch -q --depth 1 --no-tags https://github.com/true-line/agent-bot-platform.git "+refs/tags/${BASELINE}:refs/tags/${BASELINE}"
+          python3 scripts/platform_lock.py "$RUNNER_TEMP/platform"
       - name: install
         run: |
           python3 -m venv .venv
