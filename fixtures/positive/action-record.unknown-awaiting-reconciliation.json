@@ -1,0 +1,19 @@
+{
+  "schema": "task/v1/action-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "action unknown awaiting reconciliation.",
+  "input": {
+    "operation_id": "operation_finish_17",
+    "idempotency_key": "idem_9f8e7d6c5b4a3210",
+    "caller": "runtime_lead_8",
+    "task_id": "task_17",
+    "expected_revision": 6,
+    "request_digest": "sha256:3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b",
+    "state": "unknown",
+    "remote_reference": "service:example/operations/abc123",
+    "resolver": "service_lookup"
+  },
+  "canonical_sha256": "sha256:065546f5a632e356ebb5726015928c0c6ca112427f6b64acbbc847e22a69ffef"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "task/v1/task-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "task offered.",
+  "input": {
+    "task_id": "task_17",
+    "requester": "principal:owner_1",
+    "accountable_soul": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "objective": "Investigate the seeded issue, implement a repair in the designated workspace, run the approved checks, and prepare a reviewable change.",
+    "done_criteria": "approved checks pass and a reviewable change exists in workspace:scratch",
+    "grant_reference": "grant_7",
+    "write_scope": [
+      "workspace:scratch"
+    ],
+    "revision": 6,
+    "status": "offered",
+    "budget": 5,
+    "deadline": "2026-11-09T00:00:00Z",
+    "evidence": []
+  },
+  "canonical_sha256": "sha256:b94ffb7926a9dbcf1f948aac64be80c4108ecb21d7a15d22a2bf128baf7377e5"
+}

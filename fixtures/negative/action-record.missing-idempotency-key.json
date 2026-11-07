@@ -1,0 +1,19 @@
+{
+  "schema": "task/v1/action-record.schema.json",
+  "base": {
+    "fixture": "positive/action-record.prepared-before-send.json",
+    "sha256": "sha256:d6a554ef6eb5cae09505849dc2a7e90ca4851cc8346cc799b09ebf1f6b721325"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Without a stable idempotency key the effect cannot be made exactly-once (0.4 §7); the broker refuses to write the intent.",
+  "input": {
+    "operation_id": "operation_finish_17",
+    "caller": "runtime_lead_8",
+    "task_id": "task_17",
+    "expected_revision": 6,
+    "request_digest": "sha256:3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b",
+    "state": "prepared"
+  }
+}

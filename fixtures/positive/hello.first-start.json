@@ -18,7 +18,7 @@
         1
       ]
     },
-    "capabilities": [
+    "supported_capabilities": [
       "sealed-inner-v1"
     ],
     "requested_profile": "managed-protected",
@@ -26,15 +26,16 @@
       {
         "role": "lead",
         "member_id": "m_lead",
-        "adapter_id": "claude-code",
+        "adapter_id": "fake-adapter",
         "adapter_version": "0.1.0"
       },
       {
         "role": "specialist",
         "member_id": "m_spec",
-        "adapter_id": "codex",
+        "adapter_id": "fake-adapter",
         "adapter_version": "0.1.0"
       }
     ]
-  }
+  },
+  "canonical_sha256": "sha256:daf6a0a33737df2d15332c21d469d0e67430103963f15e62851009bc2fd01756"
 }

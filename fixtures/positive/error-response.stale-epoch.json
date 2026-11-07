@@ -1,0 +1,14 @@
+{
+  "schema": "common/v1/error-response.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "A commit fenced by the authoritative epoch (Section 5).",
+  "input": {
+    "error": "stale_epoch",
+    "explanation": "Commit refused: installation epoch 4 is older than the current epoch 5.",
+    "correlation_id": "corr_8c21",
+    "request_id": "request_91"
+  },
+  "canonical_sha256": "sha256:aeb7762084597cea2565890fe430f538ee39cf1d5e32c15e7235df9c8004c846"
+}

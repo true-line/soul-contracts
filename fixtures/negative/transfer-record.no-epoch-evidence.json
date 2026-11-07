@@ -1,0 +1,20 @@
+{
+  "schema": "records/v1/transfer-record.schema.json",
+  "base": {
+    "fixture": "positive/transfer-record.coordinated-move.json",
+    "sha256": "sha256:c1859af21f5a6974b9e9dc4b760be2bfb000c645e357def05e887c5b631ff344"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Coordinated moves require epoch handoff evidence; an empty evidence list cannot surrender the source lease.",
+  "input": {
+    "soul_id": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "source_installation_id": "install_1",
+    "destination_installation_id": "install_2",
+    "definition_digest": "sha256:0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0",
+    "manifest_digest": "sha256:4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c",
+    "settled_operation_watermark": 42,
+    "epoch_handoff_evidence": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "wire/v1/directive-or-query.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "directive from owner.",
+  "input": {
+    "message_id": "message_62",
+    "issuer": {
+      "principal": "owner"
+    },
+    "recipient": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "kind": "directive",
+    "policy_or_grant_reference": {
+      "grant_id": "grant_7"
+    },
+    "expiry": "2026-11-08T18:00:00Z",
+    "payload": {
+      "objective": "investigate the seeded issue"
+    }
+  },
+  "canonical_sha256": "sha256:5f7b89dcd8098068cfad6a59a2d6ef929463219852c1cc40a7e023f8bedf6fa3"
+}

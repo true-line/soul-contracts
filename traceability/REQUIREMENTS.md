@@ -1,6 +1,6 @@
 # Requirements R1–R12
 
-Source: draft 0.3, Section 2. "Must" and "never" in any contract document trace to one of these.
+Source: draft 0.4, Section 2 (unchanged from 0.3). "Must" and "never" in any contract document trace to one of these.
 
 | ID  | Requirement                                                                                                                                                                                                           |
 |-----|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

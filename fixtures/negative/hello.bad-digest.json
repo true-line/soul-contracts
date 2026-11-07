@@ -1,5 +1,9 @@
 {
   "schema": "hq/v1/hello.schema.json",
+  "base": {
+    "fixture": "positive/hello.first-start.json",
+    "sha256": "sha256:99fc761ee3a97026e8b258704a8bc1b0a99feca91d6f6a7404e2fa794a575c1e"
+  },
   "expect": {
     "schema": "invalid"
   },
@@ -18,7 +22,7 @@
         1
       ]
     },
-    "capabilities": [
+    "supported_capabilities": [
       "sealed-inner-v1"
     ],
     "requested_profile": "managed-protected",
@@ -26,13 +30,13 @@
       {
         "role": "lead",
         "member_id": "m_lead",
-        "adapter_id": "claude-code",
+        "adapter_id": "fake-adapter",
         "adapter_version": "0.1.0"
       },
       {
         "role": "specialist",
         "member_id": "m_spec",
-        "adapter_id": "codex",
+        "adapter_id": "fake-adapter",
         "adapter_version": "0.1.0"
       }
     ]

@@ -1,0 +1,18 @@
+{
+  "schema": "wire/v1/wire-frame.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "frame notify unsealed.",
+  "input": {
+    "wire_version": 1,
+    "message_id": "message_54",
+    "destination_soul": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "destination_epoch": 4,
+    "expires_at": "2026-11-08T18:00:00Z",
+    "payload_size": 128,
+    "wake_class": "notify",
+    "required_capabilities": []
+  },
+  "canonical_sha256": "sha256:1701a156e3b8c140d042445f64dca12f4444f32f90d1e1e223aa82922a243d17"
+}
