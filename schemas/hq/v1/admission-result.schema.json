@@ -94,6 +94,37 @@
             "type": "string",
             "pattern": "^[A-Za-z0-9_-]{16,128}$",
             "description": "Opaque reference to the protected channel HQ bound this runtime to; not a bearer token."
+          },
+          "client": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "app_id",
+              "source"
+            ],
+            "properties": {
+              "app_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                "maxLength": 64,
+                "description": "Client app identifier, lowercase kebab-case. The schema names no vendor; fixtures use neutral ids (R10)."
+              },
+              "profile": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "description": "Profile or instance of the client app on this device, when the app has more than one."
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "adapter",
+                  "process",
+                  "owner-label"
+                ],
+                "description": "How HQ identified the client, strongest first: adapter = reported over ACP; process = derived by HQ from the connecting process (peer credentials, then the executable's code-signing identity); owner-label = assigned by the owner at first enrollment."
+              }
+            },
+            "description": "HQ's identification of the client app or profile. A session is the device (the installation) plus this client. Omitted when HQ has none yet; recorded on the admission receipt. Decision C20."
           }
         }
       }

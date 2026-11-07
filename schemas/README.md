@@ -60,6 +60,8 @@ These are the places where a schema deliberately differs from, or fills a gap in
 - **Ready `auth_state`** (`authenticated`, `unauthenticated`, `expired`) carries the per-role auth state that Section 5 lists and Appendix A's field list omits. The three values are WP1 curation, as is `observed_health` (`healthy`, `degraded`, `unreachable`); the paper says only that a missed lease makes reachability stale.
 - **The typed refusal** carries `error`, `explanation` and `correlation_id`, as the paper requires, plus an optional `request_id` echo and a `retry_after_seconds` hint that is allowed only for codes registered as retryable. Its code enumeration is the registry, and `validate.py` keeps the two equal.
 
+- **Client identity** (decision C20). A session is the device plus the client app or profile, because two apps of one harness family can run on one device (Operator Questions; the paper is silent). Hello's `requested_roles[].client` is the adapter's claim. The admission result's `admitted_runtimes[].client` is HQ's identification, and its `source` (`adapter`, `process`, `owner-label`) shows how strong that identification is. Both are optional, so earlier messages stay valid.
+
 ## Validator
 
 `scripts/validate.py` uses `jsonschema>=4.23` with full draft 2020-12 support. Schemas may use any draft 2020-12 keyword.
