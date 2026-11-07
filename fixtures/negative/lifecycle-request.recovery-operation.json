@@ -1,0 +1,20 @@
+{
+  "schema": "hq/v1/lifecycle-request.schema.json",
+  "base": {
+    "fixture": "positive/lifecycle-request.pause.json",
+    "sha256": "sha256:c6896992ddfb3cd5f001c31ff39e52a4a8d311604baaf3906a336f25eae1996e"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Recovery is not an hq/v1 operation (0.4 §5): the entry point runs the recovery ladder on its own authority. Unknown operations are unknown required semantics (T14).",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "request_79",
+    "operation": "recover",
+    "target_installation_id": "install_1",
+    "expected_state_revision": 12,
+    "reason": "lead crashed",
+    "owner_session_reference": "session_owner_1"
+  }
+}

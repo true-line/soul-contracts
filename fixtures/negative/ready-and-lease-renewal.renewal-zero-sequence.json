@@ -1,0 +1,23 @@
+{
+  "schema": "hq/v1/ready-and-lease-renewal.schema.json",
+  "base": {
+    "fixture": "positive/ready-and-lease-renewal.warm.json",
+    "sha256": "sha256:899ce25de978c10b7757d4735db2e0fe4a3d4c2befee9807ea5301f975b5fe57"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Renewal sequences start at 1; a zero sequence is a replay, and HQ rejects replay (0.4 Appendix A).",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_lead_8",
+    "installation_epoch": 4,
+    "readiness_state": "warm",
+    "adapter_versions": {
+      "fake-adapter": "1.2.0"
+    },
+    "lease_generation": 3,
+    "renewal_sequence": 0,
+    "observed_health": "healthy"
+  }
+}

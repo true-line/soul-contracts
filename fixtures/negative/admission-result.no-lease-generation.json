@@ -1,0 +1,38 @@
+{
+  "schema": "hq/v1/admission-result.schema.json",
+  "base": {
+    "fixture": "positive/admission-result.ok.json",
+    "sha256": "sha256:9074773ef3d2fa301482b77f0cb8e4b295ffb01c5078ab31d58b7669ad2776e7"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Admission issues the first lease generation; Ready and lease renewal carry it forward, so it cannot be omitted (T07).",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "req_0001",
+    "decision_id": "dec_0001",
+    "installation_epoch": 5,
+    "profile": "managed-protected",
+    "negotiated_versions": {
+      "hq": 1,
+      "wire": 1
+    },
+    "admitted_runtimes": [
+      {
+        "member_id": "m_lead",
+        "role": "lead",
+        "runtime_id": "rt_lead_8",
+        "channel_binding": "bind_lead_0000000001"
+      },
+      {
+        "member_id": "m_spec",
+        "role": "specialist",
+        "runtime_id": "rt_spec_3",
+        "channel_binding": "bind_spec_0000000002"
+      }
+    ],
+    "lease_expires_at": "2026-10-25T03:00:00Z",
+    "warnings": []
+  }
+}

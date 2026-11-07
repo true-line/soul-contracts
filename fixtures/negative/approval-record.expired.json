@@ -1,0 +1,28 @@
+{
+  "schema": "hq/v1/approval-record.schema.json",
+  "base": {
+    "fixture": "positive/approval-record.single-action.json",
+    "sha256": "sha256:2f697e5cd3586b1f7b2bb301d610ac2bd126a2943a85e579bcba2e4db573d424"
+  },
+  "expect": {
+    "schema": "valid",
+    "error": "approval_mismatch",
+    "rule": "expiry-before-now"
+  },
+  "context": {
+    "now": "2026-11-07T00:00:00Z"
+  },
+  "note": "An approval past its expiry no longer matches any proposed action. The rule evaluates expiry against this file's semantic_now.",
+  "input": {
+    "approval_id": "approval_34",
+    "owner_session_reference": "session_owner_1",
+    "action_digest": "sha256:2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a",
+    "scope": {
+      "class": "bounded-class",
+      "action": "inference.request",
+      "resource": "soul:agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b"
+    },
+    "expiry": "2020-01-01T00:00:00Z",
+    "hq_signature": "sig_T4Z3x8yK9pQ2wE5rT7uI9oP0aS1dF2gH6"
+  }
+}

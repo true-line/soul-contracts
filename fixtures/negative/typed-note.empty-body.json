@@ -1,0 +1,22 @@
+{
+  "schema": "records/v1/typed-note.schema.json",
+  "base": {
+    "fixture": "positive/typed-note.handoff-before-lead-yields.json",
+    "sha256": "sha256:e3a15e703dba2b8fe181b754e487cd48a369a4323f9c1731007b9a375398cd99"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "An empty note carries no recordable content; notes are self-reported and must state something to be kept or consolidated.",
+  "input": {
+    "note_id": "note_90",
+    "type": "finding",
+    "member_id": "specialist_1",
+    "runtime_id": "runtime_spec_2",
+    "timestamp": "2026-11-07T09:10:00Z",
+    "provenance": [
+      "member"
+    ],
+    "body": ""
+  }
+}

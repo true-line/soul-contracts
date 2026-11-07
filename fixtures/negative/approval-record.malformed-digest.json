@@ -1,0 +1,23 @@
+{
+  "schema": "hq/v1/approval-record.schema.json",
+  "base": {
+    "fixture": "positive/approval-record.single-action.json",
+    "sha256": "sha256:2f697e5cd3586b1f7b2bb301d610ac2bd126a2943a85e579bcba2e4db573d424"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "The digest binds the record to one exact proposed action (T24); a non-hex value cannot be that binding.",
+  "input": {
+    "approval_id": "approval_33",
+    "owner_session_reference": "session_owner_1",
+    "action_digest": "zz",
+    "scope": {
+      "class": "single-action",
+      "action": "service.write",
+      "resource": "repo:example/policy"
+    },
+    "expiry": "2026-11-08T00:00:00Z",
+    "hq_signature": "sig_S3Z3x8yK9pQ2wE5rT7uI9oP0aS1dF2gH5"
+  }
+}

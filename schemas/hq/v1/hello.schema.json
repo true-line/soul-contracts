@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json",
   "title": "Hello (admission request)",
-  "description": "Sent by the Soul entry point over the hq/v1 control socket at clock-in. Source: Soul Agent Platform draft 0.3, Section 5 and Appendix A. HQ rejects an unaccepted definition (definition_not_accepted), an unsupported profile (profile_insufficient), an unsupported version (unsupported_version), and a prior epoch newer than its own record (stale_epoch).",
+  "description": "Sent by the Soul entry point over the hq/v1 control socket at clock-in. Source: Soul Agent Platform draft 0.4, Section 5 and Appendix A. HQ rejects an unaccepted definition (definition_not_accepted), an unsupported profile (profile_insufficient), an unsupported version (unsupported_version), and a prior epoch older than its own record on a move (stale_epoch).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,7 +12,7 @@
     "definition_digest",
     "installation_id",
     "supported_versions",
-    "capabilities",
+    "supported_capabilities",
     "requested_roles"
   ],
   "properties": {
@@ -21,7 +21,7 @@
     },
     "request_id": {
       "type": "string",
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
       "description": "Unique per request; a repeat with identical content returns the prior result."
     },
     "soul_id": {
@@ -36,7 +36,7 @@
     },
     "installation_id": {
       "type": "string",
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
     "prior_installation_epoch": {
       "type": "integer",
@@ -68,17 +68,27 @@
             "type": "integer",
             "minimum": 1
           }
+        },
+        "task": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
         }
-      }
+      },
+      "description": "Every major version of each contract the entry point speaks; HQ picks N or N-1 (R7, T14)."
     },
-    "capabilities": {
+    "supported_capabilities": {
       "type": "array",
       "uniqueItems": true,
       "items": {
         "type": "string",
         "pattern": "^[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+$"
       },
-      "description": "Capability tokens the entry point supports, e.g. sealed-inner-v1. Unknown required capabilities fail closed (R7)."
+      "description": "Versioned capability tokens the entry point supports, e.g. sealed-inner-v1. Unknown required capabilities fail closed (R7)."
     },
     "requested_profile": {
       "type": "string",
@@ -104,21 +114,22 @@
         "properties": {
           "role": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+            "pattern": "^[a-z][a-z0-9-]{0,31}$",
             "description": "Role name from SoulInfo.json; exactly one 'lead'."
           },
           "member_id": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
           },
           "adapter_id": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
-            "description": "Adapter package id from soul-adapters; vendor names are allowed here, not in this schema."
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "description": "Adapter package id from the qualified-adapter catalog. The schema names no vendor; fixtures use neutral ids (R10)."
           },
           "adapter_version": {
             "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$"
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$",
+            "description": "Pinned exact version (R12); eval cells are keyed on it (Section 10)."
           }
         }
       },
@@ -135,7 +146,8 @@
       },
       "minContains": 1,
       "maxContains": 1,
-      "description": "Exactly one lead; specialists as declared in SoulInfo.json."
+      "description": "Exactly one lead; specialists as declared in SoulInfo.json.",
+      "maxItems": 16
     }
   }
 }

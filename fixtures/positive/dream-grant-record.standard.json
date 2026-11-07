@@ -1,0 +1,30 @@
+{
+  "schema": "records/v1/dream-grant-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "dream grant standard.",
+  "input": {
+    "grant_id": "dream_grant_2",
+    "soul_id": "agent_0b3f1e2a-7c4d-4e8f-9a1b-2c3d4e5f6a7b",
+    "run_id": "run_2026_11_07",
+    "runtime_binding": "runtime_dream_1",
+    "readable_paths": [
+      "dreams/inputs/",
+      "memorial/"
+    ],
+    "writable_paths": [
+      "dreams/runs/run_2026_11_07/",
+      "memorial/knowledge/"
+    ],
+    "approved_destinations": [
+      "inference:primary"
+    ],
+    "maintenance_share": 0.2,
+    "wall_clock_limit_seconds": 7200,
+    "cell_cap": 6,
+    "checkpoint_interval_seconds": 1800,
+    "expiry": "2026-11-07T14:00:00Z"
+  },
+  "canonical_sha256": "sha256:ce10c8bceebfad5740e4f951634a4979f37b675a07890d07aac514b64bc3cb54"
+}

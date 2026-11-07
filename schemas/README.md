@@ -1,21 +1,61 @@
 # Schemas
 
-One JSON Schema per record in draft 0.3 Appendix A, versioned per contract (`hq/v1`, `task/v1`, `wire/v1`). Canonical form: RFC 8785 JCS. Status column is updated as schemas land.
+One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `task/v1` commitment request and the `wire/v1` outer frame. Each schema's `$id` is `https://true-line.ai/soul-contracts/<path>`. Canonical form: RFC 8785 JCS (`scripts/jcs.py`, vectors in `fixtures/canonicalization/`).
 
-| Record | Schema file | Status | Required fields (from the paper) |
-| --- | --- | --- | --- |
-| Hello (admission request) | `hq/v1/hello.schema.json` | draft 0.1 | Contract version, request ID, Soul ID, definition digest, installation ID, prior installation epoch on move, supported capabilities, requested roles. Reject an unaccepted definition or unsupported profile. |
-| Admission result | `hq/v1/admission-result.schema.json` | draft 0.1 | Installation epoch, admitted runtime IDs, negotiated versions, channel bindings, profile, lease expiry, decision ID. Issued only by HQ. |
-| Equip | `equip.schema.json` | not started | Runtime ID, one opaque grant handle per member bound to its channel, credential references, approved destinations, budget sub-allocations. Never a secret. |
-| Ready and lease renewal | `ready-and-lease-renewal.schema.json` | not started | Runtime ID, installation epoch, readiness state, adapter versions, lease generation, renewal sequence, observed health. HQ derives the caller, rejects replay, and returns the authoritative expiry. |
-| Lifecycle request | `lifecycle-request.schema.json` | not started | Request ID, operation, target installation, expected state revision, reason, deadline, owner session reference. HQ authenticates the local caller; returns a decision and resulting state. |
-| Approval record | `approval-record.schema.json` | not started | Approval ID, owner session reference, digest of the proposed action or policy change, scope, expiry, HQ signature. Any change to the proposed action invalidates it. |
-| Directive or query | `directive-or-query.schema.json` | not started | Message ID, authenticated issuer, recipient, kind, task or decision reference, policy or grant reference, expiry, payload. Peer content cannot acquire the directive kind through its text. |
-| Grant record | `grant-record.schema.json` | not started | Grant ID, issuer, principal, Soul, member or role scope, runtime binding, epoch, action and resource selectors, allowed destinations, data restrictions, budget, expiry, revocation version. Stored at HQ. |
-| Task record | `task-record.schema.json` | not started | Task ID, parent or peer reference, requester, accountable Soul, objective, done criteria, grant reference, restrictions, write scope, revision, status, waiting reason, budget, deadline, evidence, lease generation. |
-| Typed note | `typed-note.schema.json` | not started | Note ID, type, task, member, runtime, timestamp, sources, provenance set, disclosure restrictions, body, superseded note references. |
-| Action record | `action-record.schema.json` | not started | Operation ID, stable idempotency key, caller, task, expected revision, grant reference, request digest, state, remote reference, resolver (service lookup or owner session), outcome and receipt IDs. |
-| Transfer record | `transfer-record.schema.json` | not started | Soul ID, source and destination installations, definition digest, life selection, manifest digest, settled-operation watermark, unresolved operations, epoch handoff evidence. No secrets or reusable grants. |
-| Dream grant record | `dream-grant-record.schema.json` | not started | Grant ID, Soul, run ID, dream runtime binding, readable paths, writable paths, approved destinations and executor, maintenance share, wall-clock limit, cell cap, checkpoint interval, expiry. Issued only by HQ. |
-| Eval plan record | `eval-plan-record.schema.json` | not started | Run ID, candidate digest, baseline digest, cells (role, adapter at version, provider, model version), train and held-out task-set digests, tolerance, seed and temperature where fixed, cost cap. |
-| Candidate revision record | `candidate-revision-record.schema.json` | not started | Candidate ID, parent revision digest, candidate digest, change list (path, class, diff reference, rationale, evidence references, provenance set, disclosure labels), eval matrix with per-cell outcome and error codes, pinned adapter and renderer versions, status (proposed, evaluated, partially_passed, rejected, accepted, superseded), rollback target, life changes not undone by rollback. |
+| Record | Schema file | Since |
+| --- | --- | --- |
+| Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
+| Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
+| Equip | `hq/v1/equip.schema.json` | 0.3.0 |
+| Ready and lease renewal | `hq/v1/ready-and-lease-renewal.schema.json` | 0.3.0 |
+| Lifecycle request | `hq/v1/lifecycle-request.schema.json` | 0.3.0 |
+| Approval record | `hq/v1/approval-record.schema.json` | 0.3.0 |
+| Outer frame | `wire/v1/wire-frame.schema.json` | 0.3.0 |
+| Directive or query | `wire/v1/directive-or-query.schema.json` | 0.3.0 |
+| Task commitment request | `task/v1/task-commitment.schema.json` | 0.3.0 |
+| Task record | `task/v1/task-record.schema.json` | 0.3.0 |
+| Action record | `task/v1/action-record.schema.json` | 0.3.0 |
+| Grant record | `records/v1/grant-record.schema.json` | 0.3.0 |
+| Credential issuance record | `records/v1/credential-issuance-record.schema.json` | 0.3.0 (new in paper 0.4) |
+| Typed note | `records/v1/typed-note.schema.json` | 0.3.0 |
+| Transfer record | `records/v1/transfer-record.schema.json` | 0.3.0 |
+| Dream grant record | `records/v1/dream-grant-record.schema.json` | 0.3.0 |
+| Eval plan record | `records/v1/eval-plan-record.schema.json` | 0.3.0 |
+| Candidate revision record | `records/v1/candidate-revision-record.schema.json` | 0.3.0 |
+
+`hq/v1`, `wire/v1` and `task/v1` are the versioned protocols (N and N−1 apply, R7). `records/v1` holds stored records that no protocol carries on its own; they are versioned with this repository.
+
+All versions are pre-release until an implementation pins them. Until then a shape change is made in place and recorded in `CHANGELOG.md`; after the first pin, a breaking change bumps the major and keeps the previous fixtures.
+
+## Conventions
+
+| Field kind | Encoding |
+| --- | --- |
+| Soul ID | `^agent_<uuid>$`, lowercase hex (R1) |
+| Other identifiers | `^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$`; `:` namespaces a reference such as `principal:owner_1` or `workspace:scratch` |
+| Grant handles, channel bindings, credential references, idempotency keys | `^[A-Za-z0-9_-]{16,128}$`, broker-generated and opaque, never user-chosen |
+| Digests | `sha256:<64 lowercase hex>`; the prefix names the algorithm so it can change without a new field |
+| Installation epoch | Integer ≥ 1. `destination_epoch` on the outer frame is a routing hint and may be 0 when the sender has none |
+| Revisions, sequences, watermarks | Non-negative integers; lease generations and renewal sequences start at 1 |
+| Timestamps | RFC 3339 `date-time` |
+| Capabilities | Versioned tokens, `^[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+$` (e.g. `sealed-inner-v1`) |
+| Roles | `^[a-z][a-z0-9-]{0,31}$`; exactly one `lead` in Hello |
+| Adapter versions | Exact semver; pins are exact (R12) |
+| Paths inside a Soul | Relative; no `.` or `..` segment, no empty segment |
+| Profiles, provenance, states | The enumerations in `glossary/GLOSSARY.md` |
+
+Every object is `additionalProperties: false`, so a record that tries to carry a secret, a handle, or any unknown field fails closed. hq/v1 socket messages (Hello, admission result, Equip, Ready and lease renewal, lifecycle request) carry `contract: "hq/v1"`, so a version mismatch is visible before any other field is read (T14).
+
+## Curation notes
+
+These are the places where a schema deliberately differs from the paper's illustrative text. The paper wins on conflict until a decision record says otherwise.
+
+- **Task commitment `transition`.** The illustrative request uses `"complete"`. The schema lists the Section 7 target states instead (`completed`, `failed`, `canceled`, …).
+- **Profile and provenance spelling.** The schemas use kebab-case (`managed-protected`, `external-untrusted`); the paper writes them as prose.
+- **`retryable` and `raised_by` in `errors/registry.json`** are WP1 proposals. The paper names the codes but not these attributes, except where Sections 6 and 9 state the behavior (for example, `credential_unavailable` is retried once the service returns).
+- **Hello `requested_roles`** carry member, adapter and pinned adapter version, not bare role names. Admission pins adapter versions, eval cells key on them, and the "exactly one lead" rule needs the structure.
+- **The admission result** echoes `request_id` and issues the first `lease_generation`. Ready and lease renewal requires a lease generation, and only admission can issue the first one (T07).
+
+## Validator
+
+`scripts/validate.py` uses `jsonschema>=4.23` with full draft 2020-12 support. Schemas may use any draft 2020-12 keyword.

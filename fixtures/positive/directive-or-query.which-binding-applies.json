@@ -1,0 +1,25 @@
+{
+  "schema": "wire/v1/directive-or-query.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "query which binding applies.",
+  "input": {
+    "message_id": "message_61",
+    "issuer": {
+      "principal": "member",
+      "member_id": "specialist_1",
+      "runtime_id": "runtime_spec_2"
+    },
+    "recipient": "hq",
+    "kind": "query",
+    "task_or_decision_reference": {
+      "task_id": "task_17"
+    },
+    "expiry": "2026-11-08T18:00:00Z",
+    "payload": {
+      "question": "which binding applies"
+    }
+  },
+  "canonical_sha256": "sha256:55ae8cdcf306120cf56095133431e09a8011ff0c0b3f2297ff5dad1cea48a788"
+}

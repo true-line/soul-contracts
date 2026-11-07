@@ -1,0 +1,18 @@
+{
+  "schema": "hq/v1/ready-and-lease-renewal.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "lease renewal cold.",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_spec_2",
+    "installation_epoch": 4,
+    "readiness_state": "cold",
+    "adapter_versions": {},
+    "lease_generation": 1,
+    "renewal_sequence": 1,
+    "observed_health": "degraded"
+  },
+  "canonical_sha256": "sha256:1e84c9f41cee925ea0dd4c0be51c34868e42b7cea1f604c9fc81d3117dd751c2"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "records/v1/eval-plan-record.schema.json",
+  "base": {
+    "fixture": "positive/eval-plan-record.two-cells.json",
+    "sha256": "sha256:34b1519eec488c5f3fe6f071cb600ac113a87042380b81ccd5c96ff6db87ef74"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A plan with no cells cannot cover any (role, harness version) pair (T27); acceptance requires every pair to have a passing cell.",
+  "input": {
+    "run_id": "run_2026_11_08",
+    "candidate_digest": "sha256:5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d",
+    "baseline_digest": "sha256:6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e",
+    "cells": [],
+    "train_task_set_digest": "sha256:708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f",
+    "held_out_task_set_digest": "sha256:08192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f7",
+    "tolerance": 0.05,
+    "cost_cap": 10
+  }
+}

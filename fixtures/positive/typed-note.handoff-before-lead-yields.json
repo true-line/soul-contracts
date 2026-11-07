@@ -1,0 +1,26 @@
+{
+  "schema": "records/v1/typed-note.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "note handoff before lead yields.",
+  "input": {
+    "note_id": "note_88",
+    "type": "handoff",
+    "task_id": "task_17",
+    "member_id": "lead",
+    "runtime_id": "runtime_lead_8",
+    "timestamp": "2026-11-07T09:00:00Z",
+    "sources": [
+      "receipt_56"
+    ],
+    "provenance": [
+      "member"
+    ],
+    "disclosure_restrictions": [
+      "confidential"
+    ],
+    "body": "Handing off: task_17 is mid-reconciliation; see action operation_finish_17 before acting."
+  },
+  "canonical_sha256": "sha256:fb0b0c0e364a20dbbec0f7c9b40d2933f0673be818b64f73d893a99c433b74ed"
+}

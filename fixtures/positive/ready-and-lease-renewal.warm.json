@@ -1,0 +1,20 @@
+{
+  "schema": "hq/v1/ready-and-lease-renewal.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "ready warm.",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_lead_8",
+    "installation_epoch": 4,
+    "readiness_state": "warm",
+    "adapter_versions": {
+      "fake-adapter": "1.2.0"
+    },
+    "lease_generation": 3,
+    "renewal_sequence": 17,
+    "observed_health": "healthy"
+  },
+  "canonical_sha256": "sha256:10ea1b7e148a5a56d1588f8fd60d77d2e51dccf9add2a0daa6ac2e942fd98f1f"
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "hq/v1/equip.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "equip lead.",
+  "input": {
+    "contract": "hq/v1",
+    "runtime_id": "runtime_lead_8",
+    "grant_handles": [
+      {
+        "channel_binding": "bind_lead_0000000001",
+        "handle": "hnd_5f8a2c91d6b74e0a",
+        "member_id": "lead"
+      }
+    ],
+    "credential_references": [
+      {
+        "name": "service_write",
+        "reference": "ref_9a1b2c3d4e5f6071",
+        "purpose": "task service writes resolved by HQ only"
+      }
+    ],
+    "approved_destinations": [
+      "inference:primary"
+    ],
+    "budget_sub_allocations": {
+      "working": 5,
+      "maintenance": 1
+    }
+  },
+  "canonical_sha256": "sha256:3f02b001dc3a6b4348723c8d95bb6c782e7959d421d30b1632ffdece62ff3ce8"
+}

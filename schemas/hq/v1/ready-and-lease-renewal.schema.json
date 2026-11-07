@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/ready-and-lease-renewal.schema.json",
+  "title": "hq/v1 Ready and lease renewal",
+  "description": "0.4 Appendix A: runtime ID, installation epoch, readiness state, adapter versions, lease generation, renewal sequence, observed health. HQ derives the caller, rejects replay, and returns the authoritative expiry.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "runtime_id",
+    "installation_epoch",
+    "readiness_state",
+    "adapter_versions",
+    "lease_generation",
+    "renewal_sequence",
+    "observed_health"
+  ],
+  "properties": {
+    "contract": {
+      "const": "hq/v1"
+    },
+    "runtime_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "installation_epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "readiness_state": {
+      "type": "string",
+      "enum": [
+        "warm",
+        "cold"
+      ]
+    },
+    "adapter_versions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$"
+      }
+    },
+    "lease_generation": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "renewal_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "observed_health": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "unreachable"
+      ]
+    }
+  }
+}

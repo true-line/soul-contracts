@@ -1,0 +1,39 @@
+{
+  "schema": "hq/v1/admission-result.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "HQ admits both roles but can only offer the cooperative profile on this host and says so (R8).",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "req_0003",
+    "decision_id": "dec_0002",
+    "installation_epoch": 5,
+    "profile": "managed-cooperative",
+    "negotiated_versions": {
+      "hq": 1,
+      "wire": 1,
+      "task": 1
+    },
+    "admitted_runtimes": [
+      {
+        "member_id": "m_lead",
+        "role": "lead",
+        "runtime_id": "rt_lead_8",
+        "channel_binding": "bind_lead_0000000001"
+      },
+      {
+        "member_id": "m_spec",
+        "role": "specialist",
+        "runtime_id": "rt_spec_3",
+        "channel_binding": "bind_spec_0000000002"
+      }
+    ],
+    "lease_generation": 1,
+    "lease_expires_at": "2026-10-25T03:00:00Z",
+    "warnings": [
+      "profile: managed-protected requested; managed-cooperative in force (members share the owner account)"
+    ]
+  },
+  "canonical_sha256": "sha256:f34a9aad647b8fa3f5568a670aebb9b368decc88a617ee2eb901fffcdaf53d88"
+}

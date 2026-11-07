@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install "jsonschema>=4.23" rfc3339-validator
       - run: python scripts/validate.py
+        env:
+          # The registry ratchet compares against the PR base, or main on push.
+          BASE_REF: origin/${{ github.base_ref || 'main' }}
