@@ -29,7 +29,8 @@ Contract baseline against draft 0.4. Merges the independently derived baseline f
   - **Admission result:** `admitted_runtimes[].client` adds a required `source` (`adapter`, `process` or `owner-label`), so a weak identification is visible.
 - Fixtures: 2 positive and 4 negative. The negatives cover a Hello claiming a source, a bad app id, a missing source, and an unknown source.
 
-## Unreleased
+## 0.4.1 — 2026-11-07
+Tooling and documentation only: no schema, fixture or error registry changes.
 - Adopts the platform (true-line/agent-bot-platform), read at `main` (platform PDR-0020). `AGENTS.md` carries the platform block, which names no commit.
 - The glossary, requirements, conformance tests, traceability matrix and papers moved to the platform. `glossary/`, `traceability/` and `papers/` now link to them on `main`.
 - `schemas/README.md` takes over the schema encodings and the enumerations, which are contract content.
