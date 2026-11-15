@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 — 2026-11-15
+Version metadata alone does not establish publication. Consumers must verify the actual tag and release before pinning.
+
 - Add bounded `hq/v1` notice query/result contracts for scoped local peek and fixed-one consume, with explicit `notices-v1` operation requirements. Existing contracts and errors are unchanged.
 - Pin sanitized legacy payload compatibility, trusted scope semantics, durable ordering, JCS byte budgets, typed refusals and a release/consumer-digest plan. Add executable positive, schema-negative and semantic-refusal fixtures.
 
