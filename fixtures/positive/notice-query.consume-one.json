@@ -1,0 +1,20 @@
+{
+  "description": "Fixed one destructive operation; no caller scope selectors.",
+  "schema": "hq/v1/notice-query.schema.json",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "consume-one",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "installation_epoch": 3,
+    "lease_generation": 2,
+    "count": 1,
+    "expected_repository": "Example/Project"
+  },
+  "expect": {
+    "schema": "valid"
+  },
+  "canonical_sha256": "sha256:bba9a6299b44b2f1b141b36f03aca6e99ad41928bd253d7b072bbbbc0fff96ff"
+}

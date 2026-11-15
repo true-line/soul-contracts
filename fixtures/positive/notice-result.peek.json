@@ -1,0 +1,66 @@
+{
+  "description": "Durable custody sequence order, even when source timestamps decrease; preserves every allowlisted field and 256-character source ID.",
+  "schema": "hq/v1/notice-result.schema.json",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "peek",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "notices": [
+      {
+        "message_id": "notice:1",
+        "provenance": [
+          "external-untrusted"
+        ],
+        "wake_class": "notify",
+        "content": {
+          "repo": "Example/Project",
+          "app": "queue",
+          "event": "issues",
+          "action": "opened",
+          "kind": "issue",
+          "type": [
+            "issue",
+            "notification"
+          ],
+          "number": 7,
+          "title": "An issue",
+          "actor": "sender",
+          "url": "https://example.invalid/issues/7",
+          "text": "Untrusted body: λ",
+          "createdAt": 1794000000123
+        }
+      },
+      {
+        "message_id": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+        "provenance": [
+          "external-untrusted"
+        ],
+        "wake_class": "none",
+        "content": {
+          "repo": "Example/Project",
+          "app": "queue",
+          "event": "issues",
+          "action": "opened",
+          "kind": "issue",
+          "type": [
+            "issue",
+            "notification"
+          ],
+          "number": 7,
+          "title": "An issue",
+          "actor": "sender",
+          "url": "https://example.invalid/issues/7",
+          "text": "Untrusted body: λ",
+          "createdAt": 1793000000000
+        }
+      }
+    ]
+  },
+  "expect": {
+    "schema": "valid"
+  },
+  "canonical_sha256": "sha256:8bd7404369b6ac9a11a2809731b72841cc1bbeeef9efdc4f53da8cdd3bd3bfb5"
+}

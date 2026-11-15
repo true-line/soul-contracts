@@ -5,6 +5,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Record | Schema file | Since |
 | --- | --- | --- |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
+| Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | Unreleased |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
 | Equip | `hq/v1/equip.schema.json` | 0.3.0 |
 | Ready and lease renewal | `hq/v1/ready-and-lease-renewal.schema.json` | 0.3.0 |
@@ -33,12 +34,13 @@ All versions are pre-release until an implementation pins them. Until then a sha
 | Field kind | Encoding |
 | --- | --- |
 | Soul ID | `^agent_<uuid>$`, lowercase hex (R1) |
+| Source notice IDs | Scoped notice `message_id` accepts 1–256 characters; this does not widen generic routing IDs |
 | Other identifiers | `^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$`; `:` namespaces a reference such as `principal:owner_1` or `workspace:scratch` |
 | Grant handles, channel bindings, credential references, idempotency keys | `^[A-Za-z0-9_-]{16,128}$`, broker-generated and opaque, never user-chosen |
 | Digests | `sha256:<64 lowercase hex>`; the prefix names the algorithm so it can change without a new field |
 | Installation epoch | Integer ≥ 1. `destination_epoch` on the outer frame is a routing hint and may be 0 when the sender has none |
 | Revisions, sequences, watermarks | Non-negative integers; lease generations and renewal sequences start at 1 |
-| Timestamps | RFC 3339 `date-time` |
+| Timestamps | RFC 3339 `date-time`; scoped source `content.createdAt` explicitly preserves epoch milliseconds |
 | Capabilities | Versioned tokens, `^[a-z0-9]+(-[a-z0-9]+)*-v[0-9]+$` (e.g. `sealed-inner-v1`) |
 | Roles | `^[a-z][a-z0-9-]{0,31}$`; exactly one `lead` in Hello |
 | Adapter versions | Exact semver; pins are exact (R12) |

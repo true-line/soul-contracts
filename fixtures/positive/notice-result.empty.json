@@ -1,0 +1,17 @@
+{
+  "description": "Empty consume result maps to legacy {event:null}.",
+  "schema": "hq/v1/notice-result.schema.json",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "consume-one",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "notices": []
+  },
+  "expect": {
+    "schema": "valid"
+  },
+  "canonical_sha256": "sha256:23a82522d0efffbadf8c6d90d4d03de836dd2741209ab278cb33eaa6d714ada3"
+}
