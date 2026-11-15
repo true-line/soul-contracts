@@ -5,7 +5,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Record | Schema file | Since |
 | --- | --- | --- |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
-| Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | Unreleased |
+| Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
 | Equip | `hq/v1/equip.schema.json` | 0.3.0 |
 | Ready and lease renewal | `hq/v1/ready-and-lease-renewal.schema.json` | 0.3.0 |
