@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "tag": "v0.5.0",
+  "workflows": [
+    {
+      "path": ".github/workflows/validate.yml",
+      "jobs": ["fixtures"]
+    }
+  ]
+}
