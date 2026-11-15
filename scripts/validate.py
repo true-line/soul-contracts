@@ -79,7 +79,32 @@ def rule_capability_not_negotiated(inp, ctx):
     return isinstance(neg, list) and any(c not in neg for c in inp.get("required_capabilities", []))
 
 
-RULES = {"expiry-before-now": rule_expiry_before_now, "capability-not-negotiated": rule_capability_not_negotiated}
+# Notice byte limits apply to canonical UTF-8 bytes, not string code points.
+# These are fixture oracles, not a runtime authorization implementation.
+NOTICE_SOURCE_BYTES = 65_536
+NOTICE_RESULT_BYTES = 524_288
+
+
+def rule_notice_source_byte_limit(inp, ctx):
+    return any(len(canonicalize({"id": n["message_id"], **n["content"]})) > NOTICE_SOURCE_BYTES
+               for n in inp["notices"])
+
+
+def rule_notice_result_byte_limit(inp, ctx):
+    return len(canonicalize(inp)) > NOTICE_RESULT_BYTES
+
+
+RULES = {
+    "expiry-before-now": rule_expiry_before_now,
+    "capability-not-negotiated": rule_capability_not_negotiated,
+    "notice-capability-unsupported": lambda inp, ctx: any(c not in ctx["supported_capabilities"] for c in inp["required_capabilities"]),
+    "notice-epoch-mismatch": lambda inp, ctx: inp["installation_epoch"] != ctx["installation_epoch"],
+    "notice-generation-mismatch": lambda inp, ctx: inp["lease_generation"] != ctx["lease_generation"],
+    "notice-repository-mismatch": lambda inp, ctx: inp["expected_repository"].lower() != ctx["repository"].lower(),
+    "notice-operation-mismatch": lambda inp, ctx: "notices." + inp["operation"] != ctx["broker_kind"],
+    "notice-source-byte-limit": rule_notice_source_byte_limit,
+    "notice-result-byte-limit": rule_notice_result_byte_limit,
+}
 
 # --- fixtures ----------------------------------------------------------------
 covered = {rel: {"positive": 0, "negative": 0} for rel in schemas}
@@ -144,6 +169,37 @@ for fx in sorted((ROOT / "fixtures").glob("*/*.json")):
 
 for sch, c in covered.items():
     report(c["positive"] >= 1 and c["negative"] >= 1, f"coverage {sch}", f"{c['positive']} positive, {c['negative']} negative")
+
+# Inclusive byte-boundary checks complement the literal semantic fixtures.
+# Construct actual strings; a claimed byte count in fixture context is insufficient.
+def notice_budget_checks():
+    source = {"id": "notice:boundary", "repo": "example/project", "text": ""}
+    source["text"] = "x" * (NOTICE_SOURCE_BYTES - len(canonicalize(source)))
+    notice = {"message_id": source["id"], "content": {k: v for k, v in source.items() if k != "id"}}
+    inp = {"notices": [notice]}
+    report(not rule_notice_source_byte_limit(inp, {}), "notice source exactly 64 KiB accepted")
+    notice["content"]["text"] += "x"
+    report(rule_notice_source_byte_limit(inp, {}), "notice source 64 KiB plus one refused")
+    notice["content"]["text"] = "λ" * 32768
+    report(rule_notice_source_byte_limit(inp, {}), "notice source measures UTF-8 bytes, not code points")
+    result = {"contract": "hq/v1", "request_id": "query:boundary", "operation": "peek",
+              "required_capabilities": ["notices-v1"], "notices": []}
+    for i in range(9):
+        result["notices"].append({"message_id": f"notice:{i}", "provenance": ["external-untrusted"],
+                                  "wake_class": "none", "content": {"repo": "example/project", "text": "x" * 60000 if i < 8 else ""}})
+    last = result["notices"][-1]["content"]
+    last["text"] = "x" * (NOTICE_RESULT_BYTES - len(canonicalize(result)))
+    validator = schemas["hq/v1/notice-result.schema.json"]
+    report(not list(validator.iter_errors(result)) and not rule_notice_source_byte_limit(result, {})
+           and not rule_notice_result_byte_limit(result, {}), "schema-valid notice result exactly 512 KiB accepted")
+    last["text"] += "x"
+    report(not list(validator.iter_errors(result)) and rule_notice_result_byte_limit(result, {}),
+           "schema-valid notice result 512 KiB plus one refused")
+    report(not RULES["notice-repository-mismatch"]({"expected_repository": "Example/Project"}, {"repository": "example/project"}),
+           "notice repository equality ignores ASCII case")
+
+
+notice_budget_checks()
 
 # --- canonicalization --------------------------------------------------------
 for p in sorted((ROOT / "fixtures/canonicalization").glob("*.json")):

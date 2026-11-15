@@ -1,0 +1,67 @@
+{
+  "schema": "hq/v1/notice-result.schema.json",
+  "base": {
+    "fixture": "positive/notice-result.peek.json",
+    "sha256": "sha256:82153b05a05c16318b872cbef677511fa6fa9c5fdbf8c4e79ece5c18071392f0"
+  },
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "peek",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "notices": [
+      {
+        "message_id": "notice:1",
+        "provenance": [
+          "external-untrusted"
+        ],
+        "wake_class": "notify",
+        "content": {
+          "app": "queue",
+          "event": "issues",
+          "action": "opened",
+          "kind": "issue",
+          "type": [
+            "issue",
+            "notification"
+          ],
+          "number": 7,
+          "title": "An issue",
+          "actor": "sender",
+          "url": "https://example.invalid/issues/7",
+          "text": "Untrusted body: λ",
+          "createdAt": 1794000000123
+        }
+      },
+      {
+        "message_id": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+        "provenance": [
+          "external-untrusted"
+        ],
+        "wake_class": "none",
+        "content": {
+          "repo": "Example/Project",
+          "app": "queue",
+          "event": "issues",
+          "action": "opened",
+          "kind": "issue",
+          "type": [
+            "issue",
+            "notification"
+          ],
+          "number": 7,
+          "title": "An issue",
+          "actor": "sender",
+          "url": "https://example.invalid/issues/7",
+          "text": "Untrusted body: λ",
+          "createdAt": 1793000000000
+        }
+      }
+    ]
+  },
+  "expect": {
+    "schema": "invalid"
+  }
+}

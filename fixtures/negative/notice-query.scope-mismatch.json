@@ -1,0 +1,27 @@
+{
+  "schema": "hq/v1/notice-query.schema.json",
+  "base": {
+    "fixture": "positive/notice-query.peek.json",
+    "sha256": "sha256:884935907c1548d0d877e80e8f61317a95b17baa02741ef6ab29a6a06f9c44c1"
+  },
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "peek",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "installation_epoch": 3,
+    "lease_generation": 2,
+    "count": 2,
+    "expected_repository": "Example/Project"
+  },
+  "expect": {
+    "schema": "valid",
+    "error": "caller_mismatch",
+    "rule": "notice-repository-mismatch"
+  },
+  "context": {
+    "repository": "other/project"
+  }
+}

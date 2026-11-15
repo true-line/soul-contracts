@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/notice-result.schema.json",
+  "title": "Notice Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "request_id",
+    "operation",
+    "required_capabilities",
+    "notices"
+  ],
+  "properties": {
+    "contract": {
+      "const": "hq/v1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$(?![\\s\\S])"
+    },
+    "operation": {
+      "enum": [
+        "peek",
+        "consume-one"
+      ]
+    },
+    "required_capabilities": {
+      "type": "array",
+      "const": [
+        "notices-v1"
+      ]
+    },
+    "notices": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "message_id",
+          "provenance",
+          "wake_class",
+          "content"
+        ],
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$(?![\\s\\S])"
+          },
+          "provenance": {
+            "type": "array",
+            "const": [
+              "external-untrusted"
+            ]
+          },
+          "wake_class": {
+            "enum": [
+              "none",
+              "notify"
+            ]
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "repo"
+            ],
+            "properties": {
+              "app": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "event": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "action": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "kind": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "title": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "actor": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "url": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 65536
+              },
+              "repo": {
+                "type": "string",
+                "maxLength": 140,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}/(?!\\.{1,2}$)[A-Za-z0-9_.-]{1,100}$(?![\\s\\S])"
+              },
+              "type": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "type": "string",
+                  "maxLength": 64
+                }
+              },
+              "number": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "createdAt": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "description": "Preserved source timestamp in epoch milliseconds, not a protocol date-time."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "operation": {
+        "const": "consume-one"
+      }
+    },
+    "required": [
+      "operation"
+    ]
+  },
+  "then": {
+    "properties": {
+      "notices": {
+        "maxItems": 1
+      }
+    }
+  }
+}

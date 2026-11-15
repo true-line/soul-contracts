@@ -1,0 +1,20 @@
+{
+  "description": "Read-only bounded peek; repository is only a case-insensitive equality assertion.",
+  "schema": "hq/v1/notice-query.schema.json",
+  "input": {
+    "contract": "hq/v1",
+    "request_id": "query:1",
+    "operation": "peek",
+    "required_capabilities": [
+      "notices-v1"
+    ],
+    "installation_epoch": 3,
+    "lease_generation": 2,
+    "count": 2,
+    "expected_repository": "Example/Project"
+  },
+  "expect": {
+    "schema": "valid"
+  },
+  "canonical_sha256": "sha256:fe7235a8e29f6beb2ace2c9f7dafc377b0a6583578d00ecc3a2276f18f017710"
+}

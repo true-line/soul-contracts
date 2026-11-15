@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+- Add bounded `hq/v1` notice query/result contracts for scoped local peek and fixed-one consume, with explicit `notices-v1` operation requirements. Existing contracts and errors are unchanged.
+- Pin sanitized legacy payload compatibility, trusted scope semantics, durable ordering, JCS byte budgets, typed refusals and a release/consumer-digest plan. Add executable positive, schema-negative and semantic-refusal fixtures.
+
 ## 0.1.0 — 2026-10-24
 - Initial scaffold from Soul Agent Platform draft 0.3: glossary, requirements, traceability matrix, error registry, schema index, fixture layout, papers.
 
