@@ -334,7 +334,37 @@ shutil.rmtree(plat, ignore_errors=True)
 DENY = ["claude", "codex", "anthropic", "openai", "gpt-", "gemini", "google", "opencode", "copilot",
         "cursor", "bedrock", "mistral", "llama", "qwen", "glm", "deepseek", "grok", "meta.ai", "huggingface"]
 artifacts = [*(ROOT / "schemas").rglob("*.json"), ROOT / "schemas/README.md", *(ROOT / "fixtures").rglob("*.*"), ROOT / REG_PATH]
-hits = [f"{p.relative_to(ROOT)}: {t}" for p in artifacts for t in DENY if t in p.read_text(encoding="utf-8").lower()]
+signed_fixture = ROOT / "fixtures/qualification/macos/release-produced-test-only"
+encoded_json_fields = {"policy_base64url", "report_base64url", "payload"}
+opaque_binary_fields = {"signature_base64url", "rawBytes", "signedTimestamp", "canonicalizedBody"}
+
+def vendor_scan_text(p):
+    raw = p.read_text(encoding="utf-8")
+    if p.suffix != ".json" or signed_fixture not in p.parents:
+        return raw
+
+    # Scan the actual signed JSON payloads. Random certificate, timestamp and
+    # signature bytes can spell a denied token when written as base64.
+    import base64
+    def searchable(value):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                yield key
+                if key in encoded_json_fields and isinstance(item, str):
+                    try:
+                        yield base64.urlsafe_b64decode(item + "==").decode("utf-8")
+                    except (ValueError, UnicodeDecodeError):
+                        pass
+                elif key not in opaque_binary_fields:
+                    yield from searchable(item)
+        elif isinstance(value, list):
+            for item in value:
+                yield from searchable(item)
+        elif isinstance(value, str):
+            yield value
+    return "\n".join(searchable(json.loads(raw)))
+
+hits = [f"{p.relative_to(ROOT)}: {t}" for p in artifacts for t in DENY if t in vendor_scan_text(p).lower()]
 report(not hits, "R10 no vendor token in schemas, fixtures, registry", "; ".join(hits))
 
 print(f"\n{'FAILED' if fails else 'passed'}: {fails} failure(s)")
