@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "test_only": true,
-  "workflow_run_id": 44952530442,
-  "workflow_head_commit": "b9f67ee3d25f326ff3476acf247b28262e903fd6",
-  "release_source_commit": "75e3b91416d03f42e1db039f0b62ee6c2437d97e",
+  "workflow_run_id": 44953399553,
+  "workflow_head_commit": "b085921a4a3f6ad2f1b077d3c2d83f2f8db01535",
+  "release_source_commit": "2768e58fd412968d03f54b8cd791382453c4035d",
   "machine_verifier_commit": "10441e07de7bf33ceb1e5e47f74916ac67ff2694",
   "contracts_template_commit": "0ec25670fde95f8417c985c318f4875b7eb2918f",
-  "verified_at": "2026-11-21T21:40:38Z",
+  "verified_at": "2026-11-21T21:48:57Z",
   "owner_key_id": "fixture-owner-root",
-  "owner_root_hex": "bed868fa6b78cacfcbc83b35d3e119682cd7e61174c2f7849789c4495aabc5ac",
+  "owner_root_hex": "529ca53cec6d9204cf7118b13c1c9e06c8e0e076df5594316cf91016a00e1c4f",
   "sigstore_root_sha256": "sha256:0ba58f6c09c271f664f0f8c1fa62e2065844ca89a0397c0178ed5188f6096724",
   "positive": {
     "bundle": "bundle.json",
-    "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
+    "bundle_sha256": "sha256:cfff2dbdb522469bf5f68c0ce7e572d1ada5281fec1374e085c092f5c48a41ab",
     "qualification": "qualification.json",
-    "qualification_sha256": "sha256:09fdd4bdb8c9e4e0f9975d451aa9b4d7478b7006a4d696cf5a6565fa5f099c7e",
+    "qualification_sha256": "sha256:486e1057d4b2efa1965e7592496f96aa9f900af8cfb1c422d7c2bc2bfb481747",
     "policy_envelope": "policy-envelope.json",
     "protected_envelope": "protected-envelope.json",
     "cooperative_envelope": "cooperative-envelope.json",
@@ -23,41 +23,41 @@
   "negative": [
     {
       "bundle": "bundle.altered.json",
-      "bundle_sha256": "sha256:f88c5db4f5bf5f26857c4d2cbc3488d5a69e291edc4e165db40341799c366015",
+      "bundle_sha256": "sha256:97cb6f22a0db0bf447e928e2f361f57a370d8f4c0159983a26050b949aafd8c6",
       "policy_envelope": "policy-envelope.json",
-      "verified_at": "2026-11-21T21:40:38Z",
+      "verified_at": "2026-11-21T21:48:57Z",
       "id": "altered-bundle",
       "expected": "refuse"
     },
     {
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
+      "bundle_sha256": "sha256:cfff2dbdb522469bf5f68c0ce7e572d1ada5281fec1374e085c092f5c48a41ab",
       "policy_envelope": "policy-envelope.wrong-identity.json",
-      "verified_at": "2026-11-21T21:40:38Z",
+      "verified_at": "2026-11-21T21:48:57Z",
       "id": "wrong-identity",
       "expected": "refuse"
     },
     {
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
+      "bundle_sha256": "sha256:cfff2dbdb522469bf5f68c0ce7e572d1ada5281fec1374e085c092f5c48a41ab",
       "policy_envelope": "policy-envelope.stale-revocation.json",
-      "verified_at": "2026-11-21T21:40:38Z",
+      "verified_at": "2026-11-21T21:48:57Z",
       "id": "stale-revocation",
       "expected": "refuse"
     },
     {
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
+      "bundle_sha256": "sha256:cfff2dbdb522469bf5f68c0ce7e572d1ada5281fec1374e085c092f5c48a41ab",
       "policy_envelope": "policy-envelope.wrong-host.json",
-      "verified_at": "2026-11-21T21:40:38Z",
+      "verified_at": "2026-11-21T21:48:57Z",
       "id": "wrong-host",
       "expected": "refuse"
     },
     {
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
+      "bundle_sha256": "sha256:cfff2dbdb522469bf5f68c0ce7e572d1ada5281fec1374e085c092f5c48a41ab",
       "policy_envelope": "policy-envelope.json",
-      "verified_at": "2026-11-21T22:39:58.749Z",
+      "verified_at": "2026-11-21T22:48:24.047Z",
       "id": "expired-qualification",
       "expected": "refuse"
     }
