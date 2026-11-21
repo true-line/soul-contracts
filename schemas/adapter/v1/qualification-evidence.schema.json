@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json",
+  "title": "Draft adapter qualification evidence payload",
+  "description": "Unverified claims and references for one conformance run. Shape validation does not establish qualification, signature validity, authority, or execution permission.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "adapter",
+    "launch",
+    "harness",
+    "host",
+    "profile_in_force",
+    "renders",
+    "cost_bound",
+    "conformance",
+    "recorded_at",
+    "evaluation_cells"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "adapter": {
+      "type": "object",
+      "required": [
+        "id",
+        "version",
+        "package_sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$"
+        },
+        "package_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "launch": {
+      "type": "object",
+      "required": [
+        "executable",
+        "executable_sha256",
+        "argv",
+        "code_inputs"
+      ],
+      "properties": {
+        "executable": {
+          "type": "string",
+          "pattern": "^/[^\\u0000-\\u001f]+$",
+          "maxLength": 4096
+        },
+        "executable_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "argv": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "type": "string",
+            "maxLength": 4096
+          }
+        },
+        "code_inputs": {
+          "type": "array",
+          "description": "All additional fixed code-bearing files loaded by this invocation, such as scripts and modules. Empty only if there are none. Completeness requires verification.",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^/[^\\u0000-\\u001f]+$",
+                "maxLength": 4096
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "harness": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "binary_sha256"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "binary_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "host": {
+      "type": "object",
+      "required": [
+        "os",
+        "os_version",
+        "architecture",
+        "profile",
+        "evidence"
+      ],
+      "properties": {
+        "os": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "os_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "architecture": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "profile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "profile_in_force": {
+      "enum": [
+        "managed-cooperative",
+        "managed-protected"
+      ]
+    },
+    "renders": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+      }
+    },
+    "cost_bound": {
+      "enum": [
+        "exact",
+        "estimate",
+        "none"
+      ]
+    },
+    "conformance": {
+      "type": "object",
+      "required": [
+        "suite_revision",
+        "run_id",
+        "outcome",
+        "report",
+        "checks"
+      ],
+      "properties": {
+        "suite_revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        },
+        "report": {
+          "$ref": "#/$defs/evidence_ref"
+        },
+        "checks": {
+          "type": "object",
+          "required": [
+            "egress",
+            "credentials",
+            "state_redirect",
+            "safe_interrupt_resume",
+            "session_reuse",
+            "cost_bound",
+            "render_coverage"
+          ],
+          "properties": {
+            "egress": {
+              "$ref": "#/$defs/check"
+            },
+            "credentials": {
+              "$ref": "#/$defs/check"
+            },
+            "state_redirect": {
+              "$ref": "#/$defs/check"
+            },
+            "safe_interrupt_resume": {
+              "$ref": "#/$defs/check"
+            },
+            "session_reuse": {
+              "$ref": "#/$defs/check"
+            },
+            "cost_bound": {
+              "$ref": "#/$defs/check"
+            },
+            "render_coverage": {
+              "$ref": "#/$defs/check"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluation_cells": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "model",
+          "provider",
+          "revision",
+          "evidence"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "provider": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "evidence": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidence_ref": {
+      "type": "object",
+      "required": [
+        "uri",
+        "sha256"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "check": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "evidence"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "unenforced",
+            "not-run"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

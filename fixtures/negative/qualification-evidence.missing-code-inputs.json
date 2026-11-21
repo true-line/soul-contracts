@@ -1,0 +1,137 @@
+{
+  "schema": "adapter/v1/qualification-evidence.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Additional fixed code inputs must be explicitly listed.",
+  "input": {
+    "schema_version": 1,
+    "adapter": {
+      "id": "fake-adapter",
+      "version": "1.2.3",
+      "package_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "launch": {
+      "executable": "/fixture/bin/adapter",
+      "executable_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "argv": [
+        "serve",
+        "--fixture"
+      ]
+    },
+    "harness": {
+      "name": "fake-harness",
+      "version": "2.0.0",
+      "binary_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "host": {
+      "os": "darwin",
+      "os_version": "15.0",
+      "architecture": "arm64",
+      "profile": "fixture-host",
+      "evidence": [
+        {
+          "uri": "fixture:synthetic-evidence",
+          "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        }
+      ]
+    },
+    "profile_in_force": "managed-cooperative",
+    "renders": [
+      "instructions",
+      "tools"
+    ],
+    "cost_bound": "estimate",
+    "conformance": {
+      "suite_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "run_id": "fixture-run",
+      "outcome": "pass",
+      "report": {
+        "uri": "fixture:synthetic-report",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "checks": {
+        "egress": {
+          "outcome": "unenforced",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "credentials": {
+          "outcome": "unenforced",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "state_redirect": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "safe_interrupt_resume": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "session_reuse": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "cost_bound": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "render_coverage": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        }
+      }
+    },
+    "recorded_at": "2026-11-01T00:00:00Z",
+    "evaluation_cells": [
+      {
+        "role": "lead",
+        "model": "fixture-model",
+        "provider": "fixture-provider",
+        "revision": "fixture-revision",
+        "evidence": {
+          "uri": "fixture:evaluation",
+          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        }
+      }
+    ]
+  },
+  "base": {
+    "fixture": "positive/qualification-evidence.synthetic.json",
+    "sha256": "sha256:1e7e3af3a12abd22e7a55faf004f48e2018f5761678754553a9d5943c0775246"
+  }
+}
