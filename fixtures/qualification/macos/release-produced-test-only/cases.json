@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "workflow_run_id": 44950284748,
+  "workflow_head_commit": "bc0094895a92002b62b88d4bab9f4d0c0a7199a5",
+  "release_source_commit": "43279e0a9fb7c9db79393ca66390b40c8c2475a4",
+  "machine_verifier_commit": "10441e07de7bf33ceb1e5e47f74916ac67ff2694",
+  "contracts_template_commit": "0ec25670fde95f8417c985c318f4875b7eb2918f",
+  "verified_at": "2026-11-21T21:12:45Z",
+  "owner_key_id": "fixture-owner-root",
+  "owner_root_hex": "3b3475d005711f14d88babfc6ba0ea4f4ecb45056a962758cb496121b2e70590",
+  "sigstore_root_sha256": "sha256:0ba58f6c09c271f664f0f8c1fa62e2065844ca89a0397c0178ed5188f6096724",
+  "positive": {
+    "bundle": "bundle.json",
+    "bundle_sha256": "sha256:06d9d0b792cfc788e36db9c6dd2ae879bc716d8cf60707338ceadaa725289cc1",
+    "qualification": "qualification.json",
+    "qualification_sha256": "sha256:7831d414beba8ad5b6a82b6ce276eeb941c5eb6b6ba6ec53372ba3bae366e8fe",
+    "policy_envelope": "policy-envelope.json",
+    "protected_envelope": "protected-envelope.json",
+    "cooperative_envelope": "cooperative-envelope.json",
+    "expected": "accept_offline_release_only"
+  },
+  "negative": [
+    {
+      "id": "altered-bundle",
+      "bundle": "bundle.altered.json",
+      "bundle_sha256": "sha256:070fb088de4205e58d919e495eb046f49605c17f7a7fcf5afd139865e1b7a4d0",
+      "policy_envelope": "policy-envelope.json",
+      "verified_at": "2026-11-21T21:12:45Z",
+      "expected": "refuse"
+    },
+    {
+      "id": "wrong-identity",
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:06d9d0b792cfc788e36db9c6dd2ae879bc716d8cf60707338ceadaa725289cc1",
+      "policy_envelope": "policy-envelope.wrong-identity.json",
+      "verified_at": "2026-11-21T21:12:45Z",
+      "expected": "refuse"
+    },
+    {
+      "id": "stale-revocation",
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:06d9d0b792cfc788e36db9c6dd2ae879bc716d8cf60707338ceadaa725289cc1",
+      "policy_envelope": "policy-envelope.stale-revocation.json",
+      "verified_at": "2026-11-21T21:12:45Z",
+      "expected": "refuse"
+    },
+    {
+      "id": "wrong-host",
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:06d9d0b792cfc788e36db9c6dd2ae879bc716d8cf60707338ceadaa725289cc1",
+      "policy_envelope": "policy-envelope.wrong-host.json",
+      "verified_at": "2026-11-21T21:12:45Z",
+      "expected": "refuse"
+    },
+    {
+      "id": "expired-qualification",
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:06d9d0b792cfc788e36db9c6dd2ae879bc716d8cf60707338ceadaa725289cc1",
+      "policy_envelope": "policy-envelope.json",
+      "verified_at": "2026-11-21T22:12:08.887Z",
+      "expected": "refuse"
+    }
+  ]
+}
