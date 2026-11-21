@@ -345,7 +345,7 @@ def vendor_scan_text(p):
 
     # Scan the actual signed JSON payloads. Random certificate, timestamp and
     # signature bytes can spell a denied token when written as base64.
-    import base64
+    import base64, binascii
     def searchable(value):
         if isinstance(value, dict):
             for key, item in value.items():
@@ -353,8 +353,8 @@ def vendor_scan_text(p):
                 if key in encoded_json_fields and isinstance(item, str):
                     try:
                         yield base64.urlsafe_b64decode(item + "==").decode("utf-8")
-                    except (ValueError, UnicodeDecodeError):
-                        pass
+                    except (ValueError, UnicodeDecodeError, binascii.Error):
+                        yield item
                 elif key not in opaque_binary_fields:
                     yield from searchable(item)
         elif isinstance(value, list):
