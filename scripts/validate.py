@@ -22,9 +22,11 @@ import hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
 from datetime import datetime
 
 from jsonschema import Draft202012Validator, FormatChecker
+from referencing import Registry, Resource
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from jcs import canonicalize, parse_strict  # noqa: E402
+from qualification_fixtures import check_qualification_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -62,7 +64,14 @@ for p in sorted((ROOT / "schemas").rglob("*.schema.json")):
         report(ok, f"schema {rel}", f"$id must be {BASE_ID + rel}")
     except Exception as e:  # noqa: BLE001
         report(False, f"schema {rel}", str(e).splitlines()[0])
-    schemas[rel] = Draft202012Validator(s, format_checker=FormatChecker())
+    schemas[rel] = s
+schema_registry = Registry().with_resources(
+    (BASE_ID + rel, Resource.from_contents(schema)) for rel, schema in schemas.items()
+)
+schemas = {
+    rel: Draft202012Validator(schema, registry=schema_registry, format_checker=FormatChecker())
+    for rel, schema in schemas.items()
+}
 
 # --- semantic rules ----------------------------------------------------------
 def ts(s):
@@ -169,6 +178,8 @@ for fx in sorted((ROOT / "fixtures").glob("*/*.json")):
 
 for sch, c in covered.items():
     report(c["positive"] >= 1 and c["negative"] >= 1, f"coverage {sch}", f"{c['positive']} positive, {c['negative']} negative")
+
+check_qualification_fixtures(ROOT, schemas, report)
 
 # Inclusive byte-boundary checks complement the literal semantic fixtures.
 # Construct actual strings; a claimed byte count in fixture context is insufficient.

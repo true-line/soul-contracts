@@ -1,0 +1,15 @@
+{
+  "schema": "adapter/v1/qualification-reference.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic unsigned bundle reference for the future qualification list. The existing manifest accepts no qualified entries.",
+  "input": {
+    "profile": "managed-protected",
+    "attestation": {
+      "uri": "fixture:unsigned-attestation",
+      "sha256": "sha256:687087d8fa158a8595777c6a8f733435ed1ae0c0f4a1c4c94242946dacae4c8d"
+    }
+  },
+  "canonical_sha256": "sha256:e62229178c0afa9204269bc34c7ea38f393f476308c72460d68b25772996e740"
+}

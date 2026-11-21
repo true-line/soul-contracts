@@ -1,0 +1,135 @@
+{
+  "schema": "adapter/v1/qualification-evidence.schema.json",
+  "base": {
+    "fixture": "positive/qualification-evidence.synthetic.json",
+    "sha256": "sha256:7540d65b236a2573cbbe05c9f4ec504c8073a356f0f4cfebfacf9a837a9f434f"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "The record must include all listed observations.",
+  "input": {
+    "schema_version": 1,
+    "adapter": {
+      "id": "fake-adapter",
+      "version": "1.2.3",
+      "package_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "launch": {
+      "executable": "/fixture/bin/adapter",
+      "executable_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "argv": [
+        "serve",
+        "--fixture"
+      ],
+      "code_inputs": [
+        {
+          "path": "/fixture/lib/adapter.mjs",
+          "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      ]
+    },
+    "harness": {
+      "name": "fake-harness",
+      "version": "2.0.0",
+      "binary_path": "/fixture/libexec/harness",
+      "binary_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "host": {
+      "os": "darwin",
+      "os_version": "15.0",
+      "architecture": "arm64",
+      "profile": "fixture-host",
+      "evidence": [
+        {
+          "uri": "fixture:synthetic-evidence",
+          "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        }
+      ]
+    },
+    "profile_in_force": "managed-cooperative",
+    "renders": [
+      "instructions",
+      "tools"
+    ],
+    "cost_bound": "estimate",
+    "conformance": {
+      "suite_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "run_id": "fixture-run",
+      "outcome": "pass",
+      "report": {
+        "uri": "fixture:synthetic-report",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "checks": {
+        "credentials": {
+          "outcome": "unenforced",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "state_redirect": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "safe_interrupt_resume": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "session_reuse": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "cost_bound": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        },
+        "render_coverage": {
+          "outcome": "pass",
+          "evidence": [
+            {
+              "uri": "fixture:synthetic-evidence",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ]
+        }
+      }
+    },
+    "recorded_at": "2026-11-01T00:00:00Z",
+    "evaluation_cells": [
+      {
+        "role": "lead",
+        "model": "fixture-model",
+        "provider": "fixture-provider",
+        "revision": "fixture-revision",
+        "evidence": {
+          "uri": "fixture:evaluation",
+          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        }
+      }
+    ]
+  }
+}
