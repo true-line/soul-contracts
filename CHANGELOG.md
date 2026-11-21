@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.6.0 — release preparation
+
+Consumers must verify the published tag and release before pinning this version.
 
 - Add the initial `adapter/v1` package manifest schema and canonical fixtures for adapters that declare no qualified profiles.
 
