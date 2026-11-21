@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add the initial `adapter/v1` package manifest schema and canonical fixtures for adapters that declare no qualified profiles.
+
 ## 0.5.0 — 2026-11-15
 Version metadata alone does not establish publication. Consumers must verify the actual tag and release before pinning.
 

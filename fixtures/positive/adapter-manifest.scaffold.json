@@ -1,0 +1,20 @@
+{
+  "schema": "adapter/v1/adapter-manifest.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "A scaffold package declares no capabilities or qualification.",
+  "input": {
+    "adapter_id": "example-adapter",
+    "version": "0.0.0",
+    "harness": {},
+    "acp": "v1",
+    "profiles_qualified": [],
+    "renders": [],
+    "render_plugin": "",
+    "state_redirect": null,
+    "cost_bound": "none",
+    "session_reuse": []
+  },
+  "canonical_sha256": "sha256:c05b14adf851a7f112aff395f93f3eda784180505701eba0022d0c2ee37a67c9"
+}

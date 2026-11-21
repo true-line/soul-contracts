@@ -4,6 +4,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 
 | Record | Schema file | Since |
 | --- | --- | --- |
+| Descriptive harness adapter package manifest (no qualified profiles) | `adapter/v1/adapter-manifest.schema.json` | Unreleased |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
@@ -28,6 +29,14 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 `hq/v1`, `wire/v1` and `task/v1` are the versioned protocols (N and N−1 apply, R7). `records/v1` holds stored records that no protocol carries on its own, and `common/v1` holds shapes every protocol shares (the typed refusal). Both are versioned with this repository.
 
 All versions are pre-release until an implementation pins them. Until then a shape change is made in place and recorded in `CHANGELOG.md`; after the first pin, a breaking change bumps the major and keeps the previous fixtures.
+
+The adapter manifest describes package metadata. Its ID and version use the
+`hq/v1` Hello encodings. The initial schema covers `profiles_qualified: []`,
+including scaffolds with unknown state redirection. It checks the containers
+for harness metadata, render targets and session reuse. Their package-specific
+contents remain descriptive. A nonempty qualification list needs a versioned
+qualification reference and a verified signed record. Package validation alone
+establishes neither. [Adapter contract tracking](https://github.com/true-line/soul-adapters/issues/1)
 
 ## Conventions
 

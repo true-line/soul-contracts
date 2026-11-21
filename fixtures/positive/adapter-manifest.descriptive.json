@@ -1,0 +1,20 @@
+{
+  "schema": "adapter/v1/adapter-manifest.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "An adapter can declare implemented capabilities while still claiming no qualified profile.",
+  "input": {
+    "adapter_id": "example-adapter",
+    "version": "0.1.0-rc.1",
+    "harness": {},
+    "acp": "v1",
+    "profiles_qualified": [],
+    "renders": [],
+    "render_plugin": "./render.mjs",
+    "state_redirect": true,
+    "cost_bound": "estimate",
+    "session_reuse": []
+  },
+  "canonical_sha256": "sha256:bb88914401ca5ee6f696ba99cdf2c38ebf0074a7751d1f90f6e3a5e68530bef4"
+}

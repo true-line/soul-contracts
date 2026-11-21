@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v1/adapter-manifest.schema.json",
+  "title": "Unqualified harness adapter package manifest",
+  "description": "Descriptive package metadata for the harness-adapter seam (R8, R10). Validation establishes the shape of an unqualified manifest and grants no execution or profile authority.",
+  "type": "object",
+  "required": [
+    "adapter_id",
+    "version",
+    "harness",
+    "acp",
+    "profiles_qualified",
+    "renders",
+    "render_plugin",
+    "state_redirect",
+    "cost_bound",
+    "session_reuse"
+  ],
+  "properties": {
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.-]+)?$"
+    },
+    "harness": {
+      "type": "object",
+      "description": "Harness metadata. A scaffold may use an empty object."
+    },
+    "acp": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ACP protocol version declared by the package."
+    },
+    "profiles_qualified": {
+      "type": "array",
+      "maxItems": 0,
+      "description": "This schema covers packages claiming zero qualified profiles. A nonempty list requires a separately specified qualification reference and verification contract."
+    },
+    "renders": {
+      "type": "array",
+      "description": "Primitive classes and targets described by the render plugin. This schema checks the list container only."
+    },
+    "render_plugin": {
+      "type": "string",
+      "description": "Render plugin entry point. An unimplemented package may leave it empty."
+    },
+    "state_redirect": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Whether harness-native state honors the member private root. A scaffold may leave this unknown."
+    },
+    "cost_bound": {
+      "enum": [
+        "exact",
+        "estimate",
+        "none"
+      ]
+    },
+    "session_reuse": {
+      "type": "array",
+      "description": "Route changes the package declares compatible with session reuse. This schema checks the list container only."
+    }
+  },
+  "additionalProperties": false
+}

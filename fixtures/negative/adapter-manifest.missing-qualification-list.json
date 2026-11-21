@@ -1,0 +1,22 @@
+{
+  "schema": "adapter/v1/adapter-manifest.schema.json",
+  "base": {
+    "fixture": "positive/adapter-manifest.scaffold.json",
+    "sha256": "sha256:acf1e28abad26a9bb816eb15b6033cbf1423a74b02941bd066dc0d3da01489ea"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "The package must explicitly declare its qualification list.",
+  "input": {
+    "adapter_id": "example-adapter",
+    "version": "0.0.0",
+    "harness": {},
+    "acp": "v1",
+    "renders": [],
+    "render_plugin": "",
+    "state_redirect": null,
+    "cost_bound": "none",
+    "session_reuse": []
+  }
+}
