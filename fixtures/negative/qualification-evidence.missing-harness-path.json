@@ -7,7 +7,7 @@
   "expect": {
     "schema": "invalid"
   },
-  "note": "The digest must identify the executable at the selected harness path.",
+  "note": "The path of the selected harness executable is required.",
   "input": {
     "schema_version": 1,
     "adapter": {

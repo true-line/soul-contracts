@@ -7,7 +7,7 @@
   "expect": {
     "schema": "invalid"
   },
-  "note": "The selected executable path cannot contain a trailing line break.",
+  "note": "The selected executable path cannot contain a trailing line feed.",
   "input": {
     "schema_version": 1,
     "adapter": {
