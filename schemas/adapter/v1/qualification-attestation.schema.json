@@ -54,7 +54,8 @@
       "type": "object",
       "required": [
         "host_reports",
-        "expires_at"
+        "expires_at",
+        "release"
       ],
       "properties": {
         "host_reports": {
@@ -69,6 +70,16 @@
         "expires_at": {
           "type": "string",
           "format": "date-time"
+        },
+        "release": {
+          "type": "object",
+          "required": ["source_repository", "source_commit", "workflow"],
+          "properties": {
+            "source_repository": { "const": "true-line/soul-adapters" },
+            "source_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "workflow": { "type": "string", "pattern": "^\\.github/workflows/[A-Za-z0-9._-]+\\.ya?ml$" }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

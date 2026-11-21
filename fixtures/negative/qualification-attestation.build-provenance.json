@@ -5,7 +5,7 @@
   },
   "base": {
     "fixture": "positive/qualification-attestation.synthetic.json",
-    "sha256": "sha256:61ed02e8e362ef2e6745347d2e78a98e38aa50246c1cc9b64badb5f8d07a40c4"
+    "sha256": "sha256:6ca4be048cbba76577f00c3e75f14a6ba143a20bf7783b19844ce98447f0962b"
   },
   "input": {
     "_type": "https://in-toto.io/Statement/v1",
@@ -29,7 +29,13 @@
           "sha256": "sha256:d70ed645af18c42de53018302dc2ef793e623634cc740dce11060b06a4f25c82"
         }
       ],
-      "expires_at": "2026-12-01T00:00:00Z"
+      "expires_at": "2026-12-01T00:00:00Z",
+      "release": {
+        "source_repository": "true-line/soul-adapters",
+        "source_commit": "cccccccccccccccccccccccccccccccccccccccc",
+        "workflow": ".github/workflows/qualify.yml"
+      }
     }
-  }
+  },
+  "canonical_sha256": "sha256:aa4930f18e8c665be9f4bdeea736cc16faf5ddff53a067261c3b8aa986c76522"
 }

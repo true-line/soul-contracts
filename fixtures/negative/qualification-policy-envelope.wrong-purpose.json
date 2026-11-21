@@ -1,0 +1,20 @@
+{
+  "schema": "control/v1/qualification-policy-envelope.schema.json",
+  "base": {
+    "fixture": "positive/qualification-policy-envelope.synthetic.json",
+    "sha256": "sha256:80d0fac083f3f849c91de0af99d675938a11fb95b1cd511ed8194932df7d7d19"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A different signing purpose must fail shape validation.",
+  "input": {
+    "schema_version": 1,
+    "purpose": "wrong-purpose",
+    "owner_key_id": "fixture-root",
+    "policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "policy_base64url": "YQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "canonical_sha256": "sha256:74ff2c21b150855bdc35df38d1127022d107b1dd61484a03d408becb1b95549e"
+}

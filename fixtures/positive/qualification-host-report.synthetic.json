@@ -153,7 +153,22 @@
         }
       }
     },
-    "recorded_at": "2026-10-30T12:00:00Z"
+    "recorded_at": "2026-10-30T12:00:00Z",
+    "runner": {
+      "binary_path": "/fixture/libexec/conformance-runner",
+      "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "soul_start": {
+      "initiator": "hq",
+      "hq_launch_receipt": {
+        "uri": "fixture:hq-launch",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "machine_observation": {
+        "uri": "fixture:machine-observation",
+        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    }
   },
-  "canonical_sha256": "sha256:65b241cd0b8752291bea63e33630ed17b9cb5b10dfa20feed794e24336c9ba91"
+  "canonical_sha256": "sha256:7acdd0ccbb0bba1fcb3eb756c043182127260e13351f125586e6c5b1da8f29bf"
 }

@@ -10,7 +10,7 @@
       {
         "name": "qualification.json",
         "digest": {
-          "sha256": "21732eee8a753a3045b5f758b3c25278a89feaec42c2cba66f144b8221d720c3"
+          "sha256": "7897f59884d10bc156e55a1173f8f9759d65339ed4b6efc62275320ad8ac434d"
         }
       }
     ],
@@ -19,15 +19,20 @@
       "host_reports": [
         {
           "uri": "fixture:host-protected.json",
-          "sha256": "sha256:4791d410c005fb4ba538f6b8c2c4dbbeb6d7728b9f3b555806cd6d6a613b8cfe"
+          "sha256": "sha256:7acdd0ccbb0bba1fcb3eb756c043182127260e13351f125586e6c5b1da8f29bf"
         },
         {
           "uri": "fixture:host-cooperative.json",
-          "sha256": "sha256:d70ed645af18c42de53018302dc2ef793e623634cc740dce11060b06a4f25c82"
+          "sha256": "sha256:df1d81748e8c4dd114b6053951cbe6b4feba13ef1fb69f52da3e9e2038fc3c08"
         }
       ],
-      "expires_at": "2026-12-01T00:00:00Z"
+      "expires_at": "2026-12-01T00:00:00Z",
+      "release": {
+        "source_repository": "true-line/soul-adapters",
+        "source_commit": "cccccccccccccccccccccccccccccccccccccccc",
+        "workflow": ".github/workflows/qualify.yml"
+      }
     }
   },
-  "canonical_sha256": "sha256:b48e8c5fbff98604378b89ea909dceeeae1931bf599fefbf6a5b1576e1d1e1a7"
+  "canonical_sha256": "sha256:9c122d995e47a88e5559f5b23ddd0943262b31b4d991b81948085da6432b01a7"
 }

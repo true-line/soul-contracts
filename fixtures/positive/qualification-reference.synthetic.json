@@ -8,8 +8,8 @@
     "profile": "managed-protected",
     "attestation": {
       "uri": "fixture:unsigned-attestation",
-      "sha256": "sha256:687087d8fa158a8595777c6a8f733435ed1ae0c0f4a1c4c94242946dacae4c8d"
+      "sha256": "sha256:e074aa28cd256f3d14d0c9318c8452fe663e1f72c5afadbf436575d4ffc7d63f"
     }
   },
-  "canonical_sha256": "sha256:e62229178c0afa9204269bc34c7ea38f393f476308c72460d68b25772996e740"
+  "canonical_sha256": "sha256:48e97759e0d4c00514baa156393cc9bf515e433e913e3c07a6dc9eeada9b99e9"
 }

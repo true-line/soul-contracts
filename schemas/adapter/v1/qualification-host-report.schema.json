@@ -9,6 +9,8 @@
     "adapter",
     "launch",
     "harness",
+    "runner",
+    "soul_start",
     "host",
     "profile_in_force",
     "renders",
@@ -33,6 +35,12 @@
     },
     "harness": {
       "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/harness"
+    },
+    "runner": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/runner"
+    },
+    "soul_start": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/soul_start"
     },
     "host": {
       "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/host"
