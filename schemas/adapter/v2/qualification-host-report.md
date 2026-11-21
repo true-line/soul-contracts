@@ -53,8 +53,8 @@ reference to Machine's independently retained process observation.
 `machine_reservation_sha256` is a separate digest of the earlier principal
 and endpoint reservation, and cannot substitute for that observation.
 `bridge.principals` records kernel UIDs R, B, C,
-HQ and Machine. R, B and C are pairwise distinct; B is also distinct from
-HQ and Machine. A matching string or declared UID is insufficient: Machine
+HQ and Machine. All five UIDs are pairwise distinct, and R, B and C must be
+nonzero. A matching string or declared UID is insufficient: Machine
 must compare process and endpoint kernel identity with the signed reservation.
 
 `bridge.endpoints` records the assigned HQ broker, per-start Souls member

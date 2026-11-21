@@ -9,7 +9,7 @@
     "kind": "qualification-trust-policy",
     "policy_revision": 2,
     "owner_key_id": "fixture-owner-key",
-    "issued_at": "2026-11-21T18:30:00Z",
+    "issued_at": "2026-11-21T18:00:00Z",
     "expires_at": "2026-11-21T20:00:00Z",
     "release_workflow": {
       "id": "fixture-workflow",
@@ -53,5 +53,5 @@
       "dsse_payload_type": "application/vnd.in-toto+json"
     }
   },
-  "canonical_sha256": "sha256:a05812dc7d65dd970943bf19d51f3aeb2e627f214b5dd9e2b799da06fdf3f63e"
+  "canonical_sha256": "sha256:76ca8603d0558fd9d9e0a6e71130c674305c64632ceb893054947e154d59241f"
 }

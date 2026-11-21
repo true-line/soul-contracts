@@ -15,10 +15,13 @@ envelope nor a build receipt may supply its own root. Machine must reject a
 v1 purpose, noncanonical bytes, a key ID mismatch and a policy revision below
 the greatest accepted revision across **both** v1 and v2. At the same
 revision, only the exact previously accepted policy digest may be reused;
-different bytes or a missing accepted digest fail closed. Machine persists
-the greatest accepted revision and digest atomically before admission. The
-v2 payload keeps the exact 3,600-second revocation snapshot age limit;
-expiry, future snapshots and rollback fail closed.
+different bytes fail closed. A persisted revision greater than zero requires
+its `sha256:` digest with 64 lowercase hex characters even when a newer policy
+is offered; revision
+zero requires an empty digest. Machine persists the greatest accepted
+revision and digest atomically before admission. The v2 payload keeps the
+exact 3,600-second revocation snapshot age limit. The snapshot must be no
+earlier than policy issuance; expiry, future snapshots and rollback fail closed.
 
 `souls_build_workflow` is a separate authority from `release_workflow`. It
 pins the Souls repository, exact reviewed Git commit and tree, workflow path,

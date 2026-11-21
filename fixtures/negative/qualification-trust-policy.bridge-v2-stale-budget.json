@@ -5,14 +5,14 @@
   },
   "base": {
     "fixture": "positive/qualification-trust-policy.bridge-v2-synthetic.json",
-    "sha256": "sha256:4f1a5d6b7f8e28dd4eea154d215a35df482812129e017373c880cf20cc7dc912"
+    "sha256": "sha256:651ce30752fdffa3effa152c8445568f5013b2b26e8a7e0aaee86e543611fbce"
   },
   "input": {
     "contract": "control/v2",
     "kind": "qualification-trust-policy",
     "policy_revision": 2,
     "owner_key_id": "fixture-owner-key",
-    "issued_at": "2026-11-21T18:30:00Z",
+    "issued_at": "2026-11-21T18:00:00Z",
     "expires_at": "2026-11-21T20:00:00Z",
     "release_workflow": {
       "id": "fixture-workflow",

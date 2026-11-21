@@ -138,6 +138,9 @@ def check_bridge_report_fixtures(root, schemas, report):
     cases = (
         ("same R/B UID", "principal-separation", lambda x: x["bridge"]["principals"].__setitem__("bridge_uid", 501)),
         ("same B/C UID", "principal-separation", lambda x: x["bridge"]["principals"].__setitem__("credential_uid", 502)),
+        ("same R/HQ UID", "principal-separation", lambda x: x["bridge"]["principals"].__setitem__("hq_uid", 501)),
+        ("same HQ/Machine UID", "principal-separation", lambda x: x["bridge"]["principals"].__setitem__("hq_uid", 0)),
+        ("root R UID", "principal-separation", lambda x: x["bridge"]["principals"].__setitem__("runner_uid", 0)),
         ("shared private group", "private-group-separation", lambda x: x["bridge"]["principals"].__setitem__("runner_private_gid", 702)),
         ("wrong broker owner", "hq_broker-custody", lambda x: x["bridge"]["endpoints"]["hq_broker"].__setitem__("socket_uid", 503)),
         ("wrong member peer", "souls_member-peer", lambda x: x["bridge"]["endpoints"]["souls_member"].__setitem__("observed_peer_uid", 501)),
