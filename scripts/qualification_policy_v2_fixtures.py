@@ -4,7 +4,7 @@ import copy
 import hashlib
 import json
 import re
-from datetime import datetime, timezone
+from datetime import datetime
 
 from jcs import canonicalize, parse_strict
 
