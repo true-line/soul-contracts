@@ -22,6 +22,7 @@
     "harness": {
       "name": "fake-harness",
       "version": "2.0.0",
+      "binary_path": "/fixture/libexec/harness",
       "binary_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
     },
     "host": {
@@ -132,6 +133,6 @@
   },
   "base": {
     "fixture": "positive/qualification-evidence.synthetic.json",
-    "sha256": "sha256:1e7e3af3a12abd22e7a55faf004f48e2018f5761678754553a9d5943c0775246"
+    "sha256": "sha256:7540d65b236a2573cbbe05c9f4ec504c8073a356f0f4cfebfacf9a837a9f434f"
   }
 }

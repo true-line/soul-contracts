@@ -54,9 +54,7 @@
       ],
       "properties": {
         "executable": {
-          "type": "string",
-          "pattern": "^/[^\\u0000-\\u001f]+$",
-          "maxLength": 4096
+          "$ref": "#/$defs/absolute_file_path"
         },
         "executable_sha256": {
           "type": "string",
@@ -81,9 +79,7 @@
             ],
             "properties": {
               "path": {
-                "type": "string",
-                "pattern": "^/[^\\u0000-\\u001f]+$",
-                "maxLength": 4096
+                "$ref": "#/$defs/absolute_file_path"
               },
               "sha256": {
                 "type": "string",
@@ -101,6 +97,7 @@
       "required": [
         "name",
         "version",
+        "binary_path",
         "binary_sha256"
       ],
       "properties": {
@@ -112,6 +109,9 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 1024
+        },
+        "binary_path": {
+          "$ref": "#/$defs/absolute_file_path"
         },
         "binary_sha256": {
           "type": "string",
@@ -294,6 +294,15 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "absolute_file_path": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 4096,
+      "pattern": "^/",
+      "not": {
+        "pattern": "[\\u0000-\\u001f]"
+      }
+    },
     "evidence_ref": {
       "type": "object",
       "required": [
