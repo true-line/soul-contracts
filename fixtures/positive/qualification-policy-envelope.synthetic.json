@@ -1,0 +1,16 @@
+{
+  "schema": "control/v1/qualification-policy-envelope.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic shape only; the signature and trusted key are not real.",
+  "input": {
+    "schema_version": 1,
+    "purpose": "agent-bot/qualification-policy/v1",
+    "owner_key_id": "fixture-root",
+    "policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "policy_base64url": "YQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "canonical_sha256": "sha256:8382e83c38e5a205620ea14785f8c08c336335f99b49218ef64468ac21fb15be"
+}

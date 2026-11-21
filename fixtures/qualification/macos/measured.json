@@ -31,5 +31,20 @@
     "profile": "fixture-host",
     "id": "fixture-qualification-mac"
   },
-  "profile_in_force": "managed-protected"
+  "profile_in_force": "managed-protected",
+  "runner": {
+    "binary_path": "/fixture/libexec/conformance-runner",
+    "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+  },
+  "soul_start": {
+    "initiator": "hq",
+    "hq_launch_receipt": {
+      "uri": "fixture:hq-launch",
+      "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "machine_observation": {
+      "uri": "fixture:machine-observation",
+      "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  }
 }

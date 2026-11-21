@@ -2,6 +2,7 @@
 
 ## Unreleased draft
 
+- Draft fixed purpose host-report and owner-policy signature envelopes, runner and independently observed HQ Soul-start bindings, and release source identity for authenticated macOS qualification. These shapes remain unqualified until the offline verifier and physical gates pass.
 - Describe an unverified adapter qualification evidence payload and synthetic shape fixtures. The unqualified manifest retains its empty qualification list.
 - Draft a dedicated adapter qualification attestation, a future manifest entry referencing the bundle, and a fixed macOS report shape. Check exact qualification and report bytes, independently supplied inputs and profile-specific gates using unsigned synthetic fixtures.
 

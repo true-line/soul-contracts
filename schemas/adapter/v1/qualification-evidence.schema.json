@@ -9,6 +9,8 @@
     "adapter",
     "launch",
     "harness",
+    "runner",
+    "soul_start",
     "host",
     "profile_in_force",
     "renders",
@@ -117,6 +119,25 @@
           "type": "string",
           "pattern": "^sha256:[0-9a-f]{64}$"
         }
+      },
+      "additionalProperties": false
+    },
+    "runner": {
+      "type": "object",
+      "required": ["binary_path", "binary_sha256"],
+      "properties": {
+        "binary_path": { "$ref": "#/$defs/absolute_file_path" },
+        "binary_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "soul_start": {
+      "type": "object",
+      "required": ["initiator", "hq_launch_receipt", "machine_observation"],
+      "properties": {
+        "initiator": { "const": "hq" },
+        "hq_launch_receipt": { "$ref": "#/$defs/evidence_ref" },
+        "machine_observation": { "$ref": "#/$defs/evidence_ref" }
       },
       "additionalProperties": false
     },

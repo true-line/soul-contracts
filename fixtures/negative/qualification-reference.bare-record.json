@@ -5,7 +5,7 @@
   },
   "base": {
     "fixture": "positive/qualification-reference.synthetic.json",
-    "sha256": "sha256:9232bee8a086e09af0182720c686328a5254ece4a8549f65cc81d297f0896beb"
+    "sha256": "sha256:372f092d3fe26b7f04301b34dfe61adae2760e0615d21de14c945f397d1a40cc"
   },
   "input": {
     "profile": "managed-protected",

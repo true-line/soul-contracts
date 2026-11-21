@@ -50,7 +50,7 @@
     "outcome": "pass",
     "report": {
       "uri": "fixture:host-protected.json",
-      "sha256": "sha256:4791d410c005fb4ba538f6b8c2c4dbbeb6d7728b9f3b555806cd6d6a613b8cfe"
+      "sha256": "sha256:7acdd0ccbb0bba1fcb3eb756c043182127260e13351f125586e6c5b1da8f29bf"
     },
     "checks": {
       "egress": {
@@ -130,5 +130,20 @@
         "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
       }
     }
-  ]
+  ],
+  "runner": {
+    "binary_path": "/fixture/libexec/conformance-runner",
+    "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+  },
+  "soul_start": {
+    "initiator": "hq",
+    "hq_launch_receipt": {
+      "uri": "fixture:hq-launch",
+      "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "machine_observation": {
+      "uri": "fixture:machine-observation",
+      "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  }
 }

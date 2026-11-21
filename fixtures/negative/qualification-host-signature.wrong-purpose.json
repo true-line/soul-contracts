@@ -1,0 +1,21 @@
+{
+  "schema": "adapter/v1/qualification-host-signature.schema.json",
+  "base": {
+    "fixture": "positive/qualification-host-signature.synthetic.json",
+    "sha256": "sha256:a42bde36544d5840e022c4438b6a14493dfdf5c628e5cae84000cf615dc425dc"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A different signing purpose must fail shape validation.",
+  "input": {
+    "schema_version": 1,
+    "purpose": "wrong-purpose",
+    "host_id": "fixture-qualification-mac",
+    "signer_id": "fixture-host-key",
+    "report_sha256": "sha256:7acdd0ccbb0bba1fcb3eb756c043182127260e13351f125586e6c5b1da8f29bf",
+    "report_base64url": "YQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "canonical_sha256": "sha256:e7f98c7f4eb57c885b60730833dd4265c03a34f5a89a0cd9eb7f36d35a00f6d8"
+}

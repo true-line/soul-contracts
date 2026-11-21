@@ -1,0 +1,17 @@
+{
+  "schema": "adapter/v1/qualification-host-signature.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic shape only; the signature and trusted key are not real.",
+  "input": {
+    "schema_version": 1,
+    "purpose": "agent-bot/qualification-host-report/v1",
+    "host_id": "fixture-qualification-mac",
+    "signer_id": "fixture-host-key",
+    "report_sha256": "sha256:7acdd0ccbb0bba1fcb3eb756c043182127260e13351f125586e6c5b1da8f29bf",
+    "report_base64url": "YQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "canonical_sha256": "sha256:c8e4b24198deb3d04f39e27f3c0c34f9948b79cc6a844987126650640bac7911"
+}

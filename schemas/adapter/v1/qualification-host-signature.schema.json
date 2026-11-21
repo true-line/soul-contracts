@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json",
+  "title": "Fixed designated-host conformance report signature",
+  "description": "The signature authenticates exact report bytes only after Machine has observed and completed the one-use physical run. Shape alone grants no authority.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "host_id", "signer_id", "report_sha256", "report_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "purpose": { "const": "agent-bot/qualification-host-report/v1" },
+    "host_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "signer_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "report_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "report_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}

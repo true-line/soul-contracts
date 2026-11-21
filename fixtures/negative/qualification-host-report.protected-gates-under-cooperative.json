@@ -5,7 +5,7 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.synthetic.json",
-    "sha256": "sha256:de08b8c78f466fb08291034a1a34db16662c9cd35d7185540349509cae87841f"
+    "sha256": "sha256:907fad85bcb3a261352e5c20c3dac1d5c58f71f8f537cc6e8d9c3813bc24bf4d"
   },
   "input": {
     "schema_version": 1,
@@ -156,6 +156,22 @@
         }
       }
     },
-    "recorded_at": "2026-10-30T12:00:00Z"
-  }
+    "recorded_at": "2026-10-30T12:00:00Z",
+    "runner": {
+      "binary_path": "/fixture/libexec/conformance-runner",
+      "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "soul_start": {
+      "initiator": "hq",
+      "hq_launch_receipt": {
+        "uri": "fixture:hq-launch",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "machine_observation": {
+        "uri": "fixture:machine-observation",
+        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    }
+  },
+  "canonical_sha256": "sha256:9ea10a6749d21e4698c6238bc42db3355f52d4dcc34d298e03cb92e46e2e48d7"
 }

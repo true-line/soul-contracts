@@ -129,10 +129,26 @@
           "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
         }
       }
-    ]
+    ],
+    "runner": {
+      "binary_path": "/fixture/libexec/conformance-runner",
+      "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "soul_start": {
+      "initiator": "hq",
+      "hq_launch_receipt": {
+        "uri": "fixture:hq-launch",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "machine_observation": {
+        "uri": "fixture:machine-observation",
+        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    }
   },
   "base": {
     "fixture": "positive/qualification-evidence.synthetic.json",
-    "sha256": "sha256:7540d65b236a2573cbbe05c9f4ec504c8073a356f0f4cfebfacf9a837a9f434f"
-  }
+    "sha256": "sha256:e1bea12009e5b0cd28ba819ca267d408d6a82e6bdc8c5724c62447e2a16b77c8"
+  },
+  "canonical_sha256": "sha256:c9ba771429cc1a72eeebd82a17e0808757d424a387cf1dee3b625d5e2565a34b"
 }

@@ -15,7 +15,7 @@ GATE_PROFILES = {
     "T21": "managed-cooperative",
 }
 HOST_IDENTITY_FIELDS = ("id", "os", "os_version", "architecture")
-PRIMARY_FIELDS = ("host", "profile_in_force", "renders", "cost_bound", "evaluation_cells")
+PRIMARY_FIELDS = ("host", "profile_in_force", "renders", "cost_bound", "evaluation_cells", "soul_start")
 
 
 def hex_digest(data):
@@ -40,7 +40,7 @@ def measured_inputs(record):
     if len(inputs) != len(launch["code_inputs"]):
         return None
     return (
-        record["adapter"], record["harness"],
+        record["adapter"], record["harness"], record["runner"],
         launch["executable"], launch["executable_sha256"], launch["argv"], inputs,
     )
 
@@ -231,6 +231,7 @@ def check_qualification_fixtures(root, schemas, report):
         ("adapter", "package_sha256", "sha256:" + "9" * 64),
         ("harness", "binary_path", "/fixture/other/harness"),
         ("harness", "binary_sha256", "sha256:" + "9" * 64),
+        ("runner", "binary_sha256", "sha256:" + "8" * 64),
         ("launch", "executable", "/fixture/other/adapter"),
         ("launch", "executable_sha256", "sha256:" + "9" * 64),
         ("launch", "argv", list(reversed(measured["launch"]["argv"]))),
@@ -271,6 +272,12 @@ def check_qualification_fixtures(root, schemas, report):
     changed = deepcopy(host_report)
     changed["suite_revision"] = "b" * 40
     replace_host(protected, "independent suite revision differs", "host-report-inputs", changed)
+    changed = deepcopy(host_report)
+    changed["runner"]["binary_sha256"] = "sha256:" + "8" * 64
+    replace_host(protected, "independent runner differs", "host-report-inputs", changed)
+    changed = deepcopy(host_report)
+    changed["soul_start"]["machine_observation"]["sha256"] = "sha256:" + "c" * 64
+    replace_host(protected, "HQ start observation differs", "primary-report", changed)
     changed = deepcopy(host_report)
     changed["checks"]["session_reuse"]["evidence"][0]["sha256"] = "sha256:" + "a" * 64
     replace_host(protected, "primary results disagree", "primary-report", changed)
