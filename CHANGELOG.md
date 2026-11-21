@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased draft
+
+- Describe an unverified adapter qualification evidence payload and synthetic shape fixtures. The unqualified manifest and its empty qualification list remain unchanged; verification and authority are unresolved.
+
 ## 0.6.0 — release preparation
 
 Consumers must verify the published tag and release before pinning this version.
