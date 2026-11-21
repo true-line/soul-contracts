@@ -1,0 +1,17 @@
+{
+  "schema": "adapter/v1/qualification-reference.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/qualification-reference.synthetic.json",
+    "sha256": "sha256:9232bee8a086e09af0182720c686328a5254ece4a8549f65cc81d297f0896beb"
+  },
+  "input": {
+    "profile": "managed-protected",
+    "record": {
+      "uri": "fixture:unsigned-attestation",
+      "sha256": "sha256:687087d8fa158a8595777c6a8f733435ed1ae0c0f4a1c4c94242946dacae4c8d"
+    }
+  }
+}

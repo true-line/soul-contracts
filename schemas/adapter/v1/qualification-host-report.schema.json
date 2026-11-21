@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json",
+  "title": "Draft fixed macOS qualification conformance report",
+  "description": "Reported observations intended to be covered by the designated host signature. Each report describes one run and its actual enforcement profile.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "adapter",
+    "launch",
+    "harness",
+    "host",
+    "profile_in_force",
+    "renders",
+    "cost_bound",
+    "evaluation_cells",
+    "suite_revision",
+    "run_id",
+    "outcome",
+    "checks",
+    "gates",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "adapter": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/adapter"
+    },
+    "launch": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/launch"
+    },
+    "harness": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/harness"
+    },
+    "host": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/host"
+    },
+    "profile_in_force": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/profile_in_force"
+    },
+    "renders": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/renders"
+    },
+    "cost_bound": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/cost_bound"
+    },
+    "evaluation_cells": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/evaluation_cells"
+    },
+    "suite_revision": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/suite_revision"
+    },
+    "run_id": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/run_id"
+    },
+    "outcome": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/outcome"
+    },
+    "checks": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/checks"
+    },
+    "gates": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "T01": {
+          "$ref": "#/$defs/gate"
+        },
+        "T02": {
+          "$ref": "#/$defs/gate"
+        },
+        "T03": {
+          "$ref": "#/$defs/gate"
+        },
+        "T21": {
+          "$ref": "#/$defs/gate"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "recorded_at": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/recorded_at"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "properties": {
+        "host": {
+          "properties": {
+            "os": {
+              "const": "darwin"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "profile_in_force": {
+            "const": "managed-protected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "not": {
+              "required": [
+                "T21"
+              ]
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "gates": {
+            "required": [
+              "T21"
+            ],
+            "maxProperties": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "evidence"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked",
+            "not-run"
+          ]
+        },
+        "evidence": {
+          "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/$defs/evidence_ref"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

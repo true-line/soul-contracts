@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "adapter": {
+    "id": "fake-adapter",
+    "version": "1.2.3",
+    "package_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "launch": {
+    "executable": "/fixture/bin/adapter",
+    "executable_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "argv": [
+      "serve",
+      "--fixture"
+    ],
+    "code_inputs": [
+      {
+        "path": "/fixture/lib/adapter.mjs",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ]
+  },
+  "harness": {
+    "name": "fake-harness",
+    "version": "2.0.0",
+    "binary_path": "/fixture/libexec/harness",
+    "binary_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "host": {
+    "os": "darwin",
+    "os_version": "15.0",
+    "architecture": "arm64",
+    "profile": "fixture-host",
+    "evidence": [
+      {
+        "uri": "fixture:synthetic-evidence",
+        "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    ],
+    "id": "fixture-qualification-mac"
+  },
+  "profile_in_force": "managed-protected",
+  "renders": [
+    "instructions",
+    "tools"
+  ],
+  "cost_bound": "estimate",
+  "conformance": {
+    "suite_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "run_id": "fixture-run",
+    "outcome": "pass",
+    "report": {
+      "uri": "fixture:host-protected.json",
+      "sha256": "sha256:4791d410c005fb4ba538f6b8c2c4dbbeb6d7728b9f3b555806cd6d6a613b8cfe"
+    },
+    "checks": {
+      "egress": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "credentials": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "state_redirect": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "safe_interrupt_resume": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "session_reuse": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "cost_bound": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "render_coverage": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      }
+    }
+  },
+  "recorded_at": "2026-11-01T00:00:00Z",
+  "evaluation_cells": [
+    {
+      "role": "lead",
+      "model": "fixture-model",
+      "provider": "fixture-provider",
+      "revision": "fixture-revision",
+      "evidence": {
+        "uri": "fixture:evaluation",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      }
+    }
+  ]
+}

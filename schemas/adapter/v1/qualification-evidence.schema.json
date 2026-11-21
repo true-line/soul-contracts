@@ -154,6 +154,11 @@
           "items": {
             "$ref": "#/$defs/evidence_ref"
           }
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "description": "Stable host identifier bound to the authenticated evidence signer by owner-controlled policy. Required for attested qualifications."
         }
       },
       "additionalProperties": false

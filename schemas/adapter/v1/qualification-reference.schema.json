@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v1/qualification-reference.schema.json",
+  "title": "Draft macOS protected adapter qualification manifest entry",
+  "description": "A future qualification list entry refers to the signed attestation bundle by its exact byte digest. Existing adapter manifests continue to require an empty qualification list.",
+  "type": "object",
+  "required": [
+    "profile",
+    "attestation"
+  ],
+  "properties": {
+    "profile": {
+      "const": "managed-protected"
+    },
+    "attestation": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/$defs/evidence_ref"
+    }
+  },
+  "additionalProperties": false
+}

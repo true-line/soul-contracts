@@ -2,7 +2,8 @@
 
 ## Unreleased draft
 
-- Describe an unverified adapter qualification evidence payload and synthetic shape fixtures. The unqualified manifest and its empty qualification list remain unchanged; verification and authority are unresolved.
+- Describe an unverified adapter qualification evidence payload and synthetic shape fixtures. The unqualified manifest retains its empty qualification list.
+- Draft a dedicated adapter qualification attestation, a future manifest entry referencing the bundle, and a fixed macOS report shape. Check exact qualification and report bytes, independently supplied inputs and profile-specific gates using unsigned synthetic fixtures.
 
 ## 0.6.0 — release preparation
 

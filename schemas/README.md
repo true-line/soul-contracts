@@ -6,6 +6,9 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | --- | --- | --- |
 | Descriptive harness adapter package manifest (no qualified profiles) | `adapter/v1/adapter-manifest.schema.json` | 0.6.0 |
 | Draft adapter qualification evidence payload (unverified) | `adapter/v1/qualification-evidence.schema.json` | draft |
+| Draft macOS protected qualification statement (decoded attestation payload) | `adapter/v1/qualification-attestation.schema.json` | draft |
+| Draft fixed macOS qualification conformance report | `adapter/v1/qualification-host-report.schema.json` | draft |
+| Draft macOS protected manifest entry referencing the attestation bundle | `adapter/v1/qualification-reference.schema.json` | draft |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
@@ -38,9 +41,10 @@ for harness metadata, render targets and session reuse. Their package-specific
 contents remain descriptive. A nonempty qualification list needs a versioned
 qualification reference and a verified signed record. Package validation alone
 establishes neither. [Adapter contract tracking](https://github.com/true-line/soul-adapters/issues/1)
-The separate [draft evidence payload](adapter/v1/qualification-evidence.md)
-records a proposed run and its exact inputs; it does not enable qualified
-profiles or specify a signing authority.
+The separate [draft qualification attestation](adapter/v1/qualification-attestation.md)
+binds the exact bytes of the [evidence payload](adapter/v1/qualification-evidence.md)
+to fixed conformance reports. The existing manifest continues to allow only
+unqualified packages.
 
 ## Conventions
 
