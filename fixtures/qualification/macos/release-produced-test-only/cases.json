@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "test_only": true,
-  "workflow_run_id": 44951670355,
-  "workflow_head_commit": "dba2b656bce90be409faa5b801b9dfe8c27746be",
-  "release_source_commit": "4b62c0cb718ba39909be3bf601c45348d2fe2e62",
+  "workflow_run_id": 44952530442,
+  "workflow_head_commit": "b9f67ee3d25f326ff3476acf247b28262e903fd6",
+  "release_source_commit": "75e3b91416d03f42e1db039f0b62ee6c2437d97e",
   "machine_verifier_commit": "10441e07de7bf33ceb1e5e47f74916ac67ff2694",
   "contracts_template_commit": "0ec25670fde95f8417c985c318f4875b7eb2918f",
-  "verified_at": "2026-11-21T21:28:45Z",
+  "verified_at": "2026-11-21T21:40:38Z",
   "owner_key_id": "fixture-owner-root",
-  "owner_root_hex": "d69007da08df16f9e337f1a6c420a50565bb41eec791688a9bae1f50ffee1e30",
+  "owner_root_hex": "bed868fa6b78cacfcbc83b35d3e119682cd7e61174c2f7849789c4495aabc5ac",
   "sigstore_root_sha256": "sha256:0ba58f6c09c271f664f0f8c1fa62e2065844ca89a0397c0178ed5188f6096724",
   "positive": {
     "bundle": "bundle.json",
-    "bundle_sha256": "sha256:7b0117eb3f2166606644154f34faaae52cf02e6f4eded689586e382c6086dfbb",
+    "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
     "qualification": "qualification.json",
-    "qualification_sha256": "sha256:dbadab96e16039980f358619cc6e6349f0061590fae62b5cbdbe63116994afcd",
+    "qualification_sha256": "sha256:09fdd4bdb8c9e4e0f9975d451aa9b4d7478b7006a4d696cf5a6565fa5f099c7e",
     "policy_envelope": "policy-envelope.json",
     "protected_envelope": "protected-envelope.json",
     "cooperative_envelope": "cooperative-envelope.json",
@@ -22,43 +22,43 @@
   },
   "negative": [
     {
-      "id": "altered-bundle",
       "bundle": "bundle.altered.json",
-      "bundle_sha256": "sha256:da0dc8a5615b75e5b1a76b377439464322274408cf4d03d96526160b118b5408",
+      "bundle_sha256": "sha256:f88c5db4f5bf5f26857c4d2cbc3488d5a69e291edc4e165db40341799c366015",
       "policy_envelope": "policy-envelope.json",
-      "verified_at": "2026-11-21T21:28:45Z",
+      "verified_at": "2026-11-21T21:40:38Z",
+      "id": "altered-bundle",
       "expected": "refuse"
     },
     {
-      "id": "wrong-identity",
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:7b0117eb3f2166606644154f34faaae52cf02e6f4eded689586e382c6086dfbb",
+      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
       "policy_envelope": "policy-envelope.wrong-identity.json",
-      "verified_at": "2026-11-21T21:28:45Z",
+      "verified_at": "2026-11-21T21:40:38Z",
+      "id": "wrong-identity",
       "expected": "refuse"
     },
     {
-      "id": "stale-revocation",
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:7b0117eb3f2166606644154f34faaae52cf02e6f4eded689586e382c6086dfbb",
+      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
       "policy_envelope": "policy-envelope.stale-revocation.json",
-      "verified_at": "2026-11-21T21:28:45Z",
+      "verified_at": "2026-11-21T21:40:38Z",
+      "id": "stale-revocation",
       "expected": "refuse"
     },
     {
-      "id": "wrong-host",
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:7b0117eb3f2166606644154f34faaae52cf02e6f4eded689586e382c6086dfbb",
+      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
       "policy_envelope": "policy-envelope.wrong-host.json",
-      "verified_at": "2026-11-21T21:28:45Z",
+      "verified_at": "2026-11-21T21:40:38Z",
+      "id": "wrong-host",
       "expected": "refuse"
     },
     {
-      "id": "expired-qualification",
       "bundle": "bundle.json",
-      "bundle_sha256": "sha256:7b0117eb3f2166606644154f34faaae52cf02e6f4eded689586e382c6086dfbb",
+      "bundle_sha256": "sha256:453744e07a3f5ba6e248b3142d4fb9611eee3ad6706df7c54f6d81a04a1c51be",
       "policy_envelope": "policy-envelope.json",
-      "verified_at": "2026-11-21T22:28:05.714Z",
+      "verified_at": "2026-11-21T22:39:58.749Z",
+      "id": "expired-qualification",
       "expected": "refuse"
     }
   ]
