@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v2/qualification-build-receipt.schema.json",
+  "title": "Draft decoded Souls build receipt Statement",
+  "description": "The signed CI or owner-reviewed receipt must authenticate the exact source tree and build identity even when package bytes match another source revision. Shape alone does not authenticate the signer.",
+  "type": "object",
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": { "const": "https://in-toto.io/Statement/v1" },
+    "subject": {
+      "type": "array", "minItems": 1, "maxItems": 1,
+      "items": {
+        "type": "object", "required": ["name", "digest"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[A-Za-z0-9._-]+\\.tgz$" },
+          "digest": {
+            "type": "object", "required": ["sha256"],
+            "properties": { "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" } },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "predicateType": { "const": "https://true-line.ai/soul-contracts/adapter/v2/souls-build" },
+    "predicate": {
+      "type": "object",
+      "required": ["source_repository", "source_commit", "source_tree", "builder_sha256", "toolchain_sha256", "workflow", "run_id", "run_attempt"],
+      "properties": {
+        "source_repository": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/source_repository" },
+        "source_commit": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/source_commit" },
+        "source_tree": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/source_tree" },
+        "builder_sha256": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/builder_sha256" },
+        "toolchain_sha256": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/toolchain_sha256" },
+        "workflow": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/workflow" },
+        "run_id": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/run_id" },
+        "run_attempt": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build/properties/run_attempt" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

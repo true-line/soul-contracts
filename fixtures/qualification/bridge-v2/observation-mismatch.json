@@ -1,0 +1,9 @@
+{
+  "base": "positive/qualification-host-report.bridge-v2-synthetic.json",
+  "path": "bridge.assignment.machine_observation",
+  "replacement": {
+    "uri": "fixture:other-machine-observation",
+    "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "expect": "machine-observation-binding"
+}
