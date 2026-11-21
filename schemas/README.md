@@ -9,9 +9,16 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft macOS protected qualification statement (decoded attestation payload) | `adapter/v1/qualification-attestation.schema.json` | draft |
 | Draft fixed macOS qualification conformance report | `adapter/v1/qualification-host-report.schema.json` | draft |
 | Draft designated-host report signature and [verification rules](adapter/v1/qualification-signatures.md) | `adapter/v1/qualification-host-signature.schema.json` | draft |
+| Draft [bridge-aware protected macOS report](adapter/v2/qualification-host-report.md) | `adapter/v2/qualification-host-report.schema.json` | draft |
+| Draft bridge-aware designated-host signature | `adapter/v2/qualification-host-signature.schema.json` | draft |
+| Draft [bridge-aware protected qualification record](adapter/v2/qualification-attestation.md) | `adapter/v2/qualification-evidence.schema.json` | draft |
+| Draft bridge-aware protected release Statement | `adapter/v2/qualification-attestation.schema.json` | draft |
+| Draft decoded Souls source and build receipt Statement | `adapter/v2/qualification-build-receipt.schema.json` | draft |
 | Draft owner-signed policy envelope | `control/v1/qualification-policy-envelope.schema.json` | draft |
 | Draft macOS protected manifest entry referencing the attestation bundle | `adapter/v1/qualification-reference.schema.json` | draft |
 | Draft decoded owner-signed qualification trust policy payload (no signature verification) | `control/v1/qualification-trust-policy.schema.json` | draft |
+| Draft [v2 owner qualification trust policy](control/v2/qualification-trust-policy.md) with separate Souls build authority | `control/v2/qualification-trust-policy.schema.json` | draft |
+| Draft v2 owner policy signature envelope | `control/v2/qualification-policy-envelope.schema.json` | draft |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |

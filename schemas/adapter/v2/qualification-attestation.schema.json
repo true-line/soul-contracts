@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v2/qualification-attestation.schema.json",
+  "title": "Draft bridge-aware protected adapter qualification statement",
+  "description": "Decoded signed Statement payload. Shape alone proves neither signatures nor physical T01-T03 evidence.",
+  "type": "object",
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": { "const": "https://in-toto.io/Statement/v1" },
+    "subject": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-attestation.schema.json#/properties/subject" },
+    "predicateType": { "const": "https://true-line.ai/soul-contracts/adapter/v2/macos-protected-qualification" },
+    "predicate": {
+      "type": "object",
+      "required": ["host_reports", "expires_at", "release", "souls_build"],
+      "properties": {
+        "host_reports": {
+          "type": "object",
+          "required": ["protected_report", "cooperative_report"],
+          "properties": {
+            "protected_report": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/protected_report" },
+            "cooperative_report": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/cooperative_report" }
+          },
+          "additionalProperties": false
+        },
+        "expires_at": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-attestation.schema.json#/properties/predicate/properties/expires_at" },
+        "release": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-attestation.schema.json#/properties/predicate/properties/release" },
+        "souls_build": { "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

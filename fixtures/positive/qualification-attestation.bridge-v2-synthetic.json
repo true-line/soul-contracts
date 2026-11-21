@@ -1,0 +1,69 @@
+{
+  "schema": "adapter/v2/qualification-attestation.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Shape-only bridge release Statement; signature verification is external.",
+  "input": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "qualification.json",
+        "digest": {
+          "sha256": "18f64eb0989173b0f7643e95287f193c18a6f13e52ec4acdb0de33046d421b9c"
+        }
+      }
+    ],
+    "predicateType": "https://true-line.ai/soul-contracts/adapter/v2/macos-protected-qualification",
+    "predicate": {
+      "host_reports": {
+        "protected_report": {
+          "report_schema_version": 2,
+          "signature_purpose": "agent-bot/qualification-host-report/v2",
+          "payload": {
+            "uri": "fixture:protected-v2",
+            "sha256": "sha256:8d30f591472ad74939ea87f2695809a0c1110fe5d9d8ae73a027bb1ade503753"
+          },
+          "signature": {
+            "uri": "fixture:protected-v2-signature",
+            "sha256": "sha256:3db69f6078487370d84ae6c7968e7f5b4e4a4f091c7deb8f3a26ade1fd201565"
+          }
+        },
+        "cooperative_report": {
+          "report_schema_version": 1,
+          "signature_purpose": "agent-bot/qualification-host-report/v1",
+          "payload": {
+            "uri": "fixture:cooperative-v1",
+            "sha256": "sha256:df1d81748e8c4dd114b6053951cbe6b4feba13ef1fb69f52da3e9e2038fc3c08"
+          },
+          "signature": {
+            "uri": "fixture:cooperative-v1-signature",
+            "sha256": "sha256:7b4cff3ab4470fdadd6c969f6c27b435e0c072e7cfc4f6141dc33559342e6d8b"
+          }
+        }
+      },
+      "expires_at": "2026-12-01T00:00:00Z",
+      "release": {
+        "source_repository": "true-line/soul-adapters",
+        "source_commit": "cccccccccccccccccccccccccccccccccccccccc",
+        "workflow": ".github/workflows/qualify.yml"
+      },
+      "souls_build": {
+        "source_repository": "true-line/agent-bot-souls",
+        "source_commit": "1111111111111111111111111111111111111111",
+        "source_tree": "2222222222222222222222222222222222222222",
+        "builder_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "toolchain_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "workflow": ".github/workflows/release.yml",
+        "run_id": "123456789",
+        "run_attempt": 1,
+        "package_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "receipt": {
+          "uri": "fixture:souls-build-receipt-bundle",
+          "sha256": "sha256:71dd2dbb5a500800f5f0060ff65dc1969cbfd0240e48f44cb24c7fc2a2932e8b"
+        }
+      }
+    }
+  },
+  "canonical_sha256": "sha256:8d2fa87ec901761790695707859145e68f88ca51495e3212f7d68d5e94798d38"
+}

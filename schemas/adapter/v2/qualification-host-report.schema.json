@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v2/qualification-host-report.schema.json",
+  "title": "Draft protected macOS qualification report with bridge custody",
+  "description": "Decoded designated-host signed payload. Shape alone neither proves observations nor qualifies an adapter. The v1 report cannot substitute for this protected bridge report.",
+  "type": "object",
+  "required": ["schema_version", "adapter", "launch", "harness", "runner", "soul_start", "host", "profile_in_force", "renders", "cost_bound", "evaluation_cells", "suite_revision", "run_id", "outcome", "checks", "gates", "bridge", "recorded_at"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "adapter": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/adapter" },
+    "launch": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/launch" },
+    "harness": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/harness" },
+    "runner": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/runner" },
+    "soul_start": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/soul_start" },
+    "host": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/host" },
+    "profile_in_force": { "const": "managed-protected" },
+    "renders": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/renders" },
+    "cost_bound": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/cost_bound" },
+    "evaluation_cells": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/evaluation_cells" },
+    "suite_revision": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/suite_revision" },
+    "run_id": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/run_id" },
+    "outcome": { "const": "pass" },
+    "checks": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/checks" },
+    "gates": {
+      "type": "object",
+      "required": ["T01", "T02", "T03"],
+      "properties": {
+        "T01": { "$ref": "#/$defs/passing_gate" },
+        "T02": { "$ref": "#/$defs/passing_gate" },
+        "T03": { "$ref": "#/$defs/passing_gate" }
+      },
+      "additionalProperties": false
+    },
+    "bridge": {
+      "type": "object",
+      "required": ["assignment", "principals", "endpoints", "handoff", "admission", "lifecycle"],
+      "properties": {
+        "assignment": {
+          "type": "object",
+          "required": ["installation_id", "soul_id", "start_id", "launch_id", "runtime_id", "plan_id", "plan_digest", "machine_reservation_sha256", "machine_observation"],
+          "properties": {
+            "installation_id": { "$ref": "#/$defs/id" },
+            "soul_id": { "type": "string", "pattern": "^agent_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+            "start_id": { "$ref": "#/$defs/id" },
+            "launch_id": { "$ref": "#/$defs/id" },
+            "runtime_id": { "$ref": "#/$defs/id" },
+            "plan_id": { "$ref": "#/$defs/id" },
+            "plan_digest": { "$ref": "#/$defs/digest" },
+            "machine_reservation_sha256": { "$ref": "#/$defs/digest" },
+            "machine_observation": { "$ref": "#/$defs/evidence" }
+          },
+          "additionalProperties": false
+        },
+        "principals": {
+          "type": "object",
+          "required": ["runner_uid", "bridge_uid", "credential_uid", "hq_uid", "machine_uid", "bridge_private_gid", "runner_private_gid"],
+          "properties": {
+            "runner_uid": { "$ref": "#/$defs/uid" },
+            "bridge_uid": { "$ref": "#/$defs/uid" },
+            "credential_uid": { "$ref": "#/$defs/uid" },
+            "hq_uid": { "$ref": "#/$defs/uid" },
+            "machine_uid": { "$ref": "#/$defs/uid" },
+            "bridge_private_gid": { "$ref": "#/$defs/uid" },
+            "runner_private_gid": { "$ref": "#/$defs/uid" }
+          },
+          "additionalProperties": false
+        },
+        "endpoints": {
+          "type": "object",
+          "required": ["hq_broker", "souls_member", "http_relay"],
+          "properties": {
+            "hq_broker": { "$ref": "#/$defs/endpoint" },
+            "souls_member": { "$ref": "#/$defs/endpoint" },
+            "http_relay": { "$ref": "#/$defs/endpoint" }
+          },
+          "additionalProperties": false
+        },
+        "handoff": {
+          "type": "object",
+          "required": ["transport", "recipient_uid", "bootstrap_sha256", "bind_receipt_sha256", "b_only_custody", "r_denied", "c_denied", "other_b_denied"],
+          "properties": {
+            "transport": { "const": "one-use-inherited-anonymous-fds" },
+            "recipient_uid": { "$ref": "#/$defs/uid" },
+            "bootstrap_sha256": { "$ref": "#/$defs/digest" },
+            "bind_receipt_sha256": { "$ref": "#/$defs/digest" },
+            "b_only_custody": { "$ref": "#/$defs/pass" },
+            "r_denied": { "$ref": "#/$defs/pass" },
+            "c_denied": { "$ref": "#/$defs/pass" },
+            "other_b_denied": { "$ref": "#/$defs/pass" }
+          },
+          "additionalProperties": false
+        },
+        "admission": {
+          "type": "object",
+          "required": ["runner_endpoint", "member_hello", "hq_broker_hmac_bind", "hq_bind_receipt_sha256", "bind_before_acp", "relay_peer"],
+          "properties": {
+            "runner_endpoint": { "$ref": "#/$defs/pass" },
+            "member_hello": { "$ref": "#/$defs/pass" },
+            "hq_broker_hmac_bind": { "$ref": "#/$defs/pass" },
+            "hq_bind_receipt_sha256": { "$ref": "#/$defs/digest" },
+            "bind_before_acp": { "$ref": "#/$defs/pass" },
+            "relay_peer": { "$ref": "#/$defs/pass" }
+          },
+          "additionalProperties": false
+        },
+        "lifecycle": {
+          "type": "object",
+          "required": ["one_use", "restart_replay_refused", "failed_bind_prevents_acp", "stop_cleanup"],
+          "properties": {
+            "one_use": { "$ref": "#/$defs/pass" },
+            "restart_replay_refused": { "$ref": "#/$defs/pass" },
+            "failed_bind_prevents_acp": { "$ref": "#/$defs/pass" },
+            "stop_cleanup": { "$ref": "#/$defs/pass" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "recorded_at": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/recorded_at" }
+  },
+  "additionalProperties": false,
+  "allOf": [{ "properties": { "host": { "properties": { "os": { "const": "darwin" } }, "required": ["id"] } } }],
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "uid": { "type": "integer", "minimum": 0 },
+    "absolute_path": { "type": "string", "pattern": "^/[^\\u0000]{1,4095}$", "maxLength": 4096 },
+    "evidence": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/$defs/evidence_ref" },
+    "pass": {
+      "type": "object",
+      "required": ["outcome", "evidence"],
+      "properties": { "outcome": { "const": "pass" }, "evidence": { "$ref": "#/$defs/evidence" } },
+      "additionalProperties": false
+    },
+    "passing_gate": {
+      "type": "object",
+      "required": ["outcome", "evidence"],
+      "properties": { "outcome": { "const": "pass" }, "evidence": { "$ref": "#/$defs/evidence" } },
+      "additionalProperties": false
+    },
+    "endpoint": {
+      "type": "object",
+      "required": ["socket_path", "parent_uid", "parent_gid", "parent_mode", "parent_inode", "socket_uid", "socket_gid", "socket_mode", "socket_inode", "observed_peer_uid", "machine_custody", "kernel_peer_check"],
+      "properties": {
+        "socket_path": { "$ref": "#/$defs/absolute_path" },
+        "parent_uid": { "$ref": "#/$defs/uid" },
+        "parent_gid": { "$ref": "#/$defs/uid" },
+        "parent_mode": { "const": "2750" },
+        "parent_inode": { "type": "integer", "minimum": 1 },
+        "socket_uid": { "$ref": "#/$defs/uid" },
+        "socket_gid": { "$ref": "#/$defs/uid" },
+        "socket_mode": { "const": "0660" },
+        "socket_inode": { "type": "integer", "minimum": 1 },
+        "observed_peer_uid": { "$ref": "#/$defs/uid" },
+        "machine_custody": { "$ref": "#/$defs/pass" },
+        "kernel_peer_check": { "$ref": "#/$defs/pass" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

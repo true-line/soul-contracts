@@ -1,0 +1,30 @@
+{
+  "schema": "adapter/v2/qualification-build-receipt.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Decoded synthetic build receipt; not signed.",
+  "input": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "agent-bot-souls.tgz",
+        "digest": {
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    ],
+    "predicateType": "https://true-line.ai/soul-contracts/adapter/v2/souls-build",
+    "predicate": {
+      "source_repository": "true-line/agent-bot-souls",
+      "source_commit": "1111111111111111111111111111111111111111",
+      "source_tree": "2222222222222222222222222222222222222222",
+      "builder_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "toolchain_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "workflow": ".github/workflows/release.yml",
+      "run_id": "123456789",
+      "run_attempt": 1
+    }
+  },
+  "canonical_sha256": "sha256:b3836c174945c05bd0b29f82638260670a83ae6ef965bd65da15024ce60ce3d5"
+}

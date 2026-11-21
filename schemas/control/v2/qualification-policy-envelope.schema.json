@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v2/qualification-policy-envelope.schema.json",
+  "title": "Draft owner-signed v2 qualification policy envelope",
+  "description": "Signature over exact canonical control/v2 policy bytes under the distinct v2 purpose; the reviewed owner root is external and cannot be supplied by this envelope.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "owner_key_id", "policy_sha256", "policy_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "purpose": { "const": "agent-bot/qualification-policy/v2" },
+    "owner_key_id": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-policy-envelope.schema.json#/properties/owner_key_id" },
+    "policy_sha256": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-policy-envelope.schema.json#/properties/policy_sha256" },
+    "policy_base64url": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-policy-envelope.schema.json#/properties/policy_base64url" },
+    "signature_base64url": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-policy-envelope.schema.json#/properties/signature_base64url" }
+  },
+  "additionalProperties": false
+}
