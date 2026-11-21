@@ -96,6 +96,7 @@ def binding_error(schemas, qualification_bytes, reference, bundle_bytes,
         return "installed-inputs"
     host = qualification["host"]
     if (qualification["profile_in_force"] != measured["profile_in_force"]
+            or qualification["soul_start"] != measured.get("soul_start")
             or any(host[field] != measured["host"].get(field) for field in (*HOST_IDENTITY_FIELDS, "profile"))):
         return "installed-profile"
 
@@ -246,6 +247,9 @@ def check_qualification_fixtures(root, schemas, report):
     live = deepcopy(measured)
     live["profile_in_force"] = "managed-cooperative"
     check("rejects weaker profile in force", "installed-profile", live=live)
+    live = deepcopy(measured)
+    live["soul_start"]["machine_observation"]["sha256"] = "sha256:" + "c" * 64
+    check("rejects unmatched Machine Soul-start observation", "installed-profile", live=live)
 
     cooperative = "managed-cooperative"
     host_report = next(parse_strict(raw.decode()) for raw in reports.values()
