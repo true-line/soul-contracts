@@ -9,6 +9,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft macOS protected qualification statement (decoded attestation payload) | `adapter/v1/qualification-attestation.schema.json` | draft |
 | Draft fixed macOS qualification conformance report | `adapter/v1/qualification-host-report.schema.json` | draft |
 | Draft macOS protected manifest entry referencing the attestation bundle | `adapter/v1/qualification-reference.schema.json` | draft |
+| Draft decoded owner-signed qualification trust policy payload (no signature verification) | `control/v1/qualification-trust-policy.schema.json` | draft |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |

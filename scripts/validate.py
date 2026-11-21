@@ -27,6 +27,7 @@ from referencing import Registry, Resource
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from jcs import canonicalize, parse_strict  # noqa: E402
 from qualification_fixtures import check_qualification_fixtures  # noqa: E402
+from qualification_policy_fixtures import check_qualification_policy_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -180,6 +181,7 @@ for sch, c in covered.items():
     report(c["positive"] >= 1 and c["negative"] >= 1, f"coverage {sch}", f"{c['positive']} positive, {c['negative']} negative")
 
 check_qualification_fixtures(ROOT, schemas, report)
+check_qualification_policy_fixtures(ROOT, schemas, report)
 
 # Inclusive byte-boundary checks complement the literal semantic fixtures.
 # Construct actual strings; a claimed byte count in fixture context is insufficient.
