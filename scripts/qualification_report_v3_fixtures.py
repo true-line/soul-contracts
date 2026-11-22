@@ -35,6 +35,13 @@ def _report_consistent(report, profile):
         return False
     if report["host"]["id"] != binding["host_id"] or not _bare_sha(binding.get("soul_artifact_sha256")):
         return False
+    snapshots = binding["snapshots"]
+    if (binding["contract"] != "machine/v2" or binding["schema_version"] != 2 or
+            snapshots["definition"]["owner_uid"] <= 399 or
+            snapshots["definition"]["owner_uid"] != snapshots["launch_inputs"]["owner_uid"] or
+            snapshots["definition"]["owner_gid"] != snapshots["launch_inputs"]["owner_gid"] or
+            any(item["mode"] != "0555" for item in snapshots.values())):
+        return False
     if profile == "managed-protected":
         assignment = report["bridge"]["assignment"]
         if any(assignment[key] != binding[key] for key in ("installation_id", "soul_id", "start_id", "launch_id", "plan_id")):
@@ -132,6 +139,9 @@ def check_report_v3_fixtures(root, schemas, report):
     attestation = _load(root, "qualification-attestation.measurement-v3-synthetic.json")
     report(_report_consistent(protected, "managed-protected"), "v3 protected binding agrees with report and bridge")
     report(_report_consistent(cooperative, "managed-cooperative"), "v3 cooperative binding agrees with report")
+    changed = copy.deepcopy(protected)
+    changed["measurement_binding"]["snapshots"]["launch_inputs"]["owner_uid"] += 1
+    report(not _report_consistent(changed, "managed-protected"), "v3 report refuses a mismatched admin snapshot owner")
     for profile, payload, envelope in (("protected", protected, protected_sig), ("cooperative", cooperative, cooperative_sig)):
         report(_envelope_matches(payload, envelope), "v3 " + profile + " envelope exact report bytes")
         release_ref = evidence["conformance"][profile + "_report"]

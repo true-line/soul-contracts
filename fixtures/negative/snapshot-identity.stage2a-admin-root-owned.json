@@ -1,0 +1,21 @@
+{
+  "schema": "machine/v2/snapshot-identity.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "Machine v2 rejects root-owned field.",
+  "base": {
+    "fixture": "positive/snapshot-identity.stage2a-admin-synthetic.json",
+    "sha256": "sha256:4423820e474a37cc0b25adc470eedeead297da36894f2afb3bd9626b3f652a60"
+  },
+  "input": {
+    "birthtime_ns": "1795356916000000000",
+    "device": "1",
+    "generation": "4",
+    "inode": "12345",
+    "mode": "0555",
+    "owner_gid": 331,
+    "owner_uid": 0,
+    "root_path": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_111111111111111111111111"
+  }
+}

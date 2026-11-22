@@ -5,7 +5,7 @@ These [v3 report](qualification-host-report.schema.json),
 [qualification.json](qualification-evidence.schema.json) and
 [release Statement](qualification-attestation.schema.json) contracts extend the
 [PDR-0102](https://github.com/true-line/agent-bot-platform/blob/main/docs/04-decisions/PDR-0102-protected-adapter-qualification.md)
-path with the [controlled measurement binding](../../machine/v1/stage2a-measurement.md).
+path with the [admin-owned controlled measurement binding](../../machine/v2/stage2a-measurement.md).
 They are source-only. A schema-valid fixture is not a host run, signature,
 release or permission to launch.
 
@@ -14,7 +14,7 @@ release or permission to launch.
 One protected report has `profile_in_force: managed-protected`, passing
 T01/T02/T03 and the complete v2 `bridge` custody object. A separate cooperative
 report has `profile_in_force: managed-cooperative`, passing T21 and no `bridge`
-object. Both carry the complete `machine/v1` `measurement_binding` and
+object. Both carry the complete `machine/v2` `measurement_binding` and
 `run_evidence` with exact reservation and finalization `{uri,sha256}` refs and
 a `challenge_sha256` value. Reservation and finalization must differ in both
 URI and digest within each run. These are reported claims until Machine resolves
@@ -83,9 +83,7 @@ The Machine and release verifier must, in order:
 1. Authenticate the release-pinned owner Ed25519 root and exact owner-signed
    policy bytes, persist the greatest accepted policy revision across versions
    and reject rollback or equivocation. The current source-only report fixtures
-   use a v2 policy for adapter, host and runtime `.tgz` checks. A positive
-   frozen `.soul` path additionally requires the distinct owner-signed
-   [v3 policy candidate](../../control/v3/qualification-trust-policy.md)
+   require the distinct owner-signed [v3 frozen Soul policy](../../control/v3/qualification-trust-policy.md)
    after it is approved and implemented. Independently check policy expiry and
    the signed revocation snapshot. A missing or future snapshot, or age greater
    than **3,600 seconds**, refuses; age exactly 3,600 seconds is current.

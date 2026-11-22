@@ -10,7 +10,7 @@
       {
         "name": "qualification.json",
         "digest": {
-          "sha256": "c04311dd264338fbfea8e9b2dfcc1b6e9d2fb96510a5bc796130f640c4a6abd2"
+          "sha256": "5ae3236a46fc409d3779409927dc5936fc593b77fd44b3258b73cb612a8a1f23"
         }
       }
     ],
@@ -22,11 +22,11 @@
           "signature_purpose": "agent-bot/qualification-host-report/v3",
           "payload": {
             "uri": "fixture:protected-v3",
-            "sha256": "sha256:db832aaa12e54028c57bdec9ac734ced347f89be0b4e4b042f14eb43af6b8c95"
+            "sha256": "sha256:fd3d62a0e0f569ab3030f4c7f77834000a925aae1f0d15b24977500a3512f5b7"
           },
           "signature": {
             "uri": "fixture:protected-v3-signature",
-            "sha256": "sha256:51b23c6e778a9b43ede2e1c3f20ecccbfa8c1a69060ad9016a2a4da8dbaa990c"
+            "sha256": "sha256:ab63bc25ef6991d701b1ef0cd7d6c3cf059c89b6a215487a98bb65bcfe7b8715"
           },
           "completed_run": {
             "uri": "fixture:protected-completed-run",
@@ -38,11 +38,11 @@
           "signature_purpose": "agent-bot/qualification-host-report/v3",
           "payload": {
             "uri": "fixture:cooperative-v3",
-            "sha256": "sha256:98b6e90ae5f6ddcae472fded53b00317cc8cf1adf0ea814df141a8cfd541cbaf"
+            "sha256": "sha256:204bc32091e32603b9b6f1c66fb06e136e1d155b4097a2bfa4b95e7e515848d2"
           },
           "signature": {
             "uri": "fixture:cooperative-v3-signature",
-            "sha256": "sha256:1df4a12deeacf824dbc1dc1fddffc5e601f8bf6546c474fc9d8989bd33e3357c"
+            "sha256": "sha256:7a5b39cffd311a148268a58a599b526439913af45889c6953e454b447ac5298f"
           },
           "completed_run": {
             "uri": "fixture:cooperative-completed-run",
@@ -74,5 +74,5 @@
       "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     }
   },
-  "canonical_sha256": "sha256:e1d6eacb3045bd9ad2ce7d0d07a006a9b6ac3914ab1d658ce868211f5d832bc5"
+  "canonical_sha256": "sha256:599f96ea3e69ce375d2a720a967c304d2bf9d054f58846996f46103670502c56"
 }

@@ -1,0 +1,18 @@
+{
+  "schema": "machine/v2/snapshot-identity.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic Machine v2 admin-custody shape and signed bytes; no production signer or physical-host evidence.",
+  "input": {
+    "birthtime_ns": "1795356916000000000",
+    "device": "1",
+    "generation": "4",
+    "inode": "12345",
+    "mode": "0555",
+    "owner_gid": 331,
+    "owner_uid": 501,
+    "root_path": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_111111111111111111111111"
+  },
+  "canonical_sha256": "sha256:c106a282f655e2a8086ae9d52abf365a8b425439e65b0cb54b3ae8b52f903e94"
+}
