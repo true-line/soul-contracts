@@ -4,6 +4,7 @@ import base64
 import copy
 import hashlib
 import json
+from datetime import datetime, timezone
 
 from jcs import canonicalize
 
@@ -49,6 +50,37 @@ def _envelope_matches(report, envelope):
             envelope["report_base64url"] == encoded)
 
 
+def _chronology_ok(protected, cooperative, evidence, attestation, now):
+    def instant(value):
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return parsed if parsed.tzinfo is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    dates = [instant(value["recorded_at"]) for value in (protected, cooperative, evidence)]
+    expires = instant(attestation["predicate"]["expires_at"])
+    if any(value is None for value in dates) or expires is None or now.tzinfo is None:
+        return False
+    return all(value <= now for value in dates) and dates[0] <= dates[2] and dates[1] <= dates[2] and expires > now and all(expires > value for value in dates)
+
+
+def _distinct_attempt(protected, cooperative):
+    p = protected["measurement_binding"]
+    c = cooperative["measurement_binding"]
+    pr = protected["run_evidence"]
+    cr = cooperative["run_evidence"]
+    return (p["definition_measurement"] == c["definition_measurement"] and
+            p["claimed_definition_digest"] == c["claimed_definition_digest"] and
+            p["launch_input_measurement"] != c["launch_input_measurement"] and
+            p["snapshots"]["definition"] == c["snapshots"]["definition"] and
+            p["snapshots"]["launch_inputs"] != c["snapshots"]["launch_inputs"] and
+            p["start_id"] != c["start_id"] and p["launch_id"] != c["launch_id"] and
+            pr["reservation"] != cr["reservation"] and
+            pr["finalization"] != cr["finalization"] and
+            pr["challenge_sha256"] != cr["challenge_sha256"])
+
+
 def check_report_v3_fixtures(root, schemas, report):
     protected = _load(root, "qualification-host-report.measurement-v3-synthetic.json")
     cooperative = _load(root, "qualification-host-report.measurement-v3-cooperative-synthetic.json")
@@ -68,16 +100,28 @@ def check_report_v3_fixtures(root, schemas, report):
                release_ref["signature_purpose"] == "agent-bot/qualification-host-report/v3" and
                "completed_run" not in payload and "completed_run" not in payload["run_evidence"],
                "v3 " + profile + " completion ref is outside signed report")
-    p = protected["measurement_binding"]
-    c = cooperative["measurement_binding"]
-    report(p["definition_measurement"] == c["definition_measurement"] and
-           p["claimed_definition_digest"] == c["claimed_definition_digest"] and
-           p["launch_input_measurement"] != c["launch_input_measurement"] and
-           p["snapshots"]["definition"] == c["snapshots"]["definition"] and
-           p["snapshots"]["launch_inputs"] != c["snapshots"]["launch_inputs"] and
-           p["start_id"] != c["start_id"] and p["launch_id"] != c["launch_id"] and
-           protected["run_evidence"] != cooperative["run_evidence"],
+    report(_distinct_attempt(protected, cooperative),
            "v3 T21 spends a distinct profile-specific start and launch closure")
+    for label, field in (("reservation", "reservation"), ("finalization", "finalization"), ("challenge", "challenge_sha256")):
+        reused = copy.deepcopy(cooperative)
+        reused["run_evidence"][field] = protected["run_evidence"][field]
+        report(not _distinct_attempt(protected, reused),
+               "v3 T21 " + label + " reuse refuses")
+    now = datetime(2026, 11, 22, 6, 3, tzinfo=timezone.utc)
+    report(_chronology_ok(protected, cooperative, evidence, attestation, now),
+           "v3 report, qualification and Statement chronology accepts")
+    expired = copy.deepcopy(attestation)
+    expired["predicate"]["expires_at"] = now.isoformat().replace("+00:00", "Z")
+    report(not _chronology_ok(protected, cooperative, evidence, expired, now),
+           "v3 Statement expiry at verification time refuses")
+    future = copy.deepcopy(cooperative)
+    future["recorded_at"] = "2026-11-22T06:04:00Z"
+    report(not _chronology_ok(protected, future, evidence, attestation, now),
+           "v3 future-dated report refuses")
+    future_evidence = copy.deepcopy(evidence)
+    future_evidence["recorded_at"] = "2026-11-22T06:04:00Z"
+    report(not _chronology_ok(protected, cooperative, future_evidence, attestation, now),
+           "v3 future-dated qualification refuses")
     report(attestation["subject"][0]["digest"]["sha256"] == _digest(canonicalize(evidence))[7:],
            "v3 Statement subject binds exact qualification bytes")
     for label, edit in (

@@ -61,7 +61,7 @@ Its sole subject is the digest of the **exact delivered** `qualification.json`
 bytes. The Statement and qualification record carry identical protected and
 cooperative report references, each fixed to v3 purpose and schema and each
 with its own completed-run reference. The separate cooperative attempt must
-use a distinct one-use reservation, challenge, start ID, launch ID, profile,
+use a distinct one-use reservation, finalization, challenge, start ID, launch ID, profile,
 launch-input measurement and launch snapshot identity. It may share the
 reviewed frozen definition measurement and approved SoulLock mapping.
 
@@ -92,6 +92,13 @@ The Machine and release verifier must, in order:
    arguments, complete code inputs, native harness, independent runner, host,
    suite revision, evaluation cells, results and physical T01/T02/T03/T21
    evidence with the installed measured bytes.
+
+The qualification record must be dated at or after both physical reports.
+Reject a future-dated report, qualification record or authenticated Machine
+lifecycle record. The v3 Statement `expires_at` must be strictly later than
+every report and authenticated record date and than verification time; equality
+at the expiry instant refuses. Its signing-time proof must place the signature
+before expiry. A valid owner policy does not extend a stale Statement.
 
 No network lookup is required for these checks, but missing locally
 authenticated artifacts refuse. Report fields and URI/digest pairs alone do
