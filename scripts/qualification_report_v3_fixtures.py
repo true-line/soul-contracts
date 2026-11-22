@@ -23,7 +23,11 @@ def _reference(ref, raw):
 
 def _report_consistent(report, profile):
     binding = report["measurement_binding"]
+    reservation = report["run_evidence"]["reservation"]
+    finalization = report["run_evidence"]["finalization"]
     if report["profile_in_force"] != profile or binding["profile_in_force"] != profile:
+        return False
+    if reservation["uri"] == finalization["uri"] or reservation["sha256"] == finalization["sha256"]:
         return False
     if report["host"]["id"] != binding["host_id"] or report["adapter"]["package_sha256"] != "sha256:" + binding["package_sha256"]:
         return False
@@ -179,6 +183,11 @@ def check_report_v3_fixtures(root, schemas, report):
         changed = copy.deepcopy(protected)
         edit(changed)
         report(not _report_consistent(changed, "managed-protected"), "v3 changed " + label + " refuses")
+    for field in ("uri", "sha256"):
+        changed = copy.deepcopy(protected)
+        changed["run_evidence"]["finalization"][field] = changed["run_evidence"]["reservation"][field]
+        report(not _report_consistent(changed, "managed-protected"),
+               "v3 one run cannot reuse reservation " + field + " as finalization")
     stale = copy.deepcopy(protected_sig)
     stale["purpose"] = "agent-bot/qualification-host-report/v2"
     report(not _envelope_matches(protected, stale), "v3 v2-purpose substitution refuses")

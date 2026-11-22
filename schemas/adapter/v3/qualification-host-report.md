@@ -16,7 +16,8 @@ T01/T02/T03 and the complete v2 `bridge` custody object. A separate cooperative
 report has `profile_in_force: managed-cooperative`, passing T21 and no `bridge`
 object. Both carry the complete `machine/v1` `measurement_binding` and
 `run_evidence` with exact reservation and finalization `{uri,sha256}` refs and
-a `challenge_sha256` value. These are reported claims until Machine resolves
+a `challenge_sha256` value. Reservation and finalization must differ in both
+URI and digest within each run. These are reported claims until Machine resolves
 and authenticates the referenced bytes under its secure-admin custody. No
 bearer challenge, bootstrap proof or credential appears in the report.
 
