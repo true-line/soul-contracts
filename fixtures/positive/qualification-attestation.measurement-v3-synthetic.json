@@ -10,7 +10,7 @@
       {
         "name": "qualification.json",
         "digest": {
-          "sha256": "e6c95fa8cc74f529c14b403878f525155de8fcb7935cb753c81423054ad6a159"
+          "sha256": "d862bfe979bf2fa9855e858ea9e4ed985a7b139b8b989c0a9f393143d32bf70e"
         }
       }
     ],
@@ -73,5 +73,5 @@
       }
     }
   },
-  "canonical_sha256": "sha256:ce8dd9cb5a734321e7b682f58f4617dd1364621fc18654f401f33497f897254f"
+  "canonical_sha256": "sha256:8c65ded602f69bd88848323b480c01288691c2782791efc8517dc3db8fc508f2"
 }

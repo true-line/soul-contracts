@@ -9,7 +9,7 @@
       {
         "name": "qualification.json",
         "digest": {
-          "sha256": "52b767819983b5bcdb7b5b4ecea520ae4ababe6f0332411973ba8778477e89bc"
+          "sha256": "d862bfe979bf2fa9855e858ea9e4ed985a7b139b8b989c0a9f393143d32bf70e"
         }
       }
     ],
@@ -70,6 +70,6 @@
   },
   "base": {
     "fixture": "positive/qualification-attestation.measurement-v3-synthetic.json",
-    "sha256": "sha256:29e472b61e07b4bdc3ed3d914a33fe545af9c8da5d98f71ed946c2e536b56afe"
+    "sha256": "sha256:031e513ba747a5f5e60d0d70b85f6c8ae177d056611d2f3a2b60bfab7f903dcd"
   }
 }

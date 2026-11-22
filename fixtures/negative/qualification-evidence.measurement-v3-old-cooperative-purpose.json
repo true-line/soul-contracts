@@ -41,7 +41,7 @@
           "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
         }
       ],
-      "id": "fixture-qualification-mac"
+      "id": "fixture-physical-mac"
     },
     "profile_in_force": "managed-protected",
     "renders": [
@@ -223,6 +223,6 @@
   },
   "base": {
     "fixture": "positive/qualification-evidence.measurement-v3-synthetic.json",
-    "sha256": "sha256:f927c2fb8d4f3255224638d5ff338bf35fdb36376e741489f74a69aae134dc3e"
+    "sha256": "sha256:402b199e744fb8d881295448b43836ee04751a73703d7ac465bf8a19213b8756"
   }
 }

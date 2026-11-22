@@ -92,6 +92,20 @@ def _distinct_release_refs(evidence):
                for field in ("uri", "sha256"))
 
 
+def _qualification_binds_reports(evidence, protected, cooperative):
+    for name in ("adapter", "launch", "harness", "runner", "host", "renders",
+                 "cost_bound", "evaluation_cells"):
+        if evidence[name] != protected[name] or evidence[name] != cooperative[name]:
+            return False
+    conformance = evidence["conformance"]
+    return (evidence["profile_in_force"] == "managed-protected" and
+            evidence["soul_start"] == protected["soul_start"] and
+            conformance["suite_revision"] == protected["suite_revision"] == cooperative["suite_revision"] and
+            conformance["run_id"] == protected["run_id"] and
+            conformance["outcome"] == protected["outcome"] == cooperative["outcome"] and
+            conformance["checks"] == protected["checks"])
+
+
 def check_report_v3_fixtures(root, schemas, report):
     protected = _load(root, "qualification-host-report.measurement-v3-synthetic.json")
     cooperative = _load(root, "qualification-host-report.measurement-v3-cooperative-synthetic.json")
@@ -115,6 +129,13 @@ def check_report_v3_fixtures(root, schemas, report):
            "v3 T21 spends a distinct profile-specific start and launch closure")
     report(_distinct_release_refs(evidence),
            "v3 released protected and cooperative refs are distinct")
+    report(_qualification_binds_reports(evidence, protected, cooperative),
+           "v3 qualification binds both signed reports and the protected run")
+    for name in ("host", "runner", "adapter", "launch"):
+        changed = copy.deepcopy(evidence)
+        changed[name] = {**changed[name], next(iter(changed[name])): "different"}
+        report(not _qualification_binds_reports(changed, protected, cooperative),
+               "v3 changed qualification " + name + " refuses")
     for kind in ("payload", "signature", "completed_run"):
         for field in ("uri", "sha256"):
             reused = copy.deepcopy(evidence)
