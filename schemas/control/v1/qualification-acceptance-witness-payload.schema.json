@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/qualification-acceptance-witness-payload.schema.json",
+  "title": "Supplemental Machine/keyd qualification policy acceptance witness payload",
+  "description": "Shape only. A signed witness cannot replace owner policy, release and host signatures, live pairing, local owner presence, or physical qualification.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "host_id", "machine_pub", "hq_pub", "hq_uid", "hq_epoch", "pair_owner_pub", "witness_key_id", "challenge_base64url", "policy_version", "policy_revision", "policy_sha256", "owner_key_id", "issued_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "control/v1" },
+    "kind": { "const": "qualification-policy-acceptance-witness" },
+    "schema_version": { "const": 1 },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/identifier" },
+    "machine_pub": { "type": "string", "pattern": "^[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=$" },
+    "hq_pub": { "type": "string", "pattern": "^[A-Za-z0-9+/]{42}[AEIMQUYcgkosw048]=$" },
+    "hq_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "hq_epoch": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "pair_owner_pub": { "type": "string", "pattern": "^[A-Za-z0-9+/]{86}[AEIMQUYcgkosw048]=$" },
+    "witness_key_id": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/identifier" },
+    "challenge_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$" },
+    "policy_version": { "type": "integer", "enum": [1, 2] },
+    "policy_revision": { "type": "integer", "minimum": 1 },
+    "policy_sha256": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/sha256" },
+    "owner_key_id": { "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/identifier" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

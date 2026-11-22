@@ -21,6 +21,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft decoded owner-signed qualification trust policy payload (no signature verification) | `control/v1/qualification-trust-policy.schema.json` | draft |
 | Draft [v2 owner qualification trust policy](control/v2/qualification-trust-policy.md) with separate Souls build authority | `control/v2/qualification-trust-policy.schema.json` | draft |
 | Draft v2 owner policy signature envelope | `control/v2/qualification-policy-envelope.schema.json` | draft |
+| Draft supplemental [Machine/keyd policy acceptance witness](control/v1/qualification-acceptance-witness.md), payload and envelope | `control/v1/qualification-acceptance-witness-payload.schema.json`, `control/v1/qualification-acceptance-witness.schema.json` | draft |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |

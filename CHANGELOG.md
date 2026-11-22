@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Add a draft, supplemental Machine/keyd policy acceptance-witness payload and
+  fixed-purpose ES256 envelope. Synthetic shape and comparison fixtures cover
+  pair and HQ epoch changes, one-use challenge replay, ledger/key loss, policy
+  rollback including a higher-revision v1 after v2, the 3,600-to-3,601-second
+  revocation boundary, and untrusted time
+  across reboot. They do not verify signatures or authorize protected launch.
+
 ## 0.6.0 — 2026-11-21
 
 This version publishes contract shapes and refusal fixtures. It does not qualify

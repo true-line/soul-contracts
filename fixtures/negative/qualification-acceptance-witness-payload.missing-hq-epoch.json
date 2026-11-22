@@ -1,0 +1,30 @@
+{
+  "schema": "control/v1/qualification-acceptance-witness-payload.schema.json",
+  "base": {
+    "fixture": "positive/qualification-acceptance-witness-payload.synthetic.json",
+    "sha256": "sha256:f85195bb79f3f9f38a96dd33b9758fbc85b2a00332b7b1fbeddbcfebe472da39"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "note": "A witness without the live HQ epoch must fail shape validation.",
+  "input": {
+    "contract": "control/v1",
+    "kind": "qualification-policy-acceptance-witness",
+    "schema_version": 1,
+    "host_id": "fixture-qualification-mac-x",
+    "machine_pub": "TU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU0=",
+    "hq_pub": "SEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEg=",
+    "hq_uid": 504,
+    "pair_owner_pub": "BE9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT08=",
+    "witness_key_id": "fixture-witness",
+    "challenge_base64url": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+    "policy_version": 2,
+    "policy_revision": 2,
+    "policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "owner_key_id": "fixture-root",
+    "issued_at": "2026-11-21T19:00:00Z",
+    "expires_at": "2026-11-21T19:00:30Z"
+  },
+  "canonical_sha256": "sha256:f0295756ad1b440bb2548f40da68670f56be10b1ee54b3d41dd7934eb57c5768"
+}

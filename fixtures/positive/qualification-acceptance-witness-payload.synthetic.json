@@ -1,0 +1,27 @@
+{
+  "schema": "control/v1/qualification-acceptance-witness-payload.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic shape and pairing only; no keyd ledger or signature exists.",
+  "input": {
+    "contract": "control/v1",
+    "kind": "qualification-policy-acceptance-witness",
+    "schema_version": 1,
+    "host_id": "fixture-qualification-mac-x",
+    "machine_pub": "TU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU0=",
+    "hq_pub": "SEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEg=",
+    "hq_uid": 504,
+    "hq_epoch": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "pair_owner_pub": "BE9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT08=",
+    "witness_key_id": "fixture-witness",
+    "challenge_base64url": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+    "policy_version": 2,
+    "policy_revision": 2,
+    "policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "owner_key_id": "fixture-root",
+    "issued_at": "2026-11-21T19:00:00Z",
+    "expires_at": "2026-11-21T19:00:30Z"
+  },
+  "canonical_sha256": "sha256:98b22a394f6bf104921e92d9701f08c5140600141fdec1f4b391427ae3c637b6"
+}
