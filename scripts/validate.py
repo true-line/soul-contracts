@@ -31,6 +31,7 @@ from bridge_report_fixtures import check_bridge_report_fixtures  # noqa: E402
 from qualification_policy_fixtures import check_qualification_policy_fixtures  # noqa: E402
 from qualification_policy_v2_fixtures import check_qualification_policy_v2_fixtures  # noqa: E402
 from qualification_acceptance_witness_fixtures import check_qualification_acceptance_witness_fixtures  # noqa: E402
+from stage2a_measurement_fixtures import check_stage2a_measurement_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -197,6 +198,7 @@ check_qualification_fixtures(ROOT, schemas, report)
 check_bridge_report_fixtures(ROOT, schemas, report)
 check_qualification_policy_v2_fixtures(ROOT, schemas, report)
 check_qualification_acceptance_witness_fixtures(ROOT, schemas, report)
+check_stage2a_measurement_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check

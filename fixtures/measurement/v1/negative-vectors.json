@@ -1,0 +1,248 @@
+[
+  {
+    "scope": "definition",
+    "name": "reordered record array",
+    "mutation": "reverse",
+    "expect": "record-order"
+  },
+  {
+    "scope": "definition",
+    "name": "missing frozen opt file",
+    "mutation": "omit-opt",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "definition",
+    "name": "extra frozen opt file",
+    "mutation": "extra-opt",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "definition",
+    "name": "changed file hash",
+    "mutation": "changed-bytes",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "definition",
+    "name": "changed file mode",
+    "mutation": "changed-mode",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "definition",
+    "name": "case-folding path alias",
+    "mutation": "case-alias",
+    "expect": "path-alias"
+  },
+  {
+    "scope": "definition",
+    "name": "writable Life checker as source",
+    "mutation": "writable-checker",
+    "expect": "definition-scope"
+  },
+  {
+    "scope": "definition",
+    "name": "aggregate frozen byte limit",
+    "mutation": "aggregate-limit",
+    "expect": "aggregate-limit"
+  },
+  {
+    "scope": "definition",
+    "name": "hard link count",
+    "mutation": "hard-link",
+    "expect": "opened-file"
+  },
+  {
+    "scope": "definition",
+    "name": "same staged inode for distinct paths",
+    "mutation": "inode-alias",
+    "expect": "inode-alias"
+  },
+  {
+    "scope": "definition",
+    "name": "ACL allow entry",
+    "mutation": "acl-allow",
+    "expect": "custody"
+  },
+  {
+    "scope": "definition",
+    "name": "runner-writable ancestor",
+    "mutation": "writable-ancestor",
+    "expect": "custody"
+  },
+  {
+    "scope": "definition",
+    "name": "snapshot inode swap before exec",
+    "mutation": "inode-swap",
+    "expect": "snapshot-changed-before-exec"
+  },
+  {
+    "scope": "launch",
+    "name": "changed external launch input",
+    "mutation": "changed-launch-input",
+    "expect": "component-bytes"
+  },
+  {
+    "scope": "launch",
+    "name": "missing external launch input",
+    "mutation": "missing-launch-input",
+    "expect": "sandbox-policy-bytes"
+  },
+  {
+    "scope": "definition",
+    "name": "more than 512 frozen entries",
+    "mutation": "definition-entry-limit",
+    "expect": "record-shape-or-limit"
+  },
+  {
+    "scope": "launch",
+    "name": "more than 64 launch input files",
+    "mutation": "launch-entry-limit",
+    "expect": "record-shape-or-limit"
+  },
+  {
+    "scope": "launch",
+    "name": "launch aggregate byte limit",
+    "mutation": "launch-aggregate-limit",
+    "expect": "aggregate-limit"
+  },
+  {
+    "scope": "definition",
+    "name": "duplicate record path",
+    "mutation": "duplicate-path",
+    "expect": "path-alias"
+  },
+  {
+    "scope": "definition",
+    "name": "non-ASCII record path",
+    "mutation": "unicode-path",
+    "expect": "record-shape-or-limit"
+  },
+  {
+    "scope": "definition",
+    "name": "dot-dot record component",
+    "mutation": "dot-component",
+    "expect": "record-shape-or-limit"
+  },
+  {
+    "scope": "launch",
+    "name": "changed launch path",
+    "mutation": "changed-launch-path",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "definition",
+    "name": "literal backslash path alias",
+    "mutation": "backslash-path",
+    "expect": "backslash-path"
+  },
+  {
+    "scope": "launch",
+    "name": "argv tail only",
+    "mutation": "argv-tail",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "argv zero only",
+    "mutation": "argv0",
+    "expect": "argv0-command"
+  },
+  {
+    "scope": "launch",
+    "name": "static environment only",
+    "mutation": "environment",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "B-only token in runner environment",
+    "mutation": "b-only-env",
+    "expect": "b-only-secret-environment"
+  },
+  {
+    "scope": "launch",
+    "name": "effective config only",
+    "mutation": "effective-config",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "OS build only",
+    "mutation": "system-build",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "system signing requirement only",
+    "mutation": "system-signing",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "parsed host projection only",
+    "mutation": "host-projection",
+    "expect": "host-projection-values"
+  },
+  {
+    "scope": "launch",
+    "name": "sandbox policy digest only",
+    "mutation": "sandbox-policy",
+    "expect": "sandbox-policy-bytes"
+  },
+  {
+    "scope": "launch",
+    "name": "B bridge digest only",
+    "mutation": "component-bridge",
+    "expect": "component-bytes"
+  },
+  {
+    "scope": "launch",
+    "name": "HQ comms broker digest only",
+    "mutation": "component-comms",
+    "expect": "component-bytes"
+  },
+  {
+    "scope": "launch",
+    "name": "selected command only",
+    "mutation": "selected-command",
+    "expect": "argv0-command"
+  },
+  {
+    "scope": "launch",
+    "name": "selected command and argv zero",
+    "mutation": "selected-command-and-argv0",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "one selected system image CDHash only",
+    "mutation": "system-cdhash",
+    "expect": "approved-inventory"
+  },
+  {
+    "scope": "launch",
+    "name": "selected system image order",
+    "mutation": "system-image-order",
+    "expect": "system-image-order"
+  },
+  {
+    "scope": "launch",
+    "name": "case-folding system image alias",
+    "mutation": "system-image-alias",
+    "expect": "system-image-alias"
+  },
+  {
+    "scope": "launch",
+    "name": "oversized host projection values",
+    "mutation": "host-projection-limit",
+    "expect": "launch-object-limit"
+  },
+  {
+    "scope": "launch",
+    "name": "oversized effective config",
+    "mutation": "effective-config-limit",
+    "expect": "launch-object-limit"
+  }
+]

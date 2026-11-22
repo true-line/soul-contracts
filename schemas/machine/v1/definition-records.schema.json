@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/definition-records.schema.json",
+  "title": "Stage 2a frozen Definition and Reconstructible closure records",
+  "description": "Exact ordered record array hashed with the stage2a definition-opt-closure domain. Shape does not prove file custody, read bytes or approved inventory.",
+  "type": "array",
+  "minItems": 5,
+  "maxItems": 512,
+  "items": { "$ref": "#/$defs/record" },
+  "$defs": {
+    "path": {
+      "description": "Printable ASCII path relative to the record array's declared root: approved Soul installation root for definition records, distinct root-owned launch projection for launch-input files. No leading/trailing slash, empty, dot or dot-dot component.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^(?!/)(?!.*//)(?!.*\\/$)(?!.*(?:^|/)\\.\\.?(/|$))[\\x20-\\x7e]+$",
+      "not": { "pattern": "\\\\" }
+    },
+    "mode": { "type": "string", "pattern": "^[0-7]{4}$" },
+    "file": {
+      "type": "object",
+      "required": ["path", "kind", "mode", "size", "sha256"],
+      "properties": {
+        "path": { "$ref": "#/$defs/path" },
+        "kind": { "const": "regular" },
+        "mode": { "$ref": "#/$defs/mode" },
+        "size": { "type": "integer", "minimum": 0, "maximum": 268435456 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "directory": {
+      "type": "object",
+      "required": ["path", "kind", "mode"],
+      "properties": {
+        "path": { "$ref": "#/$defs/path" },
+        "kind": { "const": "directory" },
+        "mode": { "$ref": "#/$defs/mode" }
+      },
+      "additionalProperties": false
+    },
+    "record": { "oneOf": [{ "$ref": "#/$defs/file" }, { "$ref": "#/$defs/directory" }] }
+  }
+}
