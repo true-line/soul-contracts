@@ -1,0 +1,75 @@
+{
+  "schema": "adapter/v3/qualification-attestation.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "qualification.json",
+        "digest": {
+          "sha256": "52b767819983b5bcdb7b5b4ecea520ae4ababe6f0332411973ba8778477e89bc"
+        }
+      }
+    ],
+    "predicateType": "https://true-line.ai/soul-contracts/adapter/v3/macos-measured-qualification",
+    "predicate": {
+      "host_reports": {
+        "protected_report": {
+          "report_schema_version": 3,
+          "signature_purpose": "agent-bot/qualification-host-report/v3",
+          "payload": {
+            "uri": "fixture:protected-v3",
+            "sha256": "sha256:459c5ea33489302d8ad89f8d631845aedcaa7d2ee392cf002de530bf4a47a97a"
+          },
+          "signature": {
+            "uri": "fixture:protected-v3-signature",
+            "sha256": "sha256:887aeb6df21ab691fcb168d46120afea7c09b26af70f192d82b7c8ef6853bfb8"
+          }
+        },
+        "cooperative_report": {
+          "report_schema_version": 3,
+          "signature_purpose": "agent-bot/qualification-host-report/v3",
+          "payload": {
+            "uri": "fixture:cooperative-v3",
+            "sha256": "sha256:cefc95fee9ba4bb14a56447db386017745e2f51d89f29d43b94e7c841bb3791a"
+          },
+          "signature": {
+            "uri": "fixture:cooperative-v3-signature",
+            "sha256": "sha256:f0086678db3a7f006ba167066cc171cefce9cb1f9751e5e3cb64a075cf58fb03"
+          },
+          "completed_run": {
+            "uri": "fixture:cooperative-completed-run",
+            "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+          }
+        }
+      },
+      "expires_at": "2026-12-01T00:00:00Z",
+      "release": {
+        "source_repository": "true-line/soul-adapters",
+        "source_commit": "cccccccccccccccccccccccccccccccccccccccc",
+        "workflow": ".github/workflows/qualify.yml"
+      },
+      "souls_build": {
+        "source_repository": "true-line/agent-bot-souls",
+        "source_commit": "1111111111111111111111111111111111111111",
+        "source_tree": "2222222222222222222222222222222222222222",
+        "builder_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "toolchain_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "workflow": ".github/workflows/release.yml",
+        "run_id": "123456789",
+        "run_attempt": 1,
+        "package_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "receipt": {
+          "uri": "fixture:souls-build-receipt-bundle",
+          "sha256": "sha256:71dd2dbb5a500800f5f0060ff65dc1969cbfd0240e48f44cb24c7fc2a2932e8b"
+        }
+      }
+    }
+  },
+  "base": {
+    "fixture": "positive/qualification-attestation.measurement-v3-synthetic.json",
+    "sha256": "sha256:ce4971472ad57c44b9cab0a95209aa1b2f5b75b5de4c6ad5cac80da4dce1839b"
+  }
+}
