@@ -5,7 +5,7 @@
   },
   "base": {
     "fixture": "positive/qualification-trust-policy.frozen-v3-synthetic.json",
-    "sha256": "sha256:708b5c85d20f36cde70d7e84496529a75c6a6fb23a5d6054669657f3689172aa"
+    "sha256": "sha256:b5120b0ff16c4a1bf74e92ed8cce89b452b3d819793a224a2484083b6111e943"
   },
   "input": {
     "contract": "control/v3",

@@ -51,21 +51,27 @@ policy, the delivered archive, and the reviewed local build inputs. The
 runtime `.tgz` keeps its distinct v2 `souls_build_workflow` authority; its
 receipt cannot substitute for a frozen `.soul` receipt.
 
-`frozen_soul_mapping` pins an exact bare archive SHA-256 to one Soul ID,
+`frozen_soul_mapping` pins an exact `sha256:`-prefixed digest of the raw
+Sigstore receipt bundle bytes and an exact bare archive SHA-256 to one Soul ID,
 the claimed SoulLock definition digest and an independently measured frozen
 definition digest. The last two are `sha256:`-prefixed. Machine must compare
-all four values with the owner-approved plan, authenticated build receipt,
+all five values with the owner-approved plan, authenticated build receipt,
 root-owned installed-byte measurement and both one-use physical runs.
 The build Statement deliberately omits the Soul ID and owner approval, so
 the owner-signed mapping is a separate required authority.
 
-The v3 revocation snapshot adds frozen workflow IDs, signed receipt bundle
-digests and bare artifact digests to the existing adapter, host and runtime
+The v3 revocation snapshot adds frozen workflow IDs, exact signed receipt bundle
+byte digests and bare artifact digests to the existing adapter, host and runtime
 revocations. The owner signs its timestamp and exact sets. A missing or
 future snapshot, an age greater than **3,600 seconds**, a revoked item,
 policy expiry, or a missing exact trust-root file refuses. Exactly 3,600
 seconds is current. Reissuing a policy with the old snapshot does not reset
 its age.
+Before parsing the receipt bundle, Machine must hash its exact raw bytes and
+require equality with `frozen_soul_mapping.receipt_sha256`. A semantically
+equivalent reserialization has a different digest and refuses; it cannot
+evade a revocation by changing JSON whitespace or field order. The same
+digest is checked against `revoked_frozen_soul_receipt_sha256`.
 
 ## Version and implementation boundary
 

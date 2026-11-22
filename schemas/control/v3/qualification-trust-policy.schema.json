@@ -322,10 +322,11 @@
     },
     "frozen_soul_mapping": {
       "type": "object",
-      "description": "Owner-approved exact frozen artifact, Soul ID, claimed SoulLock definition digest and independently measured definition digest.",
+      "description": "Owner-approved exact frozen receipt bytes and artifact, Soul ID, claimed SoulLock definition digest and independently measured definition digest.",
       "required": [
         "soul_id",
         "artifact_sha256",
+        "receipt_sha256",
         "claimed_definition_digest",
         "definition_measurement"
       ],
@@ -337,6 +338,9 @@
         "artifact_sha256": {
           "type": "string",
           "pattern": "^[0-9a-f]{64}$"
+        },
+        "receipt_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/sha256"
         },
         "claimed_definition_digest": {
           "$ref": "https://true-line.ai/soul-contracts/control/v1/qualification-trust-policy.schema.json#/$defs/sha256"

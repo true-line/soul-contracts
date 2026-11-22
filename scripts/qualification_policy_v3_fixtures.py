@@ -65,6 +65,8 @@ def v3_policy_refusal(schemas, policy_bytes, envelope, *, now,
         return "frozen-root-mismatch"
     if mapping != reviewed_mapping:
         return "unapproved-frozen-mapping"
+    if receipt_digest != mapping["receipt_sha256"]:
+        return "frozen-receipt-mismatch"
     if subject_name != f"sha256-{mapping['artifact_sha256']}.soul" or \
             subject_digest != mapping["artifact_sha256"]:
         return "frozen-subject-mismatch"
@@ -101,7 +103,8 @@ def check_qualification_policy_v3_fixtures(root, schemas, report):
     now = _time("2026-11-21T18:45:00Z")
     workflow = policy["frozen_soul_build_workflow"]
     mapping = policy["frozen_soul_mapping"]
-    receipt = "sha256:" + "e" * 64
+    receipt_bytes = b'{"fixture":"unsigned-receipt"}'
+    receipt = _digest(receipt_bytes)
     subject_name = f"sha256-{mapping['artifact_sha256']}.soul"
     predicate = {
         "artifact_format": workflow["artifact_format"],
@@ -176,6 +179,8 @@ def check_qualification_policy_v3_fixtures(root, schemas, report):
     changed["frozen_soul_mapping"]["definition_measurement"] = "sha256:" + "f" * 64
     b, e = repack(changed)
     check("changed definition mapping", "unapproved-frozen-mapping", p=b, e=e)
+    check("reserialized equivalent receipt bytes", "frozen-receipt-mismatch",
+          r=_digest(b'{ "fixture" : "unsigned-receipt" }'))
     check("runtime archive subject substitution", "frozen-subject-mismatch", name="souls-package.tgz")
     check("changed frozen subject digest", "frozen-subject-mismatch", subject_digest="f" * 64)
     changed_predicate = copy.deepcopy(predicate)
