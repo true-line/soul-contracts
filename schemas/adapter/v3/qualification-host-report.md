@@ -81,10 +81,14 @@ The two release `completed_run` references must also differ in URI and digest.
 The Machine and release verifier must, in order:
 
 1. Authenticate the release-pinned owner Ed25519 root and exact owner-signed
-   v2 policy bytes, persist the greatest accepted policy revision and reject
-   rollback or equivocation. Independently check policy expiry and the signed
-   revocation snapshot. A missing or future snapshot, or age greater than
-   **3,600 seconds**, refuses; age exactly 3,600 seconds is current.
+   policy bytes, persist the greatest accepted policy revision across versions
+   and reject rollback or equivocation. The current source-only report fixtures
+   use a v2 policy for adapter, host and runtime `.tgz` checks. A positive
+   frozen `.soul` path additionally requires the distinct owner-signed
+   [v3 policy candidate](../../control/v3/qualification-trust-policy.md)
+   after it is approved and implemented. Independently check policy expiry and
+   the signed revocation snapshot. A missing or future snapshot, or age greater
+   than **3,600 seconds**, refuses; age exactly 3,600 seconds is current.
 2. Authenticate the designated host signer and verify each v3 envelope,
    canonical report bytes, fixed purpose, exact digest and ES256 signature.
    Reject a revoked signer or release workflow.

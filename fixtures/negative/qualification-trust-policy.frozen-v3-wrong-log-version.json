@@ -1,0 +1,95 @@
+{
+  "schema": "control/v3/qualification-trust-policy.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/qualification-trust-policy.frozen-v3-synthetic.json",
+    "sha256": "sha256:708b5c85d20f36cde70d7e84496529a75c6a6fb23a5d6054669657f3689172aa"
+  },
+  "input": {
+    "contract": "control/v3",
+    "kind": "qualification-trust-policy",
+    "policy_revision": 3,
+    "owner_key_id": "fixture-owner-key",
+    "issued_at": "2026-11-21T18:00:00Z",
+    "expires_at": "2026-11-21T20:00:00Z",
+    "release_workflow": {
+      "id": "fixture-workflow",
+      "repository": "true-line/soul-adapters",
+      "workflow_path": ".github/workflows/release.yml",
+      "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "oidc_issuer": "https://token.actions.githubusercontent.com",
+      "certificate_identity": "https://github.com/true-line/soul-adapters/.github/workflows/release.yml@refs/tags/v0.0.0",
+      "trust_root_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "evidence_signers": [
+      {
+        "id": "fixture-signer",
+        "host_id": "fixture-qualification-mac",
+        "algorithm": "ES256",
+        "public_key_spki_der_base64": "Zml4dHVyZQ=="
+      }
+    ],
+    "revocation_snapshot": {
+      "updated_at": "2026-11-21T18:00:00Z",
+      "revoked_attestation_sha256": [],
+      "revoked_evidence_signer_ids": [],
+      "revoked_release_workflow_ids": [],
+      "revoked_souls_build_workflow_ids": [],
+      "revoked_souls_build_receipt_sha256": [],
+      "revoked_frozen_soul_build_workflow_ids": [],
+      "revoked_frozen_soul_receipt_sha256": [],
+      "revoked_frozen_soul_artifact_sha256": []
+    },
+    "max_revocation_age_seconds": 3600,
+    "souls_build_workflow": {
+      "id": "fixture-souls-build",
+      "repository": "true-line/agent-bot-souls",
+      "workflow_path": ".github/workflows/release.yml",
+      "source_commit": "1111111111111111111111111111111111111111",
+      "source_tree": "2222222222222222222222222222222222222222",
+      "oidc_issuer": "https://fixture.example/issuer",
+      "certificate_identity": "https://fixture.example/souls-build-workflow",
+      "trust_root_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "builder_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "toolchain_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "receipt_predicate_type": "https://true-line.ai/soul-contracts/adapter/v2/souls-build",
+      "bundle_media_type": "application/vnd.dev.sigstore.bundle.v0.3+json",
+      "dsse_payload_type": "application/vnd.in-toto+json"
+    },
+    "frozen_soul_build_workflow": {
+      "id": "fixture-frozen-soul-build",
+      "repository": "true-line/soul-package",
+      "workflow_path": ".github/workflows/stage2a-frozen-soul-receipt.yml",
+      "source_commit": "5555555555555555555555555555555555555555",
+      "source_tree": "6666666666666666666666666666666666666666",
+      "oidc_issuer": "https://fixture.example/frozen-issuer",
+      "certificate_identity": "https://fixture.example/frozen-workflow",
+      "trust_root_sha256": "sha256:62b3117250e87c65e02e983f94d60b1075f0c1d924eea3a6207d77156e1146df",
+      "builder_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "toolchain_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "receipt_predicate_type": "https://true-line.ai/soul-contracts/package/v1/frozen-soul-build",
+      "bundle_media_type": "application/vnd.dev.sigstore.bundle.v0.3+json",
+      "dsse_payload_type": "application/vnd.in-toto+json",
+      "artifact_format": "stage2a-frozen-hello-ustar/v1",
+      "subject_name_template": "sha256-{artifact_sha256}.soul",
+      "rekor_entry_kind": "dsse",
+      "rekor_entry_version": "0.0.2",
+      "transparency_log_id": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "template": {
+        "repository": "true-line/soul-conformance",
+        "source_commit": "8e82f47781e583e4b09352cbfef5ca3bfefe45aa",
+        "source_tree": "5f3ab3acee16de02a38a51204fb9401c3566a6d0",
+        "path": "templates/hello.soul",
+        "template_tree": "e944d40e5f495f6de395619b254ed890e36b53ee"
+      }
+    },
+    "frozen_soul_mapping": {
+      "soul_id": "agent_00000000-0000-0000-0000-000000000000",
+      "artifact_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+      "claimed_definition_digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+      "definition_measurement": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    }
+  }
+}
