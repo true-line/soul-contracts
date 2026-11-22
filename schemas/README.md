@@ -13,6 +13,8 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft bridge-aware designated-host signature | `adapter/v2/qualification-host-signature.schema.json` | draft |
 | Draft [bridge-aware protected qualification record](adapter/v2/qualification-attestation.md) | `adapter/v2/qualification-evidence.schema.json` | draft |
 | Draft bridge-aware protected release Statement | `adapter/v2/qualification-attestation.schema.json` | draft |
+| Draft [Stage 2a measured host report and offline verification bytes](adapter/v3/qualification-host-report.md) for protected T01-T03 and cooperative T21 | `adapter/v3/qualification-host-report.schema.json`, `adapter/v3/qualification-host-signature.schema.json` | draft |
+| Draft Stage 2a measured release record and Statement, with separate completed-run references | `adapter/v3/qualification-evidence.schema.json`, `adapter/v3/qualification-attestation.schema.json` | draft |
 | Draft decoded Souls source and build receipt Statement | `adapter/v2/qualification-build-receipt.schema.json` | draft |
 | Draft linked-machine [control records and verification rules](control/v1/control-records.md): policy, relayed owner request, owner session, enrollment, link/unlink and machine plan | `control/v1/*.schema.json` | draft |
 | Draft local-only credential issuer variant | `records/v1/local-credential-issuance-record.schema.json` | draft |
