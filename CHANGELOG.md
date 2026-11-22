@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 0.7.0 — 2026-11-22
+
+This version publishes Stage 2a contract shapes and synthetic fixtures. It
+does not qualify an adapter, sign a `.soul` package, establish protected host
+launch authority, or prove T01/T02/T03/T21. Consumers must verify the published
+tag and release before pinning this version.
+
+- Add measured qualification host-report v3 and its synthetic protected and
+  cooperative profile fixtures. These records bind exact host, bridge, Soul
+  and policy inputs but contain no physical acceptance result.
+- Add Machine's secure-admin-owned frozen snapshot identity and signed one-use
+  reservation contracts. The `machine/v2` payload separates installed source
+  from the frozen definition passed to the Soul runner.
+- Add the `control/v3` policy flag for future `.soul` release provenance. The
+  private Stage 2a pilot keeps it off while retaining frozen Soul ID, artifact
+  and measured-definition bindings and artifact revocation.
+- Add a pre-sign execution-completion record and post-sign completed-run
+  commitment for the v3 qualification report's no-cycle evidence chain.
 - Add a draft, supplemental Machine/keyd policy acceptance-witness payload and
   fixed-purpose ES256 envelope. Synthetic shape and comparison fixtures cover
   pair and HQ epoch changes, one-use challenge replay, ledger/key loss, policy
