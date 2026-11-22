@@ -57,8 +57,14 @@ def v3_policy_refusal(schemas, policy_bytes, envelope, *, now,
     updated = _time(policy["revocation_snapshot"]["updated_at"])
     if not issued <= updated <= now < expiry or (now - updated).total_seconds() > 3600:
         return "policy-time-or-revocation-age"
-    workflow = policy["frozen_soul_build_workflow"]
     mapping = policy["frozen_soul_mapping"]
+    if not policy["frozen_soul_release_provenance_enabled"]:
+        if mapping != reviewed_mapping:
+            return "unapproved-frozen-mapping"
+        if mapping["artifact_sha256"] in policy["revocation_snapshot"]["revoked_frozen_soul_artifact_sha256"]:
+            return "frozen-authority-revoked"
+        return None
+    workflow = policy["frozen_soul_build_workflow"]
     if workflow != reviewed_workflow:
         return "unapproved-frozen-workflow"
     if _digest(trusted_root_bytes) != workflow["trust_root_sha256"]:
@@ -141,6 +147,25 @@ def check_qualification_policy_v3_fixtures(root, schemas, report):
         e["policy_sha256"] = _digest(value)
         e["policy_base64url"] = base64.urlsafe_b64encode(value).rstrip(b"=").decode()
         return value, e
+
+    off = json.loads((root / "fixtures/positive/qualification-trust-policy.frozen-v3-provenance-off-synthetic.json").read_text())["input"]
+    off_raw, off_envelope = repack(off)
+    off_mapping = off["frozen_soul_mapping"]
+    check("off: exact frozen artifact mapping without release receipt", None,
+          p=off_raw, e=off_envelope, w=None, m=off_mapping, root_bytes=b"", r="")
+    changed = copy.deepcopy(off)
+    changed["frozen_soul_mapping"]["soul_id"] = "agent_ffffffff-ffff-ffff-ffff-ffffffffffff"
+    b, e = repack(changed)
+    check("off: wrong Soul identity", "unapproved-frozen-mapping",
+          p=b, e=e, w=None, m=off_mapping, root_bytes=b"", r="")
+    changed = copy.deepcopy(off)
+    changed["revocation_snapshot"]["revoked_frozen_soul_artifact_sha256"] = [off_mapping["artifact_sha256"]]
+    b, e = repack(changed)
+    check("off: revoked artifact", "frozen-authority-revoked",
+          p=b, e=e, w=None, m=off_mapping, root_bytes=b"", r="")
+    check("off: stale revocation snapshot", "policy-time-or-revocation-age",
+          p=off_raw, e=off_envelope, t=_time("2026-11-21T19:00:01Z"),
+          w=None, m=off_mapping, root_bytes=b"", r="")
 
     check("synthetic shape, bytes and 45-minute snapshot", None)
     check("initial shared revision state", None, highest=0, accepted_digest="")

@@ -124,15 +124,15 @@
         "signature_purpose": "agent-bot/qualification-host-report/v3",
         "payload": {
           "uri": "fixture:protected-v3",
-          "sha256": "sha256:9565867ee0f5bc8ffc64a95efb4d4d9f652810de4b7f717646afb727e6289f1f"
+          "sha256": "sha256:f7f044c8962d5f886688515a02a5e706eef6649a7f1d3b2be0f7bf7270683b12"
         },
         "signature": {
           "uri": "fixture:protected-v3-signature",
-          "sha256": "sha256:964d25e15294d0be0afa207853641cbf215cffe91a090b0820c6cb9f21f860d0"
+          "sha256": "sha256:1153c8d23d6b2976a47f64114e1fba0449ccaa6422d4b7af35059a41ce88ade5"
         },
         "completed_run": {
           "uri": "fixture:protected-completed-run",
-          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+          "sha256": "sha256:4e4a23d9a935abe9cfffab59dd404325c5674ea3402d192a02646b91dd0bcdfe"
         }
       },
       "cooperative_report": {
@@ -140,15 +140,15 @@
         "signature_purpose": "agent-bot/qualification-host-report/v3",
         "payload": {
           "uri": "fixture:cooperative-v3",
-          "sha256": "sha256:ae26b8b3a6f97a1659a84ce071d8f9f6bacb266cfccacfca1ca9fa03684aea0e"
+          "sha256": "sha256:ba564f754cab9a3e1f7111dd5396f4b1ccda0d9db4d33e4f59a12e72e01b5c3b"
         },
         "signature": {
           "uri": "fixture:cooperative-v3-signature",
-          "sha256": "sha256:9b980558ac717ae23d4337586c38d4c6c84000d0874de86096e0e621b725b703"
+          "sha256": "sha256:83881a0cad9f256c4f9c1839895a9966d38299a662e244e52fd3a9f191a3db3a"
         },
         "completed_run": {
           "uri": "fixture:cooperative-completed-run",
-          "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+          "sha256": "sha256:3ddfed7728da1840999feba29f48e99fa1cf1b1dba811bceb0e2554467172662"
         }
       },
       "runner_observations": {
@@ -223,5 +223,5 @@
     },
     "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   },
-  "canonical_sha256": "sha256:27bc66eb252cab630de4a99987f5a9497226fc22e8a73de8303f721727defb2c"
+  "canonical_sha256": "sha256:13d859b01f3415d98614914f52fb0aa0f00dd91ad4fd94615fcbb55c0f72ad14"
 }

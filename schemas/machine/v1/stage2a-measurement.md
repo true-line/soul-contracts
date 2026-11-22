@@ -23,7 +23,7 @@ parent directories and rejects any other top-level path.
 
 The separate [launch-input records](launch-input-records.schema.json) form
 one JSON **object**. Its `files` field is a sorted array of regular-file
-records. Paths are relative to one explicit root-owned launch projection
+records. Paths are relative to one explicit secure-admin-owned launch projection
 root, recorded in the binding's `snapshots.launch_inputs`. For example,
 `bin/node` and `host/adapters.json` refer to paths inside that projection,
 not to the Soul's writable `Contents/host/`. The projection must include
@@ -92,7 +92,7 @@ immediately before exec; schema-valid bytes cannot prove these observations.
 The nonauthorizing [measurement binding](measurement-binding.schema.json)
 contains the two portable digests, a separate
 [host-local identity](snapshot-identity.schema.json) for each read-only
-root-owned snapshot, exact installed-plan digest, independently measured
+secure-admin-owned snapshot, exact installed-plan digest, independently measured
 candidate package digest, SoulLock's claimed
 definition digest, installation/Soul/start/launch/host/HQ epoch, plan ID and
 profile. Start IDs use `st_` plus 24 lowercase hex characters; launch IDs use
@@ -107,17 +107,19 @@ candidate and cannot be inferred from the two closure measurements.
 For v3 qualification, `soul_artifact_sha256` is an additional bare 64-hex
 digest of the exact frozen installable `.soul` transport. It is not an alias
 for this legacy package claim, the adapter release package, or the Souls
-runtime `.tgz`. The v3 verifier must authenticate a separately signed `.soul`
-release receipt, measure the installed transport bytes, and compare the exact
-owner-approved Soul identity and definition mapping before accepting it.
-Until that receipt, measurement and mapping exist, the digest is a claim only.
+runtime `.tgz`. The v3 verifier measures the installed transport bytes and
+compares the exact owner-approved Soul identity and definition mapping. It
+also authenticates a separate `.soul` release receipt if the owner-signed
+`frozen_soul_release_provenance_enabled` feature is true; the private pilot
+keeps it false. Until installed measurement and mapping exist, the digest is
+a claim only.
 `claimed_definition_digest` is the exact `sha256:` value from
 SoulLock, not a measurement of SoulLock's own containing file. The approved
 one-use plan must map `(soul_id, claimed_definition_digest,
 definition_measurement)` and match the separately measured launch inputs.
 
 Both snapshot identities include an absolute root path, device, inode,
-generation, birth time in nanoseconds, root UID/GID and mode. Large host-local
+generation, birth time in nanoseconds, secure-admin UID/GID and mode. Large host-local
 numbers are decimal strings to avoid JCS integer precision loss. The two
 roots must be distinct and read-only. Machine's signer and HQ must compare
 this same binding across the future pre-Hello reservation, post-Hello

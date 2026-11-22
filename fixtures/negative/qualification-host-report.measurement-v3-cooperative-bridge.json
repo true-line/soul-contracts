@@ -205,7 +205,11 @@
         "uri": "fixture:cooperative-finalization",
         "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
       },
-      "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "execution_completion": {
+        "uri": "fixture:cooperative-execution-completion",
+        "sha256": "sha256:a0adee0c53147ad712a88679311c141d9bd8931f44dc2a080f3e97b9414d8898"
+      }
     },
     "bridge": {
       "assignment": {
@@ -417,6 +421,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-cooperative-synthetic.json",
-    "sha256": "sha256:b169136017d28c807831249e0c0764522544a6425eb7151bb7c061a691d1851c"
+    "sha256": "sha256:c9afcbc6e92c21f662d67757ec6e36066e4babbbd42fc940ffa95d838bb74f81"
   }
 }

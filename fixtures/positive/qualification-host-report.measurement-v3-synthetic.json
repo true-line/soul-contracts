@@ -426,8 +426,12 @@
         "uri": "fixture:protected-finalization",
         "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
       },
-      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "execution_completion": {
+        "uri": "fixture:protected-execution-completion",
+        "sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879"
+      }
     }
   },
-  "canonical_sha256": "sha256:9565867ee0f5bc8ffc64a95efb4d4d9f652810de4b7f717646afb727e6289f1f"
+  "canonical_sha256": "sha256:f7f044c8962d5f886688515a02a5e706eef6649a7f1d3b2be0f7bf7270683b12"
 }

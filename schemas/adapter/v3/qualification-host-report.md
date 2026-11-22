@@ -15,9 +15,10 @@ One protected report has `profile_in_force: managed-protected`, passing
 T01/T02/T03 and the complete v2 `bridge` custody object. A separate cooperative
 report has `profile_in_force: managed-cooperative`, passing T21 and no `bridge`
 object. Both carry the complete `machine/v2` `measurement_binding` and
-`run_evidence` with exact reservation and finalization `{uri,sha256}` refs and
-a `challenge_sha256` value. Reservation and finalization must differ in both
-URI and digest within each run. These are reported claims until Machine resolves
+`run_evidence` with exact reservation, finalization and pre-sign
+`execution_completion` `{uri,sha256}` refs and a `challenge_sha256` value.
+The three refs must differ in both URI and digest within each run. These are
+reported claims until Machine resolves
 and authenticates the referenced bytes under its secure-admin custody. No
 bearer challenge, bootstrap proof or credential appears in the report.
 The binding's explicit bare `soul_artifact_sha256` names exact frozen `.soul`
@@ -49,18 +50,28 @@ envelope cannot substitute for v3.
 
 ## Acyclic completion and release binding
 
-The signed report contains the per-start binding and pre-completion references.
-It does **not** contain a digest of its completed-run record. Machine must first
-spend the exact one-use reservation and authenticate post-Hello finalization,
-then prepare the canonical report. Its immutable completed-run record commits
-to the exact report digest after physical execution. The release
+Machine first spends the exact one-use reservation, authenticates post-Hello
+finalization, and observes completed physical execution and containment. A
+pre-sign Machine Ed25519 `agent-bot/stage2a-execution-completion/v1` envelope
+binds a `report_candidate_sha256`: the canonical v3 report with **only**
+`run_evidence.execution_completion` omitted. Its payload also binds the
+reservation, finalization, challenge and complete measurement-binding digests
+and `completed_at`. Machine validates the actual completed run before issuing
+this immutable record. The report includes its exact envelope digest as
+`run_evidence.execution_completion`; the host then signs the final report.
+
+A distinct post-sign Machine Ed25519
+`agent-bot/stage2a-report-commitment/v1` envelope binds the exact execution
+completion envelope, final report payload and host signature envelope digests
+and `committed_at`. The signed report does **not** contain this post-sign
+commitment. The release
 `qualification.json` and Statement each reference the report payload,
-signature envelope and that separately authenticated completed-run record.
-This ordering avoids a circular hash. A `started` or merely finalized attempt
-is insufficient. The completed-run record's issuer, signature framing,
-atomic challenge-consumption and crash-recovery rules are still being defined
-in the Machine one-use contract; until they are released and implemented,
-positive signing and release acceptance stay closed.
+signature envelope and that separately authenticated post-sign `completed_run`
+commitment. The verifier checks `completed_at <= report.recorded_at <=
+committed_at` and all exact byte links. A `started` or merely finalized attempt
+is insufficient. The Machine issuer, atomic challenge-consumption and
+crash-recovery rules still require implementation and physical proof; until
+then, positive signing and release acceptance stay closed.
 
 The v3 Statement predicate type is
 `https://true-line.ai/soul-contracts/adapter/v3/macos-measured-qualification`.
@@ -90,18 +101,20 @@ The Machine and release verifier must, in order:
 2. Authenticate the designated host signer and verify each v3 envelope,
    canonical report bytes, fixed purpose, exact digest and ES256 signature.
    Reject a revoked signer or release workflow.
-3. Resolve the two reports' reservation and finalization refs and the release
-   record's two completed-run refs. Verify their independent Machine issuer,
+3. Resolve the two reports' reservation, finalization and pre-sign execution
+   completion refs and the release record's two post-sign completed-run refs.
+   Verify their independent Machine issuer,
    exact bytes, one-use lifecycle and matching full `measurement_binding`.
    Compare host, HQ epoch, installation, Soul/start/launch IDs, plan and
    package digests, frozen definition, full launch-input measurement and both
    host-local snapshot identities with independently retained observations.
    For protected runs, the bridge assignment, B/HQ/Comms receipts and
    Machine-observed HQ-started Soul must also match.
-   Independently authenticate the frozen `.soul` release receipt under an
-   owner-pinned trust anchor, measure the installed `.soul` bytes, and compare
-   the exact owner-approved Soul/definition mapping. No v3 positive path exists
-   while that receipt, anchor and mapping remain unspecified or unavailable.
+   Measure the installed frozen `.soul` bytes and compare the exact
+   owner-approved Soul/definition mapping. Authenticate a separate `.soul`
+   release receipt only when the owner-signed provenance feature is enabled;
+   the private pilot keeps it off. The adapter release and physical gates remain
+   mandatory in either mode.
 4. Authenticate the designated release workflow, source commit, trust chain
    and signing-time proof for the v3 Statement. Verify its exact subject,
    both report refs and the separately signed Souls build receipt against

@@ -385,11 +385,15 @@
         "uri": "fixture:protected-finalization",
         "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
       },
-      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "execution_completion": {
+        "uri": "fixture:protected-execution-completion",
+        "sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879"
+      }
     }
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-synthetic.json",
-    "sha256": "sha256:ea16ca0d0dc79318744131044746c4c4e51da4b69428fbc98359dc41c95ad799"
+    "sha256": "sha256:092a3dee914d74bb0c9166143f6e91d47682916bd2b13be2edcf992ca5c80ab3"
   }
 }

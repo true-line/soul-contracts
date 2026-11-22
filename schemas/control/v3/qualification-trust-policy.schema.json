@@ -16,7 +16,7 @@
     "evidence_signers",
     "revocation_snapshot",
     "max_revocation_age_seconds",
-    "frozen_soul_build_workflow",
+    "frozen_soul_release_provenance_enabled",
     "frozen_soul_mapping"
   ],
   "properties": {
@@ -119,8 +119,6 @@
         "revoked_release_workflow_ids",
         "revoked_souls_build_workflow_ids",
         "revoked_souls_build_receipt_sha256",
-        "revoked_frozen_soul_build_workflow_ids",
-        "revoked_frozen_soul_receipt_sha256",
         "revoked_frozen_soul_artifact_sha256"
       ],
       "properties": {
@@ -162,6 +160,10 @@
     },
     "max_revocation_age_seconds": {
       "const": 3600
+    },
+    "frozen_soul_release_provenance_enabled": {
+      "type": "boolean",
+      "description": "False keeps the frozen artifact and definition mapping mandatory but disables the separate .soul release receipt authority."
     },
     "frozen_soul_build_workflow": {
       "type": "object",
@@ -322,11 +324,10 @@
     },
     "frozen_soul_mapping": {
       "type": "object",
-      "description": "Owner-approved exact frozen receipt bytes and artifact, Soul ID, claimed SoulLock definition digest and independently measured definition digest.",
+      "description": "Owner-approved exact frozen artifact, Soul ID, claimed SoulLock definition digest and independently measured definition digest. A receipt digest is required only when release provenance is enabled.",
       "required": [
         "soul_id",
         "artifact_sha256",
-        "receipt_sha256",
         "claimed_definition_digest",
         "definition_measurement"
       ],
@@ -352,6 +353,49 @@
       "additionalProperties": false
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "frozen_soul_release_provenance_enabled": {
+            "const": true
+          }
+        },
+        "required": ["frozen_soul_release_provenance_enabled"]
+      },
+      "then": {
+        "required": ["frozen_soul_build_workflow"],
+        "properties": {
+          "revocation_snapshot": {
+            "required": ["revoked_frozen_soul_build_workflow_ids", "revoked_frozen_soul_receipt_sha256"]
+          },
+          "frozen_soul_mapping": {
+            "required": ["receipt_sha256"]
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": ["frozen_soul_build_workflow"]
+        },
+        "properties": {
+          "revocation_snapshot": {
+            "not": {
+              "anyOf": [
+                { "required": ["revoked_frozen_soul_build_workflow_ids"] },
+                { "required": ["revoked_frozen_soul_receipt_sha256"] }
+              ]
+            }
+          },
+          "frozen_soul_mapping": {
+            "not": {
+              "required": ["receipt_sha256"]
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "sha256_set": {
       "type": "array",
