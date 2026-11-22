@@ -124,11 +124,11 @@
         "signature_purpose": "agent-bot/qualification-host-report/v3",
         "payload": {
           "uri": "fixture:protected-v3",
-          "sha256": "sha256:fd3d62a0e0f569ab3030f4c7f77834000a925aae1f0d15b24977500a3512f5b7"
+          "sha256": "sha256:230d364ef7e4e6209cec388bcaef22075a8068430cb35895684a40f6bf78f44f"
         },
         "signature": {
           "uri": "fixture:protected-v3-signature",
-          "sha256": "sha256:ab63bc25ef6991d701b1ef0cd7d6c3cf059c89b6a215487a98bb65bcfe7b8715"
+          "sha256": "sha256:673e546b6124ef31519e7b37425e30e9a06f27e446d7a54cfe825a4888c3fe39"
         },
         "completed_run": {
           "uri": "fixture:protected-completed-run",
@@ -140,11 +140,11 @@
         "signature_purpose": "agent-bot/qualification-host-report/v3",
         "payload": {
           "uri": "fixture:cooperative-v3",
-          "sha256": "sha256:204bc32091e32603b9b6f1c66fb06e136e1d155b4097a2bfa4b95e7e515848d2"
+          "sha256": "sha256:e765d4ba571909a59e2622c21f9de648be4ebd6608796ced03c9f38d294b2dc8"
         },
         "signature": {
           "uri": "fixture:cooperative-v3-signature",
-          "sha256": "sha256:7a5b39cffd311a148268a58a599b526439913af45889c6953e454b447ac5298f"
+          "sha256": "sha256:ba943ede4493dc27c77748349f97c2dd16484846a294cdd75700d0d20c62a41f"
         },
         "completed_run": {
           "uri": "fixture:cooperative-completed-run",
@@ -223,5 +223,5 @@
     },
     "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   },
-  "canonical_sha256": "sha256:5ae3236a46fc409d3779409927dc5936fc593b77fd44b3258b73cb612a8a1f23"
+  "canonical_sha256": "sha256:e1078204f92e5dbd98f06ce9854ceaa59266bf71ea5515afaeff6cef13cc5a57"
 }

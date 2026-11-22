@@ -179,7 +179,7 @@
           "inode": "1001",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         },
@@ -189,7 +189,7 @@
           "inode": "2002",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         }
@@ -227,7 +227,7 @@
         "bridge_uid": 502,
         "credential_uid": 503,
         "hq_uid": 504,
-        "machine_uid": 0,
+        "machine_uid": 505,
         "bridge_private_gid": 702,
         "runner_private_gid": 703
       },
@@ -417,6 +417,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-cooperative-synthetic.json",
-    "sha256": "sha256:58396c68bcd9d569cb0a864981a74a9833926ba2ffa4f32b73a9c55b65a4f28c"
+    "sha256": "sha256:b08761f0ac975c88f4a139f811bfa766e83e3e02b2ec76a8fa43625f4e42759d"
   }
 }

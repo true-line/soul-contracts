@@ -179,7 +179,7 @@
           "inode": "1001",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         },
@@ -189,7 +189,7 @@
           "inode": "2002",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         }
@@ -208,5 +208,5 @@
       "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
     }
   },
-  "canonical_sha256": "sha256:204bc32091e32603b9b6f1c66fb06e136e1d155b4097a2bfa4b95e7e515848d2"
+  "canonical_sha256": "sha256:e765d4ba571909a59e2622c21f9de648be4ebd6608796ced03c9f38d294b2dc8"
 }

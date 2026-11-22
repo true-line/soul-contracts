@@ -189,7 +189,7 @@
         "bridge_uid": 502,
         "credential_uid": 503,
         "hq_uid": 504,
-        "machine_uid": 0,
+        "machine_uid": 505,
         "bridge_private_gid": 702,
         "runner_private_gid": 703
       },
@@ -400,7 +400,7 @@
           "inode": "1001",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         },
@@ -410,7 +410,7 @@
           "inode": "1002",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 501,
+          "owner_uid": 505,
           "owner_gid": 331,
           "mode": "0555"
         }
@@ -429,5 +429,5 @@
       "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
     }
   },
-  "canonical_sha256": "sha256:fd3d62a0e0f569ab3030f4c7f77834000a925aae1f0d15b24977500a3512f5b7"
+  "canonical_sha256": "sha256:230d364ef7e4e6209cec388bcaef22075a8068430cb35895684a40f6bf78f44f"
 }
