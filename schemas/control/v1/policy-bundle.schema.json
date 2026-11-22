@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json",
+  "title": "Linked-machine control policy bundle",
+  "description": "Shape only; cryptographic and policy-subset verification is mandatory.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "control_signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "policy-bundle"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "link_id",
+        "machine_id",
+        "policy_revision",
+        "previous_policy_sha256",
+        "change_class",
+        "control_key_id",
+        "allowed_actions",
+        "issued_at",
+        "expires_at"
+      ],
+      "properties": {
+        "link_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "policy_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previous_policy_sha256": {
+          "oneOf": [
+            {
+              "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "change_class": {
+          "enum": [
+            "reduce",
+            "widen"
+          ]
+        },
+        "control_key_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "allowed_actions": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/policy_grant"
+          }
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "control_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/control_signature"
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "stamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "owner_presence": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "owner_device_key_id",
+        "owner_session_id",
+        "challenge_nonce",
+        "action_sha256",
+        "expires_at",
+        "signature_base64"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ES256"
+        },
+        "owner_device_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "owner_session_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "challenge_nonce": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "action_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "signature_base64": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]{16,510}={0,2}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "control_signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "control_key_id",
+        "payload_sha256",
+        "signature_base64url"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "control_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "signature_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hq_signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "hq_key_id",
+        "payload_sha256",
+        "signature_base64"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ES256"
+        },
+        "hq_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "signature_base64": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]{16,510}={0,2}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "issuer_signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "issuer_key_id",
+        "payload_sha256",
+        "signature_base64url"
+      ],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "Ed25519",
+            "ES256"
+          ]
+        },
+        "issuer_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "signature_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "device_jwk": {
+      "type": "object",
+      "required": [
+        "kty",
+        "crv",
+        "x",
+        "y"
+      ],
+      "properties": {
+        "kty": {
+          "const": "EC"
+        },
+        "crv": {
+          "const": "P-256"
+        },
+        "x": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "y": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "policy_grant": {
+      "type": "object",
+      "required": [
+        "verb",
+        "resource"
+      ],
+      "properties": {
+        "verb": {
+          "enum": [
+            "stop",
+            "deny",
+            "revoke",
+            "quarantine",
+            "start",
+            "restart",
+            "drain",
+            "offer-task",
+            "policy-write",
+            "install",
+            "create-harness-account",
+            "provision-key",
+            "provision-credential",
+            "machine-plan"
+          ]
+        },
+        "resource": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "change_class": {
+                "const": "widen"
+              }
+            },
+            "required": [
+              "change_class"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "owner_presence"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "control/v1/policy-bundle.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "policy-bundle",
+    "payload": {
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "policy_revision": 1,
+      "previous_policy_sha256": null,
+      "change_class": "reduce",
+      "control_key_id": "harbor-control-1",
+      "allowed_actions": [
+        {
+          "verb": "start",
+          "resource": "agent-1"
+        }
+      ],
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "control_signature": {
+      "algorithm": "Ed25519",
+      "control_key_id": "harbor-control-1",
+      "payload_sha256": "sha256:ed84d5c1396fbeed152c9b74346447903789405a157ca23da156899bbb005978",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:b256de053e16d94af9558e6bcc8397f7a508f4247327f54901ab33c677a983ce"
+}

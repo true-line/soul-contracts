@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/owner-session-exchange.schema.json",
+  "title": "Owner session exchange",
+  "description": "A session authenticates the caller but never substitutes for per-action owner presence on widening operations.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "owner-session-exchange"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "session_id",
+        "machine_id",
+        "hq_id",
+        "mode",
+        "open_sha256",
+        "hq_nonce",
+        "auth_method",
+        "issued_at",
+        "expires_at"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "hq_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "mode": {
+          "enum": [
+            "local-only",
+            "linked"
+          ]
+        },
+        "open_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+        },
+        "hq_nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "auth_method": {
+          "enum": [
+            "local-peer",
+            "device-presence"
+          ]
+        },
+        "peer_account": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "peer_uid": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "mode": {
+                "const": "linked"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "owner_presence"
+        ],
+        "properties": {
+          "payload": {
+            "properties": {
+              "auth_method": {
+                "const": "device-presence"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "auth_method": {
+                "const": "local-peer"
+              }
+            },
+            "required": [
+              "auth_method"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "peer_account",
+              "peer_uid"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

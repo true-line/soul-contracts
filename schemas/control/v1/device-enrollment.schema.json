@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/device-enrollment.schema.json",
+  "title": "Device enrollment record",
+  "description": "Issuer authenticity and owner presence are separate checks; a local-only machine does not require Harbor.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "issuer_signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "device-enrollment"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "enrollment_id",
+        "owner_id",
+        "device_id",
+        "machine_id",
+        "device_public_jwk",
+        "issuer_kind",
+        "issuer_key_id",
+        "challenge_nonce",
+        "issued_at",
+        "expires_at",
+        "enrollment_mode",
+        "deployment_mode"
+      ],
+      "properties": {
+        "enrollment_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "owner_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "device_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "device_public_jwk": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/device_jwk"
+        },
+        "issuer_kind": {
+          "enum": [
+            "identity-service",
+            "local-machine"
+          ]
+        },
+        "issuer_key_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "challenge_nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "enrollment_mode": {
+          "enum": [
+            "first-device",
+            "additional-device"
+          ]
+        },
+        "deployment_mode": {
+          "enum": [
+            "local-only",
+            "linked"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "issuer_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/issuer_signature"
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    },
+    "bootstrap_presence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_owner_account",
+        "local_owner_uid",
+        "machine_challenge_nonce",
+        "device_possession_signature_base64",
+        "machine_presence_signature"
+      ],
+      "properties": {
+        "local_owner_account": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "local_owner_uid": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "machine_challenge_nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "device_possession_signature_base64": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]{16,510}={0,2}$"
+        },
+        "machine_presence_signature": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/issuer_signature",
+          "allOf": [
+            {
+              "properties": {
+                "algorithm": {
+                  "const": "Ed25519"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "enrollment_mode": {
+                "const": "first-device"
+              }
+            },
+            "required": [
+              "enrollment_mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "bootstrap_presence"
+        ],
+        "not": {
+          "required": [
+            "owner_presence"
+          ]
+        },
+        "properties": {
+          "payload": {
+            "properties": {
+              "deployment_mode": {
+                "const": "local-only"
+              },
+              "issuer_kind": {
+                "const": "local-machine"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "enrollment_mode": {
+                "const": "additional-device"
+              }
+            },
+            "required": [
+              "enrollment_mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "owner_presence"
+        ],
+        "not": {
+          "required": [
+            "bootstrap_presence"
+          ]
+        }
+      }
+    }
+  ]
+}

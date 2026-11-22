@@ -14,6 +14,8 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft [bridge-aware protected qualification record](adapter/v2/qualification-attestation.md) | `adapter/v2/qualification-evidence.schema.json` | draft |
 | Draft bridge-aware protected release Statement | `adapter/v2/qualification-attestation.schema.json` | draft |
 | Draft decoded Souls source and build receipt Statement | `adapter/v2/qualification-build-receipt.schema.json` | draft |
+| Draft linked-machine [control records and verification rules](control/v1/control-records.md): policy, relayed owner request, owner session, enrollment, link/unlink and machine plan | `control/v1/*.schema.json` | draft |
+| Draft local-only credential issuer variant | `records/v1/local-credential-issuance-record.schema.json` | draft |
 | Draft owner-signed policy envelope | `control/v1/qualification-policy-envelope.schema.json` | draft |
 | Draft macOS protected manifest entry referencing the attestation bundle | `adapter/v1/qualification-reference.schema.json` | draft |
 | Draft decoded owner-signed qualification trust policy payload (no signature verification) | `control/v1/qualification-trust-policy.schema.json` | draft |

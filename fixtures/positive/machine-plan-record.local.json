@@ -1,0 +1,32 @@
+{
+  "schema": "control/v1/machine-plan-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "machine-plan-record",
+    "payload": {
+      "plan_id": "local-plan-1",
+      "plan_sha256": "sha256:aafff38d337213f48a60158456d91ec1c03c162cf107fc733f7753d873e60f4c",
+      "plan_canonical_base64url": "eyJtYWNoaW5lX2lkIjoibWFjaGluZS0xIiwib3BlcmF0aW9uIjoiaW5zdGFsbCIsInN1YmplY3QiOiJhZ2VudC1sb2NhbCJ9",
+      "machine_id": "machine-1",
+      "owner_session_id": "session-1",
+      "expected_policy_revision": 1,
+      "operation": "install",
+      "mode": "local-only",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:205a997ef13c8028ab4bad70fa161909429240316cd3cec614b13e7264431dab",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:ea2496885532e94a75c7d832b24b45e36cc45a1b1c6ac431ca7fba602c97aad1"
+}

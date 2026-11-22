@@ -1,0 +1,44 @@
+{
+  "schema": "control/v1/link-record.schema.json",
+  "expect": {
+    "schema": "valid",
+    "error": "control_binding_mismatch",
+    "rule": "control-previous-signature-binding-mismatch"
+  },
+  "base": {
+    "fixture": "positive/link-record.rotation.json",
+    "sha256": "sha256:a0bc6cb8851bb0e2df2a7c2c5c7fb1ed36c19ab3c4cf58c1c11d9f9628382fe3"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "link-record",
+    "payload": {
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "hq_id": "hq-1",
+      "owner_id": "owner-1",
+      "operation": "rotate-control-key",
+      "control_key_id": "harbor-control-2",
+      "control_public_key_base64url": "fffffffffffffffffffffffffffffffffffffffffff",
+      "initial_policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:29ecbf6d5fde9fe0d70ec949da6027dac8823b351ca185ce3416f5c8705fcee1",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "previous_control_signature": {
+      "algorithm": "Ed25519",
+      "control_key_id": "harbor-control-1",
+      "payload_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "context": {}
+}

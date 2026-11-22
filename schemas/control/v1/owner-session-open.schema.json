@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/owner-session-open.schema.json",
+  "title": "Owner session open challenge",
+  "description": "The HQ challenge binds machine, owner, mode and short-lived nonces; it grants no action authority.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "hq_signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "owner-session-open"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "session_id",
+        "owner_id",
+        "machine_id",
+        "hq_id",
+        "mode",
+        "client_nonce",
+        "hq_nonce",
+        "issued_at",
+        "expires_at"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "owner_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "hq_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "mode": {
+          "enum": [
+            "local-only",
+            "linked"
+          ]
+        },
+        "client_nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "hq_nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hq_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/hq_signature"
+    }
+  },
+  "additionalProperties": false
+}

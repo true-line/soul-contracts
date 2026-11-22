@@ -40,7 +40,13 @@
         "dream_limit_exceeded",
         "credential_unavailable",
         "device_revoked",
-        "profile_insufficient"
+        "profile_insufficient",
+        "owner_presence_missing",
+        "control_key_revoked",
+        "action_outside_policy",
+        "control_key_unrecognized",
+        "issuer_untrusted",
+        "control_binding_mismatch"
       ]
     },
     "explanation": {

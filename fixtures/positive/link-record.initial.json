@@ -1,0 +1,32 @@
+{
+  "schema": "control/v1/link-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "link-record",
+    "payload": {
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "hq_id": "hq-1",
+      "owner_id": "owner-1",
+      "operation": "link",
+      "control_key_id": "harbor-control-1",
+      "control_public_key_base64url": "fffffffffffffffffffffffffffffffffffffffffff",
+      "initial_policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:5cdabd2f76b957c35af1366bf01191e340574923ceda942d586dfe54e436fcf4",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:4664f0aee6bd27c7e2f51d09c80fefaeec0d27ccbd94450475797c9f1db3fe74"
+}

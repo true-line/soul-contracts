@@ -18,7 +18,7 @@ Checks, in order:
                   cite only requirement and test IDs defined there
   vendor tokens   R10: no vendor name in any contract artifact
 """
-import hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
+import base64, hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
 from datetime import datetime
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -116,6 +116,16 @@ RULES = {
     "notice-operation-mismatch": lambda inp, ctx: "notices." + inp["operation"] != ctx["broker_kind"],
     "notice-source-byte-limit": rule_notice_source_byte_limit,
     "notice-result-byte-limit": rule_notice_result_byte_limit,
+    "control-key-mismatch": lambda inp, ctx: inp["control_signature"]["control_key_id"] != ctx["pinned_control_key_id"],
+    "control-key-revoked": lambda inp, ctx: inp["control_signature"]["control_key_id"] in ctx["revoked_control_key_ids"],
+    "control-outside-policy": lambda inp, ctx: {"verb": inp["payload"]["operation"], "resource": inp["payload"]["resource"]} not in ctx["allowed_actions"],
+    "control-bad-issuer": lambda inp, ctx: inp["issuer_signature"]["issuer_key_id"] not in ctx["trusted_issuer_key_ids"],
+    "control-binding-mismatch": lambda inp, ctx: inp["control_signature"]["payload_sha256"] != digest(canonicalize(inp["payload"])),
+    "control-plan-binding-mismatch": lambda inp, ctx: inp["payload"]["plan_sha256"] != digest(base64.urlsafe_b64decode(inp["payload"]["plan_canonical_base64url"] + "=" * (-len(inp["payload"]["plan_canonical_base64url"]) % 4))),
+    "control-parameters-binding-mismatch": lambda inp, ctx: inp["payload"]["parameters_sha256"] != digest(base64.urlsafe_b64decode(inp["payload"]["parameters_canonical_base64url"] + "=" * (-len(inp["payload"]["parameters_canonical_base64url"]) % 4))),
+    "control-previous-signature-binding-mismatch": lambda inp, ctx: inp["previous_control_signature"]["payload_sha256"] != digest(canonicalize(inp["payload"])),
+    "control-bootstrap-account-mismatch": lambda inp, ctx: inp["bootstrap_presence"]["local_owner_account"] != ctx["local_owner_account"] or inp["bootstrap_presence"]["local_owner_uid"] != ctx["local_owner_uid"],
+    "control-policy-widen": lambda inp, ctx: any(x not in ctx["previous_allowed_actions"] for x in inp["payload"]["allowed_actions"]),
 }
 
 # --- fixtures ----------------------------------------------------------------
@@ -186,6 +196,45 @@ check_qualification_fixtures(ROOT, schemas, report)
 check_bridge_report_fixtures(ROOT, schemas, report)
 check_qualification_policy_v2_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
+
+# Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
+# shape; runtime verifiers must verify the signature with a pinned public key.
+for fx in sorted((ROOT / "fixtures/positive").glob("*.json")):
+    d = load(fx)
+    if not (d["schema"].startswith("control/v1/") and d["schema"].split("/")[-1] in {
+        "policy-bundle.schema.json", "relayed-owner-request.schema.json", "owner-session-open.schema.json",
+        "owner-session-exchange.schema.json", "device-enrollment.schema.json", "link-record.schema.json",
+        "unlink-record.schema.json", "machine-plan-record.schema.json"}
+        or d["schema"] == "records/v1/local-credential-issuance-record.schema.json"):
+        continue
+    inp = d["input"]
+    payload_digest = digest(canonicalize(inp["payload"]))
+    for field in ("control_signature", "previous_control_signature", "hq_signature", "issuer_signature", "local_issuer_signature"):
+        if field in inp:
+            report(inp[field]["payload_sha256"] == payload_digest, f"{fx.name} {field} binds payload")
+    if "owner_presence" in inp:
+        report(inp["owner_presence"]["action_sha256"] == payload_digest, f"{fx.name} presence binds payload")
+    if "bootstrap_presence" in inp:
+        bp = inp["bootstrap_presence"]
+        report(bp["machine_challenge_nonce"] == inp["payload"]["challenge_nonce"] and bp["machine_presence_signature"]["payload_sha256"] == payload_digest,
+               f"{fx.name} first-device bootstrap binds machine challenge and payload")
+    if inp["kind"] == "relayed-owner-request":
+        p = inp["payload"]
+        try:
+            b = base64.urlsafe_b64decode(p["parameters_canonical_base64url"] + "=" * (-len(p["parameters_canonical_base64url"]) % 4))
+            ok = b == canonicalize(parse_strict(b.decode("utf-8"))) and p["parameters_sha256"] == digest(b)
+        except (ValueError, UnicodeDecodeError):
+            ok = False
+        report(ok, f"{fx.name} canonical parameters binding")
+    if inp["kind"] == "machine-plan-record":
+        p = inp["payload"]
+        try:
+            b = base64.urlsafe_b64decode(p["plan_canonical_base64url"] + "=" * (-len(p["plan_canonical_base64url"]) % 4))
+            parsed = parse_strict(b.decode("utf-8"))
+            ok = b == canonicalize(parsed) and p["plan_sha256"] == digest(b) and parsed["machine_id"] == p["machine_id"] and parsed["operation"] == p["operation"]
+        except (ValueError, UnicodeDecodeError, KeyError):
+            ok = False
+        report(ok, f"{fx.name} canonical plan binding")
 
 # Inclusive byte-boundary checks complement the literal semantic fixtures.
 # Construct actual strings; a claimed byte count in fixture context is insufficient.
