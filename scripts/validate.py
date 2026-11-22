@@ -30,6 +30,7 @@ from qualification_fixtures import check_qualification_fixtures  # noqa: E402
 from bridge_report_fixtures import check_bridge_report_fixtures  # noqa: E402
 from qualification_policy_fixtures import check_qualification_policy_fixtures  # noqa: E402
 from qualification_policy_v2_fixtures import check_qualification_policy_v2_fixtures  # noqa: E402
+from qualification_policy_v3_fixtures import check_qualification_policy_v3_fixtures  # noqa: E402
 from qualification_acceptance_witness_fixtures import check_qualification_acceptance_witness_fixtures  # noqa: E402
 from stage2a_measurement_fixtures import check_stage2a_measurement_fixtures  # noqa: E402
 from qualification_report_v3_fixtures import check_report_v3_fixtures  # noqa: E402
@@ -198,6 +199,7 @@ for sch, c in covered.items():
 check_qualification_fixtures(ROOT, schemas, report)
 check_bridge_report_fixtures(ROOT, schemas, report)
 check_qualification_policy_v2_fixtures(ROOT, schemas, report)
+check_qualification_policy_v3_fixtures(ROOT, schemas, report)
 check_qualification_acceptance_witness_fixtures(ROOT, schemas, report)
 check_stage2a_measurement_fixtures(ROOT, schemas, report)
 check_report_v3_fixtures(ROOT, schemas, report)
@@ -393,7 +395,30 @@ shutil.rmtree(plat, ignore_errors=True)
 DENY = ["claude", "codex", "anthropic", "openai", "gpt-", "gemini", "google", "opencode", "copilot",
         "cursor", "bedrock", "mistral", "llama", "qwen", "glm", "deepseek", "grok", "meta.ai", "huggingface"]
 artifacts = [*(ROOT / "schemas").rglob("*.json"), ROOT / "schemas/README.md", *(ROOT / "fixtures").rglob("*.*"), ROOT / REG_PATH]
-hits = [f"{p.relative_to(ROOT)}: {t}" for p in artifacts for t in DENY if t in p.read_text(encoding="utf-8").lower()]
+
+
+def vendor_text(path):
+    raw = path.read_text(encoding="utf-8")
+    if path.parent.name not in ("positive", "negative") or "policy_base64url" not in raw:
+        return raw
+    # A base64url policy can incidentally spell a short vendor token although
+    # its decoded policy has none. Scan the decoded bytes instead of treating
+    # that opaque transport encoding as prose.
+    value = json.loads(raw)
+
+    def decode_policy(item):
+        if isinstance(item, dict):
+            return {key: (base64.urlsafe_b64decode(val + "=" * (-len(val) % 4)).decode("utf-8")
+                          if key == "policy_base64url" and isinstance(val, str) else decode_policy(val))
+                    for key, val in item.items()}
+        if isinstance(item, list):
+            return [decode_policy(part) for part in item]
+        return item
+
+    return json.dumps(decode_policy(value), ensure_ascii=False)
+
+
+hits = [f"{p.relative_to(ROOT)}: {t}" for p in artifacts for t in DENY if t in vendor_text(p).lower()]
 report(not hits, "R10 no vendor token in schemas, fixtures, registry", "; ".join(hits))
 
 print(f"\n{'FAILED' if fails else 'passed'}: {fails} failure(s)")
