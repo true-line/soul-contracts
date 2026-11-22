@@ -83,6 +83,15 @@ def _distinct_attempt(protected, cooperative):
             pr["challenge_sha256"] != cr["challenge_sha256"])
 
 
+def _distinct_release_refs(evidence):
+    refs = evidence["conformance"]
+    protected = refs["protected_report"]
+    cooperative = refs["cooperative_report"]
+    return all(protected[k][field] != cooperative[k][field]
+               for k in ("payload", "signature", "completed_run")
+               for field in ("uri", "sha256"))
+
+
 def check_report_v3_fixtures(root, schemas, report):
     protected = _load(root, "qualification-host-report.measurement-v3-synthetic.json")
     cooperative = _load(root, "qualification-host-report.measurement-v3-cooperative-synthetic.json")
@@ -104,6 +113,14 @@ def check_report_v3_fixtures(root, schemas, report):
                "v3 " + profile + " completion ref is outside signed report")
     report(_distinct_attempt(protected, cooperative),
            "v3 T21 spends a distinct profile-specific start and launch closure")
+    report(_distinct_release_refs(evidence),
+           "v3 released protected and cooperative refs are distinct")
+    for kind in ("payload", "signature", "completed_run"):
+        for field in ("uri", "sha256"):
+            reused = copy.deepcopy(evidence)
+            reused["conformance"]["cooperative_report"][kind][field] = evidence["conformance"]["protected_report"][kind][field]
+            report(not _distinct_release_refs(reused),
+                   "v3 released " + kind + " same " + field + " refuses")
     for label, field in (("reservation", "reservation"), ("finalization", "finalization"), ("challenge", "challenge_sha256")):
         reused = copy.deepcopy(cooperative)
         reused["run_evidence"][field] = protected["run_evidence"][field]

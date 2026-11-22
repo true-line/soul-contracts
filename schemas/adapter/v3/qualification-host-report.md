@@ -67,6 +67,7 @@ reviewed frozen definition measurement and approved SoulLock mapping.
 The reservation and finalization references must each differ in both URI and
 digest across the protected and cooperative reports; changing only the URI
 does not make reused record bytes a distinct attempt.
+The two release `completed_run` references must also differ in URI and digest.
 
 ## Offline verification order
 
