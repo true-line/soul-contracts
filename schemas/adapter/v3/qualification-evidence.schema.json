@@ -18,7 +18,8 @@
     "conformance",
     "recorded_at",
     "evaluation_cells",
-    "souls_build"
+    "souls_build",
+    "soul_artifact_sha256"
   ],
   "properties": {
     "schema_version": {
@@ -125,6 +126,11 @@
     },
     "souls_build": {
       "$ref": "#/$defs/souls_build"
+    },
+    "soul_artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Exact frozen installable .soul transport bytes, separately authenticated under an owner-pinned release receipt and measured at installation."
     }
   },
   "additionalProperties": false,

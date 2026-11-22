@@ -78,7 +78,10 @@
       "type": "object"
     },
     "measurement_binding": {
-      "$ref": "https://true-line.ai/soul-contracts/machine/v1/measurement-binding.schema.json"
+      "allOf": [
+        { "$ref": "https://true-line.ai/soul-contracts/machine/v1/measurement-binding.schema.json" },
+        { "required": ["soul_artifact_sha256"] }
+      ]
     },
     "run_evidence": {
       "description": "Exact-byte pre-completion references and consumed challenge digest, not self-authenticating flags. The offline verifier must resolve independently authenticated Machine records and compare their binding with this report. The completed record binds this report digest and is referenced by release evidence outside the report.",

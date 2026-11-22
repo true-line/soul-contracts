@@ -104,6 +104,13 @@ Its `installed_plan_digest` is bare 64 lowercase hex in the live Machine
 assignment; a signed host report normalizes it to `sha256:` plus the same
 characters. `package_sha256` is a separate bare 64-hex digest of the installed
 candidate and cannot be inferred from the two closure measurements.
+For v3 qualification, `soul_artifact_sha256` is an additional bare 64-hex
+digest of the exact frozen installable `.soul` transport. It is not an alias
+for this legacy package claim, the adapter release package, or the Souls
+runtime `.tgz`. The v3 verifier must authenticate a separately signed `.soul`
+release receipt, measure the installed transport bytes, and compare the exact
+owner-approved Soul identity and definition mapping before accepting it.
+Until that receipt, measurement and mapping exist, the digest is a claim only.
 `claimed_definition_digest` is the exact `sha256:` value from
 SoulLock, not a measurement of SoulLock's own containing file. The approved
 one-use plan must map `(soul_id, claimed_definition_digest,

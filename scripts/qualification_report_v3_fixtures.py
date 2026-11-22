@@ -13,6 +13,10 @@ def _digest(raw):
     return "sha256:" + hashlib.sha256(raw).hexdigest()
 
 
+def _bare_sha(value):
+    return isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+
+
 def _load(root, name):
     return json.loads((root / "fixtures/positive" / name).read_text())["input"]
 
@@ -29,7 +33,7 @@ def _report_consistent(report, profile):
         return False
     if reservation["uri"] == finalization["uri"] or reservation["sha256"] == finalization["sha256"]:
         return False
-    if report["host"]["id"] != binding["host_id"] or report["adapter"]["package_sha256"] != "sha256:" + binding["package_sha256"]:
+    if report["host"]["id"] != binding["host_id"] or not _bare_sha(binding.get("soul_artifact_sha256")):
         return False
     if profile == "managed-protected":
         assignment = report["bridge"]["assignment"]
@@ -76,6 +80,7 @@ def _distinct_attempt(protected, cooperative):
     cr = cooperative["run_evidence"]
     return (p["definition_measurement"] == c["definition_measurement"] and
             p["claimed_definition_digest"] == c["claimed_definition_digest"] and
+            p["soul_artifact_sha256"] == c["soul_artifact_sha256"] and
             p["launch_input_measurement"] != c["launch_input_measurement"] and
             p["snapshots"]["definition"] == c["snapshots"]["definition"] and
             p["snapshots"]["launch_inputs"] != c["snapshots"]["launch_inputs"] and
@@ -103,11 +108,19 @@ def _qualification_binds_reports(evidence, protected, cooperative):
             return False
     conformance = evidence["conformance"]
     return (evidence["profile_in_force"] == "managed-protected" and
+            _bare_sha(evidence.get("soul_artifact_sha256")) and
+            evidence["soul_artifact_sha256"] == protected["measurement_binding"]["soul_artifact_sha256"] == cooperative["measurement_binding"]["soul_artifact_sha256"] and
             evidence["soul_start"] == protected["soul_start"] and
             conformance["suite_revision"] == protected["suite_revision"] == cooperative["suite_revision"] and
             conformance["run_id"] == protected["run_id"] and
             conformance["outcome"] == protected["outcome"] == cooperative["outcome"] and
             conformance["checks"] == protected["checks"])
+
+
+def _statement_artifacts_match(attestation, evidence):
+    predicate = attestation["predicate"]
+    return (predicate["souls_build"] == evidence["souls_build"] and
+            predicate["soul_artifact_sha256"] == evidence["soul_artifact_sha256"])
 
 
 def check_report_v3_fixtures(root, schemas, report):
@@ -135,6 +148,29 @@ def check_report_v3_fixtures(root, schemas, report):
            "v3 released protected and cooperative refs are distinct")
     report(_qualification_binds_reports(evidence, protected, cooperative),
            "v3 qualification binds both signed reports and the protected run")
+    report(len({evidence["adapter"]["package_sha256"], evidence["souls_build"]["package_sha256"],
+                "sha256:" + evidence["soul_artifact_sha256"]}) == 3,
+           "v3 adapter, runtime tgz and frozen Soul fixtures use separate digests")
+    report(_statement_artifacts_match(attestation, evidence),
+           "v3 Statement binds runtime tgz and frozen Soul claims separately")
+    changed = copy.deepcopy(evidence)
+    changed["soul_artifact_sha256"] = "f" * 64
+    report(not _qualification_binds_reports(changed, protected, cooperative),
+           "v3 changed qualification frozen Soul refuses")
+    for label, substitute in (("adapter", evidence["adapter"]["package_sha256"][7:]),
+                              ("runtime tgz", evidence["souls_build"]["package_sha256"][7:])):
+        changed = copy.deepcopy(evidence)
+        changed["soul_artifact_sha256"] = substitute
+        report(not _qualification_binds_reports(changed, protected, cooperative),
+               "v3 " + label + " digest substituted for frozen Soul refuses")
+    changed = copy.deepcopy(attestation)
+    changed["predicate"]["soul_artifact_sha256"] = "f" * 64
+    report(not _statement_artifacts_match(changed, evidence),
+           "v3 changed Statement frozen Soul refuses")
+    changed = copy.deepcopy(attestation)
+    changed["predicate"]["souls_build"]["package_sha256"] = "sha256:" + "f" * 64
+    report(not _statement_artifacts_match(changed, evidence),
+           "v3 changed Statement runtime tgz refuses")
     for name in ("host", "runner", "adapter", "launch"):
         changed = copy.deepcopy(evidence)
         changed[name] = {**changed[name], next(iter(changed[name])): "different"}
@@ -175,7 +211,8 @@ def check_report_v3_fixtures(root, schemas, report):
     report(attestation["subject"][0]["digest"]["sha256"] == _digest(canonicalize(evidence))[7:],
            "v3 Statement subject binds exact qualification bytes")
     for label, edit in (
-        ("package", lambda v: v["measurement_binding"].__setitem__("package_sha256", "f" * 64)),
+        ("missing frozen Soul", lambda v: v["measurement_binding"].pop("soul_artifact_sha256")),
+        ("malformed frozen Soul", lambda v: v["measurement_binding"].__setitem__("soul_artifact_sha256", "sha256:" + "f" * 64)),
         ("host", lambda v: v["measurement_binding"].__setitem__("host_id", "other-host")),
         ("reservation", lambda v: v["run_evidence"]["reservation"].__setitem__("sha256", "sha256:" + "f" * 64)),
         ("start", lambda v: v["bridge"]["assignment"].__setitem__("start_id", "st_" + "f" * 24)),

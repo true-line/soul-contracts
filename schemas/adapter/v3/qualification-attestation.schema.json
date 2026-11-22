@@ -26,7 +26,8 @@
         "host_reports",
         "expires_at",
         "release",
-        "souls_build"
+        "souls_build",
+        "soul_artifact_sha256"
       ],
       "properties": {
         "host_reports": {
@@ -53,6 +54,10 @@
         },
         "souls_build": {
           "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-evidence.schema.json#/$defs/souls_build"
+        },
+        "soul_artifact_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
         }
       },
       "additionalProperties": false

@@ -181,7 +181,7 @@
       "hq_epoch": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "plan_id": "fixture-plan",
       "installed_plan_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "package_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "package_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
       "profile_in_force": "managed-protected",
       "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "definition_measurement": "sha256:27c6f3b4c768a2f5b2fe4f5f58c829eef7d02e111517937fea100d0aa15a2ede",
@@ -207,7 +207,8 @@
           "owner_gid": 0,
           "mode": "0555"
         }
-      }
+      },
+      "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     },
     "run_evidence": {
       "reservation": {
@@ -223,6 +224,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-synthetic.json",
-    "sha256": "sha256:33deb6140ff9a3f66cc0451d6f792476932cf62961aa3ac56bc003a4f04062f2"
+    "sha256": "sha256:2dd2c0d9de0706cd63d315bd1ae805e7d5dc78da259b5ca47d6d991a68f88911"
   }
 }

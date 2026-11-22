@@ -165,9 +165,9 @@
       "launch_id": "ln_444444444444444444444444",
       "host_id": "fixture-physical-mac",
       "hq_epoch": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      "plan_id": "fixture-plan",
+      "plan_id": "fixture-planx",
       "installed_plan_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "package_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "package_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
       "profile_in_force": "managed-cooperative",
       "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "definition_measurement": "sha256:27c6f3b4c768a2f5b2fe4f5f58c829eef7d02e111517937fea100d0aa15a2ede",
@@ -193,7 +193,8 @@
           "owner_gid": 0,
           "mode": "0555"
         }
-      }
+      },
+      "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     },
     "run_evidence": {
       "reservation": {
@@ -207,5 +208,5 @@
       "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
     }
   },
-  "canonical_sha256": "sha256:cefc95fee9ba4bb14a56447db386017745e2f51d89f29d43b94e7c841bb3791a"
+  "canonical_sha256": "sha256:98b6e90ae5f6ddcae472fded53b00317cc8cf1adf0ea814df141a8cfd541cbaf"
 }

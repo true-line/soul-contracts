@@ -20,6 +20,12 @@ a `challenge_sha256` value. Reservation and finalization must differ in both
 URI and digest within each run. These are reported claims until Machine resolves
 and authenticates the referenced bytes under its secure-admin custody. No
 bearer challenge, bootstrap proof or credential appears in the report.
+The binding's explicit bare `soul_artifact_sha256` names exact frozen `.soul`
+transport bytes. It must agree across the protected and cooperative reports,
+the qualification record and release Statement. The adapter package digest
+and separately signed Souls runtime `.tgz` digest retain their own fields.
+The legacy binding `package_sha256` remains a distinct claim; equal-looking
+fixture digests must never substitute for a typed artifact or receipt.
 
 The runner serializes the **entire** report as RFC 8785 JCS UTF-8, with no BOM
 or trailing newline and duplicate object keys refused. The current Machine
@@ -90,6 +96,10 @@ The Machine and release verifier must, in order:
    host-local snapshot identities with independently retained observations.
    For protected runs, the bridge assignment, B/HQ/Comms receipts and
    Machine-observed HQ-started Soul must also match.
+   Independently authenticate the frozen `.soul` release receipt under an
+   owner-pinned trust anchor, measure the installed `.soul` bytes, and compare
+   the exact owner-approved Soul/definition mapping. No v3 positive path exists
+   while that receipt, anchor and mapping remain unspecified or unavailable.
 4. Authenticate the designated release workflow, source commit, trust chain
    and signing-time proof for the v3 Statement. Verify its exact subject,
    both report refs and the separately signed Souls build receipt against

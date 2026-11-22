@@ -123,11 +123,11 @@
         "signature_purpose": "agent-bot/qualification-host-report/v3",
         "payload": {
           "uri": "fixture:protected-v3",
-          "sha256": "sha256:459c5ea33489302d8ad89f8d631845aedcaa7d2ee392cf002de530bf4a47a97a"
+          "sha256": "sha256:db832aaa12e54028c57bdec9ac734ced347f89be0b4e4b042f14eb43af6b8c95"
         },
         "signature": {
           "uri": "fixture:protected-v3-signature",
-          "sha256": "sha256:887aeb6df21ab691fcb168d46120afea7c09b26af70f192d82b7c8ef6853bfb8"
+          "sha256": "sha256:51b23c6e778a9b43ede2e1c3f20ecccbfa8c1a69060ad9016a2a4da8dbaa990c"
         },
         "completed_run": {
           "uri": "fixture:protected-completed-run",
@@ -136,14 +136,14 @@
       },
       "cooperative_report": {
         "report_schema_version": 3,
-        "signature_purpose": "agent-bot/qualification-host-report/v1",
+        "signature_purpose": "agent-bot/qualification-host-report/v2",
         "payload": {
           "uri": "fixture:cooperative-v3",
-          "sha256": "sha256:cefc95fee9ba4bb14a56447db386017745e2f51d89f29d43b94e7c841bb3791a"
+          "sha256": "sha256:98b6e90ae5f6ddcae472fded53b00317cc8cf1adf0ea814df141a8cfd541cbaf"
         },
         "signature": {
           "uri": "fixture:cooperative-v3-signature",
-          "sha256": "sha256:f0086678db3a7f006ba167066cc171cefce9cb1f9751e5e3cb64a075cf58fb03"
+          "sha256": "sha256:1df4a12deeacf824dbc1dc1fddffc5e601f8bf6546c474fc9d8989bd33e3357c"
         },
         "completed_run": {
           "uri": "fixture:cooperative-completed-run",
@@ -177,7 +177,7 @@
         }
       }
     },
-    "recorded_at": "2026-10-30T12:00:00Z",
+    "recorded_at": "2026-11-22T06:02:00Z",
     "evaluation_cells": [
       {
         "role": "lead",
@@ -219,10 +219,11 @@
         "uri": "fixture:souls-build-receipt-bundle",
         "sha256": "sha256:71dd2dbb5a500800f5f0060ff65dc1969cbfd0240e48f44cb24c7fc2a2932e8b"
       }
-    }
+    },
+    "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   },
   "base": {
     "fixture": "positive/qualification-evidence.measurement-v3-synthetic.json",
-    "sha256": "sha256:402b199e744fb8d881295448b43836ee04751a73703d7ac465bf8a19213b8756"
+    "sha256": "sha256:dc759838212f7c3a3466a7e495c2059d734030b3546cf2ec635e4f0300cc871c"
   }
 }
