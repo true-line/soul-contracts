@@ -1,0 +1,19 @@
+{
+  "schema": "machine/v1/stage2a-execution-completion-payload.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/stage2a-execution-completion-payload.synthetic.json",
+    "sha256": "sha256:272fb244442e1cd6f754f53faf0ecdd54b526cf3c25f9c8a850da5cf0e485c55"
+  },
+  "input": {
+    "schema_version": 1,
+    "kind": "stage2a-execution-completion",
+    "reservation_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "finalization_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "measurement_binding_sha256": "sha256:dd3b8bce449f71248a9d55efff9616aea38bf6feffc307e53d299558556fb8c1",
+    "completed_at": "2026-11-22T05:59:59Z"
+  }
+}

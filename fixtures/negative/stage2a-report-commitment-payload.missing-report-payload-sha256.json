@@ -1,0 +1,17 @@
+{
+  "schema": "machine/v1/stage2a-report-commitment-payload.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/stage2a-report-commitment-payload.synthetic.json",
+    "sha256": "sha256:e759b4452a9b974b3e6a8ca34fab9d5676413206fe9190f8d3da665b57abd486"
+  },
+  "input": {
+    "schema_version": 1,
+    "kind": "stage2a-report-commitment",
+    "execution_completion_sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879",
+    "report_envelope_sha256": "sha256:1153c8d23d6b2976a47f64114e1fba0449ccaa6422d4b7af35059a41ce88ade5",
+    "committed_at": "2026-11-22T06:00:01Z"
+  }
+}

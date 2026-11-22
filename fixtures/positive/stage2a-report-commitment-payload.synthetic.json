@@ -1,0 +1,16 @@
+{
+  "schema": "machine/v1/stage2a-report-commitment-payload.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic shape and JCS digest only; no Machine signature or physical run.",
+  "input": {
+    "schema_version": 1,
+    "kind": "stage2a-report-commitment",
+    "execution_completion_sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879",
+    "report_payload_sha256": "sha256:f7f044c8962d5f886688515a02a5e706eef6649a7f1d3b2be0f7bf7270683b12",
+    "report_envelope_sha256": "sha256:1153c8d23d6b2976a47f64114e1fba0449ccaa6422d4b7af35059a41ce88ade5",
+    "committed_at": "2026-11-22T06:00:01Z"
+  },
+  "canonical_sha256": "sha256:c7c8bfd24ccc0968566c365bf9faa29d092aaa647d67a3b2e83d4be3f02a0d91"
+}

@@ -156,9 +156,9 @@
       }
     },
     "measurement_binding": {
-      "contract": "machine/v1",
+      "contract": "machine/v2",
       "kind": "stage2a-measurement-binding",
-      "schema_version": 1,
+      "schema_version": 2,
       "installation_id": "fixture-installation",
       "soul_id": "agent_11111111-1111-1111-1111-111111111111",
       "start_id": "st_333333333333333333333333",
@@ -174,23 +174,23 @@
       "launch_input_measurement": "sha256:530092572a83b9abba0a953724daa706bcf86825fb24cd5778c37bb160fcd652",
       "snapshots": {
         "definition": {
-          "root_path": "/private/stage2a/snapshot-definition",
+          "root_path": "/private/var/db/managed-machine/soul-snapshots/7eca0230f9dda375eef1/snap_222222222222222222222222",
           "device": "1",
           "inode": "1001",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 0,
-          "owner_gid": 0,
+          "owner_uid": 505,
+          "owner_gid": 703,
           "mode": "0555"
         },
         "launch_inputs": {
-          "root_path": "/private/stage2a/snapshot-launch-cooperative",
+          "root_path": "/private/var/db/managed-machine/soul-snapshots/7eca0230f9dda375eef1/snap_333333333333333333333333",
           "device": "1",
           "inode": "2002",
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
-          "owner_uid": 0,
-          "owner_gid": 0,
+          "owner_uid": 505,
+          "owner_gid": 703,
           "mode": "0555"
         }
       },
@@ -205,7 +205,11 @@
         "uri": "fixture:cooperative-finalization",
         "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
       },
-      "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "execution_completion": {
+        "uri": "fixture:cooperative-execution-completion",
+        "sha256": "sha256:a0adee0c53147ad712a88679311c141d9bd8931f44dc2a080f3e97b9414d8898"
+      }
     },
     "bridge": {
       "assignment": {
@@ -227,7 +231,7 @@
         "bridge_uid": 502,
         "credential_uid": 503,
         "hq_uid": 504,
-        "machine_uid": 0,
+        "machine_uid": 505,
         "bridge_private_gid": 702,
         "runner_private_gid": 703
       },
@@ -417,6 +421,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-cooperative-synthetic.json",
-    "sha256": "sha256:f36dcba57b41573d8125a36d97d27428fca364bea7c1f158a974005b312e57a6"
+    "sha256": "sha256:c9afcbc6e92c21f662d67757ec6e36066e4babbbd42fc940ffa95d838bb74f81"
   }
 }

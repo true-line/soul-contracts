@@ -30,7 +30,7 @@
           },
           "completed_run": {
             "uri": "fixture:protected-completed-run",
-            "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            "sha256": "sha256:4e4a23d9a935abe9cfffab59dd404325c5674ea3402d192a02646b91dd0bcdfe"
           }
         },
         "cooperative_report": {
@@ -46,7 +46,7 @@
           },
           "completed_run": {
             "uri": "fixture:cooperative-completed-run",
-            "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+            "sha256": "sha256:3ddfed7728da1840999feba29f48e99fa1cf1b1dba811bceb0e2554467172662"
           }
         }
       },
@@ -75,6 +75,6 @@
   },
   "base": {
     "fixture": "positive/qualification-attestation.measurement-v3-synthetic.json",
-    "sha256": "sha256:11abfa7d037659a35e0f199434e4ce667c4a3e34f5e486050cfcc338d4569852"
+    "sha256": "sha256:6a03ee6ea2bf705db6e417fa9cb9bbe605c9c7267497bf245c7d8cd634c2fae9"
   }
 }

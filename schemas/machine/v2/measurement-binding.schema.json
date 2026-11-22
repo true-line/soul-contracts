@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v2/measurement-binding.schema.json",
+  "title": "Stage 2a admin-custody per-start measurement binding",
+  "description": "Nonauthorizing shared binding for one physical Soul start. The Machine-signed pre-Hello reservation, authenticated post-Hello finalization, immutable completed run and signed host report must each bind these fields; this object alone is not a reservation or approval.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "installation_id",
+    "soul_id",
+    "start_id",
+    "launch_id",
+    "host_id",
+    "hq_epoch",
+    "plan_id",
+    "installed_plan_digest",
+    "package_sha256",
+    "profile_in_force",
+    "claimed_definition_digest",
+    "definition_measurement",
+    "launch_input_measurement",
+    "snapshots",
+    "soul_artifact_sha256"
+  ],
+  "properties": {
+    "contract": {
+      "const": "machine/v2"
+    },
+    "kind": {
+      "const": "stage2a-measurement-binding"
+    },
+    "schema_version": {
+      "const": 2
+    },
+    "installation_id": {
+      "$ref": "#/$defs/id"
+    },
+    "soul_id": {
+      "type": "string",
+      "pattern": "^agent_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "start_id": {
+      "type": "string",
+      "pattern": "^st_[0-9a-f]{24}$"
+    },
+    "launch_id": {
+      "type": "string",
+      "pattern": "^ln_[0-9a-f]{24}$"
+    },
+    "host_id": {
+      "$ref": "#/$defs/id"
+    },
+    "hq_epoch": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "plan_id": {
+      "$ref": "#/$defs/id"
+    },
+    "installed_plan_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "package_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "soul_artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Exact frozen installable .soul transport bytes. This additive claim requires an independently authenticated release receipt and installed-byte measurement before qualification."
+    },
+    "profile_in_force": {
+      "enum": [
+        "managed-protected",
+        "managed-cooperative"
+      ]
+    },
+    "claimed_definition_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "definition_measurement": {
+      "$ref": "#/$defs/digest"
+    },
+    "launch_input_measurement": {
+      "$ref": "#/$defs/digest"
+    },
+    "snapshots": {
+      "type": "object",
+      "required": [
+        "definition",
+        "launch_inputs"
+      ],
+      "properties": {
+        "definition": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json"
+        },
+        "launch_inputs": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

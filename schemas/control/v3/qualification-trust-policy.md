@@ -1,8 +1,12 @@
 # Draft v3 owner qualification policy for frozen Soul bytes
 
-The [v3 policy payload](qualification-trust-policy.schema.json) adds one
-frozen installable `.soul` trust slot to the existing v2 adapter release,
-Souls runtime `.tgz` build and designated-host authorities. The
+The [v3 policy payload](qualification-trust-policy.schema.json) adds a
+mandatory exact frozen `.soul` artifact/Soul/definition mapping and an
+explicit `frozen_soul_release_provenance_enabled` boolean to the existing v2
+adapter release, Souls runtime `.tgz` build and designated-host authorities.
+For the private Stage 2a pilot the flag is `false`: the `.soul` transport has
+no release-signature prerequisite, while Machine still measures frozen bytes
+and signs a one-use launch reservation. The
 [v3 envelope](qualification-policy-envelope.schema.json) has exactly the six
 fields used by v2, with `schema_version: 3` and the separate purpose
 `agent-bot/qualification-policy/v3`. Its Ed25519 signature covers
@@ -17,7 +21,14 @@ This is a **source-only candidate**, coordinated with the unsigned frozen
 synthetic fixture has dummy keys, digests and an all-zero signature. It is
 never a production policy, receipt, owner approval or physical result.
 
-## Separate frozen build authority
+## Optional separate frozen build authority
+
+Only `frozen_soul_release_provenance_enabled: true` activates the separate
+`.soul` release receipt. When false, `frozen_soul_build_workflow`,
+`frozen_soul_mapping.receipt_sha256`, and the two release-only revocation
+arrays are absent. The mapping's Soul ID, artifact digest, claimed definition
+digest and measured definition digest remain required, as does the artifact
+revocation array.
 
 `frozen_soul_build_workflow` pins the `true-line/soul-package` repository,
 the exact source commit/tree and workflow path, OIDC issuer, certificate
@@ -51,18 +62,20 @@ policy, the delivered archive, and the reviewed local build inputs. The
 runtime `.tgz` keeps its distinct v2 `souls_build_workflow` authority; its
 receipt cannot substitute for a frozen `.soul` receipt.
 
-`frozen_soul_mapping` pins an exact `sha256:`-prefixed digest of the raw
-Sigstore receipt bundle bytes and an exact bare archive SHA-256 to one Soul ID,
+When release provenance is enabled, `frozen_soul_mapping` additionally pins
+an exact `sha256:`-prefixed digest of the raw Sigstore receipt bundle bytes.
+In both modes it maps an exact bare archive SHA-256 to one Soul ID,
 the claimed SoulLock definition digest and an independently measured frozen
 definition digest. The last two are `sha256:`-prefixed. Machine must compare
 all five values with the owner-approved plan, authenticated build receipt,
-root-owned installed-byte measurement and both one-use physical runs.
+secure-admin-owned installed-byte measurement and both one-use physical runs.
 The build Statement deliberately omits the Soul ID and owner approval, so
 the owner-signed mapping is a separate required authority.
 
-The v3 revocation snapshot adds frozen workflow IDs, exact signed receipt bundle
-byte digests and bare artifact digests to the existing adapter, host and runtime
-revocations. The owner signs its timestamp and exact sets. A missing or
+The v3 revocation snapshot always adds bare frozen artifact digests to the
+existing adapter, host and runtime revocations. When release provenance is
+enabled it also adds frozen workflow IDs and exact signed receipt bundle
+byte digests. The owner signs its timestamp and exact sets. A missing or
 future snapshot, an age greater than **3,600 seconds**, a revoked item,
 policy expiry, or a missing exact trust-root file refuses. Exactly 3,600
 seconds is current. Reissuing a policy with the old snapshot does not reset
@@ -83,11 +96,9 @@ a frozen `.soul` v3 qualification. A newer v2 policy after v3 is also
 incapable of granting that qualification. The owner root does not rotate
 through this candidate; changing roots requires a separate reviewed path.
 
-Current Machine and keyd implementations accept only v1/v2 owner policy,
-and the v3 report/release code presently requires a verified v2 policy for
-its source-only fixture checks. A production change must add v3 owner
-signature verification, keyd owner-present signing, shared revision
-checkpoint, frozen bundle verification and exact installed mapping before
-any positive result. Until those changes, an actual owner-signed v3 policy,
-verified real receipt, measured installed archive and authenticated one-use
-records exist together, protected launch and Stage 2a acceptance stay closed.
+The private pilot needs v3 owner signature verification, keyd owner-present
+signing, the shared revision checkpoint, exact installed-byte mapping and
+authenticated one-use records. A separate verified `.soul` release receipt
+is required only if the feature is later enabled. Protected launch and Stage
+2a acceptance stay closed until the owner policy, adapter qualification
+release, measured installation and physical evidence all verify.

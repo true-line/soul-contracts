@@ -5,7 +5,7 @@
   },
   "base": {
     "fixture": "positive/qualification-trust-policy.frozen-v3-synthetic.json",
-    "sha256": "sha256:b5120b0ff16c4a1bf74e92ed8cce89b452b3d819793a224a2484083b6111e943"
+    "sha256": "sha256:2a40f015d88ce4a4d8c0d651f1608d71f4f22ae17fcd56fd0bd77b86e8ad7bee"
   },
   "input": {
     "contract": "control/v3",
@@ -91,6 +91,7 @@
       "claimed_definition_digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
       "definition_measurement": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
       "receipt_sha256": "sha256:e9131b7ee54a2cd083dbac7a1c2637ae85f72e60b43c42a4f6f21ded04d111f0"
-    }
+    },
+    "frozen_soul_release_provenance_enabled": true
   }
 }

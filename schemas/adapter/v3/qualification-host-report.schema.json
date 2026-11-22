@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://true-line.ai/soul-contracts/adapter/v3/qualification-host-report.schema.json",
   "title": "Stage 2a designated-host qualification report with controlled measurements",
-  "description": "Decoded host-signed physical report. Every protected and cooperative run binds the exact machine/v1 per-start measurement object, pre-completion lifecycle references and a consumed challenge digest. The immutable completed record binds this report's digest and is referenced outside it to avoid circular hashing. Shape alone proves no signature, observation or qualification.",
+  "description": "Decoded host-signed physical report. Every protected and cooperative run binds the exact machine/v2 secure-admin-owned per-start measurement object, reservation, finalization, consumed challenge and pre-sign execution completion. A separate post-sign completed-run commitment binds this report's exact payload and envelope digests. Shape alone proves no signature, observation or qualification.",
   "type": "object",
   "required": [
     "schema_version",
@@ -79,16 +79,17 @@
     },
     "measurement_binding": {
       "allOf": [
-        { "$ref": "https://true-line.ai/soul-contracts/machine/v1/measurement-binding.schema.json" },
+        { "$ref": "https://true-line.ai/soul-contracts/machine/v2/measurement-binding.schema.json" },
         { "required": ["soul_artifact_sha256"] }
       ]
     },
     "run_evidence": {
-      "description": "Exact-byte pre-completion references and consumed challenge digest, not self-authenticating flags. The offline verifier must resolve independently authenticated Machine records and compare their binding with this report. The completed record binds this report digest and is referenced by release evidence outside the report.",
+      "description": "Exact-byte reservation, finalization and pre-sign execution completion references plus consumed challenge digest, not self-authenticating flags. The verifier recomputes the execution completion's report candidate digest over this canonical report with only execution_completion omitted. A distinct post-sign completed-run commitment is referenced by release evidence outside the report.",
       "type": "object",
       "required": [
         "reservation",
         "finalization",
+        "execution_completion",
         "challenge_sha256"
       ],
       "properties": {
@@ -96,6 +97,9 @@
           "$ref": "#/$defs/evidence"
         },
         "finalization": {
+          "$ref": "#/$defs/evidence"
+        },
+        "execution_completion": {
           "$ref": "#/$defs/evidence"
         },
         "challenge_sha256": {
