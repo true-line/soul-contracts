@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a historical, release-produced keyless signed v1 qualification verifier fixture with exact-byte and refusal evidence. It is test-only and does not qualify the private Stage 2a pilot.
+
 ## 0.7.0 — 2026-11-22
 
 This version publishes Stage 2a contract shapes and synthetic fixtures. It
