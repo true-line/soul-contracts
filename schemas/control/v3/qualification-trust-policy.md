@@ -34,11 +34,12 @@ Rekor log ID, entry kind/version and trusted root. `dsse/0.0.1` and
 authenticated signed-entry time and the latter an independently verified
 RFC 3161 timestamp for this proposed keyless path. A syntactically valid
 selection supplies no authority without the matching verified proofs.
-`transparency_log_id` is the lowercase hex encoding of the 32-byte SHA-256
-DER SubjectPublicKeyInfo log ID. The verifier must decode the bundle's
+For the selected legacy Rekor log, `transparency_log_id` is the lowercase
+hex encoding of the 32-byte SHA-256 DER SubjectPublicKeyInfo log ID. The
+verifier must decode the bundle's
 `logId.keyId` bytes, compare them to this value and the matching log in the
-pinned trusted root, then verify the signed inclusion proof and checkpoint
-with that root. A log ID claimed only by the bundle is untrusted.
+pinned trusted root, then verify the inclusion proof against the signed
+checkpoint with that root. A log ID claimed only by the bundle is untrusted.
 This follows the [Sigstore trusted-root log ID definition](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto).
 
 The decoded DSSE Statement must have exactly one subject named
