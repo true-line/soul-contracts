@@ -1,0 +1,423 @@
+{
+  "type": "object",
+  "properties": {
+    "contract": {
+      "const": "machine/v1"
+    },
+    "kind": {
+      "const": "stage2a-reservation"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "host_id": {
+      "type": "string"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "installed_plan_receipt_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "assignment": {
+      "type": "object",
+      "properties": {
+        "installation_id": {
+          "type": "string"
+        },
+        "soul_id": {
+          "type": "string"
+        },
+        "start_id": {
+          "type": "string"
+        },
+        "launch_id": {
+          "type": "string"
+        },
+        "plan_id": {
+          "type": "string"
+        },
+        "plan_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "hq_epoch": {
+          "type": "string"
+        },
+        "expires_at": {
+          "type": "string"
+        },
+        "runner_account": {
+          "type": "string"
+        },
+        "bridge_account": {
+          "type": "string"
+        },
+        "package_root": {
+          "type": "string"
+        },
+        "package_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "soul_artifact_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "runner_uid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "runner_gid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "bridge_uid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "bridge_gid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "hq_uid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "machine_uid": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "schema": {
+          "const": "agent-bot-machine/soul-start-assignment/v2"
+        },
+        "broker": {
+          "type": "object",
+          "properties": {
+            "directory": {
+              "type": "string"
+            },
+            "socket_path": {
+              "type": "string"
+            },
+            "owner_uid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "group_gid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "dir_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "socket_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "peer_uids": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "required": [
+            "directory",
+            "socket_path",
+            "owner_uid",
+            "group_gid",
+            "dir_mode",
+            "socket_mode",
+            "peer_uids"
+          ],
+          "additionalProperties": false
+        },
+        "member": {
+          "type": "object",
+          "properties": {
+            "directory": {
+              "type": "string"
+            },
+            "socket_path": {
+              "type": "string"
+            },
+            "owner_uid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "group_gid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "dir_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "socket_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "peer_uids": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "required": [
+            "directory",
+            "socket_path",
+            "owner_uid",
+            "group_gid",
+            "dir_mode",
+            "socket_mode",
+            "peer_uids"
+          ],
+          "additionalProperties": false
+        },
+        "relay": {
+          "type": "object",
+          "properties": {
+            "directory": {
+              "type": "string"
+            },
+            "socket_path": {
+              "type": "string"
+            },
+            "owner_uid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "group_gid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "dir_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "socket_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "peer_uids": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "required": [
+            "directory",
+            "socket_path",
+            "owner_uid",
+            "group_gid",
+            "dir_mode",
+            "socket_mode",
+            "peer_uids"
+          ],
+          "additionalProperties": false
+        },
+        "admission": {
+          "type": "object",
+          "properties": {
+            "directory": {
+              "type": "string"
+            },
+            "socket_path": {
+              "type": "string"
+            },
+            "owner_uid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "group_gid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "dir_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "socket_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "peer_uids": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "required": [
+            "directory",
+            "socket_path",
+            "owner_uid",
+            "group_gid",
+            "dir_mode",
+            "socket_mode",
+            "peer_uids"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "installation_id",
+        "soul_id",
+        "start_id",
+        "launch_id",
+        "plan_id",
+        "plan_digest",
+        "hq_epoch",
+        "expires_at",
+        "runner_account",
+        "bridge_account",
+        "package_root",
+        "package_sha256",
+        "soul_artifact_sha256",
+        "runner_uid",
+        "runner_gid",
+        "bridge_uid",
+        "bridge_gid",
+        "hq_uid",
+        "machine_uid",
+        "schema",
+        "broker",
+        "member",
+        "relay",
+        "admission"
+      ],
+      "additionalProperties": false
+    },
+    "member_endpoint": {
+      "type": "object",
+      "properties": {
+        "member_socket": {
+          "type": "string"
+        },
+        "member_endpoint": {
+          "type": "object",
+          "properties": {
+            "directory": {
+              "type": "string"
+            },
+            "owner_uid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "group_gid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "dir_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "socket_mode": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "peer_uids": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "required": [
+            "directory",
+            "owner_uid",
+            "group_gid",
+            "dir_mode",
+            "socket_mode",
+            "peer_uids"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "member_socket",
+        "member_endpoint"
+      ],
+      "additionalProperties": false
+    },
+    "measurement_binding": {
+      "allOf": [
+        {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v1/measurement-binding.schema.json"
+        },
+        {
+          "required": [
+            "soul_artifact_sha256"
+          ]
+        }
+      ]
+    },
+    "admission_challenge_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "host_id",
+    "issued_at",
+    "expires_at",
+    "installed_plan_receipt_sha256",
+    "assignment",
+    "member_endpoint",
+    "measurement_binding",
+    "admission_challenge_sha256"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/stage2a-reservation-payload.schema.json",
+  "title": "Stage 2a reservation payload (draft)"
+}

@@ -20,7 +20,7 @@ jobs:
       - name: install
         run: |
           python3 -m venv .venv
-          .venv/bin/pip install -q "jsonschema>=4.23" rfc3339-validator
+          .venv/bin/pip install -q "jsonschema>=4.23" rfc3339-validator cryptography
       - name: validate
         env:
           # The registry ratchet compares against the PR base, or main on push.

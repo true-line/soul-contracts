@@ -18,7 +18,7 @@ Checks, in order:
                   cite only requirement and test IDs defined there
   vendor tokens   R10: no vendor name in any contract artifact
 """
-import base64, hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
+import base64, binascii, hashlib, json, os, pathlib, re, shutil, subprocess, sys, tempfile
 from datetime import datetime
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -33,6 +33,7 @@ from qualification_policy_v2_fixtures import check_qualification_policy_v2_fixtu
 from qualification_policy_v3_fixtures import check_qualification_policy_v3_fixtures  # noqa: E402
 from qualification_acceptance_witness_fixtures import check_qualification_acceptance_witness_fixtures  # noqa: E402
 from stage2a_measurement_fixtures import check_stage2a_measurement_fixtures  # noqa: E402
+from stage2a_reservation_fixtures import check_stage2a_reservation_fixtures  # noqa: E402
 from qualification_report_v3_fixtures import check_report_v3_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -202,6 +203,7 @@ check_qualification_policy_v2_fixtures(ROOT, schemas, report)
 check_qualification_policy_v3_fixtures(ROOT, schemas, report)
 check_qualification_acceptance_witness_fixtures(ROOT, schemas, report)
 check_stage2a_measurement_fixtures(ROOT, schemas, report)
+check_stage2a_reservation_fixtures(ROOT, schemas, report)
 check_report_v3_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
 
@@ -399,6 +401,32 @@ artifacts = [*(ROOT / "schemas").rglob("*.json"), ROOT / "schemas/README.md", *(
 
 def vendor_text(path):
     raw = path.read_text(encoding="utf-8")
+    # These synthetic reservation vectors carry encoded JSON and signatures.
+    # Inspect decoded JSON, not incidental vendor-like base64 substrings.
+    if path.name.startswith(("stage2a-signed-reservation.", "machine-658-synthetic", "negative-vectors")) and "payload_base64url" in raw:
+        def decode_reservation(item):
+            if isinstance(item, dict):
+                out = {}
+                for key, value in item.items():
+                    if key == "envelope_jcs" and isinstance(value, str):
+                        out[key] = decode_reservation(json.loads(value))
+                    elif key in ("payload_base64url", "signing_preimage_base64url") and isinstance(value, str):
+                        try:
+                            decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
+                            out[key] = decoded.decode("utf-8")
+                        except (binascii.Error, UnicodeDecodeError, ValueError):
+                            # Invalid vectors still reach schema/oracle checks; encoded
+                            # garbage is not human-readable contract language.
+                            out[key] = "<invalid encoded bytes>"
+                    elif key in ("signature_base64url", "issuer_public_key_base64url"):
+                        out[key] = "<opaque binary>"
+                    else:
+                        out[key] = decode_reservation(value)
+                return out
+            if isinstance(item, list):
+                return [decode_reservation(part) for part in item]
+            return item
+        return json.dumps(decode_reservation(json.loads(raw)), ensure_ascii=False)
     if path.parent.name not in ("positive", "negative") or "policy_base64url" not in raw:
         return raw
     # A base64url policy can incidentally spell a short vendor token although
