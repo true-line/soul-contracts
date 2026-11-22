@@ -8,6 +8,7 @@
   },
   "raised_by_values": [
     "hq",
+    "machine",
     "broker",
     "entry-point",
     "soul-build",
@@ -295,6 +296,72 @@
         "broker"
       ],
       "registered": "0.3"
+    },
+    {
+      "n": 28,
+      "code": "owner_presence_missing",
+      "description": "An action that adds authority lacks a current device-owner presence signature over the exact action bytes.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
+    },
+    {
+      "n": 29,
+      "code": "control_key_revoked",
+      "description": "A control record names a Harbor key the owner has revoked for this machine.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
+    },
+    {
+      "n": 30,
+      "code": "action_outside_policy",
+      "description": "A linked-machine action exceeds the current owner-signed control policy or its link grant.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
+    },
+    {
+      "n": 31,
+      "code": "control_key_unrecognized",
+      "description": "A control record uses a key other than the owner-pinned key for this link.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
+    },
+    {
+      "n": 32,
+      "code": "issuer_untrusted",
+      "description": "A device enrollment or local issuance names an issuer key outside the trusted issuer set.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
+    },
+    {
+      "n": 33,
+      "code": "control_binding_mismatch",
+      "description": "A control signature, owner presence or machine plan does not bind the exact canonical action bytes.",
+      "retryable": false,
+      "raised_by": [
+        "hq",
+        "machine"
+      ],
+      "registered": "0.6"
     }
   ]
 }

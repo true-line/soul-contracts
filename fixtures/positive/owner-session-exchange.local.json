@@ -1,0 +1,24 @@
+{
+  "schema": "control/v1/owner-session-exchange.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "owner-session-exchange",
+    "payload": {
+      "session_id": "session-1",
+      "machine_id": "machine-1",
+      "hq_id": "hq-1",
+      "mode": "local-only",
+      "open_sha256": "sha256:968632bf2ba1c9b14df33dbf80f500f009c58a92e75060b8c5dcd16df92cc5a8",
+      "hq_nonce": "ccccccccccccccccccccccccccccccccccccccccccc",
+      "auth_method": "local-peer",
+      "peer_account": "owner-account",
+      "peer_uid": 501,
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    }
+  },
+  "canonical_sha256": "sha256:1b9e075d297591d2787569e005720ca5feb8c518f06f86bdc6472d8c258ae27e"
+}

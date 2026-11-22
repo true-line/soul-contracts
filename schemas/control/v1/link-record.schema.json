@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/link-record.schema.json",
+  "title": "Machine link record",
+  "description": "Only a local owner-present act can link or rotate the control key; Harbor cannot self-enroll.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "owner_presence"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "link-record"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "link_id",
+        "machine_id",
+        "hq_id",
+        "owner_id",
+        "operation",
+        "control_key_id",
+        "control_public_key_base64url",
+        "initial_policy_sha256",
+        "issued_at",
+        "expires_at"
+      ],
+      "properties": {
+        "link_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "hq_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "owner_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "operation": {
+          "enum": [
+            "link",
+            "rotate-control-key"
+          ]
+        },
+        "control_key_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "control_public_key_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "initial_policy_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    },
+    "previous_control_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/control_signature"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operation": {
+                "const": "rotate-control-key"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "previous_control_signature"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operation": {
+                "const": "link"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "previous_control_signature"
+          ]
+        }
+      }
+    }
+  ]
+}

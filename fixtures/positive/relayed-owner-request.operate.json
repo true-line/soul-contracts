@@ -1,0 +1,34 @@
+{
+  "schema": "control/v1/relayed-owner-request.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "relayed-owner-request",
+    "payload": {
+      "request_id": "request-1",
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "owner_session_id": "session-1",
+      "control_key_id": "harbor-control-1",
+      "policy_revision": 1,
+      "policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority_class": "operate",
+      "operation": "start",
+      "resource": "agent-1",
+      "parameters_sha256": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "parameters_canonical_base64url": "e30"
+    },
+    "control_signature": {
+      "algorithm": "Ed25519",
+      "control_key_id": "harbor-control-1",
+      "payload_sha256": "sha256:28ff3e3b0f7dcfe588d81384de097d32359b8eec3e1018706352a2a7ad9ed71d",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:161fc4e0c2850035bd3a49e46b2eb27f1e3f4b358829c1efa07b587863955581"
+}

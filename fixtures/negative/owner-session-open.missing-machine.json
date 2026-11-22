@@ -1,0 +1,30 @@
+{
+  "schema": "control/v1/owner-session-open.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "owner-session-open",
+    "payload": {
+      "session_id": "session-1",
+      "owner_id": "owner-1",
+      "hq_id": "hq-1",
+      "mode": "local-only",
+      "client_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "hq_nonce": "ccccccccccccccccccccccccccccccccccccccccccc",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "hq_signature": {
+      "algorithm": "ES256",
+      "hq_key_id": "hq-key-1",
+      "payload_sha256": "sha256:968632bf2ba1c9b14df33dbf80f500f009c58a92e75060b8c5dcd16df92cc5a8",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "base": {
+    "fixture": "positive/owner-session-open.local.json",
+    "sha256": "sha256:947bf61352fcea8c610add0138f79794aa131683c8ead27df1b372ee203263e7"
+  }
+}

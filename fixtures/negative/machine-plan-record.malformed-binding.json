@@ -1,0 +1,46 @@
+{
+  "schema": "control/v1/machine-plan-record.schema.json",
+  "expect": {
+    "schema": "valid",
+    "error": "control_binding_mismatch",
+    "rule": "control-plan-binding-mismatch"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "machine-plan-record",
+    "payload": {
+      "plan_id": "plan-1",
+      "plan_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "plan_canonical_base64url": "eyJtYWNoaW5lX2lkIjoibWFjaGluZS0xIiwib3BlcmF0aW9uIjoiaW5zdGFsbCIsInN1YmplY3QiOiJhZ2VudC0xIn0",
+      "machine_id": "machine-1",
+      "link_id": "link-1",
+      "owner_session_id": "session-1",
+      "expected_policy_revision": 1,
+      "operation": "install",
+      "mode": "linked",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:0448d8237dffa83ab0a83c17b826208feea52b75255be17383bc1256de73d1d7",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "control_signature": {
+      "algorithm": "Ed25519",
+      "control_key_id": "harbor-control-1",
+      "payload_sha256": "sha256:0448d8237dffa83ab0a83c17b826208feea52b75255be17383bc1256de73d1d7",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:03a9c368cf28d7efe6e4b86099202e593a6026a5f8a6ba674dbe9a281a4f1d06",
+  "base": {
+    "fixture": "positive/machine-plan-record.install.json",
+    "sha256": "sha256:68e03d91126667627b2eb46a8e8270d6412cca7ec551d54cdc4e79e3afa79c31"
+  },
+  "context": {}
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "control/v1/owner-session-exchange.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "owner-session-exchange",
+    "payload": {
+      "session_id": "session-1",
+      "machine_id": "machine-1",
+      "hq_id": "hq-1",
+      "mode": "linked",
+      "open_sha256": "sha256:968632bf2ba1c9b14df33dbf80f500f009c58a92e75060b8c5dcd16df92cc5a8",
+      "hq_nonce": "ccccccccccccccccccccccccccccccccccccccccccc",
+      "auth_method": "device-presence",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:d3d63e8821db1ad2b7b0e0c99e7b2ffab2ab93bb346b46a75f91773dc770dce5",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:377539bab95467cf18ff2b784615e999ccf9293e47d7f97a7e66a7c198e0a780"
+}

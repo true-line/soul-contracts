@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/machine-plan-record.schema.json",
+  "title": "Machine plan approval record",
+  "description": "An owner session or Harbor signature alone cannot authorize a machine plan.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "owner_presence"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "machine-plan-record"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "plan_id",
+        "plan_sha256",
+        "plan_canonical_base64url",
+        "machine_id",
+        "owner_session_id",
+        "expected_policy_revision",
+        "operation",
+        "issued_at",
+        "expires_at",
+        "mode"
+      ],
+      "properties": {
+        "plan_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "plan_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+        },
+        "plan_canonical_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,1398102}$"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "link_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "owner_session_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "expected_policy_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "operation": {
+          "enum": [
+            "install",
+            "create-harness-account",
+            "provision-key",
+            "provision-credential",
+            "policy-write"
+          ]
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "mode": {
+          "enum": [
+            "local-only",
+            "linked"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    },
+    "control_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/control_signature"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "mode": {
+                "const": "linked"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "link_id"
+            ]
+          }
+        },
+        "required": [
+          "control_signature"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "mode": {
+                "const": "local-only"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "not": {
+              "required": [
+                "link_id"
+              ]
+            }
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "link_id"
+              ]
+            },
+            {
+              "required": [
+                "control_signature"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

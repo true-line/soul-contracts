@@ -1,0 +1,30 @@
+{
+  "schema": "control/v1/unlink-record.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "unlink-record",
+    "payload": {
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "owner_id": "owner-1",
+      "revoked_control_key_id": "harbor-control-1",
+      "last_policy_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mode_after": "local-only",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:45ecae52804b1b7b4daeebbb2e403885fed3c78a6edf88c1f10b5763bea03946",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:84ea662604c6e446b3e68344942117076505c8492be1c85658abee3ef00b36b9"
+}

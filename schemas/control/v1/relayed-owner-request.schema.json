@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/control/v1/relayed-owner-request.schema.json",
+  "title": "Linked-machine relayed owner request",
+  "description": "Harbor relays owner presence without rewriting it; HQ and Machine recheck exact action bytes.",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "payload",
+    "control_signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "control/v1"
+    },
+    "kind": {
+      "const": "relayed-owner-request"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "link_id",
+        "machine_id",
+        "owner_session_id",
+        "control_key_id",
+        "policy_revision",
+        "policy_sha256",
+        "authority_class",
+        "operation",
+        "resource",
+        "parameters_sha256",
+        "nonce",
+        "issued_at",
+        "expires_at",
+        "parameters_canonical_base64url"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "link_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "machine_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "owner_session_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "control_key_id": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/id"
+        },
+        "policy_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "policy_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+        },
+        "authority_class": {
+          "enum": [
+            "reduce",
+            "operate",
+            "widen"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "stop",
+            "deny",
+            "revoke",
+            "quarantine",
+            "start",
+            "restart",
+            "drain",
+            "offer-task",
+            "policy-write",
+            "install",
+            "create-harness-account",
+            "provision-key",
+            "provision-credential",
+            "machine-plan"
+          ]
+        },
+        "resource": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parameters_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/digest"
+        },
+        "nonce": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/nonce"
+        },
+        "issued_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "expires_at": {
+          "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/stamp"
+        },
+        "parameters_canonical_base64url": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,1398102}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "control_signature": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/control_signature"
+    },
+    "owner_presence": {
+      "$ref": "https://true-line.ai/soul-contracts/control/v1/policy-bundle.schema.json#/$defs/owner_presence"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "authority_class": {
+                "const": "widen"
+              }
+            },
+            "required": [
+              "authority_class"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "owner_presence"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "authority_class": {
+                "const": "reduce"
+              }
+            },
+            "required": [
+              "authority_class"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operation": {
+                "enum": [
+                  "stop",
+                  "deny",
+                  "revoke",
+                  "quarantine"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "authority_class": {
+                "const": "operate"
+              }
+            },
+            "required": [
+              "authority_class"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operation": {
+                "enum": [
+                  "start",
+                  "restart",
+                  "drain",
+                  "offer-task"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "authority_class": {
+                "const": "widen"
+              }
+            },
+            "required": [
+              "authority_class"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operation": {
+                "enum": [
+                  "policy-write",
+                  "install",
+                  "create-harness-account",
+                  "provision-key",
+                  "provision-credential",
+                  "machine-plan"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

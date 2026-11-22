@@ -1,0 +1,39 @@
+{
+  "schema": "control/v1/device-enrollment.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/device-enrollment.additional.json",
+    "sha256": "sha256:a2262ae6e6509cfdd36fcf638388b78f50ab60476be1d59e842a9b0a23a1ccae"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "device-enrollment",
+    "payload": {
+      "enrollment_id": "enroll-1",
+      "owner_id": "owner-1",
+      "device_id": "device-1",
+      "machine_id": "machine-1",
+      "device_public_jwk": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "ddddddddddddddddddddddddddddddddddddddddddd",
+        "y": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "issuer_kind": "local-machine",
+      "issuer_key_id": "machine-issuer-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "enrollment_mode": "additional-device",
+      "deployment_mode": "local-only"
+    },
+    "issuer_signature": {
+      "algorithm": "Ed25519",
+      "issuer_key_id": "machine-issuer-1",
+      "payload_sha256": "sha256:ba2d1d97496029d53e1a9c83032a32d713a247f026de8f7b0136762a8b38c71f",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  }
+}

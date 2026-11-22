@@ -1,0 +1,42 @@
+{
+  "schema": "control/v1/policy-bundle.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "policy-bundle",
+    "payload": {
+      "link_id": "link-1",
+      "machine_id": "machine-1",
+      "policy_revision": 1,
+      "previous_policy_sha256": null,
+      "change_class": "widen",
+      "control_key_id": "harbor-control-1",
+      "allowed_actions": [
+        {
+          "verb": "start",
+          "resource": "agent-1"
+        }
+      ],
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    },
+    "control_signature": {
+      "algorithm": "Ed25519",
+      "control_key_id": "harbor-control-1",
+      "payload_sha256": "sha256:191364d5415b0badbec6ae09ba30cd8a0c1f64ed13b8972b58e68d4d4a9a1591",
+      "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "owner_presence": {
+      "algorithm": "ES256",
+      "owner_device_key_id": "device-key-1",
+      "owner_session_id": "session-1",
+      "challenge_nonce": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "action_sha256": "sha256:191364d5415b0badbec6ae09ba30cd8a0c1f64ed13b8972b58e68d4d4a9a1591",
+      "expires_at": "2026-11-21T18:05:00Z",
+      "signature_base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "canonical_sha256": "sha256:f720c8849f85d4981ca658f1211594c363c4ba76c83784fc1d373a1cb5b6a8e3"
+}

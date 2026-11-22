@@ -1,0 +1,25 @@
+{
+  "schema": "control/v1/owner-session-exchange.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "control/v1",
+    "kind": "owner-session-exchange",
+    "payload": {
+      "session_id": "session-1",
+      "machine_id": "machine-1",
+      "hq_id": "hq-1",
+      "mode": "linked",
+      "open_sha256": "sha256:968632bf2ba1c9b14df33dbf80f500f009c58a92e75060b8c5dcd16df92cc5a8",
+      "hq_nonce": "ccccccccccccccccccccccccccccccccccccccccccc",
+      "auth_method": "device-presence",
+      "issued_at": "2026-11-21T18:00:00Z",
+      "expires_at": "2026-11-21T18:05:00Z"
+    }
+  },
+  "base": {
+    "fixture": "positive/owner-session-exchange.linked.json",
+    "sha256": "sha256:4e3f62ebe4593138ac1c816ffcc434666bc1d0cf72b7a1519ae293a559c1d48c"
+  }
+}
