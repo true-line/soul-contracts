@@ -64,6 +64,9 @@ with its own completed-run reference. The separate cooperative attempt must
 use a distinct one-use reservation, finalization, challenge, start ID, launch ID, profile,
 launch-input measurement and launch snapshot identity. It may share the
 reviewed frozen definition measurement and approved SoulLock mapping.
+The reservation and finalization references must each differ in both URI and
+digest across the protected and cooperative reports; changing only the URI
+does not make reused record bytes a distinct attempt.
 
 ## Offline verification order
 

@@ -76,8 +76,10 @@ def _distinct_attempt(protected, cooperative):
             p["snapshots"]["definition"] == c["snapshots"]["definition"] and
             p["snapshots"]["launch_inputs"] != c["snapshots"]["launch_inputs"] and
             p["start_id"] != c["start_id"] and p["launch_id"] != c["launch_id"] and
-            pr["reservation"] != cr["reservation"] and
-            pr["finalization"] != cr["finalization"] and
+            pr["reservation"]["sha256"] != cr["reservation"]["sha256"] and
+            pr["reservation"]["uri"] != cr["reservation"]["uri"] and
+            pr["finalization"]["sha256"] != cr["finalization"]["sha256"] and
+            pr["finalization"]["uri"] != cr["finalization"]["uri"] and
             pr["challenge_sha256"] != cr["challenge_sha256"])
 
 
@@ -107,6 +109,12 @@ def check_report_v3_fixtures(root, schemas, report):
         reused["run_evidence"][field] = protected["run_evidence"][field]
         report(not _distinct_attempt(protected, reused),
                "v3 T21 " + label + " reuse refuses")
+    for field in ("reservation", "finalization"):
+        for reused_field in ("sha256", "uri"):
+            reused = copy.deepcopy(cooperative)
+            reused["run_evidence"][field][reused_field] = protected["run_evidence"][field][reused_field]
+            report(not _distinct_attempt(protected, reused),
+                   "v3 T21 " + field + " same " + reused_field + " refuses")
     now = datetime(2026, 11, 22, 6, 3, tzinfo=timezone.utc)
     report(_chronology_ok(protected, cooperative, evidence, attestation, now),
            "v3 report, qualification and Statement chronology accepts")
