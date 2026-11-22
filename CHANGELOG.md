@@ -1,16 +1,16 @@
 # Changelog
 
-## Unreleased draft
+## 0.6.0 — 2026-11-21
 
-- Draft fixed purpose host-report and owner-policy signature envelopes, runner and independently observed HQ Soul-start bindings, and release source identity for authenticated macOS qualification. These shapes remain unqualified until the offline verifier and physical gates pass.
-- Describe an unverified adapter qualification evidence payload and synthetic shape fixtures. The unqualified manifest retains its empty qualification list.
-- Draft a dedicated adapter qualification attestation, a future manifest entry referencing the bundle, and a fixed macOS report shape. Check exact qualification and report bytes, independently supplied inputs and profile-specific gates using unsigned synthetic fixtures.
-
-## 0.6.0 — release preparation
-
-Consumers must verify the published tag and release before pinning this version.
+This version publishes contract shapes and refusal fixtures. It does not qualify
+an adapter, prove a protected host run, or authorize protected launch. Consumers
+must verify the published tag and release before pinning this version.
 
 - Add the initial `adapter/v1` package manifest schema and canonical fixtures for adapters that declare no qualified profiles.
+- Add draft authenticated macOS qualification v1 host-report, designated-host signature, owner-policy envelope and release attestation contracts. Specify fixed signing purposes, canonical bytes and binding fields for released adapter and runner bytes, HQ-started Soul evidence, measured host inputs, and T01/T02/T03/T21 results. Keep `profiles_qualified: []` until cryptographic, release and physical checks pass.
+- Add draft bridge-aware qualification v2 contracts with distinct Souls source/build receipt, pinned source tree and runtime archive digest, trusted release roots, and a 3,600-second revocation-snapshot limit. Synthetic fixtures test byte substitution and provenance refusals; they are not physical Mac evidence.
+- Add the PDR-0047 `control/v1` linked-machine records: signed policy bundle and relayed owner request, owner session open/exchange, device enrollment, physical link/unlink, and machine plan. Add a separate local-only credential issuer variant and domain-separated signing/verification rules. Negative fixtures cover owner-presence, wrong or revoked keys, policy widening, untrusted issuer, malformed binding and first-device bootstrap failures. These contracts do not open the linked control path until host implementations enforce them.
+- Register control refusal codes for missing owner presence, revoked or unrecognized control keys, untrusted issuer, binding mismatch and action outside policy. The error response enumeration stays in lockstep with the add-only registry.
 
 ## 0.5.0 — 2026-11-15
 Version metadata alone does not establish publication. Consumers must verify the actual tag and release before pinning.
