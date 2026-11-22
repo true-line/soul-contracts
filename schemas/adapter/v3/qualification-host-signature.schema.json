@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v3/qualification-host-signature.schema.json",
+  "title": "Designated-host signature for Stage 2a measured report",
+  "description": "Signature envelope over exact canonical v3 report bytes. The fixed preimage is ASCII purpose, NUL, then the RFC 8785 JCS report bytes. Shape alone proves no signature or host designation.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "host_id", "signer_id", "report_sha256", "report_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 3 },
+    "purpose": { "const": "agent-bot/qualification-host-report/v3" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/host_id" },
+    "signer_id": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/signer_id" },
+    "report_sha256": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/report_sha256" },
+    "report_base64url": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/report_base64url" },
+    "signature_base64url": { "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/signature_base64url" }
+  },
+  "additionalProperties": false
+}

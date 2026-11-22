@@ -1,0 +1,212 @@
+{
+  "schema": "adapter/v3/qualification-host-report.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic separate cooperative T21 report shape; no physical run, authenticated Machine record or valid signature.",
+  "input": {
+    "schema_version": 3,
+    "adapter": {
+      "id": "fake-adapter",
+      "version": "1.2.3",
+      "package_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "launch": {
+      "executable": "/fixture/bin/adapter",
+      "executable_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "argv": [
+        "serve",
+        "--fixture"
+      ],
+      "code_inputs": [
+        {
+          "path": "/fixture/lib/adapter.mjs",
+          "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      ]
+    },
+    "harness": {
+      "name": "fake-harness",
+      "version": "2.0.0",
+      "binary_path": "/fixture/libexec/harness",
+      "binary_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "host": {
+      "os": "darwin",
+      "os_version": "15.0",
+      "architecture": "arm64",
+      "profile": "fixture-host",
+      "evidence": [
+        {
+          "uri": "fixture:synthetic-evidence",
+          "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        }
+      ],
+      "id": "fixture-physical-mac"
+    },
+    "profile_in_force": "managed-cooperative",
+    "renders": [
+      "instructions",
+      "tools"
+    ],
+    "cost_bound": "estimate",
+    "evaluation_cells": [
+      {
+        "role": "lead",
+        "model": "fixture-model",
+        "provider": "fixture-provider",
+        "revision": "fixture-revision",
+        "evidence": {
+          "uri": "fixture:evaluation",
+          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        }
+      }
+    ],
+    "suite_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "run_id": "fixture-run-t21",
+    "outcome": "pass",
+    "checks": {
+      "egress": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "credentials": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "state_redirect": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "safe_interrupt_resume": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "session_reuse": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "cost_bound": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      },
+      "render_coverage": {
+        "outcome": "pass",
+        "evidence": [
+          {
+            "uri": "fixture:synthetic-evidence",
+            "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ]
+      }
+    },
+    "gates": {
+      "T21": {
+        "outcome": "pass",
+        "evidence": {
+          "uri": "fixture:synthetic-T21",
+          "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    },
+    "recorded_at": "2026-11-22T06:01:00Z",
+    "runner": {
+      "binary_path": "/fixture/libexec/conformance-runner",
+      "binary_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "soul_start": {
+      "initiator": "hq",
+      "hq_launch_receipt": {
+        "uri": "fixture:hq-launch-t21",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "machine_observation": {
+        "uri": "fixture:machine-observation-t21",
+        "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    "measurement_binding": {
+      "contract": "machine/v1",
+      "kind": "stage2a-measurement-binding",
+      "schema_version": 1,
+      "installation_id": "fixture-installation",
+      "soul_id": "agent_11111111-1111-1111-1111-111111111111",
+      "start_id": "st_333333333333333333333333",
+      "launch_id": "ln_444444444444444444444444",
+      "host_id": "fixture-physical-mac",
+      "hq_epoch": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "plan_id": "fixture-planx",
+      "installed_plan_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "package_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "profile_in_force": "managed-cooperative",
+      "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "definition_measurement": "sha256:27c6f3b4c768a2f5b2fe4f5f58c829eef7d02e111517937fea100d0aa15a2ede",
+      "launch_input_measurement": "sha256:530092572a83b9abba0a953724daa706bcf86825fb24cd5778c37bb160fcd652",
+      "snapshots": {
+        "definition": {
+          "root_path": "/private/stage2a/snapshot-definition",
+          "device": "1",
+          "inode": "1001",
+          "generation": "1",
+          "birthtime_ns": "1795300000000000000",
+          "owner_uid": 0,
+          "owner_gid": 0,
+          "mode": "0555"
+        },
+        "launch_inputs": {
+          "root_path": "/private/stage2a/snapshot-launch-cooperative",
+          "device": "1",
+          "inode": "2002",
+          "generation": "1",
+          "birthtime_ns": "1795300000000000000",
+          "owner_uid": 0,
+          "owner_gid": 0,
+          "mode": "0555"
+        }
+      },
+      "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "run_evidence": {
+      "reservation": {
+        "uri": "fixture:cooperative-reservation",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "finalization": {
+        "uri": "fixture:cooperative-finalization",
+        "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  },
+  "canonical_sha256": "sha256:98b6e90ae5f6ddcae472fded53b00317cc8cf1adf0ea814df141a8cfd541cbaf"
+}

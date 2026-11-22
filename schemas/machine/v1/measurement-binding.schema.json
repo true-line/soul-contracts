@@ -18,6 +18,7 @@
     "plan_id": { "$ref": "#/$defs/id" },
     "installed_plan_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "package_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "soul_artifact_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Exact frozen installable .soul transport bytes. This additive claim requires an independently authenticated release receipt and installed-byte measurement before qualification." },
     "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
     "claimed_definition_digest": { "$ref": "#/$defs/digest" },
     "definition_measurement": { "$ref": "#/$defs/digest" },

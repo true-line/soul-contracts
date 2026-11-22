@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v3/qualification-evidence.schema.json",
+  "title": "Stage 2a measured adapter qualification.json payload",
+  "description": "Decoded exact qualification.json bytes. Protected T01-T03 and cooperative T21 each require a distinct v3 host report plus an independently authenticated immutable completed-run record. Shape alone proves neither.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "adapter",
+    "launch",
+    "harness",
+    "runner",
+    "soul_start",
+    "host",
+    "profile_in_force",
+    "renders",
+    "cost_bound",
+    "conformance",
+    "recorded_at",
+    "evaluation_cells",
+    "souls_build",
+    "soul_artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 3
+    },
+    "adapter": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/adapter"
+    },
+    "launch": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/launch"
+    },
+    "harness": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/harness"
+    },
+    "runner": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/runner"
+    },
+    "soul_start": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/soul_start"
+    },
+    "host": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/host"
+    },
+    "profile_in_force": {
+      "const": "managed-protected"
+    },
+    "renders": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/renders"
+    },
+    "cost_bound": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/cost_bound"
+    },
+    "conformance": {
+      "type": "object",
+      "required": [
+        "suite_revision",
+        "run_id",
+        "outcome",
+        "checks",
+        "protected_report",
+        "cooperative_report",
+        "runner_observations"
+      ],
+      "properties": {
+        "suite_revision": {
+          "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/suite_revision"
+        },
+        "run_id": {
+          "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/run_id"
+        },
+        "outcome": {
+          "const": "pass"
+        },
+        "checks": {
+          "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/conformance/properties/checks"
+        },
+        "protected_report": {
+          "$ref": "#/$defs/protected_report"
+        },
+        "cooperative_report": {
+          "$ref": "#/$defs/cooperative_report"
+        },
+        "runner_observations": {
+          "description": "Exact byte references to independently captured runner observations. The verifier must inspect their content, identity and context; presence alone proves nothing.",
+          "type": "object",
+          "required": [
+            "pinned_acp_and_cli",
+            "private_state",
+            "authenticated_session",
+            "assigned_endpoints",
+            "direct_ipv4_ipv6_egress",
+            "clean_shutdown"
+          ],
+          "properties": {
+            "pinned_acp_and_cli": {
+              "$ref": "#/$defs/evidence"
+            },
+            "private_state": {
+              "$ref": "#/$defs/evidence"
+            },
+            "authenticated_session": {
+              "$ref": "#/$defs/evidence"
+            },
+            "assigned_endpoints": {
+              "$ref": "#/$defs/evidence"
+            },
+            "direct_ipv4_ipv6_egress": {
+              "$ref": "#/$defs/evidence"
+            },
+            "clean_shutdown": {
+              "$ref": "#/$defs/evidence"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "recorded_at": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/recorded_at"
+    },
+    "evaluation_cells": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/properties/evaluation_cells"
+    },
+    "souls_build": {
+      "$ref": "#/$defs/souls_build"
+    },
+    "soul_artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Exact frozen installable .soul transport bytes, separately authenticated under an owner-pinned release receipt and measured at installation."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidence": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/$defs/evidence_ref"
+    },
+    "souls_build": {
+      "description": "Claimed Souls source and build identity, separately authenticated against the designated signed build receipt and owner-approved source tree.",
+      "type": "object",
+      "required": [
+        "source_repository",
+        "source_commit",
+        "source_tree",
+        "builder_sha256",
+        "toolchain_sha256",
+        "workflow",
+        "run_id",
+        "run_attempt",
+        "package_sha256",
+        "receipt"
+      ],
+      "properties": {
+        "source_repository": {
+          "const": "true-line/agent-bot-souls"
+        },
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "source_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "builder_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "toolchain_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "workflow": {
+          "type": "string",
+          "pattern": "^\\.github/workflows/[A-Za-z0-9._-]+\\.ya?ml$"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,19}$"
+        },
+        "run_attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "package_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "receipt": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "additionalProperties": false
+    },
+    "protected_report": {
+      "type": "object",
+      "required": [
+        "report_schema_version",
+        "signature_purpose",
+        "payload",
+        "signature",
+        "completed_run"
+      ],
+      "properties": {
+        "report_schema_version": {
+          "const": 3
+        },
+        "signature_purpose": {
+          "const": "agent-bot/qualification-host-report/v3"
+        },
+        "payload": {
+          "$ref": "#/$defs/evidence"
+        },
+        "signature": {
+          "$ref": "#/$defs/evidence"
+        },
+        "completed_run": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "additionalProperties": false
+    },
+    "cooperative_report": {
+      "type": "object",
+      "required": [
+        "report_schema_version",
+        "signature_purpose",
+        "payload",
+        "signature",
+        "completed_run"
+      ],
+      "properties": {
+        "report_schema_version": {
+          "const": 3
+        },
+        "signature_purpose": {
+          "const": "agent-bot/qualification-host-report/v3"
+        },
+        "payload": {
+          "$ref": "#/$defs/evidence"
+        },
+        "signature": {
+          "$ref": "#/$defs/evidence"
+        },
+        "completed_run": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
