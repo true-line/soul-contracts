@@ -395,6 +395,36 @@ if fetched:
     report(not unknown, "contract artifacts cite only IDs defined on platform main", "; ".join(sorted(unknown)))
 shutil.rmtree(plat, ignore_errors=True)
 
+# --- release-produced test fixture integrity --------------------------------
+SIGNED_FIXTURE = ROOT / "fixtures/qualification/macos/release-produced-test-only"
+manifest = (SIGNED_FIXTURE / "SHA256SUMS").read_text(encoding="utf-8").splitlines()
+recorded, manifest_errors = {}, []
+for line in manifest:
+    match = re.fullmatch(r"([0-9a-f]{64})  \./([A-Za-z0-9._/-]+)", line)
+    if not match:
+        manifest_errors.append("malformed SHA256SUMS line")
+        continue
+    digest, name = match.groups()
+    target = SIGNED_FIXTURE / name
+    if name in recorded or ".." in pathlib.PurePosixPath(name).parts or target.is_symlink() or not target.is_file():
+        manifest_errors.append(f"invalid fixture path: {name}")
+        continue
+    recorded[name] = digest
+    if hashlib.sha256(target.read_bytes()).hexdigest() != digest:
+        manifest_errors.append(f"changed fixture bytes: {name}")
+emitted = {p.relative_to(SIGNED_FIXTURE).as_posix() for p in SIGNED_FIXTURE.rglob("*")
+           if p.is_file() and p.name not in ("README.md", "SHA256SUMS", "cases.json")}
+report(not manifest_errors and set(recorded) == emitted and len(recorded) == 28,
+       "release-produced v1 fixture matches workflow SHA256SUMS",
+       "; ".join(manifest_errors + [f"unlisted: {sorted(emitted - set(recorded))}",
+                                    f"missing: {sorted(set(recorded) - emitted)}"]))
+cases = json.loads((SIGNED_FIXTURE / "cases.json").read_text(encoding="utf-8"))
+report(cases["positive"]["bundle_sha256"] == "sha256:" + recorded.get("bundle.json", "") and
+       cases["positive"]["qualification_sha256"] == "sha256:" + recorded.get("qualification.json", "") and
+       {c["id"] for c in cases["negative"]} ==
+       {"altered-bundle", "wrong-identity", "stale-revocation", "wrong-host", "expired-qualification"},
+       "release-produced v1 fixture pins positive bytes and five refusal cases")
+
 # --- vendor tokens (R10) -----------------------------------------------------
 DENY = ["claude", "codex", "anthropic", "openai", "gpt-", "gemini", "google", "opencode", "copilot",
         "cursor", "bedrock", "mistral", "llama", "qwen", "glm", "deepseek", "grok", "meta.ai", "huggingface"]
@@ -403,6 +433,31 @@ artifacts = [*(ROOT / "schemas").rglob("*.json"), ROOT / "schemas/README.md", *(
 
 def vendor_text(path):
     raw = path.read_text(encoding="utf-8")
+    if path.suffix == ".json" and SIGNED_FIXTURE in path.parents:
+        encoded = {"policy_base64url", "report_base64url", "payload"}
+        opaque = {"signature_base64url", "sig", "rawBytes", "signedTimestamp",
+                  "signedEntryTimestamp", "canonicalizedBody", "rootHash", "envelope"}
+        def searchable(item):
+            if isinstance(item, dict):
+                for key, value in item.items():
+                    yield key
+                    if key in opaque:
+                        continue
+                    if key in encoded and isinstance(value, str):
+                        try:
+                            decoded = base64.b64decode(value + "=" * (-len(value) % 4),
+                                                       altchars=b"-_", validate=True).decode("utf-8")
+                        except (ValueError, UnicodeDecodeError, binascii.Error):
+                            decoded = value
+                        yield decoded
+                    else:
+                        yield from searchable(value)
+            elif isinstance(item, list):
+                for value in item:
+                    yield from searchable(value)
+            elif isinstance(item, str):
+                yield item
+        return "\n".join(searchable(json.loads(raw)))
     # These synthetic reservation vectors carry encoded JSON and signatures.
     # Inspect decoded JSON, not incidental vendor-like base64 substrings.
     if path.name.startswith(("stage2a-signed-reservation.", "machine-658-synthetic",

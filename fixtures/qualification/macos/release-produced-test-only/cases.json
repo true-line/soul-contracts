@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "workflow_run_id": 44955398358,
+  "workflow_head_commit": "f776b26969b0cabfc88afd2e833a42b87e84d36a",
+  "release_source_commit": "98f3cb74270d5ac71b10357c14023f2bbc31bd5b",
+  "machine_verifier_commit": "10441e07de7bf33ceb1e5e47f74916ac67ff2694",
+  "contracts_template_commit": "0ec25670fde95f8417c985c318f4875b7eb2918f",
+  "verified_at": "2026-11-21T22:13:33Z",
+  "owner_key_id": "fixture-owner-root",
+  "owner_root_hex": "e87f94b3b722f6e1c82d8781b4f3f3702ac01deb43fa3bb0797ab2f94220bc01",
+  "sigstore_root_sha256": "sha256:0ba58f6c09c271f664f0f8c1fa62e2065844ca89a0397c0178ed5188f6096724",
+  "positive": {
+    "bundle": "bundle.json",
+    "bundle_sha256": "sha256:2fcafa9ae98c656e237e2962962ecf35402e9b95a8d5623d0100a2bf53ef80f8",
+    "qualification": "qualification.json",
+    "qualification_sha256": "sha256:99fe0075193b461d84182d168a08fbae3fb794844ea82e2c084361796df93c48",
+    "policy_envelope": "policy-envelope.json",
+    "protected_envelope": "protected-envelope.json",
+    "cooperative_envelope": "cooperative-envelope.json",
+    "expected": "accept_offline_release_only"
+  },
+  "negative": [
+    {
+      "bundle": "bundle.altered.json",
+      "bundle_sha256": "sha256:280268fab5e8fc8bfd9360ef143a5da724bd1e7e2decaf95474e70e21f95415b",
+      "policy_envelope": "policy-envelope.json",
+      "verified_at": "2026-11-21T22:13:33Z",
+      "id": "altered-bundle",
+      "expected": "refuse"
+    },
+    {
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:2fcafa9ae98c656e237e2962962ecf35402e9b95a8d5623d0100a2bf53ef80f8",
+      "policy_envelope": "policy-envelope.wrong-identity.json",
+      "verified_at": "2026-11-21T22:13:33Z",
+      "id": "wrong-identity",
+      "expected": "refuse"
+    },
+    {
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:2fcafa9ae98c656e237e2962962ecf35402e9b95a8d5623d0100a2bf53ef80f8",
+      "policy_envelope": "policy-envelope.stale-revocation.json",
+      "verified_at": "2026-11-21T22:13:33Z",
+      "id": "stale-revocation",
+      "expected": "refuse"
+    },
+    {
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:2fcafa9ae98c656e237e2962962ecf35402e9b95a8d5623d0100a2bf53ef80f8",
+      "policy_envelope": "policy-envelope.wrong-host.json",
+      "verified_at": "2026-11-21T22:13:33Z",
+      "id": "wrong-host",
+      "expected": "refuse"
+    },
+    {
+      "bundle": "bundle.json",
+      "bundle_sha256": "sha256:2fcafa9ae98c656e237e2962962ecf35402e9b95a8d5623d0100a2bf53ef80f8",
+      "policy_envelope": "policy-envelope.json",
+      "verified_at": "2026-11-21T23:11:11.120Z",
+      "id": "expired-qualification",
+      "expected": "refuse"
+    }
+  ]
+}
