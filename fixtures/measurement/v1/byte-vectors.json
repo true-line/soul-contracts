@@ -1,0 +1,9 @@
+{
+  "definition_purpose": "agent-bot/stage2a-definition-opt-closure/v1",
+  "definition_measurement": "sha256:27c6f3b4c768a2f5b2fe4f5f58c829eef7d02e111517937fea100d0aa15a2ede",
+  "launch_purpose": "agent-bot/stage2a-launch-inputs/v1",
+  "launch_inputs_measurement": "sha256:2f861779b03affdd5fdc594a5d4ebee5e7d19bef2a433377d6b9b42ea31a7712",
+  "definition_record_count": 8,
+  "definition_file_count": 5,
+  "launch_input_file_count": 12
+}

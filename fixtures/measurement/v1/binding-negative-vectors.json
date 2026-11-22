@@ -1,0 +1,92 @@
+[
+  {
+    "name": "changed definition measurement",
+    "mutation": "definition-digest",
+    "expect": "definition-digest"
+  },
+  {
+    "name": "changed launch-input measurement",
+    "mutation": "launch-digest",
+    "expect": "launch-digest"
+  },
+  {
+    "name": "self-claimed revision without approved mapping",
+    "mutation": "claim",
+    "expect": "unapproved-definition-mapping"
+  },
+  {
+    "name": "changed installed plan",
+    "mutation": "plan",
+    "expect": "installed-plan"
+  },
+  {
+    "name": "another installation",
+    "mutation": "installation",
+    "expect": "start-context"
+  },
+  {
+    "name": "replayed start",
+    "mutation": "start",
+    "expect": "start-context"
+  },
+  {
+    "name": "cooperative profile on protected start",
+    "mutation": "profile",
+    "expect": "start-context"
+  },
+  {
+    "name": "another HQ epoch",
+    "mutation": "epoch",
+    "expect": "start-context"
+  },
+  {
+    "name": "aliased definition and launch snapshots",
+    "mutation": "same-snapshot",
+    "expect": "snapshot-alias"
+  },
+  {
+    "name": "writable definition snapshot",
+    "mutation": "writable-snapshot",
+    "expect": "writable-snapshot"
+  },
+  {
+    "name": "changed snapshot inode",
+    "mutation": "snapshot-inode",
+    "expect": "snapshot-identity"
+  },
+  {
+    "name": "changed snapshot generation",
+    "mutation": "snapshot-generation",
+    "expect": "snapshot-identity"
+  },
+  {
+    "name": "changed snapshot path",
+    "mutation": "snapshot-path",
+    "expect": "snapshot-identity"
+  },
+  {
+    "name": "changed approved host ID",
+    "mutation": "host",
+    "expect": "start-context"
+  },
+  {
+    "name": "changed approved plan ID",
+    "mutation": "plan-id",
+    "expect": "start-context"
+  },
+  {
+    "name": "backslash snapshot root",
+    "mutation": "snapshot-backslash",
+    "expect": "backslash-path"
+  },
+  {
+    "name": "replayed launch ID",
+    "mutation": "launch",
+    "expect": "start-context"
+  },
+  {
+    "name": "changed installed candidate package digest",
+    "mutation": "package",
+    "expect": "installed-package"
+  }
+]

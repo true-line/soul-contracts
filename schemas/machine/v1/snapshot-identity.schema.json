@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/snapshot-identity.schema.json",
+  "title": "Stage 2a host-local read-only snapshot identity",
+  "description": "Host-local custody facts bound outside the portable definition and launch-input digests. Shape alone does not prove descriptor custody, no-follow traversal, sync, immutability or pre-exec identity.",
+  "type": "object",
+  "required": ["root_path", "device", "inode", "generation", "birthtime_ns", "owner_uid", "owner_gid", "mode"],
+  "properties": {
+    "root_path": { "type": "string", "minLength": 2, "maxLength": 4096, "pattern": "^/(?!.*//)(?!.*\\/$)(?!.*(?:^|/)\\.\\.?(/|$))[\\x20-\\x7e]+$", "not": { "pattern": "\\\\" } },
+    "device": { "$ref": "#/$defs/decimal" },
+    "inode": { "$ref": "#/$defs/decimal" },
+    "generation": { "$ref": "#/$defs/decimal" },
+    "birthtime_ns": { "$ref": "#/$defs/decimal" },
+    "owner_uid": { "const": 0 },
+    "owner_gid": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+    "mode": { "type": "string", "pattern": "^[0-7]{4}$" }
+  },
+  "$defs": {
+    "decimal": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,19})$" }
+  },
+  "additionalProperties": false
+}

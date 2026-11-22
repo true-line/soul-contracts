@@ -1,0 +1,19 @@
+{
+  "schema": "machine/v1/snapshot-identity.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/snapshot-identity.stage2a-synthetic.json",
+    "sha256": "sha256:70ccb3e4ff72835aa40f2687c278a1a9f0874a0802c41f1b8296cd7b73e8f6fe"
+  },
+  "input": {
+    "root_path": "/private/stage2a/snapshot-definition",
+    "device": "1",
+    "inode": "1001",
+    "birthtime_ns": "1795300000000000000",
+    "owner_uid": 0,
+    "owner_gid": 0,
+    "mode": "0555"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "machine/v1/definition-records.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/definition-records.stage2a-synthetic.json",
+    "sha256": "sha256:20cc78d87325c17f17caf67707eed9360df82bb8095b77faf77b82d315a80b7a"
+  },
+  "input": [
+    {
+      "path": "Contents",
+      "kind": "directory",
+      "mode": "0555"
+    },
+    {
+      "path": "Contents/SoulInfo.json",
+      "kind": "regular",
+      "mode": "0444",
+      "size": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "path": "Contents/SoulLock.json",
+      "kind": "regular",
+      "mode": "0444",
+      "size": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "path": "Contents/opt",
+      "kind": "directory",
+      "mode": "0555"
+    },
+    {
+      "path": "Contents/opt/quickstart-adapter.mjs",
+      "kind": "regular",
+      "mode": "0555",
+      "size": 17,
+      "sha256": "56332e0a55734bc2b73df56a2df8635ed5c5b24b6d7a456b41de7cab9a2f3814"
+    },
+    {
+      "path": "Contents/opt/quickstart-check.mjs",
+      "kind": "regular",
+      "mode": "0555",
+      "size": 17,
+      "sha256": "a903ba200e1d43efd9a49f4a8f57c622efb2ca72b9a00222dacd16d6ba6f3ba0"
+    },
+    {
+      "path": "Contents/primitives",
+      "kind": "directory",
+      "mode": "0555"
+    },
+    {
+      "path": "Contents/primitives/quickstart-task.json",
+      "kind": "regular",
+      "mode": "0444",
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  ]
+}
