@@ -390,6 +390,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-synthetic.json",
-    "sha256": "sha256:e53413959151aae27b2f8aa4bf4a4a153850f2cef9b52a3bfbd424def9cdb0b5"
+    "sha256": "sha256:ea16ca0d0dc79318744131044746c4c4e51da4b69428fbc98359dc41c95ad799"
   }
 }

@@ -401,7 +401,7 @@
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
           "owner_uid": 505,
-          "owner_gid": 331,
+          "owner_gid": 703,
           "mode": "0555"
         },
         "launch_inputs": {
@@ -411,7 +411,7 @@
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
           "owner_uid": 505,
-          "owner_gid": 331,
+          "owner_gid": 703,
           "mode": "0555"
         }
       },
@@ -429,5 +429,5 @@
       "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
     }
   },
-  "canonical_sha256": "sha256:230d364ef7e4e6209cec388bcaef22075a8068430cb35895684a40f6bf78f44f"
+  "canonical_sha256": "sha256:9565867ee0f5bc8ffc64a95efb4d4d9f652810de4b7f717646afb727e6289f1f"
 }

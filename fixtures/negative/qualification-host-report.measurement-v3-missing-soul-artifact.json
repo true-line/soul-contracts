@@ -401,7 +401,7 @@
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
           "owner_uid": 505,
-          "owner_gid": 331,
+          "owner_gid": 703,
           "mode": "0555"
         },
         "launch_inputs": {
@@ -411,7 +411,7 @@
           "generation": "1",
           "birthtime_ns": "1795300000000000000",
           "owner_uid": 505,
-          "owner_gid": 331,
+          "owner_gid": 703,
           "mode": "0555"
         }
       }
@@ -430,6 +430,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-synthetic.json",
-    "sha256": "sha256:e53413959151aae27b2f8aa4bf4a4a153850f2cef9b52a3bfbd424def9cdb0b5"
+    "sha256": "sha256:ea16ca0d0dc79318744131044746c4c4e51da4b69428fbc98359dc41c95ad799"
   }
 }

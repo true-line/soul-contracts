@@ -45,6 +45,8 @@ def _report_consistent(report, profile):
     if profile == "managed-protected":
         if report["bridge"]["principals"]["machine_uid"] != snapshots["definition"]["owner_uid"]:
             return False
+        if report["bridge"]["principals"]["runner_private_gid"] != snapshots["definition"]["owner_gid"]:
+            return False
         assignment = report["bridge"]["assignment"]
         if any(assignment[key] != binding[key] for key in ("installation_id", "soul_id", "start_id", "launch_id", "plan_id")):
             return False
@@ -147,6 +149,9 @@ def check_report_v3_fixtures(root, schemas, report):
     changed = copy.deepcopy(protected)
     changed["bridge"]["principals"]["machine_uid"] = 0
     report(not _report_consistent(changed, "managed-protected"), "v3 report refuses bridge Machine UID that differs from snapshot custody")
+    changed = copy.deepcopy(protected)
+    changed["bridge"]["principals"]["runner_private_gid"] += 1
+    report(not _report_consistent(changed, "managed-protected"), "v3 report refuses runner group that differs from snapshot custody")
     for profile, payload, envelope in (("protected", protected, protected_sig), ("cooperative", cooperative, cooperative_sig)):
         report(_envelope_matches(payload, envelope), "v3 " + profile + " envelope exact report bytes")
         release_ref = evidence["conformance"][profile + "_report"]

@@ -14,6 +14,6 @@
   },
   "base": {
     "fixture": "positive/qualification-host-signature.measurement-v3-synthetic.json",
-    "sha256": "sha256:4426157ed49ffb89ae609c2543c23075fe6c6cbd081e6bab2806342d8eed4d12"
+    "sha256": "sha256:953ce0886d8d69a4e9dc39530339ce907688d0efb840738dfb9783b4927c159b"
   }
 }

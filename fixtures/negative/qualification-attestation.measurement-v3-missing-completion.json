@@ -71,6 +71,6 @@
   },
   "base": {
     "fixture": "positive/qualification-attestation.measurement-v3-synthetic.json",
-    "sha256": "sha256:12f3b2e1724928b58951088812422f056bbf841dcda46ffc51ce079cfb3c0457"
+    "sha256": "sha256:8d30cd18e7a1f5e532bc8fdaef1abfa4fa199b544888fb2964081970737c572d"
   }
 }
