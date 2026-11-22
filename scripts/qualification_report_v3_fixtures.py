@@ -25,17 +25,78 @@ def _reference(ref, raw):
     return ref["sha256"] == _digest(raw)
 
 
+def _machine_envelope(envelope, payload, purpose):
+    raw = canonicalize(payload)
+    return (set(envelope) == {"schema_version", "purpose", "issuer_public_key_base64url",
+                              "payload_sha256", "payload_base64url", "signature_base64url"} and
+            envelope["schema_version"] == 1 and envelope["purpose"] == purpose and
+            envelope["payload_sha256"] == _digest(raw) and
+            envelope["payload_base64url"] == base64.urlsafe_b64encode(raw).rstrip(b"=").decode())
+
+
+def _two_record_chain(report, host_envelope, release_ref, chain):
+    completion = chain["execution_completion"]
+    commitment = chain["completed_run"]
+    candidate = copy.deepcopy(report)
+    completion_ref = candidate["run_evidence"].pop("execution_completion", None)
+    if completion_ref is None:
+        return False
+    pre = completion["payload"]
+    pre_envelope = completion["envelope"]
+    post = commitment["payload"]
+    post_envelope = commitment["envelope"]
+    try:
+        dates = [datetime.fromisoformat(value.replace("Z", "+00:00")) for value in
+                 (pre["completed_at"], report["recorded_at"], post["committed_at"])]
+    except (KeyError, ValueError, TypeError):
+        return False
+    return (
+        set(pre) == {"schema_version", "kind", "report_candidate_sha256", "reservation_sha256",
+                     "finalization_sha256", "challenge_sha256", "measurement_binding_sha256", "completed_at"} and
+        pre["schema_version"] == 1 and pre["kind"] == "stage2a-execution-completion" and
+        pre["report_candidate_sha256"] == _digest(canonicalize(candidate)) and
+        pre["reservation_sha256"] == report["run_evidence"]["reservation"]["sha256"] and
+        pre["finalization_sha256"] == report["run_evidence"]["finalization"]["sha256"] and
+        pre["challenge_sha256"] == report["run_evidence"]["challenge_sha256"] and
+        pre["measurement_binding_sha256"] == _digest(canonicalize(report["measurement_binding"])) and
+        _machine_envelope(pre_envelope, pre, "agent-bot/stage2a-execution-completion/v1") and
+        completion_ref["sha256"] == _digest(canonicalize(pre_envelope)) and
+        set(post) == {"schema_version", "kind", "execution_completion_sha256",
+                      "report_payload_sha256", "report_envelope_sha256", "committed_at"} and
+        post["schema_version"] == 1 and post["kind"] == "stage2a-report-commitment" and
+        post["execution_completion_sha256"] == completion_ref["sha256"] and
+        post["report_payload_sha256"] == _digest(canonicalize(report)) and
+        post["report_envelope_sha256"] == _digest(canonicalize(host_envelope)) and
+        _machine_envelope(post_envelope, post, "agent-bot/stage2a-report-commitment/v1") and
+        release_ref["completed_run"]["sha256"] == _digest(canonicalize(post_envelope)) and
+        dates[0] <= dates[1] <= dates[2]
+    )
+
+
 def _report_consistent(report, profile):
     binding = report["measurement_binding"]
     reservation = report["run_evidence"]["reservation"]
     finalization = report["run_evidence"]["finalization"]
+    completion = report["run_evidence"].get("execution_completion")
     if report["profile_in_force"] != profile or binding["profile_in_force"] != profile:
         return False
-    if reservation["uri"] == finalization["uri"] or reservation["sha256"] == finalization["sha256"]:
+    if completion is None or len({reservation["uri"], finalization["uri"], completion["uri"]}) != 3 or \
+            len({reservation["sha256"], finalization["sha256"], completion["sha256"]}) != 3:
         return False
     if report["host"]["id"] != binding["host_id"] or not _bare_sha(binding.get("soul_artifact_sha256")):
         return False
+    snapshots = binding["snapshots"]
+    if (binding["contract"] != "machine/v2" or binding["schema_version"] != 2 or
+            snapshots["definition"]["owner_uid"] <= 399 or
+            snapshots["definition"]["owner_uid"] != snapshots["launch_inputs"]["owner_uid"] or
+            snapshots["definition"]["owner_gid"] != snapshots["launch_inputs"]["owner_gid"] or
+            any(item["mode"] != "0555" for item in snapshots.values())):
+        return False
     if profile == "managed-protected":
+        if report["bridge"]["principals"]["machine_uid"] != snapshots["definition"]["owner_uid"]:
+            return False
+        if report["bridge"]["principals"]["runner_private_gid"] != snapshots["definition"]["owner_gid"]:
+            return False
         assignment = report["bridge"]["assignment"]
         if any(assignment[key] != binding[key] for key in ("installation_id", "soul_id", "start_id", "launch_id", "plan_id")):
             return False
@@ -89,6 +150,8 @@ def _distinct_attempt(protected, cooperative):
             pr["reservation"]["uri"] != cr["reservation"]["uri"] and
             pr["finalization"]["sha256"] != cr["finalization"]["sha256"] and
             pr["finalization"]["uri"] != cr["finalization"]["uri"] and
+            pr["execution_completion"]["sha256"] != cr["execution_completion"]["sha256"] and
+            pr["execution_completion"]["uri"] != cr["execution_completion"]["uri"] and
             pr["challenge_sha256"] != cr["challenge_sha256"])
 
 
@@ -130,20 +193,48 @@ def check_report_v3_fixtures(root, schemas, report):
     cooperative_sig = _load(root, "qualification-host-signature.measurement-v3-cooperative-synthetic.json")
     evidence = _load(root, "qualification-evidence.measurement-v3-synthetic.json")
     attestation = _load(root, "qualification-attestation.measurement-v3-synthetic.json")
+    chain = json.loads((root / "fixtures/qualification/v3/two-record-chain.json").read_text())
     report(_report_consistent(protected, "managed-protected"), "v3 protected binding agrees with report and bridge")
     report(_report_consistent(cooperative, "managed-cooperative"), "v3 cooperative binding agrees with report")
+    changed = copy.deepcopy(protected)
+    changed["measurement_binding"]["snapshots"]["launch_inputs"]["owner_uid"] += 1
+    report(not _report_consistent(changed, "managed-protected"), "v3 report refuses a mismatched admin snapshot owner")
+    changed = copy.deepcopy(protected)
+    changed["bridge"]["principals"]["machine_uid"] = 0
+    report(not _report_consistent(changed, "managed-protected"), "v3 report refuses bridge Machine UID that differs from snapshot custody")
+    changed = copy.deepcopy(protected)
+    changed["bridge"]["principals"]["runner_private_gid"] += 1
+    report(not _report_consistent(changed, "managed-protected"), "v3 report refuses runner group that differs from snapshot custody")
     for profile, payload, envelope in (("protected", protected, protected_sig), ("cooperative", cooperative, cooperative_sig)):
         report(_envelope_matches(payload, envelope), "v3 " + profile + " envelope exact report bytes")
         release_ref = evidence["conformance"][profile + "_report"]
         report(release_ref == attestation["predicate"]["host_reports"][profile + "_report"], "v3 " + profile + " release/attestation refs agree")
         report(_reference(release_ref["payload"], canonicalize(payload)) and
                _reference(release_ref["signature"], canonicalize(envelope)), "v3 " + profile + " payload/envelope refs bind exact bytes")
+        report(_two_record_chain(payload, envelope, release_ref, chain[profile]),
+               "v3 " + profile + " pre-sign completion and post-sign commitment bind exact bytes")
         report(release_ref["report_schema_version"] == 3 and
                release_ref["signature_purpose"] == "agent-bot/qualification-host-report/v3" and
                "completed_run" not in payload and "completed_run" not in payload["run_evidence"],
                "v3 " + profile + " completion ref is outside signed report")
     report(_distinct_attempt(protected, cooperative),
            "v3 T21 spends a distinct profile-specific start and launch closure")
+    changed = copy.deepcopy(protected)
+    changed["host"]["id"] = "wrong-host"
+    report(not _two_record_chain(changed, protected_sig, evidence["conformance"]["protected_report"], chain["protected"]),
+           "v3 execution completion refuses changed report host")
+    changed = copy.deepcopy(protected)
+    changed["run_evidence"]["execution_completion"]["sha256"] = "sha256:" + "f" * 64
+    report(not _two_record_chain(changed, protected_sig, evidence["conformance"]["protected_report"], chain["protected"]),
+           "v3 execution completion refuses altered envelope reference")
+    changed_chain = copy.deepcopy(chain["protected"])
+    changed_chain["completed_run"]["payload"]["report_payload_sha256"] = "sha256:" + "f" * 64
+    report(not _two_record_chain(protected, protected_sig, evidence["conformance"]["protected_report"], changed_chain),
+           "v3 post-sign commitment refuses altered report payload")
+    changed_chain = copy.deepcopy(chain["protected"])
+    changed_chain["execution_completion"]["envelope"]["purpose"] = "agent-bot/stage2a-reservation/v2"
+    report(not _two_record_chain(protected, protected_sig, evidence["conformance"]["protected_report"], changed_chain),
+           "v3 execution completion refuses wrong Machine purpose")
     report(_distinct_release_refs(evidence),
            "v3 released protected and cooperative refs are distinct")
     report(_qualification_binds_reports(evidence, protected, cooperative),

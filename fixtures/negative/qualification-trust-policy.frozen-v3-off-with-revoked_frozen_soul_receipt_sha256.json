@@ -1,0 +1,68 @@
+{
+  "schema": "control/v3/qualification-trust-policy.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/qualification-trust-policy.frozen-v3-provenance-off-synthetic.json",
+    "sha256": "sha256:3552539eab161aa0a917fe54379c81d70e89bf689675c64d2560955a17614f53"
+  },
+  "input": {
+    "contract": "control/v3",
+    "kind": "qualification-trust-policy",
+    "policy_revision": 3,
+    "owner_key_id": "fixture-owner-key",
+    "issued_at": "2026-11-21T18:00:00Z",
+    "expires_at": "2026-11-21T20:00:00Z",
+    "release_workflow": {
+      "id": "fixture-workflow",
+      "repository": "true-line/soul-adapters",
+      "workflow_path": ".github/workflows/release.yml",
+      "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "oidc_issuer": "https://token.actions.githubusercontent.com",
+      "certificate_identity": "https://github.com/true-line/soul-adapters/.github/workflows/release.yml@refs/tags/v0.0.0",
+      "trust_root_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "evidence_signers": [
+      {
+        "id": "fixture-signer",
+        "host_id": "fixture-qualification-mac",
+        "algorithm": "ES256",
+        "public_key_spki_der_base64": "Zml4dHVyZQ=="
+      }
+    ],
+    "revocation_snapshot": {
+      "updated_at": "2026-11-21T18:00:00Z",
+      "revoked_attestation_sha256": [],
+      "revoked_evidence_signer_ids": [],
+      "revoked_release_workflow_ids": [],
+      "revoked_souls_build_workflow_ids": [],
+      "revoked_souls_build_receipt_sha256": [],
+      "revoked_frozen_soul_artifact_sha256": [],
+      "revoked_frozen_soul_receipt_sha256": []
+    },
+    "max_revocation_age_seconds": 3600,
+    "souls_build_workflow": {
+      "id": "fixture-souls-build",
+      "repository": "true-line/agent-bot-souls",
+      "workflow_path": ".github/workflows/release.yml",
+      "source_commit": "1111111111111111111111111111111111111111",
+      "source_tree": "2222222222222222222222222222222222222222",
+      "oidc_issuer": "https://fixture.example/issuer",
+      "certificate_identity": "https://fixture.example/souls-build-workflow",
+      "trust_root_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "builder_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "toolchain_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "receipt_predicate_type": "https://true-line.ai/soul-contracts/adapter/v2/souls-build",
+      "bundle_media_type": "application/vnd.dev.sigstore.bundle.v0.3+json",
+      "dsse_payload_type": "application/vnd.in-toto+json"
+    },
+    "frozen_soul_mapping": {
+      "soul_id": "agent_00000000-0000-0000-0000-000000000000",
+      "artifact_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+      "claimed_definition_digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+      "definition_measurement": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "frozen_soul_release_provenance_enabled": false
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "machine/v1/stage2a-signed-report-commitment.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "base": {
+    "fixture": "positive/stage2a-signed-report-commitment.synthetic.json",
+    "sha256": "sha256:ec1dee023efb527f3eb10ae2dcc0719b263f76be4a09d0062429d015b1b8de12"
+  },
+  "input": {
+    "schema_version": 1,
+    "purpose": "agent-bot/stage2a-reservation/v2",
+    "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+    "payload_sha256": "sha256:c7c8bfd24ccc0968566c365bf9faa29d092aaa647d67a3b2e83d4be3f02a0d91",
+    "payload_base64url": "eyJjb21taXR0ZWRfYXQiOiIyMDI2LTExLTIyVDA2OjAwOjAxWiIsImV4ZWN1dGlvbl9jb21wbGV0aW9uX3NoYTI1NiI6InNoYTI1Njo5YTk4ODg4YTliODBhMWI2NTk1OTBhNmJlMTE2Y2NlMTU1MGRjNDk4MGYxYWVjOWViMmEyNzIzNjZhNGU0ODc5Iiwia2luZCI6InN0YWdlMmEtcmVwb3J0LWNvbW1pdG1lbnQiLCJyZXBvcnRfZW52ZWxvcGVfc2hhMjU2Ijoic2hhMjU2OjExNTNjOGQyM2Q2YjI5NzZhNDdmNjQxMTRlMWZiYTA0NDljY2FhNjQyMmQ0YjdhZjM1MDU5YTQxY2U4OGFkZTUiLCJyZXBvcnRfcGF5bG9hZF9zaGEyNTYiOiJzaGEyNTY6ZjdmMDQ0Yzg5NjJkNWY4ODY2ODg1MTVhMDJhNWU3MDZlZWY2NjQ5YTdmMWQzYjJiZTBmN2JmNzI3MDY4M2IxMiIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

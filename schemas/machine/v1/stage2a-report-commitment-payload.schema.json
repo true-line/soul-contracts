@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/stage2a-report-commitment-payload.schema.json",
+  "title": "Stage 2a post-sign report commitment (draft)",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "execution_completion_sha256",
+    "report_payload_sha256",
+    "report_envelope_sha256",
+    "committed_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "stage2a-report-commitment"
+    },
+    "execution_completion_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "report_payload_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "report_envelope_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "committed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

@@ -131,7 +131,7 @@
         },
         "completed_run": {
           "uri": "fixture:protected-completed-run",
-          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+          "sha256": "sha256:4e4a23d9a935abe9cfffab59dd404325c5674ea3402d192a02646b91dd0bcdfe"
         }
       },
       "cooperative_report": {
@@ -147,7 +147,7 @@
         },
         "completed_run": {
           "uri": "fixture:cooperative-completed-run",
-          "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+          "sha256": "sha256:3ddfed7728da1840999feba29f48e99fa1cf1b1dba811bceb0e2554467172662"
         }
       },
       "runner_observations": {
@@ -224,6 +224,6 @@
   },
   "base": {
     "fixture": "positive/qualification-evidence.measurement-v3-synthetic.json",
-    "sha256": "sha256:dc759838212f7c3a3466a7e495c2059d734030b3546cf2ec635e4f0300cc871c"
+    "sha256": "sha256:8044ed4656222261049769f8c012bceea4aecf750e5d85895611379276d99867"
   }
 }

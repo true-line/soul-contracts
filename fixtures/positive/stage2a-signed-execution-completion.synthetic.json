@@ -1,0 +1,16 @@
+{
+  "schema": "machine/v1/stage2a-signed-execution-completion.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "note": "Synthetic envelope shape and JCS digest only; all-zero signature is not valid.",
+  "input": {
+    "schema_version": 1,
+    "purpose": "agent-bot/stage2a-execution-completion/v1",
+    "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+    "payload_sha256": "sha256:a4483d7e9ae7e9270e595967a0180368eeb1e583cc6a5d00c95520ec665e5cbf",
+    "payload_base64url": "eyJjaGFsbGVuZ2Vfc2hhMjU2Ijoic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiLCJjb21wbGV0ZWRfYXQiOiIyMDI2LTExLTIyVDA1OjU5OjU5WiIsImZpbmFsaXphdGlvbl9zaGEyNTYiOiJzaGEyNTY6MzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMyIsImtpbmQiOiJzdGFnZTJhLWV4ZWN1dGlvbi1jb21wbGV0aW9uIiwibWVhc3VyZW1lbnRfYmluZGluZ19zaGEyNTYiOiJzaGEyNTY6ZGQzYjhiY2U0NDlmNzEyNDhhOWQ1NWVmZmY5NjE2YWVhMzhiZjZmZWZmYzMwN2U1M2QyOTk1NTg1NTZmYjhjMSIsInJlcG9ydF9jYW5kaWRhdGVfc2hhMjU2Ijoic2hhMjU2Ojk1NjU4NjdlZTBmNWJjOGZmYzY0YTk1ZWZiNGQ0ZDlmNjUyODEwZGU0YjdmNzE3NjQ2YWZiNzI3ZTYyODlmMWYiLCJyZXNlcnZhdGlvbl9zaGEyNTYiOiJzaGEyNTY6MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMiIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+    "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "canonical_sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879"
+}

@@ -1,0 +1,83 @@
+{
+  "note": "Synthetic JCS bytes and digest chain only; all-zero signatures are not Machine or host evidence.",
+  "protected": {
+    "execution_completion": {
+      "payload": {
+        "schema_version": 1,
+        "kind": "stage2a-execution-completion",
+        "report_candidate_sha256": "sha256:9565867ee0f5bc8ffc64a95efb4d4d9f652810de4b7f717646afb727e6289f1f",
+        "reservation_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "finalization_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "measurement_binding_sha256": "sha256:dd3b8bce449f71248a9d55efff9616aea38bf6feffc307e53d299558556fb8c1",
+        "completed_at": "2026-11-22T05:59:59Z"
+      },
+      "envelope": {
+        "schema_version": 1,
+        "purpose": "agent-bot/stage2a-execution-completion/v1",
+        "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+        "payload_sha256": "sha256:a4483d7e9ae7e9270e595967a0180368eeb1e583cc6a5d00c95520ec665e5cbf",
+        "payload_base64url": "eyJjaGFsbGVuZ2Vfc2hhMjU2Ijoic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiLCJjb21wbGV0ZWRfYXQiOiIyMDI2LTExLTIyVDA1OjU5OjU5WiIsImZpbmFsaXphdGlvbl9zaGEyNTYiOiJzaGEyNTY6MzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMyIsImtpbmQiOiJzdGFnZTJhLWV4ZWN1dGlvbi1jb21wbGV0aW9uIiwibWVhc3VyZW1lbnRfYmluZGluZ19zaGEyNTYiOiJzaGEyNTY6ZGQzYjhiY2U0NDlmNzEyNDhhOWQ1NWVmZmY5NjE2YWVhMzhiZjZmZWZmYzMwN2U1M2QyOTk1NTg1NTZmYjhjMSIsInJlcG9ydF9jYW5kaWRhdGVfc2hhMjU2Ijoic2hhMjU2Ojk1NjU4NjdlZTBmNWJjOGZmYzY0YTk1ZWZiNGQ0ZDlmNjUyODEwZGU0YjdmNzE3NjQ2YWZiNzI3ZTYyODlmMWYiLCJyZXNlcnZhdGlvbl9zaGEyNTYiOiJzaGEyNTY6MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMiIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+        "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    "completed_run": {
+      "payload": {
+        "schema_version": 1,
+        "kind": "stage2a-report-commitment",
+        "execution_completion_sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879",
+        "report_payload_sha256": "sha256:f7f044c8962d5f886688515a02a5e706eef6649a7f1d3b2be0f7bf7270683b12",
+        "report_envelope_sha256": "sha256:1153c8d23d6b2976a47f64114e1fba0449ccaa6422d4b7af35059a41ce88ade5",
+        "committed_at": "2026-11-22T06:00:01Z"
+      },
+      "envelope": {
+        "schema_version": 1,
+        "purpose": "agent-bot/stage2a-report-commitment/v1",
+        "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+        "payload_sha256": "sha256:c7c8bfd24ccc0968566c365bf9faa29d092aaa647d67a3b2e83d4be3f02a0d91",
+        "payload_base64url": "eyJjb21taXR0ZWRfYXQiOiIyMDI2LTExLTIyVDA2OjAwOjAxWiIsImV4ZWN1dGlvbl9jb21wbGV0aW9uX3NoYTI1NiI6InNoYTI1Njo5YTk4ODg4YTliODBhMWI2NTk1OTBhNmJlMTE2Y2NlMTU1MGRjNDk4MGYxYWVjOWViMmEyNzIzNjZhNGU0ODc5Iiwia2luZCI6InN0YWdlMmEtcmVwb3J0LWNvbW1pdG1lbnQiLCJyZXBvcnRfZW52ZWxvcGVfc2hhMjU2Ijoic2hhMjU2OjExNTNjOGQyM2Q2YjI5NzZhNDdmNjQxMTRlMWZiYTA0NDljY2FhNjQyMmQ0YjdhZjM1MDU5YTQxY2U4OGFkZTUiLCJyZXBvcnRfcGF5bG9hZF9zaGEyNTYiOiJzaGEyNTY6ZjdmMDQ0Yzg5NjJkNWY4ODY2ODg1MTVhMDJhNWU3MDZlZWY2NjQ5YTdmMWQzYjJiZTBmN2JmNzI3MDY4M2IxMiIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+        "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    }
+  },
+  "cooperative": {
+    "execution_completion": {
+      "payload": {
+        "schema_version": 1,
+        "kind": "stage2a-execution-completion",
+        "report_candidate_sha256": "sha256:ae26b8b3a6f97a1659a84ce071d8f9f6bacb266cfccacfca1ca9fa03684aea0e",
+        "reservation_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "finalization_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "challenge_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "measurement_binding_sha256": "sha256:680aeb6de23e75e6b24410f1b13ec55fcf71d8e92a543e39e56042bf690c194a",
+        "completed_at": "2026-11-22T06:00:59Z"
+      },
+      "envelope": {
+        "schema_version": 1,
+        "purpose": "agent-bot/stage2a-execution-completion/v1",
+        "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+        "payload_sha256": "sha256:cbd419228c2accbcbc0491e862e7398fe02f820f1e50b755eed6829a0ebe0f5d",
+        "payload_base64url": "eyJjaGFsbGVuZ2Vfc2hhMjU2Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJjb21wbGV0ZWRfYXQiOiIyMDI2LTExLTIyVDA2OjAwOjU5WiIsImZpbmFsaXphdGlvbl9zaGEyNTYiOiJzaGEyNTY6NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NiIsImtpbmQiOiJzdGFnZTJhLWV4ZWN1dGlvbi1jb21wbGV0aW9uIiwibWVhc3VyZW1lbnRfYmluZGluZ19zaGEyNTYiOiJzaGEyNTY6NjgwYWViNmRlMjNlNzVlNmIyNDQxMGYxYjEzZWM1NWZjZjcxZDhlOTJhNTQzZTM5ZTU2MDQyYmY2OTBjMTk0YSIsInJlcG9ydF9jYW5kaWRhdGVfc2hhMjU2Ijoic2hhMjU2OmFlMjZiOGIzYTZmOTdhMTY1OWE4NGNlMDcxZDhmOWY2YmFjYjI2NmNmY2NhY2ZjYTFjYTlmYTAzNjg0YWVhMGUiLCJyZXNlcnZhdGlvbl9zaGEyNTYiOiJzaGEyNTY6NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NSIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+        "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    "completed_run": {
+      "payload": {
+        "schema_version": 1,
+        "kind": "stage2a-report-commitment",
+        "execution_completion_sha256": "sha256:a0adee0c53147ad712a88679311c141d9bd8931f44dc2a080f3e97b9414d8898",
+        "report_payload_sha256": "sha256:ba564f754cab9a3e1f7111dd5396f4b1ccda0d9db4d33e4f59a12e72e01b5c3b",
+        "report_envelope_sha256": "sha256:83881a0cad9f256c4f9c1839895a9966d38299a662e244e52fd3a9f191a3db3a",
+        "committed_at": "2026-11-22T06:01:01Z"
+      },
+      "envelope": {
+        "schema_version": 1,
+        "purpose": "agent-bot/stage2a-report-commitment/v1",
+        "issuer_public_key_base64url": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+        "payload_sha256": "sha256:d92a9c3085baecc3af54bd51114717fe8ce48a6aed9a7deb706d9cc6a3cf493e",
+        "payload_base64url": "eyJjb21taXR0ZWRfYXQiOiIyMDI2LTExLTIyVDA2OjAxOjAxWiIsImV4ZWN1dGlvbl9jb21wbGV0aW9uX3NoYTI1NiI6InNoYTI1NjphMGFkZWUwYzUzMTQ3YWQ3MTJhODg2NzkzMTFjMTQxZDliZDg5MzFmNDRkYzJhMDgwZjNlOTdiOTQxNGQ4ODk4Iiwia2luZCI6InN0YWdlMmEtcmVwb3J0LWNvbW1pdG1lbnQiLCJyZXBvcnRfZW52ZWxvcGVfc2hhMjU2Ijoic2hhMjU2OjgzODgxYTBjYWQ5ZjI1NmM0ZjljMTgzOTg5NWE5OTY2ZDM4Mjk5YTY2MmUyNDRlNTJmZDNhOWYxOTFhM2RiM2EiLCJyZXBvcnRfcGF5bG9hZF9zaGEyNTYiOiJzaGEyNTY6YmE1NjRmNzU0Y2FiOWEzZTFmNzExMWRkNTM5NmY0YjFjY2RhMGQ5ZGI0ZDMzZTRmNTlhMTJlNzJlMDFiNWMzYiIsInNjaGVtYV92ZXJzaW9uIjoxfQ",
+        "signature_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    }
+  }
+}

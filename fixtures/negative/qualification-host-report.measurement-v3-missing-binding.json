@@ -189,7 +189,7 @@
         "bridge_uid": 502,
         "credential_uid": 503,
         "hq_uid": 504,
-        "machine_uid": 0,
+        "machine_uid": 505,
         "bridge_private_gid": 702,
         "runner_private_gid": 703
       },
@@ -385,11 +385,15 @@
         "uri": "fixture:protected-finalization",
         "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
       },
-      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      "challenge_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "execution_completion": {
+        "uri": "fixture:protected-execution-completion",
+        "sha256": "sha256:9a98888a9b80a1b659590a6be116cce1550dc4980f1aec9eb2a272366a4e4879"
+      }
     }
   },
   "base": {
     "fixture": "positive/qualification-host-report.measurement-v3-synthetic.json",
-    "sha256": "sha256:2dd2c0d9de0706cd63d315bd1ae805e7d5dc78da259b5ca47d6d991a68f88911"
+    "sha256": "sha256:092a3dee914d74bb0c9166143f6e91d47682916bd2b13be2edcf992ca5c80ab3"
   }
 }
