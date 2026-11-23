@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/stage2a-protected-grant-refusal-payload.schema.json",
+  "title": "Draft T01 A-signed authenticated HQ refusal",
+  "description": "A records that its paired HQ sent these exact assertion bytes. The signed payload does not independently attest HQ internal effects or host OS behavior.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "host_id", "installation_id", "start_id", "launch_id", "reservation_sha256", "hq_epoch", "paired_hq_public_key_base64url", "hq_assertion_sha256", "hq_assertion_base64url", "observed_hq_request_sha256", "evidence_class", "issued_at"],
+  "properties": {
+    "contract": {"const": "machine/v1"},
+    "kind": {"const": "stage2a-protected-grant-refusal"},
+    "schema_version": {"const": 1},
+    "host_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/id"},
+    "installation_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/installation_id"},
+    "start_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/start_id"},
+    "launch_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/launch_id"},
+    "reservation_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "hq_epoch": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "paired_hq_public_key_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$", "description": "Informational; the verifier obtains this key from authenticated Machine pairing, never from this field."},
+    "hq_assertion_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "hq_assertion_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+    "observed_hq_request_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "evidence_class": {"const": "authenticated-hq-assertion-only"},
+    "issued_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

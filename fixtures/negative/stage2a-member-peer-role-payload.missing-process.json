@@ -1,0 +1,43 @@
+{
+  "schema": "machine/v1/stage2a-member-peer-role-payload.schema.json",
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "machine/v1",
+    "kind": "stage2a-member-peer-role",
+    "schema_version": 1,
+    "evidence_class": "machine-observed-member-process",
+    "host_id": "fixture-physical-mac",
+    "installation_id": "fixture-t01-install",
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_aaaaaaaaaaaaaaaaaaaaaaaa",
+    "launch_id": "ln_bbbbbbbbbbbbbbbbbbbbbbbb",
+    "hq_epoch": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "reservation_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "hello_finalization_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "owner_plan_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "runtime_id": "fixture-member-b-runtime",
+    "member_id": "fixture-member-b",
+    "member_endpoint": {
+      "path": "/Library/Application Support/ai.true-line.agent-bot-hq/m/b828e63e5f079d1d7b8b/56cf0e109451e60ff37d.sock",
+      "device": "1",
+      "inode": "12345",
+      "generation": "7",
+      "birthtime_ns": "1795356900000000000"
+    },
+    "connection": {
+      "peer_pid": 4321,
+      "peer_uid": 331,
+      "peer_gid": 331,
+      "challenge_base64url": "AAECAwQFBgcICQoLDA0ODw",
+      "observed_at": "2026-11-22T14:15:20Z"
+    },
+    "issued_at": "2026-11-22T14:15:21Z",
+    "expires_at": "2026-11-22T14:16:21Z"
+  },
+  "base": {
+    "fixture": "positive/stage2a-member-peer-role-payload.synthetic.json",
+    "sha256": "sha256:a428b8aaf615a642d38638f4554bbd3f2a06de06d8fb850ecb3c9e34c648eb0e"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json",
+  "title": "Draft T01 protected grant invocation request",
+  "description": "A member request with an opaque handle and exact operation selector. The broker obtains caller identity from its authenticated peer; the request's runtime and run selectors are assertions to compare, never authority.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "installation_id", "start_id", "launch_id", "runtime_id", "grant_handle", "operation", "resource_selector", "prompt_sha256", "request_nonce_base64url"],
+  "properties": {
+    "contract": {"const": "hq/v1"},
+    "kind": {"const": "stage2a-protected-grant-invoke"},
+    "schema_version": {"const": 1},
+    "installation_id": {"$ref": "#/$defs/id"},
+    "start_id": {"type": "string", "pattern": "^st_[0-9a-f]{24}$"},
+    "launch_id": {"type": "string", "pattern": "^ln_[0-9a-f]{24}$"},
+    "runtime_id": {"$ref": "#/$defs/id"},
+    "grant_handle": {"type": "string", "pattern": "^gh_[0-9a-f]{32}$", "description": "Ephemeral member-visible value; never retain in the signed refusal or report."},
+    "operation": {"const": "provider.invoke"},
+    "resource_selector": {
+      "type": "object", "required": ["provider", "model"],
+      "properties": {
+        "provider": {"$ref": "#/$defs/id"},
+        "model": {"$ref": "#/$defs/id"}
+      }, "additionalProperties": false
+    },
+    "prompt_sha256": {"$ref": "#/$defs/digest"},
+    "request_nonce_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{22}$"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

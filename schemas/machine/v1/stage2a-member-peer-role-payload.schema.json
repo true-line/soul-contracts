@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/stage2a-member-peer-role-payload.schema.json",
+  "title": "Draft A-observed T01 member peer role payload",
+  "description": "Source-only proposed proof. The member assignment must come from the owner-reviewed plan and A-observed distinct member process, never from a caller-supplied member_id or shared socket UID alone. Shape grants no authority.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "evidence_class", "host_id", "installation_id", "soul_id", "start_id", "launch_id", "hq_epoch", "reservation_sha256", "hello_finalization_sha256", "owner_plan_sha256", "runtime_id", "member_id", "member_process", "member_endpoint", "connection", "issued_at", "expires_at"],
+  "properties": {
+    "contract": {"const": "machine/v1"},
+    "kind": {"const": "stage2a-member-peer-role"},
+    "schema_version": {"const": 1},
+    "evidence_class": {"const": "machine-observed-member-process"},
+    "host_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/id"},
+    "installation_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/installation_id"},
+    "soul_id": {"type": "string", "pattern": "^agent_[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$"},
+    "start_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/start_id"},
+    "launch_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/launch_id"},
+    "hq_epoch": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reservation_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "hello_finalization_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "owner_plan_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"},
+    "runtime_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/properties/runtime_id"},
+    "member_id": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/id"},
+    "member_process": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "parent_pid", "process_group_id", "start_seconds", "start_micros", "executable_sha256"],
+      "properties": {
+        "pid": {"type": "integer", "minimum": 2},
+        "uid": {"type": "integer", "minimum": 300, "maximum": 399},
+        "gid": {"type": "integer", "minimum": 1},
+        "parent_pid": {"type": "integer", "minimum": 2},
+        "process_group_id": {"type": "integer", "minimum": 2},
+        "start_seconds": {"type": "integer", "minimum": 1},
+        "start_micros": {"type": "integer", "minimum": 0, "maximum": 999999},
+        "executable_sha256": {"$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-protected-grant-invoke.schema.json#/$defs/digest"}
+      },
+      "additionalProperties": false
+    },
+    "member_endpoint": {
+      "type": "object",
+      "required": ["path", "device", "inode", "generation", "birthtime_ns"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^/Library/Application Support/ai\\.true-line\\.agent-bot-hq/m/[0-9a-f]{20}/[0-9a-f]{20}\\.sock$", "maxLength": 103},
+        "device": {"$ref": "#/$defs/decimal"},
+        "inode": {"$ref": "#/$defs/decimal"},
+        "generation": {"$ref": "#/$defs/decimal"},
+        "birthtime_ns": {"$ref": "#/$defs/decimal"}
+      },
+      "additionalProperties": false
+    },
+    "connection": {
+      "type": "object",
+      "required": ["peer_pid", "peer_uid", "peer_gid", "challenge_base64url", "observed_at"],
+      "properties": {
+        "peer_pid": {"type": "integer", "minimum": 2},
+        "peer_uid": {"type": "integer", "minimum": 300, "maximum": 399},
+        "peer_gid": {"type": "integer", "minimum": 1},
+        "challenge_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{22}$"},
+        "observed_at": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": false
+    },
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "decimal": {"type": "string", "pattern": "^[1-9][0-9]{0,19}$"}
+  }
+}
