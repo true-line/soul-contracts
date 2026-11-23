@@ -78,6 +78,18 @@ def check(root, vector, assignment_vector, schemas, public):
     for endpoint in ("broker", "relay"):
         require(frame[endpoint]["path"] == assignment["bridge"]["endpoints"][endpoint]["socket_path"],
                 "B FD3 signed endpoint path " + endpoint)
+    broker, relay = frame["broker"], frame["relay"]
+    require(broker["parent"]["uid"] == broker["socket"]["uid"] == frame["hq_uid"] and
+            broker["parent"]["gid"] == broker["socket"]["gid"] == frame["bridge_uid"] and
+            broker["parent"]["mode"] == 1512 and broker["socket"]["mode"] == 432 and
+            broker["parent"]["device"] > 0 and broker["parent"]["inode"] > 0 and
+            broker["socket"]["device"] > 0 and broker["socket"]["inode"] > 0 and
+            relay["parent"]["uid"] == relay["socket"]["uid"] == frame["bridge_uid"] and
+            relay["parent"]["gid"] == relay["socket"]["gid"] == assignment["runner_gid"] and
+            relay["parent"]["mode"] == 1512 and relay["socket"]["mode"] == 432 and
+            relay["parent"]["device"] > 0 and relay["parent"]["inode"] > 0 and
+            relay["socket"]["device"] == relay["socket"]["inode"] == 0,
+            "Machine-measured broker identity and pre-B relay placeholder match approved owners/modes")
 
 
 def check_stage2a_b_member_authority_fixtures(root, schemas, report):

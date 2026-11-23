@@ -81,7 +81,12 @@ def main():
         "signature_base64url": b64(key.sign(PURPOSE.encode() + b"\0" + payload_raw)),
     }
     authority_raw = canonicalize(envelope)
-    identity = {"uid": 333, "gid": 333, "device": 11, "inode": 12, "mode": 432}
+    broker_parent = {"uid": payload["hq_uid"], "gid": assignment["bridge"]["gid"],
+                     "device": 11, "inode": 13, "mode": 1512}
+    broker_socket = dict(broker_parent, inode=14, mode=432)
+    relay_parent = {"uid": assignment["bridge"]["uid"], "gid": assignment["runner_gid"],
+                    "device": 11, "inode": 15, "mode": 1512}
+    relay_socket = dict(relay_parent, device=0, inode=0, mode=432)
     fd3 = {
         "version": "stage2a-b-assignment/v3", "machine_pin_path": PIN,
         "assignment_envelope_base64url": b64(assignment_raw),
@@ -98,9 +103,9 @@ def main():
         "hq_uid": payload["hq_uid"], "runner_uid": payload["runner_uid"],
         "expires_at": payload["expires_at"],
         "broker": {"path": assignment["bridge"]["endpoints"]["broker"]["socket_path"],
-                   "parent": dict(identity, uid=309, inode=13), "socket": dict(identity, uid=309, inode=14)},
+                   "parent": broker_parent, "socket": broker_socket},
         "relay": {"path": assignment["bridge"]["endpoints"]["relay"]["socket_path"],
-                  "parent": dict(identity, uid=333, inode=15), "socket": dict(identity, uid=333, inode=16)},
+                  "parent": relay_parent, "socket": relay_socket},
     }
     write("fixtures/reservation/v3/" + PREFIX + ".json", {
         "assignment_envelope_jcs": assignment_raw.decode(),

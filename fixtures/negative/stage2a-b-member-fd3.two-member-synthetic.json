@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-b-member-fd3.two-member-synthetic.json",
-    "sha256": "sha256:8c892b548617a49cfda43b371a1c615b51b76e4e0cd460c9ee4b83b802e5d107"
+    "sha256": "sha256:196d6193b834dbdf8e8e9d72067823bfbead281783edae541a5a010ffec5927b"
   },
   "expect": {
     "schema": "invalid"
@@ -15,7 +15,7 @@
         "device": 11,
         "gid": 333,
         "inode": 13,
-        "mode": 432,
+        "mode": 1512,
         "uid": 309
       },
       "path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock",
@@ -34,16 +34,16 @@
     "relay": {
       "parent": {
         "device": 11,
-        "gid": 333,
+        "gid": 331,
         "inode": 15,
-        "mode": 432,
+        "mode": 1512,
         "uid": 333
       },
       "path": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock",
       "socket": {
-        "device": 11,
-        "gid": 333,
-        "inode": 16,
+        "device": 0,
+        "gid": 331,
+        "inode": 0,
         "mode": 432,
         "uid": 333
       }
