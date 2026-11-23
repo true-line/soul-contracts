@@ -3,6 +3,7 @@
 import base64
 import copy
 import hashlib
+from pathlib import PurePosixPath
 from datetime import datetime, timedelta
 
 from cryptography.exceptions import InvalidSignature
@@ -145,27 +146,66 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
             require(endpoint["socket_path"].startswith(endpoint["directory"].rstrip("/") + "/"), name + " socket is inside directory")
             paths.add(endpoint["socket_path"])
         require(len(paths) == 2, "admission and broker sockets are distinct")
+        admission_directory = PurePosixPath(endpoints["admission"]["directory"])
+        require(admission_directory.parent.name == "c" and
+                PurePosixPath(endpoints["admission"]["socket_path"]).name == assignment["start_id"] + ".sock",
+                "cooperative admission uses the per-installation c/start path")
+        broker_directory = "/Library/Application Support/ai.true-line.agent-bot-hq/broker/" + assignment["runner_account"]
+        require(endpoints["broker"]["directory"] == broker_directory and
+                endpoints["broker"]["socket_path"] == broker_directory + "/broker.sock",
+                "broker path is H-owned and scoped to the assigned runner account")
         argv = [assignment["node_path"], assignment["entry_path"], "run", "--soul", assignment["package_root"],
                 "--admission-socket", endpoints["admission"]["socket_path"], "--broker-socket",
                 endpoints["broker"]["socket_path"], "--profile", "managed-cooperative",
                 "--cooperative-start-fd", "3"]
         require(launch_records["selected_command"] == assignment["node_path"] and
                 launch_records["argv"] == argv, "complete launch inputs bind fixed T21 argv")
+        require(launch_records["environment"].get("PATH") == "/usr/bin:/bin" and
+                launch_records["environment"].get("AGENT_BOT_SOULS_REQUIRE_HQ_LAUNCH") == "1" and
+                launch_records["environment"].get("HOME") == assignment["state_root"],
+                "fixed cooperative environment and HQ launch guard")
+        require(launch_records["host_projection"]["installation"].get("id") == assignment["installation_id"],
+                "host projection binds the selected installation")
         launch_files = {row["path"]: row for row in launch_records["files"]}
         inventory_files = {row["path"]: row for row in r_inventory["files"]}
         for relpath, fullpath in (("bin/node", assignment["node_path"]),
                                   ("bin/agent-bot-souls.mjs", assignment["entry_path"])):
             row = inventory_files.get(relpath)
-            launch_row = launch_files.get(relpath)
-            require(row is not None and launch_row is not None and
+            require(row is not None and
                     fullpath == assignment["runtime_root"].rstrip("/") + "/" + relpath and
-                    row["sha256"][7:] == launch_row["sha256"], relpath + " exact R sidecar and launch-input row")
+                    row["component_id"] == "souls", relpath + " exact R sidecar row")
+        package_json_row = inventory_files.get("package.json")
+        package_json_bytes = r_vector["package_json_bytes"].encode()
+        package_json = parse_strict(package_json_bytes)
+        require(package_json_row is not None and package_json_row["mode"] == "0440" and
+                package_json_row["component_id"] == "souls" and
+                package_json_row["size_bytes"] == len(package_json_bytes) and
+                package_json_row["sha256"] == digest(package_json_bytes) and
+                isinstance(package_json.get("version"), str) and package_json["version"],
+                "CLI package.json version is in the sealed R inventory")
+        require("package.json" not in launch_files and
+                "bin/node" not in launch_files and "bin/agent-bot-souls.mjs" not in launch_files,
+                "launch-input snapshot does not duplicate A-sealed R closure bytes")
         require(set(launch_records["component_digests"]) ==
                 {"machine", "hq", "souls", "comms_broker", "adapter", "harness", "test_provider"},
-                "exact seven cooperative component digests; no bridge")
-        require(launch_records["component_digests"]["souls"] ==
-                "sha256:" + inventory_files["bin/agent-bot-souls.mjs"]["sha256"][7:],
-                "souls component digest binds installed entry row")
+                "T21 qualification vector pins all seven components; no bridge")
+        ordinary_components = copy.deepcopy(launch_records["component_digests"])
+        ordinary_components.pop("harness")
+        ordinary_components.pop("test_provider")
+        ordinary_launch = copy.deepcopy(launch_records)
+        ordinary_launch["component_digests"] = ordinary_components
+        require(launch_validator.is_valid(ordinary_launch), "ordinary cooperative schema does not require installed harnesses")
+        partial_q = copy.deepcopy(launch_records)
+        partial_q["component_digests"].pop("harness")
+        require(not launch_validator.is_valid(partial_q), "qualification harness and test provider are paired")
+        r_components = {component["component_id"]: component for component in binding["r_components"]}
+        h_components = {component["component_id"]: component for component in h_payload["components"]}
+        require(launch_records["component_digests"]["souls"] == r_components["souls"]["release_artifact_sha256"] and
+                launch_records["component_digests"]["adapter"] == binding["adapter_release"]["package_sha256"],
+                "souls and adapter digests point to authenticated R components")
+        require(launch_records["component_digests"]["hq"] == h_components["hq"]["release_artifact_sha256"] and
+                launch_records["component_digests"]["comms_broker"] == binding["broker_executable"]["sha256"],
+                "HQ and broker digests point to authenticated service refs")
 
         protected_payload = copy.deepcopy(payload)
         protected_envelope = copy.deepcopy(envelope)

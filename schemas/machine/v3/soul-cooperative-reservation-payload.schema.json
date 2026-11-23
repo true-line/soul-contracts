@@ -99,7 +99,7 @@
         "sandbox_policy_digest": { "$ref": "#/$defs/digest" },
         "component_digests": {
           "type": "object",
-          "required": ["machine", "hq", "souls", "comms_broker", "adapter", "harness", "test_provider"],
+          "required": ["machine", "hq", "souls", "comms_broker", "adapter"],
           "properties": {
             "machine": { "$ref": "#/$defs/digest" },
             "hq": { "$ref": "#/$defs/digest" },
@@ -109,7 +109,11 @@
             "harness": { "$ref": "#/$defs/digest" },
             "test_provider": { "$ref": "#/$defs/digest" }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "dependentRequired": {
+            "harness": ["test_provider"],
+            "test_provider": ["harness"]
+          }
         }
       },
       "additionalProperties": false

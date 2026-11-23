@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:8831ade229df730a8ec5c7f648f15cbfde7a05ceb3f310d69a17d583c40399a3",
+  "canonical_sha256": "sha256:33c755c367ceccc33645464744e9269fbec11f68f858ceddddffea85b5264b6a",
   "expect": {
     "schema": "valid"
   },
@@ -33,21 +33,21 @@
     "endpoints": {
       "admission": {
         "dir_mode": 1512,
-        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/r/c7243bf6ae0e3efd076d",
+        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/c/c7243bf6ae0e3efd076d",
         "expected_peer_uid": 331,
         "group_gid": 331,
         "owner_uid": 309,
         "socket_mode": 432,
-        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/r/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/c/c7243bf6ae0e3efd076d/st_0123456789abcdef01234567.sock"
       },
       "broker": {
         "dir_mode": 1512,
-        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/broker/agent_01234567-0123-4567-0123-456789abcdef",
+        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/broker/_abm-soul-a",
         "expected_peer_uid": 331,
         "group_gid": 331,
         "owner_uid": 309,
         "socket_mode": 432,
-        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/broker/agent_01234567-0123-4567-0123-456789abcdef/broker.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/broker/_abm-soul-a/broker.sock"
       }
     },
     "expires_at": "2026-11-22T14:15:36Z",
@@ -81,7 +81,7 @@
       "installed_plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "kind": "stage2a-measurement-binding",
       "launch_id": "ln_0123456789abcdef01234567",
-      "launch_input_measurement": "sha256:668b6650e76f6a3814ab1d89b8de07553ab4f6e150d46dfe25c05d950bdcbe1a",
+      "launch_input_measurement": "sha256:5c135a2903cd0040e36e5e66d9f21d46a99b624f0743384d0050d0f17e1914f8",
       "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "plan_id": "plan-20261122T141516Z-abcd",
       "profile_in_force": "managed-cooperative",
@@ -96,7 +96,7 @@
         {
           "component_id": "souls",
           "release_artifact_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-          "release_manifest_sha256": "sha256:cca6582d62727689d8fbc89d0e5fbbdd3ff9c51a5b061256defbed0663331793",
+          "release_manifest_sha256": "sha256:a045b3bbd97a8def3dc3117051492c4d00c0e2240e7b9bc175dfa025889925f7",
           "source_commit": "dddddddddddddddddddddddddddddddddddddddd",
           "source_repository": "true-line/agent-bot-souls"
         }
@@ -105,15 +105,15 @@
         "contract": "machine/v3",
         "directory_count": 2,
         "domain": "R-runtime",
-        "file_count": 4,
+        "file_count": 5,
         "installation_id": "inst_0000000000000001",
-        "inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
+        "inventory_digest": "sha256:e1caba048f3b8c30ec658f37b97298a8e4b14bf4ffd9aa2a3432f7d454d05e3a",
         "kind": "stage2a-inventory-ref",
         "machine_uid": 501,
         "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
         "reader_gid": 331,
         "reader_uid": 331,
-        "reviewed_source_inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
+        "reviewed_source_inventory_digest": "sha256:e1caba048f3b8c30ec658f37b97298a8e4b14bf4ffd9aa2a3432f7d454d05e3a",
         "schema_version": 3,
         "sidecar": {
           "birthtime_ns": "1795356916000000000",
@@ -124,8 +124,8 @@
           "owner_gid": 331,
           "owner_uid": 501,
           "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/inventory_6594547120bbfa77564d4abe.jcs",
-          "sha256": "sha256:4c85900d37a26be28709b63385f0ca19f9ce88f5a9c491efd771aedab7088a28",
-          "size_bytes": 1215
+          "sha256": "sha256:b90a7169641f3ca5f8110877d4d5698e2f4aa9bd7fbed83b0d46d1db18460a3a",
+          "size_bytes": 1422
         },
         "snapshot": {
           "birthtime_ns": "1795356916000000000",
@@ -137,7 +137,7 @@
           "owner_uid": 501,
           "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe"
         },
-        "total_bytes": 1200
+        "total_bytes": 1249
       },
       "schema_version": 3,
       "snapshots": {
