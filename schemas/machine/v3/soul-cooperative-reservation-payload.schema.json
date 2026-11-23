@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json",
+  "title": "Managed cooperative one-use reservation payload",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "host_id",
+    "issued_at",
+    "expires_at",
+    "installed_plan_receipt_sha256",
+    "assignment",
+    "endpoints",
+    "measurement_binding",
+    "admission_challenge_sha256"
+  ],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "soul-cooperative-reservation" },
+    "schema_version": { "const": 3 },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "installed_plan_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "assignment": {
+      "type": "object",
+      "required": [
+        "installation_id", "soul_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch", "expires_at",
+        "runner_account", "runner_uid", "runner_gid", "hq_uid", "machine_uid", "package_root", "launch_inputs_root",
+        "runtime_root", "node_path", "entry_path", "state_root", "state_root_mode",
+        "package_sha256", "soul_artifact_sha256"
+      ],
+      "properties": {
+        "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+        "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/soul_id" },
+        "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/start_id" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/launch_id" },
+        "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+        "plan_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/hq_epoch" },
+        "expires_at": { "type": "string", "format": "date-time" },
+        "runner_account": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_-]{0,30}$" },
+        "runner_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "runner_gid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "hq_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "machine_uid": { "type": "integer", "minimum": 400, "maximum": 4294967295 },
+        "package_root": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "launch_inputs_root": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "runtime_root": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "node_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "entry_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "state_root": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "state_root_mode": { "const": "0700" },
+        "package_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "soul_artifact_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "endpoints": {
+      "type": "object",
+      "required": ["admission", "broker"],
+      "properties": {
+        "admission": { "$ref": "#/$defs/endpoint" },
+        "broker": { "$ref": "#/$defs/endpoint" }
+      },
+      "additionalProperties": false
+    },
+    "measurement_binding": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json"
+    },
+    "admission_challenge_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "endpoint": {
+      "type": "object",
+      "required": ["directory", "socket_path", "owner_uid", "group_gid", "dir_mode", "socket_mode", "expected_peer_uid"],
+      "properties": {
+        "directory": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "socket_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "owner_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "group_gid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "dir_mode": { "const": 1512 },
+        "socket_mode": { "const": 432 },
+        "expected_peer_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
