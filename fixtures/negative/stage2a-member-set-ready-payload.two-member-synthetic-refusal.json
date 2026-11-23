@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-ready-payload.two-member-synthetic.json",
-    "sha256": "sha256:9b2c96743adc0ab69991ac9d8f0b79f58a06dba333abca9d021dd40603d66afd"
+    "sha256": "sha256:90985cec540dc78244ccc074e2d28ed0a878d94353604c4c0c9c042e65c1e183"
   },
   "expect": {
     "schema": "invalid"
@@ -25,6 +25,7 @@
     "installation_id": "inst_0000000000000001",
     "issued_at": "2026-11-22T14:15:21Z",
     "kind": "stage2a-member-set-ready",
+    "member_b_authority_envelope_sha256": "sha256:70f7ee9a2bcac7a3d0c8f7eba903e629d202d1c51f5141c4b6e1f259bba9632c",
     "members": [
       {
         "bridge_arm": {

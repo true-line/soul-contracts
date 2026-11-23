@@ -18,6 +18,7 @@ PURPOSES = {
     "assignment": "agent-bot/stage2a-member-set-assignment/v1",
     "child_observation": "agent-bot/stage2a-member-set-child-observation/v1",
     "ready": "agent-bot/stage2a-member-set-ready/v1",
+    "b_member_authority": "agent-bot/stage2a-b-member-authority/v1",
 }
 SCHEMAS = {
     "assignment": "machine/v3/stage2a-member-set-assignment-payload.schema.json",
@@ -153,6 +154,33 @@ def build(profile):
         "members": members, "issued_at": "2026-11-22T14:15:17Z", "expires_at": a["expires_at"],
     }
     assignment_jcs, assignment_envelope, assignment_envelope_jcs = sign("assignment", assignment)
+    shared_key = sha(b"fixture-local-relay-placeholder")
+    b_rows = []
+    for i, member in enumerate(members):
+        row = {key: member[key] for key in
+               ("member_id", "launch_id", "member_selector", "adjacent_cli_path", "adjacent_cli_sha256")}
+        row["qualification"] = {
+            "model": "fixture-model-" + str(i + 1),
+            "request_sha256": sha(("fixture-request-" + str(i + 1)).encode()),
+            "headers_sha256": sha(("fixture-headers-" + str(i + 1)).encode()),
+            "client_key_sha256": shared_key, "http_host": "localhost",
+            "messages_query": "fixture=" + str(i + 1),
+            "response_text": "fixture response " + str(i + 1),
+        }
+        b_rows.append(row)
+    b_member_authority = {key: assignment[key] for key in
+                          ("profile_in_force", "host_id", "installation_id", "soul_id", "start_id",
+                           "hq_epoch", "plan_id", "plan_digest", "reservation_sha256",
+                           "owner_plan_member_set_sha256", "b_authority", "bridge")}
+    b_member_authority.update({
+        "contract": "machine/v3", "kind": "stage2a-b-member-authority", "schema_version": 1,
+        "member_set_assignment_envelope_sha256": sha(assignment_envelope_jcs.encode("utf-8")),
+        "hq_uid": bridge["endpoints"]["broker"]["owner_uid"], "runner_uid": a["runner_uid"],
+        "members": b_rows, "issued_at": "2026-11-22T14:15:18Z",
+        "expires_at": "2026-11-22T14:15:35Z",
+    })
+    b_member_authority_jcs, _, b_member_authority_envelope_jcs = sign(
+        "b_member_authority", b_member_authority)
     mapping = {
         "contract": "hq/v1", "kind": "stage2a-provisional-member-map", "schema_version": 1,
         "profile_in_force": profile, "host_id": primary["host_id"], "installation_id": a["installation_id"],
@@ -203,6 +231,7 @@ def build(profile):
              "assignment_envelope_sha256": sha(assignment_envelope_jcs.encode("utf-8")),
              "child_observation_envelope_sha256": sha(child_envelope_jcs.encode("utf-8")),
              "b_authority_sha256": authority["envelope_sha256"],
+             "member_b_authority_envelope_sha256": sha(b_member_authority_envelope_jcs.encode("utf-8")),
              "provisional_hq_mapping_sha256": sha(canonicalize(mapping)),
              "bridge_process": {"pid": 3901, "uid": bridge["uid"], "gid": bridge["gid"],
                                 "start_seconds": 1795356917, "start_micros": 99,
@@ -220,6 +249,9 @@ def build(profile):
         "owner_plan_selection": {"plan_digest": a["plan_digest"],
                                  "owner_plan_member_set_sha256": assignment["owner_plan_member_set_sha256"]},
         "assignment_payload_jcs": assignment_jcs, "assignment_envelope_jcs": assignment_envelope_jcs,
+        "member_b_authority_payload_jcs": b_member_authority_jcs,
+        "member_b_authority_envelope_jcs": b_member_authority_envelope_jcs,
+        "owner_plan_member_bridge_qualifications": [row["qualification"] for row in b_rows],
         "provisional_hq_mapping_jcs": canonicalize(mapping).decode("utf-8"),
         "child_observation_payload_jcs": child_jcs, "child_observation_envelope_jcs": child_envelope_jcs,
         "ready_payload_jcs": ready_jcs, "ready_envelope_jcs": ready_envelope_jcs,

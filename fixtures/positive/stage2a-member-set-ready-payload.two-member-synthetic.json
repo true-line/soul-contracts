@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:aad3174042521028e1bedadb5b6999a5a1fb0d139c89595f031af8a1f74c1e8a",
+  "canonical_sha256": "sha256:0f7982f75ef88446af74bd6e01396c245394712eb44e355d15c26dcb081b3755",
   "expect": {
     "schema": "valid"
   },
@@ -22,6 +22,7 @@
     "installation_id": "inst_0000000000000001",
     "issued_at": "2026-11-22T14:15:21Z",
     "kind": "stage2a-member-set-ready",
+    "member_b_authority_envelope_sha256": "sha256:70f7ee9a2bcac7a3d0c8f7eba903e629d202d1c51f5141c4b6e1f259bba9632c",
     "members": [
       {
         "bridge_arm": {

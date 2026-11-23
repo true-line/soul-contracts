@@ -114,6 +114,29 @@ def check_vector(root, profile, vector, schemas, public):
     assignment, assignment_envelope = signed(vector, "assignment", SIGNED_ASSIGNMENT, ASSIGNMENT, schemas, public)
     child, child_envelope = signed(vector, "child_observation", SIGNED_CHILD, CHILD, schemas, public)
     ready, ready_envelope = signed(vector, "ready", SIGNED_READY, READY, schemas, public)
+    member_b_raw = vector["member_b_authority_envelope_jcs"].encode("utf-8")
+    member_b_envelope = parse_strict(member_b_raw)
+    member_b_payload_raw = decode(member_b_envelope["payload_base64url"])
+    member_b_payload = parse_strict(member_b_payload_raw)
+    member_b_purpose = b"agent-bot/stage2a-b-member-authority/v1"
+    require(canonicalize(member_b_envelope) == member_b_raw and
+            canonicalize(member_b_payload) == member_b_payload_raw and
+            member_b_payload_raw == vector["member_b_authority_payload_jcs"].encode("utf-8") and
+            member_b_envelope["purpose"].encode("ascii") == member_b_purpose and
+            decode(member_b_envelope["issuer_public_key_base64url"]) == public and
+            member_b_envelope["payload_sha256"] == digest(member_b_payload_raw) and
+            member_b_payload["member_set_assignment_envelope_sha256"] == digest(assignment_envelope) and
+            member_b_payload["owner_plan_member_set_sha256"] == assignment["owner_plan_member_set_sha256"] and
+            member_b_payload["profile_in_force"] == profile and
+            ready["member_b_authority_envelope_sha256"] == digest(member_b_raw),
+            "separate exact A-signed two-member B authority is pinned by aggregate Ready")
+    Ed25519PublicKey.from_public_bytes(public).verify(
+        decode(member_b_envelope["signature_base64url"]), member_b_purpose + b"\0" + member_b_payload_raw)
+    require([row["qualification"] for row in member_b_payload["members"]] ==
+            vector["owner_plan_member_bridge_qualifications"] and
+            [row["member_selector"] for row in member_b_payload["members"]] ==
+            [row["member_selector"] for row in assignment["members"]],
+            "two explicit owner-reviewed B policy rows equal assigned member selectors")
     primary, reservation_raw, bridge, authority_purpose, authority_sha = primary_bytes(
         root, profile, vector, schemas, public)
     a = primary["assignment"]
