@@ -1,0 +1,105 @@
+{
+  "canonical_sha256": "sha256:bd57cf665030dead49b42482ab576e1cfcc790b97c958710e9d6965e6bd5968c",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "adapter_manifest_relpath": "Contents/opt/fixture-stock.json",
+    "b_authority": {
+      "envelope_sha256": "sha256:329493e04e87f8b3d6c6f96cc5878b04a24f3302efbd54600a756fab002668ca",
+      "purpose": "agent-bot/soul-cooperative-bridge-assignment/v3"
+    },
+    "bridge": {
+      "account": "_abm-br-6a88e323518d66a7e3dd",
+      "endpoints": {
+        "broker": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd",
+          "expected_peer_uid": 333,
+          "group_gid": 333,
+          "owner_uid": 309,
+          "parent_birthtime_ns": "1795356936000000000",
+          "parent_device": "1",
+          "parent_inode": "2001",
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock"
+        },
+        "member": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d",
+          "expected_peer_uid": 333,
+          "group_gid": 333,
+          "owner_uid": 331,
+          "parent_birthtime_ns": "1795356936000000000",
+          "parent_device": "1",
+          "parent_inode": "2002",
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
+        },
+        "relay": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d",
+          "expected_peer_uid": 331,
+          "group_gid": 331,
+          "owner_uid": 333,
+          "parent_birthtime_ns": "1795356936000000000",
+          "parent_device": "1",
+          "parent_inode": "2003",
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
+        }
+      },
+      "gid": 333,
+      "uid": 333
+    },
+    "contract": "machine/v3",
+    "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "frozen_adapter_manifest_sha256": "sha256:bc515bd1689702a1731f131817dbc167a4a59ecb0ecd14a2268dd24c107e4019",
+    "frozen_soul_info_sha256": "sha256:7074495baa7c0494dfaf4516e4cb8720a4417d04d55ebda5cc6ac7517049cf6c",
+    "host_id": "synthetic-host",
+    "host_projection_sha256": "sha256:70c7929dc17765cac69b9c3a3894db131486c07a71c6f09ea6c5838e03a362b0",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:17Z",
+    "kind": "stage2a-member-set-assignment",
+    "members": [
+      {
+        "adapter_id": "fixture-stock",
+        "adapter_version": "1.0.0",
+        "adjacent_cli_path": "/fixture/r/adapter/fixture-cli",
+        "adjacent_cli_sha256": "sha256:4575517e516023fd0698342aec5e470a7533a94b5cf003b172af874cf773817f",
+        "command_path": "/fixture/r/adapter/fixture-acp",
+        "command_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+        "launch_id": "ln_0123456789abcdef01234567",
+        "member_id": "m_lead",
+        "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+        "role": "lead"
+      },
+      {
+        "adapter_id": "fixture-stock",
+        "adapter_version": "1.0.0",
+        "adjacent_cli_path": "/fixture/r/adapter/fixture-cli",
+        "adjacent_cli_sha256": "sha256:4575517e516023fd0698342aec5e470a7533a94b5cf003b172af874cf773817f",
+        "command_path": "/fixture/r/adapter/fixture-acp",
+        "command_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+        "launch_id": "ln_0123456789abcdef01234568",
+        "member_id": "m_spec",
+        "member_selector": "mb_b96d7374ab13390e55161e89451142c1fa787759a5760b447abaf691e748fe87",
+        "role": "specialist"
+      }
+    ],
+    "owner_plan_member_set_sha256": "sha256:40758695d8a20df897316151f464059180d45739b2a018ef8d6ea097f5d2baf3",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "profile_in_force": "managed-cooperative",
+    "reservation_sha256": "sha256:2fcf23c02b279b697825fd0b7fd60b742171bcd3d68194b3cbe3d6b6121fc2aa",
+    "runner_gid": 331,
+    "runner_uid": 331,
+    "schema_version": 1,
+    "soul_artifact_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-set-assignment-payload.schema.json"
+}

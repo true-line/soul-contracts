@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-ready-payload.schema.json",
+  "title": "Stage 2a observed two-member B readiness before ACP (draft)",
+  "description": "A signs only after B arms both deferred relay-peer gates anchored to the A-observed ACP adapter children. The later CLI relay peer does not exist yet and may rotate during ACP session/new. B must hold every new CLI connection until a fresh authenticated A observation proves its measured executable and direct parent is the assigned ACP child; then B checks the kernel peer identity again before ingress. H rechecks its own provisional runtime map before making either runtime usable. R runs no ACP initialize/session/new until H finalizes. This shape grants no physical qualification or new B endpoint.",
+  "type": "object",
+  "required": [
+    "contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch",
+    "reservation_sha256", "assignment_envelope_sha256", "child_observation_envelope_sha256", "b_authority_sha256",
+    "provisional_hq_mapping_sha256", "bridge_process", "members", "observed_at", "issued_at", "expires_at"
+  ],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-member-set-ready" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact A-signed member-set assignment envelope bytes, not its decoded payload." },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact A-signed provisional child-observation envelope bytes, issued before B arms either member." },
+    "b_authority_sha256": { "$ref": "#/$defs/digest" },
+    "provisional_hq_mapping_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of the exact H provisional map nested in the signed child observation; H rechecks its own map and state." },
+    "bridge_process": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "start_seconds", "start_micros", "executable_sha256"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "executable_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    },
+    "members": {
+      "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/readyMember" },
+      "description": "Same sorted exact IDs, launch IDs and selectors as the assignment and child observation. B has armed deferred per-CLI-peer gates anchored to A-observed ACP adapter children. It has not observed any future CLI relay peer. A shared UID or selector alone grants no relay ingress."
+    },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "readyMember": {
+      "type": "object",
+      "required": ["member_id", "launch_id", "member_selector", "runtime_id", "bridge_arm", "bridge_arm_receipt_sha256"],
+      "properties": {
+        "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
+        "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+        "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+        "bridge_arm": {
+          "type": "object",
+          "required": ["member_id", "member_selector", "runtime_id", "child_observation_envelope_sha256", "bridge_uid", "adapter_pid", "adapter_uid", "adapter_gid", "adapter_start_seconds", "adapter_start_micros", "relay_peer_rule", "relay_peer_state", "provider_ingress", "state", "armed_at"],
+          "properties": {
+            "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+            "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+            "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+            "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+            "bridge_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+            "adapter_pid": { "type": "integer", "minimum": 2 },
+            "adapter_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+            "adapter_gid": { "type": "integer", "minimum": 1 },
+            "adapter_start_seconds": { "type": "integer", "minimum": 1 },
+            "adapter_start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 },
+            "relay_peer_rule": { "const": "a-attested-live-direct-child-of-adapter-v1" },
+            "relay_peer_state": { "const": "unobserved" },
+            "provider_ingress": { "const": "withheld-pending-per-peer-attestation" },
+            "state": { "const": "armed" },
+            "armed_at": { "type": "string", "format": "date-time" }
+          },
+          "additionalProperties": false,
+          "description": "Exact B acknowledgement payload received on the authenticated A/B local channel before ACP. It anchors the deferred relay rule to the A-observed ACP adapter child. It is not evidence of a future CLI peer and cannot by itself permit provider ingress. Each distinct later CLI peer requires fresh A attestation before B proceeds."
+        },
+        "bridge_arm_receipt_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of the exact RFC 8785 JCS bytes of bridge_arm as acknowledged by B." }
+      },
+      "additionalProperties": false
+    }
+  }
+}

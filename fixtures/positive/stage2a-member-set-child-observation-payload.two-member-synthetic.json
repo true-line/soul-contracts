@@ -1,0 +1,88 @@
+{
+  "canonical_sha256": "sha256:def45e49e1def9646f8fb59b8bac8fba9df07ea7b971798797b16c3706260266",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:0e57cd58cb7399cc6b10131ec00403ec81ae5f6295929b380a7ed81d0586741b",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:19Z",
+    "kind": "stage2a-member-set-child-observation",
+    "members": [
+      {
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4001,
+          "pid": 4101,
+          "process_group_id": 4001,
+          "start_micros": 100,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "launch_id": "ln_0123456789abcdef01234567",
+        "member_id": "m_lead",
+        "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+        "runtime_id": "runtime_fixture_m_lead"
+      },
+      {
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4001,
+          "pid": 4102,
+          "process_group_id": 4001,
+          "start_micros": 101,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "launch_id": "ln_0123456789abcdef01234568",
+        "member_id": "m_spec",
+        "member_selector": "mb_b96d7374ab13390e55161e89451142c1fa787759a5760b447abaf691e748fe87",
+        "runtime_id": "runtime_fixture_m_spec"
+      }
+    ],
+    "observed_at": "2026-11-22T14:15:19Z",
+    "profile_in_force": "managed-cooperative",
+    "provisional_hq_mapping": {
+      "acp_authority": "withheld",
+      "assignment_envelope_sha256": "sha256:0e57cd58cb7399cc6b10131ec00403ec81ae5f6295929b380a7ed81d0586741b",
+      "contract": "hq/v1",
+      "expires_at": "2026-11-22T14:15:36Z",
+      "host_id": "synthetic-host",
+      "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "installation_id": "inst_0000000000000001",
+      "issued_at": "2026-11-22T14:15:18Z",
+      "kind": "stage2a-provisional-member-map",
+      "members": [
+        {
+          "channel_binding": "KCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo",
+          "member_id": "m_lead",
+          "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+          "runtime_id": "runtime_fixture_m_lead"
+        },
+        {
+          "channel_binding": "KSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkp",
+          "member_id": "m_spec",
+          "member_selector": "mb_b96d7374ab13390e55161e89451142c1fa787759a5760b447abaf691e748fe87",
+          "runtime_id": "runtime_fixture_m_spec"
+        }
+      ],
+      "profile_in_force": "managed-cooperative",
+      "runtime_state": "provisional",
+      "schema_version": 1,
+      "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+      "start_id": "st_0123456789abcdef01234567"
+    },
+    "provisional_hq_mapping_sha256": "sha256:edd53755aa8eadcd7174b143ef86712ce27edba3bbf64e81a95a3e0a424d1f2e",
+    "reservation_sha256": "sha256:2fcf23c02b279b697825fd0b7fd60b742171bcd3d68194b3cbe3d6b6121fc2aa",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-set-child-observation-payload.schema.json"
+}
