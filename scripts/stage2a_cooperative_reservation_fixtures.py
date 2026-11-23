@@ -57,6 +57,9 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         payload = parse_strict(payload_raw)
         require(canonicalize(payload) == payload_raw, "payload must be exact JCS bytes")
         require(schemas[PAYLOAD].is_valid(payload), "cooperative payload schema")
+        challenge = decode(vector["admission_challenge_base64url"])
+        require(len(challenge) == 32 and digest(challenge) == payload["admission_challenge_sha256"],
+                "synthetic admission challenge preimage matches signed digest")
         public_key = decode(envelope["issuer_public_key_base64url"])
         require(public_key == decode(vector["issuer_public_key_base64url"]), "pinned synthetic issuer key")
         Ed25519PublicKey.from_public_bytes(public_key).verify(
@@ -147,8 +150,11 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
             paths.add(endpoint["socket_path"])
         require(len(paths) == 2, "admission and broker sockets are distinct")
         admission_directory = PurePosixPath(endpoints["admission"]["directory"])
+        start_slot = hashlib.sha256(b"agent-bot-soul-endpoint-start/v1\0" +
+                                    assignment["installation_id"].encode() + b"\0" +
+                                    assignment["start_id"].encode()).hexdigest()[:20]
         require(admission_directory.parent.name == "c" and
-                PurePosixPath(endpoints["admission"]["socket_path"]).name == assignment["start_id"] + ".sock",
+                PurePosixPath(endpoints["admission"]["socket_path"]).name == start_slot + ".sock",
                 "cooperative admission uses the per-installation c/start path")
         broker_directory = "/Library/Application Support/ai.true-line.agent-bot-hq/broker/" + assignment["runner_account"]
         require(endpoints["broker"]["directory"] == broker_directory and
@@ -200,12 +206,50 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         require(not launch_validator.is_valid(partial_q), "qualification harness and test provider are paired")
         r_components = {component["component_id"]: component for component in binding["r_components"]}
         h_components = {component["component_id"]: component for component in h_payload["components"]}
-        require(launch_records["component_digests"]["souls"] == r_components["souls"]["release_artifact_sha256"] and
-                launch_records["component_digests"]["adapter"] == binding["adapter_release"]["package_sha256"],
-                "souls and adapter digests point to authenticated R components")
-        require(launch_records["component_digests"]["hq"] == h_components["hq"]["release_artifact_sha256"] and
-                launch_records["component_digests"]["comms_broker"] == binding["broker_executable"]["sha256"],
-                "HQ and broker digests point to authenticated service refs")
+        h_rows = {row["path"]: row for row in h_inventory["files"]}
+        r_rows = {row["path"]: row for row in r_inventory["files"]}
+        hq_broker = binding["hq_broker"]
+        h_prefix = h_inventory.get("snapshot", {}).get("path")
+        # The inventory sidecar is separate from its signed compact reference.
+        h_prefix = h_payload["h_inventory"]["snapshot"]["path"]
+        broker_relative_path = "vendor/plugins/agent-comms/lib/hq-plugin/broker.mjs"
+        broker_component = h_components.get("comms_broker", {})
+        broker_manifest = vector["h_broker_release_manifest"]
+        require(digest(canonicalize(broker_manifest)) == broker_component.get("release_manifest_sha256") and
+                broker_manifest == [{"path": broker_relative_path, "sha256": hq_broker["module_sha256"]}],
+                "H component provenance binds exact hosted broker row")
+        require(hq_broker["module_path"] == h_prefix + "/" + broker_relative_path and
+                h_rows.get(broker_relative_path, {}).get("sha256") == hq_broker["module_sha256"] and
+                h_rows.get(broker_relative_path, {}).get("component_id") == "comms_broker" and
+                broker_component.get("release_artifact_sha256") == hq_broker["module_sha256"] and
+                hq_broker["module_sha256"] == "sha256:15efd590844f747f279ae4089178bca134f7ae76e9911a7ed5fea8d3310452a1",
+                "same-process Comms broker module is an H descriptor component and H-sealed inventory row")
+        qualification_provider = payload["qualification_provider"]
+        provider_raw = decode(qualification_provider["config_base64url"])
+        provider_config = parse_strict(provider_raw)
+        require(canonicalize(provider_config) == provider_raw and digest(provider_raw) == qualification_provider["config_sha256"] and
+                set(provider_config) == {"model", "request_sha256", "response_text"} and
+                provider_config["request_sha256"].startswith("sha256:"),
+                "exact canonical Machine qualification provider config bytes are digest-bound")
+        adapter = binding["adapter_release"]
+        require(adapter["executable_path"] == assignment["runtime_root"] + "/adapter/cli" and
+                adapter["executable_sha256"] == r_rows["adapter/cli"]["sha256"],
+                "adapter executable pin joins to its A-sealed R row")
+        h_entry = h_payload["runtime"]["entry_path"]
+        require(h_entry == h_prefix + "/hq/main.mjs" and
+                h_rows.get("hq/main.mjs", {}).get("sha256") == h_payload["runtime"]["entry_sha256"],
+                "H selected HQ entry joins to the H-sealed row")
+        require(launch_records["component_digests"]["souls"] == r_rows["bin/agent-bot-souls.mjs"]["sha256"] and
+                launch_records["component_digests"]["adapter"] == r_rows["adapter/cli"]["sha256"] and
+                launch_records["component_digests"]["hq"] == h_payload["runtime"]["entry_sha256"] and
+                launch_records["component_digests"]["comms_broker"] == hq_broker["module_sha256"],
+                "component digests join to authenticated launched code rows")
+        require("broker_executable" not in binding, "cooperative reservation has no protected B broker executable")
+        require(set(hq_broker) == {"module_path", "module_sha256"},
+                "ordinary H-hosted broker binding carries only H module identity")
+        require({"harness", "test_provider"} <= set(launch_records["component_digests"]) and
+                "qualification_provider" in payload,
+                "Q qualification provider config is present only with its paired Q component pins")
 
         protected_payload = copy.deepcopy(payload)
         protected_envelope = copy.deepcopy(envelope)

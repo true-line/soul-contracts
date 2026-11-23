@@ -1,10 +1,10 @@
 {
-  "canonical_sha256": "sha256:33c755c367ceccc33645464744e9269fbec11f68f858ceddddffea85b5264b6a",
+  "canonical_sha256": "sha256:251cfb474a36678d44160c35ee1dc3816c1dacede23b78864330a75d61d41d01",
   "expect": {
     "schema": "valid"
   },
   "input": {
-    "admission_challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
+    "admission_challenge_sha256": "sha256:630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd",
     "assignment": {
       "entry_path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe/bin/agent-bot-souls.mjs",
       "expires_at": "2026-11-22T14:15:36Z",
@@ -38,7 +38,7 @@
         "group_gid": 331,
         "owner_uid": 309,
         "socket_mode": 432,
-        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/c/c7243bf6ae0e3efd076d/st_0123456789abcdef01234567.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/c/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
       },
       "broker": {
         "dir_mode": 1512,
@@ -66,22 +66,21 @@
         "release_attestation_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
         "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5"
       },
-      "broker_executable": {
-        "path": "/Library/Application Support/agent-bot/bin/broker",
-        "provider_config_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-      },
       "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "contract": "machine/v3",
       "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "h_service_descriptor_digest": "sha256:cf79f9a17ca413676385abede9244a03e4b554a3f2d35ae9bb40b8c27cb80d38",
+      "h_service_descriptor_digest": "sha256:8313af9c99201d04c4e35a4d99dbdbc6dc1a3dc48945837a923cb6e32f7884ef",
       "host_id": "synthetic-host",
+      "hq_broker": {
+        "module_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/vendor/plugins/agent-comms/lib/hq-plugin/broker.mjs",
+        "module_sha256": "sha256:15efd590844f747f279ae4089178bca134f7ae76e9911a7ed5fea8d3310452a1"
+      },
       "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "installation_id": "inst_0000000000000001",
       "installed_plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "kind": "stage2a-measurement-binding",
       "launch_id": "ln_0123456789abcdef01234567",
-      "launch_input_measurement": "sha256:5c135a2903cd0040e36e5e66d9f21d46a99b624f0743384d0050d0f17e1914f8",
+      "launch_input_measurement": "sha256:2bc01b8b2654e5a1c819dad0472b9fa60395413a688fceb1e113e7dbfc6636da",
       "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "plan_id": "plan-20261122T141516Z-abcd",
       "profile_in_force": "managed-cooperative",
@@ -165,6 +164,10 @@
       "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
       "start_id": "st_0123456789abcdef01234567"
+    },
+    "qualification_provider": {
+      "config_base64url": "eyJtb2RlbCI6InF1YWxpZmljYXRpb24tbW9kZWwiLCJyZXF1ZXN0X3NoYTI1NiI6InNoYTI1NjphYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiYWJhYmFiIiwicmVzcG9uc2VfdGV4dCI6InN5bnRoZXRpYyBxdWFsaWZpY2F0aW9uIHJlc3BvbnNlIDAifQ",
+      "config_sha256": "sha256:f38e898744d837fd391d821e990d5cfe9a5604792b4149bc6b88f2d5c0542f4e"
     },
     "schema_version": 3
   },
