@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:a7a2100da60805f17bc2bd3cbdaca05916d09325b924a4d0603153ff82bee82c",
+  "canonical_sha256": "sha256:c5e43301766e09add8472783c31bedbdadb5a4d361da878d32cb15972870c4dc",
   "expect": {
     "schema": "valid"
   },
@@ -26,7 +26,7 @@
       "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
       "start_id": "st_0123456789abcdef01234567",
-      "state_root": "/var/agent-bot-soul-runner-_abm-soul-a/state",
+      "state_root": "/private/var/agent-bot-soul-runner-_abm-soul-a/state",
       "state_root_mode": "0700"
     },
     "contract": "machine/v3",
