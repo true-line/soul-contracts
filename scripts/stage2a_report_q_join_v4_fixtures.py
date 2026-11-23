@@ -18,6 +18,7 @@ from stage2a_q_presign_fixtures import verify as verify_q
 
 KEY = Ed25519PrivateKey.from_private_bytes(b"\x13" * 32)
 COMPLETION_PURPOSE = "agent-bot/stage2a-execution-completion/v2"
+COMMITMENT_PURPOSE = "agent-bot/stage2a-report-commitment/v2"
 
 
 def sha(raw):
@@ -89,6 +90,11 @@ def reseal_fixture_run(run):
     host["report_sha256"] = sha(report_raw)
     host["report_base64url"] = encode(report_raw)
     host["signature_base64url"] = encode(r.to_bytes(32, "big") + s.to_bytes(32, "big"))
+    commitment = run["commitment"]
+    commitment["execution_completion_sha256"] = sha(completion_raw)
+    commitment["report_payload_sha256"] = sha(report_raw)
+    commitment["report_envelope_sha256"] = sha(canonicalize(host))
+    run["commitment_envelope_jcs"] = fixture_sign(commitment, COMMITMENT_PURPOSE, 2).decode()
 
 
 def joined(run, schemas):
@@ -172,6 +178,24 @@ def joined(run, schemas):
                                int.from_bytes(raw_signature[32:], "big"))
     ec.derive_private_key(1, ec.SECP256R1()).public_key().verify(
         der, host_purpose.encode() + b"\0" + report_raw, ec.ECDSA(hashes.SHA256()))
+    commitment = run["commitment"]
+    require(schemas["machine/v2/stage2a-report-commitment-payload.schema.json"].is_valid(commitment),
+            "post-sign commitment shape")
+    require(authenticated_payload(run["commitment_envelope_jcs"], COMMITMENT_PURPOSE, 2, key) ==
+            commitment, "A-signed post-sign commitment")
+    require(commitment["profile_in_force"] == profile and
+            commitment["host_id"] == host["host_id"] == report["host"]["id"] and
+            commitment["signer_id"] == host["signer_id"] and
+            commitment["execution_completion_sha256"] == sha(blobs["execution_completion"]) and
+            commitment["report_payload_sha256"] == sha(report_raw) and
+            commitment["report_envelope_sha256"] == sha(canonicalize(host)),
+            "exact post-sign host envelope and pre-sign completion")
+    for name in ("installation_id", "soul_id", "start_id", "launch_id", "cohort_id"):
+        require(commitment[name] == completion[name], name + " post-sign identity")
+    committed_at = datetime.fromisoformat(commitment["committed_at"].replace("Z", "+00:00"))
+    recorded_at = datetime.fromisoformat(report["recorded_at"].replace("Z", "+00:00"))
+    completed_at = datetime.fromisoformat(completion["completed_at"].replace("Z", "+00:00"))
+    require(completed_at <= recorded_at <= committed_at, "pre-sign/report/post-sign order")
     if profile == "managed-cooperative":
         require(reservation["adapter_transport"] == "brokered-b", "B transport")
         bridge = authenticated_payload(run["bridge_assignment_envelope_jcs"],
@@ -275,7 +299,8 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
         except (ValueError, KeyError, TypeError, InvalidSignature):
             report(True, "draft report/Q refuses " + label)
     for label, field in (("changed host signature", "host_signature_envelope"),
-                         ("changed A completion signature", "completion_envelope_jcs")):
+                         ("changed A completion signature", "completion_envelope_jcs"),
+                         ("changed A post-sign signature", "commitment_envelope_jcs")):
         bad = copy.deepcopy(vector["protected"])
         if field == "host_signature_envelope":
             bad[field]["signature_base64url"] = "A" * 86
@@ -283,6 +308,24 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
             envelope = parse_strict(bad[field].encode())
             envelope["signature_base64url"] = "A" * 86
             bad[field] = canonicalize(envelope).decode()
+        try:
+            joined(bad, schemas)
+            report(False, "draft report/Q refuses " + label)
+        except (ValueError, KeyError, TypeError, InvalidSignature):
+            report(True, "draft report/Q refuses " + label)
+    for label, mutation in (
+        ("re-signed commitment for other host envelope",
+         lambda c: c.update(report_envelope_sha256="sha256:" + "0" * 64)),
+        ("re-signed commitment for other completion",
+         lambda c: c.update(execution_completion_sha256="sha256:" + "0" * 64)),
+        ("re-signed commitment for other host",
+         lambda c: c.update(host_id="other-host")),
+        ("re-signed commitment before report",
+         lambda c: c.update(committed_at="2026-11-22T14:15:25Z")),
+    ):
+        bad = copy.deepcopy(vector["protected"])
+        mutation(bad["commitment"])
+        bad["commitment_envelope_jcs"] = fixture_sign(bad["commitment"], COMMITMENT_PURPOSE, 2).decode()
         try:
             joined(bad, schemas)
             report(False, "draft report/Q refuses " + label)
@@ -318,3 +361,30 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
             report(False, "draft report/Q refuses " + label)
         except (ValueError, KeyError, TypeError, InvalidSignature):
             report(True, "draft report/Q refuses " + label)
+    try:
+        direct = json.loads((root / "fixtures/qualification/v4/q-direct-cooperative-synthetic.json").read_text())
+        direct_key = decode(direct["issuer_public_key_base64url"])
+        verify_q({"issuer_public_key_base64url": direct["issuer_public_key_base64url"],
+                  "wire_jcs": direct["q_wire_jcs"],
+                  "index_envelope_jcs": direct["q_index_envelope_jcs"],
+                  "eof_envelope_jcs": direct["q_eof_envelope_jcs"]}, schemas)
+        reservation = authenticated_payload(direct["reservation_envelope_jcs"],
+                                            "agent-bot/soul-cooperative-reservation/v3", 3, direct_key)
+        idx = authenticated_payload(direct["q_index_envelope_jcs"],
+                                    "agent-bot/stage2a-q-frame-index/v1", 1, direct_key)
+        require(schemas["machine/v3/soul-cooperative-reservation-payload.schema.json"].is_valid(reservation),
+                "released direct reservation schema")
+        require(reservation["adapter_transport"] == "direct-comms" and
+                set(reservation["endpoints"]) == {"admission", "broker"} and
+                "bridge_launch_sha256" not in reservation and
+                reservation["measurement_binding"]["profile_in_force"] == "managed-cooperative" and
+                idx["profile"] == "managed-cooperative" and
+                idx["reservation_sha256"] == sha(direct["reservation_envelope_jcs"].encode()) and
+                idx["launch_challenge_sha256"] == reservation["admission_challenge_sha256"] and
+                idx["host_id"] == reservation["host_id"] and
+                idx["installation_id"] == reservation["assignment"]["installation_id"] and
+                idx["start_id"] == reservation["assignment"]["start_id"],
+                "direct Comms Q branch stays distinct from B")
+        report(True, "draft direct Comms T21 signed Q/reservation join")
+    except (ValueError, KeyError, TypeError, InvalidSignature) as exc:
+        report(False, "draft direct Comms T21 signed Q/reservation join", str(exc))

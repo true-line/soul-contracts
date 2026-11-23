@@ -1,0 +1,23 @@
+{
+  "canonical_sha256": "sha256:5c41d17452770badced42f2422f2e9ad022ba006e5f625b374520c8a516a2176",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "cohort_id": "synthetic-cohort-cooperative",
+    "committed_at": "2026-11-22T14:15:28Z",
+    "execution_completion_sha256": "sha256:633ade64b0835793ce0b0eebf74485e68770bb10f040bfa962d52d153245e347",
+    "host_id": "synthetic-host",
+    "installation_id": "inst_0000000000000001",
+    "kind": "stage2a-report-commitment",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "profile_in_force": "managed-cooperative",
+    "report_envelope_sha256": "sha256:e0b7a23cd5743c4baba65d88e54f3d3a1c2f8a2a431ad81df708c61c9e7d0a9a",
+    "report_payload_sha256": "sha256:ace89881e6c9dfed41fdaaa961247af7b642cdf84de21201c84da45c9f5dad28",
+    "schema_version": 2,
+    "signer_id": "synthetic-signer",
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v2/stage2a-report-commitment-payload.schema.json"
+}

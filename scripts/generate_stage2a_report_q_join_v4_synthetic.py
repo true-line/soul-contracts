@@ -230,8 +230,21 @@ def make_run(profile):
                       "host_id": report["host"]["id"], "signer_id": "synthetic-signer",
                       "report_sha256": sha(report_raw), "report_base64url": b64(report_raw),
                       "signature_base64url": b64(signature_r.to_bytes(32, "big") + signature_s.to_bytes(32, "big"))}
+    host_envelope_raw = canonicalize(host_signature)
+    commitment = {
+        "schema_version": 2, "kind": "stage2a-report-commitment",
+        "profile_in_force": profile, "host_id": report["host"]["id"],
+        "signer_id": host_signature["signer_id"],
+        "installation_id": completion["installation_id"], "soul_id": completion["soul_id"],
+        "start_id": completion["start_id"], "launch_id": completion["launch_id"],
+        "cohort_id": cohort, "execution_completion_sha256": sha(completion_raw),
+        "report_payload_sha256": sha(report_raw),
+        "report_envelope_sha256": sha(host_envelope_raw), "committed_at": "2026-11-22T14:15:28Z",
+    }
+    commitment_raw = sign(commitment, "agent-bot/stage2a-report-commitment/v2", 2)
     return {"report": report, "completion": completion, "completion_envelope_jcs": completion_raw.decode(),
             "host_signature_envelope": host_signature,
+            "commitment": commitment, "commitment_envelope_jcs": commitment_raw.decode(),
             "reservation_envelope_jcs": reservation_raw.decode(),
             "bridge_assignment_envelope_jcs": bridge_raw.decode() if bridge_raw else None,
             "cooperative_publish_order_payload": order if cooperative else None,
@@ -250,19 +263,39 @@ def make_run(profile):
             "issuer_public_key_base64url": b64(PUBLIC)}
 
 
+def make_direct_q():
+    """Keep direct Comms T21 distinct from brokered-B report publication."""
+    original = json.loads((ROOT / "fixtures/reservation/v3/soul-cooperative-signed-reservation.synthetic.json").read_text())
+    reservation = parse_strict(original["reservation_payload_jcs"].encode())
+    reservation_raw = sign(reservation, "agent-bot/soul-cooperative-reservation/v3", 3)
+    wire_raw, index_raw, eof_raw, idx = q_chain(
+        "managed-cooperative", reservation_raw, reservation, "synthetic-cohort-direct", "d" * 32)
+    return {
+        "reservation_envelope_jcs": reservation_raw.decode(), "q_wire_jcs": wire_raw.decode(),
+        "q_index_envelope_jcs": index_raw.decode(), "q_eof_envelope_jcs": eof_raw.decode(),
+        "issuer_public_key_base64url": b64(PUBLIC), "q_index": idx,
+    }
+
+
 def main():
     runs = {name: make_run(profile) for name, profile in
             (("protected", "managed-protected"), ("cooperative", "managed-cooperative"))}
     target = ROOT / "fixtures/qualification/v4/report-q-join-synthetic.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(runs, indent=2, sort_keys=True) + "\n")
+    direct = ROOT / "fixtures/qualification/v4/q-direct-cooperative-synthetic.json"
+    direct.write_text(json.dumps(make_direct_q(), indent=2, sort_keys=True) + "\n")
     report_schema = "adapter/v4/qualification-host-report.schema.json"
     completion_schema = "machine/v2/stage2a-execution-completion-payload.schema.json"
     envelope_schema = "machine/v2/stage2a-signed-execution-completion.schema.json"
     signature_schema = "adapter/v4/qualification-host-signature.schema.json"
+    commitment_schema = "machine/v2/stage2a-report-commitment-payload.schema.json"
+    signed_commitment_schema = "machine/v2/stage2a-signed-report-commitment.schema.json"
     for name, run in runs.items():
         fixture("qualification-host-report.v4-" + name + ".synthetic.json", report_schema, run["report"])
         fixture("stage2a-execution-completion-payload.v2-" + name + ".synthetic.json", completion_schema, run["completion"])
+        fixture("stage2a-report-commitment-payload.v2-" + name + ".synthetic.json", commitment_schema,
+                run["commitment"])
     for kind in ("order", "outcome"):
         prefix = "soul-cooperative-publish-" + kind
         payload_schema = "machine/v3/" + prefix + "-payload.schema.json"
@@ -315,6 +348,17 @@ def main():
     wrong_purpose["purpose"] = "agent-bot/stage2a-execution-completion/v1"
     fixture("stage2a-signed-execution-completion.v2-wrong-purpose.json", envelope_schema,
             wrong_purpose, True, "stage2a-signed-execution-completion.v2-synthetic.json")
+    signed_commitment = parse_strict(runs["protected"]["commitment_envelope_jcs"].encode())
+    fixture("stage2a-signed-report-commitment.v2-synthetic.json", signed_commitment_schema,
+            signed_commitment)
+    wrong_purpose = dict(signed_commitment)
+    wrong_purpose["purpose"] = "agent-bot/stage2a-report-commitment/v1"
+    fixture("stage2a-signed-report-commitment.v2-wrong-purpose.json", signed_commitment_schema,
+            wrong_purpose, True, "stage2a-signed-report-commitment.v2-synthetic.json")
+    bad_commitment = copy.deepcopy(runs["protected"]["commitment"])
+    del bad_commitment["report_envelope_sha256"]
+    fixture("stage2a-report-commitment-payload.v2-missing-host-envelope.json", commitment_schema,
+            bad_commitment, True, "stage2a-report-commitment-payload.v2-protected.synthetic.json")
     host_shape = runs["protected"]["host_signature_envelope"]
     fixture("qualification-host-signature.v4-synthetic.json", signature_schema, host_shape)
     wrong_host_purpose = dict(host_shape)

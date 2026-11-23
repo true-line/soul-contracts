@@ -420,7 +420,7 @@ def vendor_text(path):
                              "machine-admin-synthetic", "machine-hr-synthetic", "negative-vectors",
                              "qualification-host-signature.measurement-v3",
                              "qualification-host-signature.v4",
-                             "report-q-join-synthetic")) and \
+                             "report-q-join-synthetic", "q-direct-cooperative-synthetic")) and \
             ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw or
              "wire_jcs" in raw or "frame_base64url" in raw or "frames_base64url" in raw):
         def decode_reservation(item):
