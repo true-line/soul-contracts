@@ -83,7 +83,7 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         require(assignment["node_path"] == assignment["runtime_root"].rstrip("/") + "/bin/node" and
                 assignment["entry_path"] == assignment["runtime_root"].rstrip("/") + "/bin/agent-bot-souls.mjs",
                 "fixed Node and entry paths inside R runtime")
-        require(assignment["state_root"] == f"/var/agent-bot-soul-runner-{assignment['runner_account']}/state" and
+        require(assignment["state_root"] == f"/private/var/agent-bot-soul-runner-{assignment['runner_account']}/state" and
                 assignment["state_root_mode"] == "0700", "dedicated external runner state path and mode")
         require(binding["h_service_descriptor_digest"], "H descriptor digest is bound")
         require(set(endpoints) == {"admission", "broker"}, "exact admission and broker endpoints")

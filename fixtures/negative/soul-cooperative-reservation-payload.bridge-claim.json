@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/soul-cooperative-reservation-payload.v3-synthetic.json",
-    "sha256": "sha256:a069ac8f97e69cf88b5497317289a5906e663eaa1dfcbf02e56cd9a3bb63273c"
+    "sha256": "sha256:ada92df8e35d2dce6b0baf0283c0a1102f9014d08855b97cfb343b2002a5cbe8"
   },
   "expect": {
     "schema": "invalid"
@@ -10,22 +10,28 @@
     "admission_challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
     "assignment": {
       "bridge_uid": 333,
+      "entry_path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe/bin/agent-bot-souls.mjs",
       "expires_at": "2026-11-22T14:15:36Z",
       "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "hq_uid": 309,
       "installation_id": "inst_0000000000000001",
       "launch_id": "ln_0123456789abcdef01234567",
+      "launch_inputs_root": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_222222222222222222222222",
       "machine_uid": 501,
-      "package_root": "/Library/Application Support/agent-bot/souls/a",
+      "node_path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe/bin/node",
+      "package_root": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_111111111111111111111111",
       "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "plan_id": "plan-20261122T141516Z-abcd",
       "runner_account": "_abm-soul-a",
       "runner_gid": 331,
       "runner_uid": 331,
+      "runtime_root": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe",
       "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
-      "start_id": "st_0123456789abcdef01234567"
+      "start_id": "st_0123456789abcdef01234567",
+      "state_root": "/private/var/agent-bot-soul-runner-_abm-soul-a/state",
+      "state_root_mode": "0700"
     },
     "contract": "machine/v3",
     "endpoints": {
