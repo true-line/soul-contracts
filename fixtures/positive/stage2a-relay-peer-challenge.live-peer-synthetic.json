@@ -1,12 +1,12 @@
 {
-  "canonical_sha256": "sha256:23783d2ad1018997a3d3d60c30b9acec58fcafe4a58927dfe148e38a5b55da03",
+  "canonical_sha256": "sha256:2abd87cd54719d3ea42f284e70ebe9a9032f17f7db2fcc353a0041c16b24cc83",
   "expect": {
     "schema": "valid"
   },
   "input": {
     "accepted_at": "2026-11-22T14:15:22Z",
     "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
-    "child_observation_envelope_sha256": "sha256:d1ddeb528f162ba56b023d96896a8c4c1aa39f02a6d29f65d01c090014534b2a",
+    "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
     "contract": "hq/v1",
     "deadline_at": "2026-11-22T14:15:32Z",
     "host_id": "synthetic-host",

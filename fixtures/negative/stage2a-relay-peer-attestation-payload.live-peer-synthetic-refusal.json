@@ -1,15 +1,15 @@
 {
   "base": {
     "fixture": "positive/stage2a-relay-peer-attestation-payload.live-peer-synthetic.json",
-    "sha256": "sha256:88c48c9534becc55da9585fde4b5fbc4fbe242ec3e16b117fcf9bd008e134391"
+    "sha256": "sha256:2343d680df14eca2f91b65a1aaa4e314814ce5f6ab3d7f3cecb5be3b39c2cf1a"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
     "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
-    "challenge_sha256": "sha256:23783d2ad1018997a3d3d60c30b9acec58fcafe4a58927dfe148e38a5b55da03",
-    "child_observation_envelope_sha256": "sha256:d1ddeb528f162ba56b023d96896a8c4c1aa39f02a6d29f65d01c090014534b2a",
+    "challenge_sha256": "sha256:2abd87cd54719d3ea42f284e70ebe9a9032f17f7db2fcc353a0041c16b24cc83",
+    "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
     "contract": "machine/v3",
     "expires_at": "2026-11-22T14:15:28Z",
     "host_id": "synthetic-host",
@@ -39,7 +39,7 @@
       "uid": 331
     },
     "profile_in_force": "managed-cooperative",
-    "ready_envelope_sha256": "sha256:acac174bc254241cd2f5d22a96868f6d801413c01610b0bb92ed90eead8122ad",
+    "ready_envelope_sha256": "sha256:c5afbd669ff49d702ef751d8ac644ac654c4d1de34ed0468e33b815adc138b19",
     "reported_peer_token": {
       "pid": 4201,
       "pid_version": 77,
