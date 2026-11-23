@@ -82,12 +82,14 @@ argv. It cannot pin the postinstall descriptor digest that A has yet to sign.
 After A seals and reopens the installed H tree, A signs the static descriptor.
 The signed payload contains the designated `host_id`, HQ service installation,
 H reference, H service plan digest, selected component release artifact,
-release attestation and manifest digests, and exact selected Node, preloader,
+source repository, commit and optional tag, and manifest digests, and exact selected Node, preloader,
 entry paths and installed row hashes. It contains no Soul installation, Soul
 set, start ID, or HQ epoch. Each component's independently authenticated
-release manifest must map **all and only** its released files to installed H
-rows by release path and byte hash. A matching archive digest alone is not
-sufficient. The runtime argv begins with the selected H Node, `--no-addons`,
+owner-approved source/artifact/manifest tuple must map **all and only** its
+released files to installed H rows by release path and byte hash. There is no
+separately approved H/R component attestation issuer in the private pilot;
+that future trust path is tracked in Platform #127. A matching archive digest
+alone is not sufficient. The runtime argv begins with the selected H Node, `--no-addons`,
 `--disallow-code-generation-from-strings`, `--import`, the selected H preloader,
 the H entry, and `run`; the full ordered argv must match the approved plan.
 `guard_module_path` and `guard_module_sha256` name the exact released H row
@@ -111,7 +113,7 @@ The H envelope Ed25519 signature covers ASCII
 Its `payload_sha256` covers only those JCS bytes. The digest carried into Soul
 plans and reservations is SHA-256 of that **purpose plus NUL plus payload**,
 not the envelope digest. Verifiers require the independently pinned paired A
-public key, the authenticated H owner plan and release attestations, and the
+public key, the authenticated H owner plan and component source/artifact/manifest pins, and the
 designated host. An envelope's self-declared key grants no trust.
 
 ## One-use Soul start

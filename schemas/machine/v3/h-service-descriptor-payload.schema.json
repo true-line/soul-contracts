@@ -48,8 +48,9 @@
         "type": "object",
         "required": [
           "component_id",
+          "source_repository",
+          "source_commit",
           "release_artifact_sha256",
-          "release_attestation_sha256",
           "release_manifest_sha256"
         ],
         "properties": {
@@ -57,11 +58,19 @@
             "type": "string",
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
           },
-          "release_artifact_sha256": {
+          "source_repository": {
             "type": "string",
-            "pattern": "^sha256:[0-9a-f]{64}$"
+            "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"
           },
-          "release_attestation_sha256": {
+          "source_commit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "source_tag": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._+/-]{0,127}$"
+          },
+          "release_artifact_sha256": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$"
           },

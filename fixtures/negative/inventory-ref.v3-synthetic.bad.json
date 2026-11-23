@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/inventory-ref.v3-synthetic.json",
-    "sha256": "sha256:150176f528aa70ec579b87667e6e728c64fb325a1b8aa1fca3fc82b926c1b64d"
+    "sha256": "sha256:84fb462f59eb47b4c63be0ccd7d3d012d655951695ba97a08722b82dc8dab3f1"
   },
   "expect": {
     "schema": "invalid"
@@ -28,7 +28,7 @@
       "mode": "0440",
       "owner_gid": 309,
       "owner_uid": 501,
-      "path": "/private/var/db/managed-machine/metadata/hq-inst-1/h-inventory.json",
+      "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/inventory_7e70155363e4044be4e6178b.jcs",
       "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
       "size_bytes": 1471
     },
@@ -40,7 +40,7 @@
       "mode": "0555",
       "owner_gid": 309,
       "owner_uid": 501,
-      "path": "/private/var/db/managed-machine/hq-code/hq-inst-1"
+      "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b"
     },
     "total_bytes": 1200
   },

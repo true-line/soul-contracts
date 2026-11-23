@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:c03c53fd2cd1c6176dc58f2848e6091c1d3eba14265ca149403fba508477fc97",
+  "canonical_sha256": "sha256:87893a3149dd156b77a0ebe311360ac401d89a9e8056a14921b22d0e2a084627",
   "expect": {
     "schema": "valid"
   },
@@ -8,14 +8,17 @@
       {
         "component_id": "hq",
         "release_artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "release_attestation_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "release_manifest_sha256": "sha256:65f434545475f28cd028df7faab86ff68e005f32f5ed10d33ece5589fa4c4cae"
+        "release_manifest_sha256": "sha256:65f434545475f28cd028df7faab86ff68e005f32f5ed10d33ece5589fa4c4cae",
+        "source_repository": "true-line/agent-bot-hq",
+        "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       },
       {
         "component_id": "node",
         "release_artifact_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-        "release_attestation_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "release_manifest_sha256": "sha256:b25d275a62300e384c10aae1f8574dc9180a9972c5e72539d55f5d29f9e951dc"
+        "release_manifest_sha256": "sha256:b25d275a62300e384c10aae1f8574dc9180a9972c5e72539d55f5d29f9e951dc",
+        "source_repository": "nodejs/node",
+        "source_commit": "dddddddddddddddddddddddddddddddddddddddd",
+        "source_tag": "v26.13.1"
       }
     ],
     "contract": "machine/v3",
@@ -41,7 +44,7 @@
         "mode": "0440",
         "owner_gid": 309,
         "owner_uid": 501,
-        "path": "/private/var/db/managed-machine/metadata/hq-inst-1/h-inventory.json",
+        "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/inventory_7e70155363e4044be4e6178b.jcs",
         "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
         "size_bytes": 1471
       },
@@ -53,7 +56,7 @@
         "mode": "0555",
         "owner_gid": 309,
         "owner_uid": 501,
-        "path": "/private/var/db/managed-machine/hq-code/hq-inst-1"
+        "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b"
       },
       "total_bytes": 1200
     },
@@ -64,17 +67,17 @@
       "argv": [
         "/usr/bin/ruby",
         "--disable-gems",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/helpers/darwin-owner.rb",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/helpers/darwin-owner.rb",
         "launch",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/bin/node",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
         "--no-addons",
         "--disallow-code-generation-from-strings",
         "--import",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/preloader.mjs",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/main.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
         "run"
       ],
-      "helper_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/helpers/darwin-owner.rb",
+      "helper_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/helpers/darwin-owner.rb",
       "helper_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
       "ruby_path": "/usr/bin/ruby",
       "ruby_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
@@ -82,21 +85,21 @@
     "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
     "runtime": {
       "argv": [
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/bin/node",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
         "--no-addons",
         "--disallow-code-generation-from-strings",
         "--import",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/preloader.mjs",
-        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/main.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
         "run"
       ],
-      "entry_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/main.mjs",
+      "entry_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
       "entry_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
-      "guard_module_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/stage2a-selected-code.mjs",
+      "guard_module_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/stage2a-selected-code.mjs",
       "guard_module_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      "node_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/bin/node",
+      "node_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
       "node_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
-      "preloader_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/preloader.mjs",
+      "preloader_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
       "preloader_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
     },
     "schema_version": 3

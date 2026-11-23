@@ -1,14 +1,14 @@
 {
-  "canonical_sha256": "sha256:1067f9528c0d06ae6293cc4fd84449ac75c6530cb905d8ff2144a92a8e66db63",
+  "canonical_sha256": "sha256:1cde769ef301cffc83e4eebb034b60851b90e27266c2e8e792f38a3151a77446",
   "expect": {
     "schema": "valid"
   },
   "input": {
     "adapter_release": {
       "code_input_count": 1,
-      "code_inputs_digest": "sha256:f194ee15d306d0ce68c3751c71ab7e2fc2d831f6957b4281f8f122d34681a96d",
+      "code_inputs_digest": "sha256:39ad4a4f218e0028dd1a15f4480d571bc2874040ce97ef246b8fddfc6a9e7d21",
       "component_id": "adapter",
-      "executable_path": "/private/var/db/managed-machine/runtime/inst-1/adapter/cli",
+      "executable_path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe/adapter/cli",
       "executable_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
       "package_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
       "release_attestation_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
@@ -22,7 +22,7 @@
     "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "contract": "machine/v3",
     "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    "h_service_descriptor_digest": "sha256:ec7702f445c00d21d96be0964c9d95e6b9cae81edfa445a3498798afc7bccbb5",
+    "h_service_descriptor_digest": "sha256:cf79f9a17ca413676385abede9244a03e4b554a3f2d35ae9bb40b8c27cb80d38",
     "host_id": "synthetic-host",
     "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "installation_id": "inst_0000000000000001",
@@ -37,8 +37,9 @@
       {
         "component_id": "adapter",
         "release_artifact_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
-        "release_attestation_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
-        "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5"
+        "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5",
+        "source_repository": "true-line/soul-adapters",
+        "source_commit": "cccccccccccccccccccccccccccccccccccccccc"
       }
     ],
     "r_inventory": {
@@ -63,7 +64,7 @@
         "mode": "0440",
         "owner_gid": 331,
         "owner_uid": 501,
-        "path": "/private/var/db/managed-machine/metadata/inst-1/r-inventory.json",
+        "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/inventory_6594547120bbfa77564d4abe.jcs",
         "sha256": "sha256:8ae3cca7d50e66be59dbe566cc73218cb8a9430f1a08e5cb96a863b6dad9b266",
         "size_bytes": 736
       },
@@ -75,7 +76,7 @@
         "mode": "0555",
         "owner_gid": 331,
         "owner_uid": 501,
-        "path": "/private/var/db/managed-machine/runtime/inst-1"
+        "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe"
       },
       "total_bytes": 900
     },

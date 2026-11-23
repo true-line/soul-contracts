@@ -72,6 +72,7 @@ def inventory_ref(inv, ref, schemas):
     require(schemas["machine/v3/inventory-ref.schema.json"].is_valid(ref), "ref schema")
     paths = [r["path"] for r in inv["files"]]
     require(paths == sorted(set(paths)), "sorted unique regular paths")
+    require(all(path.count("/") <= 16 for path in paths), "installed path depth fits A observer")
     dirs = [r["path"] for r in inv["directories"]]
     require(dirs == sorted(set(dirs)), "sorted unique directory paths")
     parents = set()
@@ -139,6 +140,8 @@ def verify(vector, schemas, pinned, now):
     require("soul_id" not in h and "hq_epoch" not in h, "static H descriptor")
     components = {c["component_id"]: c for c in h["components"]}
     require(len(components) == len(h["components"]), "unique H components")
+    require(h["components"] == vector["owner_approved_h_components"],
+            "H components equal owner-approved source/artifact/manifest pins")
     for name, component in components.items():
         released_rows(h_rows, component, vector["release_manifests"][name])
     require(set(components) == {row["component_id"] for row in h_rows.values()}, "all H rows released")
@@ -205,12 +208,13 @@ def verify(vector, schemas, pinned, now):
     r_components = {c["component_id"]: c for c in binding["r_components"]}
     require(len(r_components) == len(binding["r_components"]) and
             set(r_components) == {row["component_id"] for row in r_rows.values()}, "all R components released")
+    require(binding["r_components"] == vector["owner_approved_r_components"],
+            "R components equal owner-approved source/artifact/manifest pins")
     for name, component in r_components.items():
         released_rows(r_rows, component, vector["release_manifests"][name])
     require(r_components[adapter["component_id"]]["release_artifact_sha256"] == adapter["package_sha256"] and
-            r_components[adapter["component_id"]]["release_attestation_sha256"] == adapter["release_attestation_sha256"] and
             r_components[adapter["component_id"]]["release_manifest_sha256"] == adapter["release_manifest_sha256"],
-            "qualified adapter equals released R component")
+            "qualified adapter bytes and manifest equal owner-approved R component")
     require(adapter["package_sha256"] != "sha256:" + binding["package_sha256"],
             "adapter package distinct subject from Machine package")
     adapter_manifest = vector["release_manifests"][adapter["component_id"]]
@@ -274,8 +278,14 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
              **parse_strict(vector["h_inventory_jcs"].encode()),
              "directories": parse_strict(vector["h_inventory_jcs"].encode())["directories"] +
              [{"path": "unused", "kind": "directory", "mode": "0555"}]}).decode()}, pinned),
+        "H 17 parent directories": ({**vector, "h_inventory_jcs": canonicalize({
+             **parse_strict(vector["h_inventory_jcs"].encode()),
+             "files": [{**parse_strict(vector["h_inventory_jcs"].encode())["files"][0],
+                        "path": "d/" * 17 + "node"}] +
+                      parse_strict(vector["h_inventory_jcs"].encode())["files"][1:]}).decode()}, pinned),
         "H preloader row digest": (mutate_payload("h", lambda p: p["runtime"].__setitem__("preloader_sha256", "sha256:" + "0" * 64)), pinned),
         "H guard module row digest": (mutate_payload("h", lambda p: p["runtime"].__setitem__("guard_module_sha256", "sha256:" + "0" * 64)), pinned),
+        "H source commit substitution": (mutate_payload("h", lambda p: p["components"][0].__setitem__("source_commit", "0" * 40)), pinned),
         "H guard aliases entry": (mutate_payload("h", lambda p: (
             p["runtime"].__setitem__("guard_module_path", p["runtime"]["entry_path"]),
             p["runtime"].__setitem__("guard_module_sha256", p["runtime"]["entry_sha256"]))), pinned),
@@ -285,6 +295,7 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
         "H service installation": (mutate_payload("h", lambda p: p.__setitem__("hq_installation_id", "other")), pinned),
         "R/H UID substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("runner_uid", 309)), pinned),
         "R inventory digest substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("r_inventory_digest", "sha256:" + "0" * 64)), pinned),
+        "R source commit substitution": (mutate_payload("r", lambda p: p["measurement_binding"]["r_components"][0].__setitem__("source_commit", "0" * 40)), pinned),
         "R owner plan substitution": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"].__setitem__("owner_plan_digest", "sha256:" + "0" * 64)), pinned),
         "R sidecar inside measured tree": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("path", p["measurement_binding"]["r_inventory"]["snapshot"]["path"] + "/sidecar.json")), pinned),
         "R sidecar byte digest": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("sha256", "sha256:" + "0" * 64)), pinned),
