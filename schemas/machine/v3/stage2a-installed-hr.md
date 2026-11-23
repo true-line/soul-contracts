@@ -25,7 +25,9 @@ component ID and path inside that component's authenticated release manifest.
 Directory rows bind relative path and reviewed mode. The final sealed root has
 mode `0555` below a distinct A-owned A:reader `0750` parent. It and its
 out-of-tree sidecar are owned by A with the exact reader group; the sidecar is
-`0440`. H and R have different parents and reader groups. A runtime verifier
+`0440`. Each root and its sidecar share the exact private A:reader parent;
+the sidecar remains outside the inventoried tree. H and R have different
+parents and reader groups. A runtime verifier
 must reopen by no-follow descriptors and reject any missing, extra, changed,
 linked, writable, ACL-bearing or unlisted path, and recheck before every start.
 JSON Schema cannot prove the filesystem observations.
@@ -53,6 +55,15 @@ the installed count and bytes against that plan. The measured source lists
 and all late loads still require measurement.
 
 ## Static H descriptor and release mapping
+
+HQ reads the signed descriptor only at
+`/Library/Application Support/ai.true-line.agent-bot-hq/h-v3/descriptor.json`
+under an A:H `0750` directory, with the file A:H `0440`. This fixed metadata
+path is separate from the H snapshot namespace and is not selected by argv,
+environment, or a request. HQ verifies the descriptor against the existing
+independently installed, root:wheel `0444` `soul-authority.pub` pin. A must
+prove the descriptor signer is that enrolled Machine key; no second HQ key pin
+or downgrade path is introduced.
 
 The existing paired HQ service install/upgrade plan may opt into an H seal.
 That H service plan pins the reviewed H inventory and selected release/source,

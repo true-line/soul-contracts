@@ -8,6 +8,7 @@ import base64
 import copy
 import hashlib
 import json
+import os
 from datetime import datetime
 
 from cryptography.exceptions import InvalidSignature
@@ -90,6 +91,8 @@ def inventory_ref(inv, ref, schemas):
     require(root["owner_gid"] == sidecar["owner_gid"] == ref["reader_gid"], "dedicated reader group")
     require(not sidecar["path"].startswith(root["path"] + "/") and sidecar["path"] != root["path"],
             "sidecar outside inventoried tree")
+    require(os.path.dirname(sidecar["path"]) == os.path.dirname(root["path"]),
+            "A-sealed snapshot and sidecar share an exact private namespace")
     return {row["path"]: row for row in inv["files"]}
 
 
