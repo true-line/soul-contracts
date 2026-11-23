@@ -7,12 +7,9 @@ import hashlib
 import json
 from pathlib import Path
 
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from jcs import canonicalize
 
 ROOT = Path(__file__).resolve().parents[1]
-PURPOSE = "agent-bot/stage2a-b-member-authority/v1"
 PIN = "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub"
 PREFIX = "stage2a-b-member-authority.two-member-synthetic"
 
@@ -48,39 +45,12 @@ def main():
         "managed-protected"]
     assignment_raw = source["assignment_envelope_jcs"].encode()
     assignment = json.loads(source["assignment_payload_jcs"])
-    shared_key = sha(b"fixture-local-relay-placeholder")
-    rows = []
-    for i, member in enumerate(assignment["members"]):
-        rows.append({key: member[key] for key in
-                     ("member_id", "launch_id", "member_selector", "adjacent_cli_path", "adjacent_cli_sha256")})
-        rows[-1]["qualification"] = {
-            "model": "fixture-model-" + str(i + 1),
-            "request_sha256": sha(("fixture-request-" + str(i + 1)).encode()),
-            "headers_sha256": sha(("fixture-headers-" + str(i + 1)).encode()),
-            "client_key_sha256": shared_key,
-            "http_host": "localhost",
-            "messages_query": "fixture=" + str(i + 1),
-            "response_text": "fixture response " + str(i + 1),
-        }
-    payload = {key: assignment[key] for key in (
-        "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch",
-        "plan_id", "plan_digest", "reservation_sha256", "owner_plan_member_set_sha256", "b_authority", "bridge")}
-    payload.update({
-        "contract": "machine/v3", "kind": "stage2a-b-member-authority", "schema_version": 1,
-        "member_set_assignment_envelope_sha256": sha(assignment_raw),
-        "hq_uid": assignment["bridge"]["endpoints"]["broker"]["owner_uid"],
-        "runner_uid": assignment["runner_uid"],
-        "members": rows, "issued_at": "2026-11-22T14:15:18Z", "expires_at": "2026-11-22T14:15:35Z",
-    })
-    key = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
-    pub = key.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw)
-    payload_raw = canonicalize(payload)
-    envelope = {
-        "schema_version": 1, "purpose": PURPOSE, "issuer_public_key_base64url": b64(pub),
-        "payload_sha256": sha(payload_raw), "payload_base64url": b64(payload_raw),
-        "signature_base64url": b64(key.sign(PURPOSE.encode() + b"\0" + payload_raw)),
-    }
-    authority_raw = canonicalize(envelope)
+    payload_raw = source["member_b_authority_payload_jcs"].encode()
+    payload = json.loads(payload_raw)
+    rows = payload["members"]
+    authority_raw = source["member_b_authority_envelope_jcs"].encode()
+    envelope = json.loads(authority_raw)
+    assert json.loads(source["ready_payload_jcs"])["member_b_authority_envelope_sha256"] == sha(authority_raw)
     broker_parent = {"uid": payload["hq_uid"], "gid": assignment["bridge"]["gid"],
                      "device": 11, "inode": 13, "mode": 1512}
     broker_socket = dict(broker_parent, inode=14, mode=432)

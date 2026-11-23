@@ -1,0 +1,23 @@
+{
+  "canonical_sha256": "sha256:a7f3fb9d189897b3cdaa54595a9ee433abfd34e096728cfa99f6e4d804d66c69",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "kind": "bridge.member.observe.v3.request",
+    "member_id": "m_lead",
+    "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+    "observe_nonce": "bfaaf7de31000c3514d0ebaf669c57894828c31b7403b9da9e152a82f16152aa",
+    "selectors": {
+      "assignment_envelope_sha256": "sha256:9c0e8586a3ccb62486c57994f3fcbceac374f5d2f1e78f2172b45ef540f07f5b",
+      "authority_envelope_sha256": "sha256:e19981334b0b8d5a118ecd80823601628527321665702e647c84aacbfccc7df3",
+      "installation_id": "inst_0000000000000001",
+      "member_selectors_sha256": "sha256:2852be7e2f819fbae5b54de8e4a090039b66683dd7f61abf5cf56750e83bedb1",
+      "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+      "plan_id": "plan-20261122T141516Z-abcd",
+      "reservation_digest": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+      "start_id": "st_0123456789abcdef01234567"
+    }
+  },
+  "schema": "hq/v1/stage2a-b-member-arm-exchange.schema.json"
+}

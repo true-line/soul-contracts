@@ -28,6 +28,7 @@ def check(root, vector, assignment_vector, schemas, public):
                                         ASSIGNMENT, schemas, public)
     authority_raw = vector["authority_envelope_jcs"].encode("utf-8")
     authority = verify_existing_envelope(authority_raw, PURPOSE, ENVELOPE, PAYLOAD, schemas, public)
+    ready = parse_strict(assignment_vector["ready_payload_jcs"].encode("utf-8"))
     require(canonicalize(authority) == vector["authority_payload_jcs"].encode("utf-8"),
             "exact A-signed B payload bytes")
     for field in ("profile_in_force", "host_id", "installation_id", "soul_id", "start_id",
@@ -37,6 +38,7 @@ def check(root, vector, assignment_vector, schemas, public):
     require(authority["member_set_assignment_envelope_sha256"] == digest(assignment_raw) and
             authority["runner_uid"] == assignment["runner_uid"] and
             authority["hq_uid"] == assignment["bridge"]["endpoints"]["broker"]["owner_uid"] and
+            ready["member_b_authority_envelope_sha256"] == digest(authority_raw) and
             when(assignment["issued_at"]) < when(authority["issued_at"]) <
             when(authority["expires_at"]) <= when(assignment["expires_at"]),
             "B authority exact assignment, accounts and bounded lifetime")
