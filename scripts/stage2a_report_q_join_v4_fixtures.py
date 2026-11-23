@@ -212,8 +212,10 @@ def joined(run, schemas):
         for name in ("device", "inode", "birthtime_ns"):
             require(request_identity[name] == outcome["request_" + name],
                     "observed watched request " + name)
-        require(request_identity["mode"] == "0640" and request_identity["owner_uid"] > 0 and
-                request_identity["group_gid"] > 0, "fixture watched request ownership")
+        require(request_identity["mode"] == "0640" and
+                request_identity["owner_uid"] == reservation["assignment"]["machine_uid"] and
+                request_identity["group_gid"] == reservation["assignment"]["runner_gid"],
+                "watched request owner and R group")
         authorized = datetime.fromisoformat(order["authorized_at"].replace("Z", "+00:00"))
         published = datetime.fromisoformat(outcome["published_at"].replace("Z", "+00:00"))
         expires = datetime.fromisoformat(outcome["expires_at"].replace("Z", "+00:00"))
@@ -295,6 +297,10 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
          lambda r: r["cooperative_publish_outcome_payload"].update(request_sha256="sha256:" + "0" * 64)),
         ("re-signed B outcome for other watched inode", "cooperative",
          lambda r: r["cooperative_publish_outcome_payload"].update(request_inode="12346")),
+        ("watched request for other owner", "cooperative",
+         lambda r: r["cooperative_watched_request_identity"].update(owner_uid=502)),
+        ("watched request for other group", "cooperative",
+         lambda r: r["cooperative_watched_request_identity"].update(group_gid=332)),
         ("re-signed B outcome before authorization", "cooperative",
          lambda r: r["cooperative_publish_outcome_payload"].update(published_at="2026-11-22T14:15:17Z")),
         ("re-signed B outcome at expiry", "cooperative",
