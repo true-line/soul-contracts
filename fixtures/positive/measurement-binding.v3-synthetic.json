@@ -1,0 +1,111 @@
+{
+  "canonical_sha256": "sha256:a580296d2f73c0797caf900eed2ec396412c195714feec770c38e120aced2b86",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "adapter_release": {
+      "code_input_count": 1,
+      "code_inputs_digest": "sha256:f194ee15d306d0ce68c3751c71ab7e2fc2d831f6957b4281f8f122d34681a96d",
+      "component_id": "adapter",
+      "executable_path": "/private/var/db/managed-machine/runtime/inst-1/adapter/cli",
+      "executable_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "package_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+      "release_attestation_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+      "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5"
+    },
+    "broker_executable": {
+      "path": "/Library/Application Support/agent-bot/bin/broker",
+      "provider_config_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "contract": "machine/v3",
+    "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "h_service_descriptor_digest": "sha256:a71815b57345872358a93b3287c430c1ab4fbb5e1a361b5046da50e0f27d8796",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "installed_plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "kind": "stage2a-measurement-binding",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "launch_input_measurement": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "profile_in_force": "managed-protected",
+    "r_components": [
+      {
+        "component_id": "adapter",
+        "release_artifact_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "release_attestation_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5"
+      }
+    ],
+    "r_inventory": {
+      "contract": "machine/v3",
+      "directory_count": 1,
+      "domain": "R-runtime",
+      "file_count": 2,
+      "installation_id": "inst_0000000000000001",
+      "inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
+      "kind": "stage2a-inventory-ref",
+      "machine_uid": 501,
+      "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "reader_gid": 331,
+      "reader_uid": 331,
+      "reviewed_source_inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
+      "schema_version": 3,
+      "sidecar": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "900",
+        "mode": "0440",
+        "owner_gid": 331,
+        "owner_uid": 501,
+        "path": "/private/var/db/managed-machine/metadata/inst-1/r-inventory.json",
+        "sha256": "sha256:8ae3cca7d50e66be59dbe566cc73218cb8a9430f1a08e5cb96a863b6dad9b266",
+        "size_bytes": 736
+      },
+      "snapshot": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "800",
+        "mode": "0555",
+        "owner_gid": 331,
+        "owner_uid": 501,
+        "path": "/private/var/db/managed-machine/runtime/inst-1"
+      },
+      "total_bytes": 900
+    },
+    "schema_version": 3,
+    "snapshots": {
+      "definition": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "12345",
+        "mode": "0555",
+        "owner_gid": 331,
+        "owner_uid": 501,
+        "root_path": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_111111111111111111111111"
+      },
+      "launch_inputs": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "12346",
+        "mode": "0555",
+        "owner_gid": 331,
+        "owner_uid": 501,
+        "root_path": "/private/var/db/managed-machine/soul-snapshots/c7243bf6ae0e3efd076d/snap_222222222222222222222222"
+      }
+    },
+    "soul_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
+  "schema": "machine/v3/measurement-binding.schema.json"
+}

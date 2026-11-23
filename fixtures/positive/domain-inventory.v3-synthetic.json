@@ -1,0 +1,62 @@
+{
+  "canonical_sha256": "sha256:538895286637da5cb685f52bdfbe1e8dc3402a2ea8080f1a60395e1c0d22f644",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "machine/v3",
+    "directories": [
+      {
+        "kind": "directory",
+        "mode": "0550",
+        "path": "bin"
+      },
+      {
+        "kind": "directory",
+        "mode": "0550",
+        "path": "hq"
+      }
+    ],
+    "domain": "H-code",
+    "files": [
+      {
+        "component_id": "node",
+        "kind": "regular",
+        "mode": "0550",
+        "path": "bin/node",
+        "release_path": "bin/node",
+        "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "size_bytes": 100
+      },
+      {
+        "component_id": "hq",
+        "kind": "regular",
+        "mode": "0440",
+        "path": "hq/main.mjs",
+        "release_path": "main.mjs",
+        "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "size_bytes": 300
+      },
+      {
+        "component_id": "hq",
+        "kind": "regular",
+        "mode": "0440",
+        "path": "hq/preloader.mjs",
+        "release_path": "preloader.mjs",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "size_bytes": 200
+      }
+    ],
+    "installation_id": "hq-inst-1",
+    "kind": "stage2a-domain-inventory",
+    "limits": {
+      "max_file_bytes": 402653184,
+      "max_files": 512,
+      "max_total_bytes": 1073741824
+    },
+    "schema_version": 3,
+    "total_bytes": 600
+  },
+  "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
+  "schema": "machine/v3/domain-inventory.schema.json"
+}
