@@ -41,6 +41,7 @@ from stage2a_cooperative_reservation_fixtures import check_stage2a_cooperative_r
 from qualification_report_v3_fixtures import check_report_v3_fixtures  # noqa: E402
 from stage2a_q_presign_fixtures import check_stage2a_q_presign_fixtures  # noqa: E402
 from stage2a_report_q_join_v4_fixtures import check_stage2a_report_q_join_v4_fixtures  # noqa: E402
+from qualification_release_v4_fixtures import check_qualification_release_v4_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -218,6 +219,7 @@ check_report_v3_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
 check_stage2a_q_presign_fixtures(ROOT, schemas, report)
 check_stage2a_report_q_join_v4_fixtures(ROOT, schemas, report)
+check_qualification_release_v4_fixtures(ROOT, schemas, report)
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
 # shape; runtime verifiers must verify the signature with a pinned public key.

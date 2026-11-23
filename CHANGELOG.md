@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+Add draft adapter/v4 qualification.json and distinct in-toto Statement
+predicate schemas for releasing the authenticated v4 host report chain. Both
+profiles pin exact report, host signature and post-sign commitment byte
+digests; synthetic fixtures cover changed purpose, runner, subject and
+commitment bytes. These source contracts do not certify a physical result or
+open protected launch.
+
 ## 0.9.0 — 2026-11-22
 
 Add a distinct `machine/v3` first-qualification candidate reservation, signed
