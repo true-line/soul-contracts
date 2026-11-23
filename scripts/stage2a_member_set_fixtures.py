@@ -239,6 +239,15 @@ def check_vector(root, profile, vector, schemas, public):
     require(len({(m["child_process"]["pid"], m["child_process"]["start_seconds"],
                   m["child_process"]["start_micros"]) for m in children}) == 2,
             "distinct kernel child identities")
+    require(len({(m["launcher_process"]["pid"], m["launcher_process"]["start_seconds"],
+                  m["launcher_process"]["start_micros"]) for m in children}) == 2 and
+            all(m["child_process"]["parent_pid"] == m["launcher_process"]["pid"] and
+                m["launcher_process"]["uid"] == assignment["runner_uid"] and
+                m["launcher_process"]["gid"] == assignment["runner_gid"] and
+                m["grant_sha256"] == digest(decode(
+                    vector["synthetic_unvalidated_grant_bytes_base64url"][m["member_id"]]))
+                for m in children),
+            "distinct A-observed wrappers and fixture grant byte digests anchor inert children")
     require(all(m["child_process"]["executable_sha256"] == assignment["members"][i]["command_sha256"]
                 for i, m in enumerate(children)), "A-observed ACP executable equals pinned member command")
     require(ready["bridge_process"]["uid"] == bridge["uid"] and

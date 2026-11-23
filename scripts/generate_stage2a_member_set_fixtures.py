@@ -193,11 +193,18 @@ def build(profile):
         "issued_at": "2026-11-22T14:15:18Z", "expires_at": a["expires_at"],
     }
     child_members = []
+    synthetic_grants = {}
     for i, m in enumerate(members):
+        grant_raw = ("fixture-only-unvalidated-grant-" + m["member_id"]).encode("ascii")
+        synthetic_grants[m["member_id"]] = b64(grant_raw)
         child_members.append({"member_id": m["member_id"], "launch_id": m["launch_id"],
                               "member_selector": m["member_selector"], "runtime_id": mapping["members"][i]["runtime_id"],
+                              "grant_sha256": sha(grant_raw),
+                              "launcher_process": {"pid": 4001 + i, "uid": a["runner_uid"],
+                                                   "gid": a["runner_gid"], "start_seconds": 1795356917,
+                                                   "start_micros": 90 + i},
                               "child_process": {"pid": 4101 + i, "uid": a["runner_uid"], "gid": a["runner_gid"],
-                                                "parent_pid": 4001, "process_group_id": 4001,
+                                                "parent_pid": 4001 + i, "process_group_id": 4001 + i,
                                                 "start_seconds": 1795356918, "start_micros": 100 + i,
                                                 "executable_sha256": m["command_sha256"]}})
     child = {"contract": "machine/v3", "kind": "stage2a-member-set-child-observation", "schema_version": 1,
@@ -246,6 +253,7 @@ def build(profile):
         "frozen_soul_info_raw_base64url": b64(soul_info_raw), "host_projection_jcs": canonicalize(host_projection).decode("utf-8"),
         "adapter_manifest_raw_base64url": b64(manifest_raw), "cli_bytes_base64url": b64(cli_bytes),
         "command_bytes_base64url": {member_id: b64(raw) for member_id, raw in commands.items()},
+        "synthetic_unvalidated_grant_bytes_base64url": synthetic_grants,
         "owner_plan_selection": {"plan_digest": a["plan_digest"],
                                  "owner_plan_member_set_sha256": assignment["owner_plan_member_set_sha256"]},
         "assignment_payload_jcs": assignment_jcs, "assignment_envelope_jcs": assignment_envelope_jcs,

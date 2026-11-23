@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-child-observation-payload.two-member-synthetic.json",
-    "sha256": "sha256:feb3a715b2e856ba42df7bc23f96462477f25edbb610a91ca0d8552b704a9907"
+    "sha256": "sha256:6dd9592ff23e2e0c32186f9347015b60e76a5a5864590c8005858a5a13372b7e"
   },
   "expect": {
     "schema": "invalid"
@@ -27,7 +27,15 @@
           "start_seconds": 1795356918,
           "uid": 331
         },
+        "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
         "launch_id": "ln_0123456789abcdef01234567",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4001,
+          "start_micros": 90,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
         "member_id": "m_lead",
         "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
         "runtime_id": "runtime_fixture_m_lead"

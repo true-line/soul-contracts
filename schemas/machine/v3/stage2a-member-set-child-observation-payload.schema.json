@@ -27,12 +27,14 @@
       "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
       "items": {
         "type": "object",
-        "required": ["member_id", "launch_id", "member_selector", "runtime_id", "child_process"],
+        "required": ["member_id", "launch_id", "member_selector", "runtime_id", "grant_sha256", "launcher_process", "child_process"],
         "properties": {
           "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
           "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
           "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
           "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+          "grant_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of the full exact A-signed member-specific stage2a-exec/v1 grant envelope under which this inert child wrapper started. A and the wrapper verify the grant independently; offline verification resolves its exact bytes." },
+          "launcher_process": { "$ref": "#/$defs/launcherProcess", "description": "A-observed member-specific wrapper PID, account and kernel start. The child_process.parent_pid must equal this PID; the selected wrapper checks its own tuple and grant before accepting a live lease." },
           "child_process": { "$ref": "#/$defs/childProcess" }
         },
         "additionalProperties": false
@@ -46,6 +48,18 @@
   "additionalProperties": false,
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "launcherProcess": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "start_seconds", "start_micros"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 }
+      },
+      "additionalProperties": false
+    },
     "childProcess": {
       "type": "object",
       "required": ["pid", "uid", "gid", "parent_pid", "process_group_id", "start_seconds", "start_micros", "executable_sha256"],

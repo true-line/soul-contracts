@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:a96bcc36430531a801f7489f121c70f2c7a1b4bdd6d7f1d88d66da79b428b173",
+  "canonical_sha256": "sha256:103b37d85dbb1963917f424e73c4e2d67f1b61a964cbb854f54e544eadd6f2b5",
   "expect": {
     "schema": "valid"
   },
@@ -24,7 +24,15 @@
           "start_seconds": 1795356918,
           "uid": 331
         },
+        "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
         "launch_id": "ln_0123456789abcdef01234567",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4001,
+          "start_micros": 90,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
         "member_id": "m_lead",
         "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
         "runtime_id": "runtime_fixture_m_lead"
@@ -33,14 +41,22 @@
         "child_process": {
           "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
           "gid": 331,
-          "parent_pid": 4001,
+          "parent_pid": 4002,
           "pid": 4102,
-          "process_group_id": 4001,
+          "process_group_id": 4002,
           "start_micros": 101,
           "start_seconds": 1795356918,
           "uid": 331
         },
+        "grant_sha256": "sha256:936eeac0130799e749cbff6deab719b49a7ce5ad08ce25143e4fb95a4bd6b19f",
         "launch_id": "ln_0123456789abcdef01234568",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4002,
+          "start_micros": 91,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
         "member_id": "m_spec",
         "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
         "runtime_id": "runtime_fixture_m_spec"
