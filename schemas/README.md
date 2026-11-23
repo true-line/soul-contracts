@@ -32,6 +32,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Draft Machine pre-sign execution completion and post-sign report commitment | `machine/v1/stage2a-execution-completion-payload.schema.json`, `machine/v1/stage2a-signed-execution-completion.schema.json`, `machine/v1/stage2a-report-commitment-payload.schema.json`, `machine/v1/stage2a-signed-report-commitment.schema.json` | draft |
 | Hello (admission request) | `hq/v1/hello.schema.json` | 0.3.0 |
 | Scoped notice query/result ([contract and compatibility](hq/v1/notices.md)) | `hq/v1/notice-query.schema.json`, `hq/v1/notice-result.schema.json` | 0.5.0 |
+| Draft [T01 protected notice peek](hq/v1/stage2a-protected-grant-t01.md) request wrapper | `hq/v1/protected-notice-peek.schema.json` | draft; default-off |
 | Admission result | `hq/v1/admission-result.schema.json` | 0.3.0 |
 | Equip | `hq/v1/equip.schema.json` | 0.3.0 |
 | Ready and lease renewal | `hq/v1/ready-and-lease-renewal.schema.json` | 0.3.0 |

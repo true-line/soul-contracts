@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/protected-notice-peek.schema.json",
+  "title": "Protected Notice Peek",
+  "description": "Request payload for broker kind hq.notices.protected.peek.v1. The broker supplies authenticated runtime identity outside this payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["grant_handle", "query"],
+  "properties": {
+    "grant_handle": {
+      "type": "string",
+      "pattern": "^gh_[0-9a-f]{32}$",
+      "description": "Ephemeral Equip handle carried only on the authenticated local broker request; never retain it in a refusal or report."
+    },
+    "query": {
+      "allOf": [
+        {"$ref": "notice-query.schema.json"},
+        {"type": "object", "properties": {"operation": {"const": "peek"}}}
+      ]
+    }
+  }
+}

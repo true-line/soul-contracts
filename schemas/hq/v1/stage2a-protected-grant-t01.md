@@ -4,6 +4,21 @@ This is a source-only interface proposal for [Platform T01](https://github.com/t
 
 ## Request and broker authority
 
+The separate `hq.notices.protected.peek.v1` broker kind uses the closed
+[protected notice peek request](protected-notice-peek.schema.json): exactly
+`{grant_handle, query}`. Its `grant_handle` is the same 35-byte lowercase
+`gh_` Equip handle used by this draft's protected grant request. Its `query`
+is the released `notice-query` record with `operation: "peek"`; the result is
+the released `notice-result` with matching request ID and operation. The
+broker kind supplies the outer version discriminator. No runtime, member,
+installation or repository selector is accepted outside the closed query.
+HQ takes runtime identity exclusively from the authenticated Comms broker
+member binding and checks the live grant and notice scope before the read.
+The kind remains unregistered unless this exact schema is in HQ's pinned
+Contracts bundle. This additive wire does not itself prove a B2-issued handle,
+a copied-handle refusal, zero protected effects, or a restart; physical T01
+credit still requires independently verified live evidence.
+
 The [invoke request](stage2a-protected-grant-invoke.schema.json) is exact RFC 8785 JCS UTF-8. Its `runtime_id`, installation, start and launch selectors are caller assertions. HQ must compare them to the authenticated broker peer and current protected start under its live admission/lease guard. The request carries the raw ephemeral `gh_` handle only on that authenticated local channel. The one-use nonce, fixed `provider.invoke` operation, provider/model selector and prompt digest prevent a refusal for one operation from substituting for another. HQ hashes the **exact canonical request bytes** as `request_sha256` and the **exact ASCII handle bytes** as `grant_handle_sha256`. The raw handle never enters a retained refusal artifact.
 
 **Member identity is an unresolved authority boundary.** Machine currently gives
