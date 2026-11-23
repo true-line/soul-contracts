@@ -104,17 +104,18 @@ path/hash, and the exact launchd ProgramArguments. Its ordered argv must be
 `[ruby, "--disable-gems", helper, "launch"]` followed by the entire `runtime.argv`.
 The Ruby image is separately authenticated as a selected OS image; the helper
 is an H release row. A helper that strips or changes Node flags, or a helper
-outside the H inventory, refuses. The current helper needs a reviewed update
-and native test before it can satisfy this wire; the draft descriptor does not
-make the old helper launchable as protected HQ.
+outside the H inventory, refuses. The selected helper must pass review and
+native flag-forwarding tests; the draft descriptor does not make any
+unmeasured helper launchable as protected HQ.
 
 The H envelope Ed25519 signature covers ASCII
 `agent-bot/stage2a-h-service-descriptor/v3`, NUL, then exact JCS payload bytes.
 Its `payload_sha256` covers only those JCS bytes. The digest carried into Soul
 plans and reservations is SHA-256 of that **purpose plus NUL plus payload**,
 not the envelope digest. Verifiers require the independently pinned paired A
-public key, the authenticated H owner plan and component source/artifact/manifest pins, and the
-designated host. An envelope's self-declared key grants no trust.
+public key, the authenticated H owner plan and component
+source/artifact/manifest pins, and the designated host. An envelope's
+self-declared key grants no trust.
 
 ## One-use Soul start
 
@@ -125,8 +126,10 @@ installation, start and launch IDs, and the v2 frozen definition/launch-input
 measurement fields. The inherited bare `measurement_binding.package_sha256`
 names the Machine package. `adapter_release.package_sha256` is a distinct
 qualified adapter release artifact. Its attested release manifest must map all
-R component rows, and its executable path and hash plus the complete qualified
-code-input list must map to exact R rows. The code-input digest is SHA-256 of
+adapter component rows; every other R component must map all-and-only to its
+separately owner-approved source/artifact/manifest pins. The adapter executable
+path and hash plus the complete qualified code-input list must map to exact R
+rows. The code-input digest is SHA-256 of
 ASCII `agent-bot/stage2a-adapter-code-inputs/v3`, NUL, then JCS of the ordered
 absolute path array. The array is resolved from the authenticated adapter
 release record; it is not copied into the bounded reservation. The B native
