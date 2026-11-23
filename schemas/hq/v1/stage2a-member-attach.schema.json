@@ -34,7 +34,7 @@
       "type": "object", "required": ["socketPath", "peerUid", "directory"],
       "properties": {
         "socketPath": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
-        "peerUid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "peerUid": { "description": "Expected connecting R client UID, equal to the A-signed member-set assignment runner_uid; this is not the H-owned admission socket's owner UID.", "type": "integer", "minimum": 300, "maximum": 399 },
         "directory": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" }
       }, "additionalProperties": false
     },

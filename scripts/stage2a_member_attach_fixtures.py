@@ -60,6 +60,8 @@ def check(results, source, schemas, public):
                 result["ready_envelope_sha256"] == digest(ready_raw) and
                 when(result["expires_at"]) <= when(ready["expires_at"]),
                 "full exact A-signed child/B-policy/Ready envelopes and bounded expiry")
+        require(result["runner_endpoint"]["peerUid"] == assignment["runner_uid"],
+                "H admission endpoint expects the A-assigned connecting R UID")
         approved = assignment["bridge"]["endpoints"]["member"]
         require(result["member_socket"] == approved["socket_path"] and
                 result["member_endpoint"] == {key: approved[key] for key in
@@ -86,6 +88,14 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
             pass
         else:
             raise ValueError("cross-member selector accepted")
+        changed = copy.deepcopy(results)
+        changed[0]["runner_endpoint"]["peerUid"] += 1
+        try:
+            check(changed, source, schemas, public)
+        except ValueError:
+            pass
+        else:
+            raise ValueError("wrong H admission peer UID accepted")
         report(True, "H-to-R prestarted attach exact A child/B-policy/Ready and member joins")
     except Exception as error:
         report(False, "H-to-R prestarted attach exact A child/B-policy/Ready and member joins", str(error))
