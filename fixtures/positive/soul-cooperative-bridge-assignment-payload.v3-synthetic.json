@@ -1,0 +1,74 @@
+{
+  "canonical_sha256": "sha256:4167af9b6db0cab47df10206e553801c2033a946cf4738c46d27064691285ee0",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "bridge": {
+      "account": "_abm-b-a",
+      "argv": [
+        "/private/var/db/managed-machine/bridge/bin/agent-bot-comms-bridge"
+      ],
+      "executable_path": "/private/var/db/managed-machine/bridge/bin/agent-bot-comms-bridge",
+      "executable_sha256": "sha256:10e00c4e48f6966ddd0f3edbe5bfc9764310896d38f21008f61948c2ee62d80a",
+      "gid": 702,
+      "sandbox_profile_path": "/private/var/db/managed-machine/bridge/profiles/bridge.sb",
+      "sandbox_profile_sha256": "sha256:a8001cbfc889e1426a0ef73552d10c3131e60589703adda2338fe8ed998fcb14",
+      "state_root": "/private/var/agent-bot-bridge-_abm-b-a/state",
+      "state_root_mode": "0700",
+      "uid": 602
+    },
+    "bridge_launch_sha256": "sha256:1a8bc769a4999da3d9acdc78ee89f4fedf5af16723f58c1a78b042130b54e47d",
+    "contract": "machine/v3",
+    "endpoints": {
+      "broker": {
+        "dir_mode": 1512,
+        "directory": "/private/var/run/agent-bot/hb/_abm-b-a",
+        "expected_peer_uid": 602,
+        "group_gid": 702,
+        "owner_uid": 309,
+        "parent_birthtime_ns": "1795356936000000000",
+        "parent_device": "1",
+        "parent_inode": "2001",
+        "socket_mode": 432,
+        "socket_path": "/private/var/run/agent-bot/hb/_abm-b-a/broker.sock"
+      },
+      "member": {
+        "dir_mode": 1512,
+        "directory": "/private/var/run/agent-bot/member/_abm-soul-a/0123456789abcdef0123",
+        "expected_peer_uid": 602,
+        "group_gid": 702,
+        "owner_uid": 331,
+        "parent_birthtime_ns": "1795356936000000000",
+        "parent_device": "1",
+        "parent_inode": "2002",
+        "socket_mode": 432,
+        "socket_path": "/private/var/run/agent-bot/member/_abm-soul-a/0123456789abcdef0123/member.sock"
+      },
+      "relay": {
+        "dir_mode": 1512,
+        "directory": "/private/var/run/agent-bot/relay/_abm-b-a/0123456789abcdef0123",
+        "expected_peer_uid": 331,
+        "group_gid": 331,
+        "owner_uid": 602,
+        "parent_birthtime_ns": "1795356936000000000",
+        "parent_device": "1",
+        "parent_inode": "2003",
+        "socket_mode": 432,
+        "socket_path": "/private/var/run/agent-bot/relay/_abm-b-a/0123456789abcdef0123/relay.sock"
+      }
+    },
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "kind": "soul-cooperative-bridge-assignment",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "reservation_sha256": "sha256:8362c58ab8528211a219170e5559b8cd0853f163ab684d010b2b0bd97bc33b23",
+    "schema_version": 3,
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json"
+}

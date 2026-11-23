@@ -12,6 +12,7 @@
     "expires_at",
     "installed_plan_receipt_sha256",
     "assignment",
+    "adapter_transport",
     "endpoints",
     "measurement_binding",
     "admission_challenge_sha256"
@@ -58,12 +59,21 @@
       },
       "additionalProperties": false
     },
+    "adapter_transport": { "$ref": "#/$defs/adapterTransport" },
+    "bridge_launch_sha256": { "$ref": "#/$defs/bridgeLaunchDigest" },
     "endpoints": {
       "type": "object",
-      "required": ["admission", "broker"],
+      "required": ["admission"],
       "properties": {
-        "admission": { "$ref": "#/$defs/endpoint" },
-        "broker": { "$ref": "#/$defs/endpoint" }
+        "admission": {
+          "$ref": "#/$defs/endpoint",
+          "properties": {
+            "parent_device": false, "parent_inode": false, "parent_birthtime_ns": false
+          }
+        },
+        "broker": { "$ref": "#/$defs/endpoint" },
+        "member": { "$ref": "#/$defs/endpoint" },
+        "relay": { "$ref": "#/$defs/endpoint" }
       },
       "additionalProperties": false
     },
@@ -71,11 +81,47 @@
     "admission_challenge_sha256": { "$ref": "#/$defs/digest" },
     "qualification_provider": { "$ref": "#/$defs/qualificationProvider" }
   },
+  "if": { "properties": { "adapter_transport": { "const": "brokered-b" } } },
+  "then": {
+    "required": ["bridge_launch_sha256"],
+    "properties": {
+      "endpoints": {
+        "required": ["member", "relay"],
+        "properties": {
+          "broker": false,
+          "member": { "$ref": "#/$defs/parentIdentityRequired" },
+          "relay": { "$ref": "#/$defs/parentIdentityRequired" }
+        }
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "bridge_launch_sha256": false,
+      "endpoints": {
+        "required": ["broker"],
+        "properties": {
+          "broker": {
+            "properties": {
+              "parent_device": false, "parent_inode": false, "parent_birthtime_ns": false
+            }
+          },
+          "member": false,
+          "relay": false
+        }
+      }
+    }
+  },
   "$defs": {
+    "bridgeLaunchDigest": {
+      "$ref": "#/$defs/digest",
+      "description": "SHA-256 of the exact RFC 8785 JCS bytes of the private bridge assignment payload's bridge object. Compute before signing the primary reservation."
+    },
+    "adapterTransport": { "enum": ["direct-comms", "brokered-b"] },
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "cooperativeLaunchInputRecords": {
       "type": "object",
-      "required": ["files", "host_projection", "selected_command", "argv", "environment", "effective_config", "system_images", "sandbox_policy_digest", "component_digests"],
+      "required": ["files", "host_projection", "selected_command", "argv", "environment", "effective_config", "system_images", "sandbox_policy_digest", "component_digests", "adapter_transport"],
       "properties": {
         "files": {
           "type": "array", "minItems": 1, "maxItems": 64,
@@ -93,9 +139,18 @@
           "patternProperties": { "^[A-Za-z_][A-Za-z0-9_]*$": { "type": "string", "maxLength": 8192 } },
           "additionalProperties": false
         },
-        "effective_config": { "type": "object", "required": ["profile"], "properties": { "profile": { "const": "managed-cooperative" } } },
+        "effective_config": {
+          "type": "object",
+          "required": ["profile"],
+          "properties": {
+            "profile": { "const": "managed-cooperative" },
+            "qualification_provider_config_sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
         "system_images": { "$ref": "https://true-line.ai/soul-contracts/machine/v1/launch-input-records.schema.json#/properties/system_images" },
         "sandbox_policy_digest": { "$ref": "#/$defs/digest" },
+        "adapter_transport": { "$ref": "#/$defs/adapterTransport" },
+        "bridge_launch_sha256": { "$ref": "#/$defs/bridgeLaunchDigest" },
         "component_digests": {
           "type": "object",
           "required": ["machine", "hq", "souls", "comms_broker", "adapter"],
@@ -115,7 +170,19 @@
           }
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "adapter_transport": { "const": "brokered-b" } } },
+          "then": { "required": ["bridge_launch_sha256"] },
+          "else": { "properties": { "bridge_launch_sha256": false } }
+        },
+        {
+          "if": { "properties": { "component_digests": { "required": ["test_provider"] } } },
+          "then": { "properties": { "effective_config": { "required": ["qualification_provider_config_sha256"] } } },
+          "else": { "properties": { "effective_config": { "properties": { "qualification_provider_config_sha256": false } } } }
+        }
+      ]
     },
     "cooperativeMeasurementBinding": {
       "type": "object",
@@ -358,10 +425,23 @@
       },
       "additionalProperties": false
     },
+    "parentIdentityRequired": {
+      "required": ["parent_device", "parent_inode", "parent_birthtime_ns"]
+    },
     "endpoint": {
       "type": "object",
       "required": ["directory", "socket_path", "owner_uid", "group_gid", "dir_mode", "socket_mode", "expected_peer_uid"],
       "properties": {
+        "parent_device": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/device" },
+        "parent_birthtime_ns": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/birthtime_ns",
+          "not": { "const": "0" }
+        },
+        "parent_inode": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/inode",
+          "not": { "const": "0" },
+          "description": "Existing assigned parent directory inode. Live socket identities are observed after binding."
+        },
         "directory": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
         "socket_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
         "owner_uid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
