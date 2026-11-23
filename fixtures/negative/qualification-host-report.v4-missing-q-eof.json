@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/qualification-host-report.v4-protected.synthetic.json",
-    "sha256": "sha256:55cf9fe30f059c1d26ef1cbdee9749ba549981daa85610738f2cce2c62753819"
+    "sha256": "sha256:2178a51d44c41beeef1ee85b736d1c64edbb3c2f5eb9762a60d6d6c3a9299d41"
   },
   "expect": {
     "schema": "invalid"
@@ -467,11 +467,11 @@
     "run_evidence": {
       "challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
       "execution_completion": {
-        "sha256": "sha256:f9f554e2d0dfb571279fe50da11703857655dc63857630cf51b874e2923e81b7",
+        "sha256": "sha256:25fe617497ca059d211fd65d67d9ebc5d87ae68d2fcf6ccc6821c0d59fc27329",
         "uri": "fixture:managed-protected-execution-completion"
       },
       "finalization": {
-        "sha256": "sha256:9d3193ca021d89962f7210a0dbd30d82c7f9a4d05689f22fd86b3147b41756b5",
+        "sha256": "sha256:3ff0f9e484af604f4fc4afea235799e50d870a007ad156eeccb621223bde8cc2",
         "uri": "fixture:protected-finalization"
       },
       "q_session": {

@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/qualification-host-report.v4-cooperative.synthetic.json",
-    "sha256": "sha256:8f37bfb7cfd4fab248c3cda05621995f6beccb44959ae0611f3acc62edbb8046"
+    "sha256": "sha256:2f814942ee2a1db7b6eeb90cae63474f2347b5dbbfad4b367dbc697033c4d0db"
   },
   "expect": {
     "schema": "invalid"
@@ -259,8 +259,12 @@
         "sha256": "sha256:709f80450e32c0fc9ebc43b7305917334becc842ff0d30ab89cef01d7b7a326e",
         "uri": "fixture:cooperative-publish-order"
       },
+      "cooperative_watched_request": {
+        "sha256": "sha256:7bcc66567e4faee260343b8a99a343764580e0517469fb4b1da2871538b21e27",
+        "uri": "fixture:cooperative-watched-request"
+      },
       "execution_completion": {
-        "sha256": "sha256:b526c836990a9c0f8308680e9a11697bf88b2076028146e378a7b34e02f8319d",
+        "sha256": "sha256:633ade64b0835793ce0b0eebf74485e68770bb10f040bfa962d52d153245e347",
         "uri": "fixture:managed-cooperative-execution-completion"
       },
       "q_session": {

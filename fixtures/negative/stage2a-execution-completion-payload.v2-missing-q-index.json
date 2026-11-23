@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-execution-completion-payload.v2-protected.synthetic.json",
-    "sha256": "sha256:b32fb44d79860c2f00bfd62e4249272ecd1f4b0d4042bd9ea7cbc47be46f9e8f"
+    "sha256": "sha256:4c396fc37d68f9ba07dcb06348e8b7a295d6e1bd12f18591cda52bf38adde1dc"
   },
   "expect": {
     "schema": "invalid"
@@ -10,7 +10,7 @@
     "challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
     "cohort_id": "synthetic-cohort-protected",
     "completed_at": "2026-11-22T14:15:26Z",
-    "finalization_sha256": "sha256:9d3193ca021d89962f7210a0dbd30d82c7f9a4d05689f22fd86b3147b41756b5",
+    "finalization_sha256": "sha256:3ff0f9e484af604f4fc4afea235799e50d870a007ad156eeccb621223bde8cc2",
     "host_id": "synthetic-host",
     "installation_id": "inst_0000000000000001",
     "kind": "stage2a-execution-completion",
@@ -19,7 +19,7 @@
     "profile_in_force": "managed-protected",
     "q_clean_eof_envelope_sha256": "sha256:df41b56da021044c80ed9d5759473c2d4fb9118cc17d6fe6b77738a678e60c6b",
     "q_framed_wire_sha256": "sha256:8b9b9e0fed5ba1e73d31ba3ce563348822c90170cb4eb2a95d5ed73bd99a08a9",
-    "report_candidate_sha256": "sha256:9c01047ab4ed1af7b5220591207e4df5ad4961d70e27a05cf4f9acabadd10d82",
+    "report_candidate_sha256": "sha256:dca492a6a2195aa000efeadb073efc854d67122c2221432f13d4fac9f8051556",
     "reservation_sha256": "sha256:13c834ba39190c5289fef6d88d75d180525b4cd0cc4abe8c1973233b8f1d6d06",
     "schema_version": 2,
     "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",

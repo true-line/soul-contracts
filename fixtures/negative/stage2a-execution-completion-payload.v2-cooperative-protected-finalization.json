@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-execution-completion-payload.v2-cooperative.synthetic.json",
-    "sha256": "sha256:4c8f70d423544a35d8699ea283b4917e7c9d5fa8992a7b663f9f3634d5daabf2"
+    "sha256": "sha256:5e764ef35e1efe66162a19b500e71ac59708ac26b171dacbdb13f578b1ed0602"
   },
   "expect": {
     "schema": "invalid"
@@ -12,7 +12,7 @@
     "cohort_id": "synthetic-cohort-cooperative",
     "completed_at": "2026-11-22T14:15:26Z",
     "cooperative_publish_order_sha256": "sha256:709f80450e32c0fc9ebc43b7305917334becc842ff0d30ab89cef01d7b7a326e",
-    "finalization_sha256": "sha256:815c531449516eda1d2296bea742b7f844bcd55ea7bc3a2b53441f941328129d",
+    "finalization_sha256": "sha256:40d212d73c9f94e35effb811739de4a966d5a7bf4bfbbbf373032d8e1bd0029f",
     "host_id": "synthetic-host",
     "installation_id": "inst_0000000000000001",
     "kind": "stage2a-execution-completion",
@@ -22,7 +22,7 @@
     "q_clean_eof_envelope_sha256": "sha256:10f5bc7ec54f3eb0092005fc165ba90993560c276ae5aa0d46f83e0124cd4d59",
     "q_frame_index_envelope_sha256": "sha256:03daa66eceb61fc510270734d62b81df5851aa0b6a7906e1d71098213e6ec93c",
     "q_framed_wire_sha256": "sha256:31cd8d8e862efdff7bfa940c29fb0e1c7c1fafa4921216a3de255320b7a30995",
-    "report_candidate_sha256": "sha256:fa4dc89d3c8008bead1c338b56d5d3f724615f7ab69b463366407c88da77e8d5",
+    "report_candidate_sha256": "sha256:70747864f8f0766708645c3104c08d05329908237f99ca814c0d789afe6b9bc0",
     "reservation_sha256": "sha256:28310c54d8d222d8723108fa2a52597781a5fb2b41a1bcab55aaa4e7ac8ad410",
     "schema_version": 2,
     "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",

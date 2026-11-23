@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/soul-cooperative-publish-outcome-payload.v3-synthetic.json",
-    "sha256": "sha256:ca4cc0436447a5f1a6bf1fb2b804655996d922057c5a9cfbfcb3f92fe8ea3eff"
+    "sha256": "sha256:ffed90fe649464757a51a28bd2219b1f469613e64cea7e9ab67e5e3805eb8477"
   },
   "expect": {
     "schema": "invalid"
@@ -19,7 +19,7 @@
     "request_birthtime_ns": "1720000000000000000",
     "request_device": "7",
     "request_inode": "12345",
-    "request_sha256": "sha256:07c87571d6bcd95e5589a863c6d0bfd6546a47fa8cb0887caa23d712c050b520",
+    "request_sha256": "sha256:7bcc66567e4faee260343b8a99a343764580e0517469fb4b1da2871538b21e27",
     "reservation_sha256": "sha256:28310c54d8d222d8723108fa2a52597781a5fb2b41a1bcab55aaa4e7ac8ad410",
     "schema_version": 3,
     "start_id": "st_0123456789abcdef01234567"

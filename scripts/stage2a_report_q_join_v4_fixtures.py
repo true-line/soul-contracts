@@ -4,14 +4,16 @@ import base64
 import copy
 import hashlib
 import json
+from datetime import datetime
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
 from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature
+from cryptography.hazmat.primitives.asymmetric.utils import decode_dss_signature, encode_dss_signature
 from cryptography.hazmat.primitives import hashes
 
 from jcs import canonicalize, parse_strict
+from generate_stage2a_report_q_join_v4_synthetic import HOST_KEY as FIXTURE_HOST_KEY, sign as fixture_sign
 from stage2a_q_presign_fixtures import verify as verify_q
 
 KEY = Ed25519PrivateKey.from_private_bytes(b"\x13" * 32)
@@ -20,6 +22,10 @@ COMPLETION_PURPOSE = "agent-bot/stage2a-execution-completion/v2"
 
 def sha(raw):
     return "sha256:" + hashlib.sha256(raw).hexdigest()
+
+
+def encode(raw):
+    return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
 
 
 def decode(value):
@@ -49,6 +55,42 @@ def authenticated_payload(envelope_jcs, purpose, version, key):
     return parse_strict(payload_raw)
 
 
+def reseal_fixture_run(run):
+    """Re-sign every downstream fixture edge after a changed source payload."""
+    report = run["report"]
+    completion = run["completion"]
+    refs = report["run_evidence"]
+    if report["profile_in_force"] == "managed-cooperative":
+        for kind in ("order", "outcome"):
+            name = "cooperative_publish_" + kind
+            raw = fixture_sign(run[name + "_payload"],
+                               "agent-bot/soul-cooperative-publish-" + kind + "/v3", 3)
+            run[name + "_envelope_jcs"] = raw.decode()
+            refs[name]["sha256"] = sha(raw)
+            completion[name + "_sha256"] = sha(raw)
+    else:
+        raw = fixture_sign(run["protected_finalization_payload"],
+                           "agent-bot/stage2a-finalization/v1", 1)
+        run["protected_finalization_envelope_jcs"] = raw.decode()
+        refs["finalization"]["sha256"] = sha(raw)
+        completion["finalization_sha256"] = sha(raw)
+    candidate = copy.deepcopy(report)
+    del candidate["run_evidence"]["execution_completion"]
+    completion["report_candidate_sha256"] = sha(canonicalize(candidate))
+    completion_raw = fixture_sign(completion, COMPLETION_PURPOSE, 2)
+    run["completion_envelope_jcs"] = completion_raw.decode()
+    refs["execution_completion"]["sha256"] = sha(completion_raw)
+    report_raw = canonicalize(report)
+    purpose = "agent-bot/qualification-host-report/v4"
+    der = FIXTURE_HOST_KEY.sign(purpose.encode() + b"\0" + report_raw,
+                                ec.ECDSA(hashes.SHA256(), deterministic_signing=True))
+    r, s = decode_dss_signature(der)
+    host = run["host_signature_envelope"]
+    host["report_sha256"] = sha(report_raw)
+    host["report_base64url"] = encode(report_raw)
+    host["signature_base64url"] = encode(r.to_bytes(32, "big") + s.to_bytes(32, "big"))
+
+
 def joined(run, schemas):
     report = run["report"]
     completion = run["completion"]
@@ -74,7 +116,8 @@ def joined(run, schemas):
     require(schemas[reservation_schema].is_valid(reservation), "released reservation schema")
     refs = report["run_evidence"]
     evidence = [refs["reservation"], refs["execution_completion"], *refs["q_session"].values()]
-    evidence.extend(refs[name] for name in ("finalization", "bridge_assignment", "cooperative_publish_order", "cooperative_publish_outcome")
+    evidence.extend(refs[name] for name in ("finalization", "bridge_assignment", "cooperative_publish_order",
+                                           "cooperative_publish_outcome", "cooperative_watched_request")
                     if name in refs)
     require(len({value["uri"] for value in evidence}) == len(evidence) and
             len({value["sha256"] for value in evidence}) == len(evidence),
@@ -161,14 +204,39 @@ def joined(run, schemas):
                 outcome["order_sha256"] == sha(order_raw), "B order to outcome chain")
         for identity in ("installation_id", "start_id", "launch_id"):
             require(order[identity] == outcome[identity] == completion[identity], identity + " B publication")
-        require(outcome["request_sha256"] == sha(b"synthetic watched R request bytes") and
-                outcome["publication_mode"] == "direct", "fixture watched request publication")
+        request_raw = run["cooperative_watched_request_jcs"].encode()
+        request_identity = run["cooperative_watched_request_identity"]
+        require(canonicalize(parse_strict(request_raw)) == request_raw and
+                refs["cooperative_watched_request"]["sha256"] == sha(request_raw) ==
+                outcome["request_sha256"], "exact watched request bytes")
+        for name in ("device", "inode", "birthtime_ns"):
+            require(request_identity[name] == outcome["request_" + name],
+                    "observed watched request " + name)
+        require(request_identity["mode"] == "0640" and request_identity["owner_uid"] > 0 and
+                request_identity["group_gid"] > 0, "fixture watched request ownership")
+        authorized = datetime.fromisoformat(order["authorized_at"].replace("Z", "+00:00"))
+        published = datetime.fromisoformat(outcome["published_at"].replace("Z", "+00:00"))
+        expires = datetime.fromisoformat(outcome["expires_at"].replace("Z", "+00:00"))
+        reserved_expires = datetime.fromisoformat(reservation["expires_at"].replace("Z", "+00:00"))
+        require(authorized <= published < expires == reserved_expires and
+                outcome["publication_mode"] in ("direct", "recovered"),
+                "authorized publication before reservation expiry")
         require("finalization" not in refs and "finalization_sha256" not in completion,
                 "no protected finalization in T21")
     else:
-        require(refs["finalization"]["sha256"] == completion["finalization_sha256"] and
+        finalization_raw = run["protected_finalization_envelope_jcs"].encode()
+        finalization = authenticated_payload(run["protected_finalization_envelope_jcs"],
+                                             "agent-bot/stage2a-finalization/v1", 1, key)
+        require(finalization == run["protected_finalization_payload"] and
+                finalization["schema"] == "agent-bot-machine/stage2a-finalization/v1" and
+                finalization["reservation_sha256"] == refs["reservation"]["sha256"] and
+                finalization["installation_id"] == completion["installation_id"] and
+                finalization["start_id"] == completion["start_id"] and
+                finalization["launch_id"] == completion["launch_id"], "A-signed protected finalization")
+        require(refs["finalization"]["sha256"] == sha(finalization_raw) ==
+                completion["finalization_sha256"] and
                 "bridge_assignment" not in refs and "cooperative_publish_order" not in refs and
-                "cooperative_publish_outcome" not in refs,
+                "cooperative_publish_outcome" not in refs and "cooperative_watched_request" not in refs,
                 "protected finalization only")
 
 
@@ -213,6 +281,30 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
             envelope = parse_strict(bad[field].encode())
             envelope["signature_base64url"] = "A" * 86
             bad[field] = canonicalize(envelope).decode()
+        try:
+            joined(bad, schemas)
+            report(False, "draft report/Q refuses " + label)
+        except (ValueError, KeyError, TypeError, InvalidSignature):
+            report(True, "draft report/Q refuses " + label)
+    coherent_changes = (
+        ("re-signed protected finalization for another reservation", "protected",
+         lambda r: r["protected_finalization_payload"].update(reservation_sha256="sha256:" + "0" * 64)),
+        ("re-signed B outcome for another order", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(order_sha256="sha256:" + "0" * 64)),
+        ("re-signed B outcome for other watched bytes", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(request_sha256="sha256:" + "0" * 64)),
+        ("re-signed B outcome for other watched inode", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(request_inode="12346")),
+        ("re-signed B outcome before authorization", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(published_at="2026-11-22T14:15:17Z")),
+        ("re-signed B outcome at expiry", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(
+             published_at=r["cooperative_publish_outcome_payload"]["expires_at"])),
+    )
+    for label, profile, change in coherent_changes:
+        bad = copy.deepcopy(vector[profile])
+        change(bad)
+        reseal_fixture_run(bad)
         try:
             joined(bad, schemas)
             report(False, "draft report/Q refuses " + label)

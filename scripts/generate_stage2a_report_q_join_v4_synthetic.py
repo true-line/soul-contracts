@@ -149,6 +149,11 @@ def make_run(profile):
     if cooperative:
         run["bridge_assignment"] = ref("cooperative-b-assignment", bridge_raw)
         assignment = reservation["assignment"]
+        watched_request_raw = canonicalize({
+            "schema": "agent-bot-souls/cooperative-start/v1", "installation_id": assignment["installation_id"],
+            "start_id": assignment["start_id"], "launch_id": assignment["launch_id"],
+            "reservation_sha256": sha(reservation_raw),
+        })
         order = {
             "contract": "machine/v3", "kind": "soul-cooperative-publish-order", "schema_version": 3,
             "reservation_sha256": sha(reservation_raw), "bridge_assignment_sha256": sha(bridge_raw),
@@ -162,7 +167,7 @@ def make_run(profile):
         outcome = {
             "contract": "machine/v3", "kind": "soul-cooperative-publish-outcome", "schema_version": 3,
             "reservation_sha256": sha(reservation_raw), "bridge_assignment_sha256": sha(bridge_raw),
-            "order_sha256": sha(order_raw), "request_sha256": sha(b"synthetic watched R request bytes"),
+            "order_sha256": sha(order_raw), "request_sha256": sha(watched_request_raw),
             "request_device": "7", "request_inode": "12345", "request_birthtime_ns": "1720000000000000000",
             "installation_id": assignment["installation_id"], "start_id": assignment["start_id"],
             "launch_id": assignment["launch_id"], "published_at": "2026-11-22T14:15:19Z",
@@ -171,8 +176,21 @@ def make_run(profile):
         outcome_raw = sign(outcome, "agent-bot/soul-cooperative-publish-outcome/v3", 3)
         run["cooperative_publish_order"] = ref("cooperative-publish-order", order_raw)
         run["cooperative_publish_outcome"] = ref("cooperative-publish-outcome", outcome_raw)
+        run["cooperative_watched_request"] = ref("cooperative-watched-request", watched_request_raw)
     else:
-        run["finalization"] = ref("protected-finalization", b"synthetic protected finalization: pending run")
+        assignment = reservation["assignment"]
+        finalization = {
+            "schema": "agent-bot-machine/stage2a-finalization/v1",
+            "reservation_sha256": sha(reservation_raw),
+            "installation_id": assignment["installation_id"], "start_id": assignment["start_id"],
+            "launch_id": assignment["launch_id"], "plan_id": assignment["plan_id"],
+            "plan_digest": assignment["plan_digest"], "hq_epoch": assignment["hq_epoch"],
+            "bind_receipt_sha256": sha(b"synthetic protected B bind receipt"),
+            "relay_socket": {"path": assignment["relay"]["socket_path"], "socket": {}},
+            "bridge_pid": 813, "finalized_at": "2026-11-22T14:15:18Z",
+        }
+        finalization_raw = sign(finalization, "agent-bot/stage2a-finalization/v1", 1)
+        run["finalization"] = ref("protected-finalization", finalization_raw)
         assignment = report["bridge"]["assignment"]
         for field in ("installation_id", "soul_id", "start_id", "launch_id", "plan_id"):
             assignment[field] = reservation["assignment"][field]
@@ -220,6 +238,13 @@ def make_run(profile):
             "cooperative_publish_order_envelope_jcs": order_raw.decode() if cooperative else None,
             "cooperative_publish_outcome_payload": outcome if cooperative else None,
             "cooperative_publish_outcome_envelope_jcs": outcome_raw.decode() if cooperative else None,
+            "cooperative_watched_request_jcs": watched_request_raw.decode() if cooperative else None,
+            "cooperative_watched_request_identity": {
+                "device": "7", "inode": "12345", "birthtime_ns": "1720000000000000000",
+                "owner_uid": 501, "group_gid": reservation["assignment"]["runner_gid"], "mode": "0640",
+            } if cooperative else None,
+            "protected_finalization_payload": finalization if not cooperative else None,
+            "protected_finalization_envelope_jcs": finalization_raw.decode() if not cooperative else None,
             "q_wire_jcs": wire_raw.decode(), "q_index_envelope_jcs": index_raw.decode(),
             "q_eof_envelope_jcs": eof_raw.decode(), "q_index": idx,
             "issuer_public_key_base64url": b64(PUBLIC)}
@@ -251,6 +276,11 @@ def main():
         wrong["kind"] = "soul-cooperative-publish-" + ("outcome" if kind == "order" else "order")
         fixture(prefix + "-payload.v3-wrong-kind.json", payload_schema, wrong, True,
                 prefix + "-payload.v3-synthetic.json")
+        if kind == "outcome":
+            zero_inode = dict(payload)
+            zero_inode["request_inode"] = "0"
+            fixture(prefix + "-payload.v3-zero-inode.json", payload_schema, zero_inode, True,
+                    prefix + "-payload.v3-synthetic.json")
         wrong = dict(envelope)
         wrong["purpose"] = "agent-bot/soul-cooperative-publish-" + ("outcome" if kind == "order" else "order") + "/v3"
         fixture(signed_prefix + ".v3-wrong-purpose.json", signed_schema, wrong, True,
