@@ -49,6 +49,9 @@ from stage2a_member_attach_fixtures import check_stage2a_member_attach_fixtures 
 from stage2a_member_live_lease_fixtures import check_stage2a_member_live_lease_fixtures  # noqa: E402
 from stage2a_cooperative_bridge_bind_fixtures import check_stage2a_cooperative_bridge_bind_fixtures  # noqa: E402
 from stage2a_cooperative_b_fd3_fixtures import check_stage2a_cooperative_b_fd3_fixtures  # noqa: E402
+from stage2a_member_runtime_lease_fixtures import check_stage2a_member_runtime_lease_fixtures  # noqa: E402
+from soul_cooperative_member_ready_fixtures import check_soul_cooperative_member_ready_fixtures  # noqa: E402
+from soul_cooperative_b_member_arm_fixtures import check_soul_cooperative_b_member_arm_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -234,6 +237,9 @@ check_stage2a_member_attach_fixtures(ROOT, schemas, report)
 check_stage2a_member_live_lease_fixtures(ROOT, schemas, report)
 check_stage2a_cooperative_bridge_bind_fixtures(ROOT, schemas, report)
 check_stage2a_cooperative_b_fd3_fixtures(ROOT, schemas, report)
+check_stage2a_member_runtime_lease_fixtures(ROOT, schemas, report)
+check_soul_cooperative_member_ready_fixtures(ROOT, schemas, report)
+check_soul_cooperative_b_member_arm_fixtures(ROOT, schemas, report)
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
 # shape; runtime verifiers must verify the signature with a pinned public key.

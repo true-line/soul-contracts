@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-member-ready-payload.schema.json",
+  "title": "Separate A-signed cooperative two-member Ready after H/B observation (draft)",
+  "description": "Machine A signs this purpose-separated cooperative Ready only after the exact two assigned stock ACP children, both H observations, both B arm acknowledgments, signed two-member B authority and A-observed live B bridge join the same reservation and provisional H map. Each row binds one signed child grant, wrapper/ACP child kernel identity and distinct member selector/launch. Runtime IDs are resolved from the separately signed child observation and H provisional map; they are not duplicated here. The signature is an admission anchor, not a renewable operating lease, an owner ACP ticket, a provider-ingress permission, or physical T21 credit. Protected member-set Ready v1 remains separate.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "start_id", "hq_epoch", "reservation_sha256", "assignment_envelope_sha256", "child_observation_envelope_sha256", "provisional_hq_mapping_sha256", "member_b_authority_envelope_sha256", "bridge_observed_sha256", "members", "issued_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "soul-cooperative-member-ready" },
+    "schema_version": { "const": 3 },
+    "profile_in_force": { "const": "managed-cooperative" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "provisional_hq_mapping_sha256": { "$ref": "#/$defs/digest" },
+    "member_b_authority_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "bridge_observed_sha256": { "$ref": "#/$defs/digest" },
+    "members": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/member" }, "description": "Exactly the two sorted and distinct member IDs, launch IDs and selectors of the A-signed member-set assignment and child observation." },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "member": {
+      "type": "object",
+      "required": ["member_id", "member_launch_id", "member_selector", "grant_sha256", "launcher_process", "child_process", "h_observation_sha256", "b_arm_receipt_sha256"],
+      "properties": {
+        "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+        "member_launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
+        "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+        "grant_sha256": { "$ref": "#/$defs/digest" },
+        "launcher_process": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-child-observation-payload.schema.json#/$defs/launcherProcess" },
+        "child_process": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-child-observation-payload.schema.json#/$defs/childProcess" },
+        "h_observation_sha256": { "$ref": "#/$defs/digest" },
+        "b_arm_receipt_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

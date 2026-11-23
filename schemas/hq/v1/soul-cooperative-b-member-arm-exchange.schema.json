@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/soul-cooperative-b-member-arm-exchange.schema.json",
+  "title": "Distinct same-bound cooperative B observation and two-member arm exchange (draft)",
+  "description": "For managed-cooperative brokered B v3 only, after the exact HMAC bind and same-bound A-signed member policy delivery. B calls bridge.member.observe.cooperative.v3 per assigned member; H returns the full exact A-signed two-child observation. B verifies its fixed A pin, cooperative primary, detached B assignment, two-member B authority, selectors, live ACP child and expiry. B sends bridge.member.arm.cooperative.v3 on the same authenticated stream with one exact bridge_arm JCS row and its SHA-256. H commits both distinct rows for paired A; the ACK is pending only. A signs the separate soul-cooperative-member-ready/v3 aggregate only after both H observations, both B arms and A-observed live B join. The arm digest is SHA-256 of the B-to-H request.bridge_arm JCS bytes, never H ACK bytes. Protected bridge.member.observe.v3/arm.v3 remain separate. Missing, changed or replayed records refuse; no new endpoint, bearer, ACP ticket or provider ingress is granted.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/observeRequest"
+    },
+    {
+      "$ref": "#/$defs/observeResult"
+    },
+    {
+      "$ref": "#/$defs/armRequest"
+    },
+    {
+      "$ref": "#/$defs/armResult"
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selectors": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-b-member-fd3.schema.json#/properties/selectors",
+      "description": "Structural selector shape copied from protected B v3, but values here are derived from the verified cooperative primary plus same-bound A-signed assignment and B authority; the protected FD3 frame is not accepted."
+    },
+    "memberId": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id"
+    },
+    "memberSelector": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector"
+    },
+    "base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "observeRequest": {
+      "type": "object",
+      "required": [
+        "kind",
+        "selectors",
+        "member_id",
+        "member_selector",
+        "observe_nonce"
+      ],
+      "properties": {
+        "kind": {
+          "const": "bridge.member.observe.cooperative.v3.request"
+        },
+        "selectors": {
+          "$ref": "#/$defs/selectors"
+        },
+        "member_id": {
+          "$ref": "#/$defs/memberId"
+        },
+        "member_selector": {
+          "$ref": "#/$defs/memberSelector"
+        },
+        "observe_nonce": {
+          "$ref": "#/$defs/nonce"
+        }
+      },
+      "additionalProperties": false
+    },
+    "observeResult": {
+      "type": "object",
+      "required": [
+        "kind",
+        "member_id",
+        "member_selector",
+        "observe_nonce",
+        "child_observation_envelope_base64url",
+        "child_observation_envelope_sha256",
+        "expires_at"
+      ],
+      "properties": {
+        "kind": {
+          "const": "bridge.member.observe.cooperative.v3.result"
+        },
+        "member_id": {
+          "$ref": "#/$defs/memberId"
+        },
+        "member_selector": {
+          "$ref": "#/$defs/memberSelector"
+        },
+        "observe_nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "child_observation_envelope_base64url": {
+          "$ref": "#/$defs/base64url",
+          "description": "Full exact A-signed purpose agent-bot/stage2a-member-set-child-observation/v1 envelope, unpadded base64url; its payload contains both distinct children and the exact H provisional map."
+        },
+        "child_observation_envelope_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "armRequest": {
+      "type": "object",
+      "required": [
+        "kind",
+        "selectors",
+        "member_id",
+        "member_selector",
+        "observe_nonce",
+        "arm_nonce",
+        "child_observation_envelope_sha256",
+        "bridge_arm",
+        "bridge_arm_receipt_sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "bridge.member.arm.cooperative.v3.request"
+        },
+        "selectors": {
+          "$ref": "#/$defs/selectors"
+        },
+        "member_id": {
+          "$ref": "#/$defs/memberId"
+        },
+        "member_selector": {
+          "$ref": "#/$defs/memberSelector"
+        },
+        "observe_nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "arm_nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "child_observation_envelope_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "bridge_arm": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-ready-payload.schema.json#/$defs/readyMember/properties/bridge_arm"
+        },
+        "bridge_arm_receipt_sha256": {
+          "$ref": "#/$defs/digest",
+          "description": "SHA-256 of exact RFC 8785 JCS bytes of bridge_arm; B spends this member's arm slot once on this bound stream."
+        }
+      },
+      "additionalProperties": false
+    },
+    "armResult": {
+      "type": "object",
+      "required": [
+        "kind",
+        "member_id",
+        "member_selector",
+        "arm_nonce",
+        "bridge_arm_receipt_sha256",
+        "state",
+        "expires_at"
+      ],
+      "properties": {
+        "kind": {
+          "const": "bridge.member.arm.cooperative.v3.result"
+        },
+        "member_id": {
+          "$ref": "#/$defs/memberId"
+        },
+        "member_selector": {
+          "$ref": "#/$defs/memberSelector"
+        },
+        "arm_nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "bridge_arm_receipt_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "state": {
+          "const": "recorded-pending-aggregate-ready"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

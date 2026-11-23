@@ -1,0 +1,77 @@
+{
+  "canonical_sha256": "sha256:f8e8a2353b9e254e00ac5c6991782617b24b475eba04ea5a23be91ea1f413912",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
+    "bridge_observed_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:21Z",
+    "kind": "soul-cooperative-member-ready",
+    "member_b_authority_envelope_sha256": "sha256:7adb17770de459c8b9425dbd2b8dde54910c0c3de787c06767debb925c20683c",
+    "members": [
+      {
+        "b_arm_receipt_sha256": "sha256:a954f447c1d0010a64ea0d7e9e48c029f56be8ad889a1e6708a265abda50dd59",
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4001,
+          "pid": 4101,
+          "process_group_id": 4001,
+          "start_micros": 100,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
+        "h_observation_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4001,
+          "start_micros": 90,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_lead",
+        "member_launch_id": "ln_0123456789abcdef01234567",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea"
+      },
+      {
+        "b_arm_receipt_sha256": "sha256:982773648e5fbc3e21f321ab7007cf211564f62b64806b2f19dc8c874cdb1777",
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4002,
+          "pid": 4102,
+          "process_group_id": 4002,
+          "start_micros": 101,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:936eeac0130799e749cbff6deab719b49a7ce5ad08ce25143e4fb95a4bd6b19f",
+        "h_observation_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4002,
+          "start_micros": 91,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_spec",
+        "member_launch_id": "ln_0123456789abcdef01234568",
+        "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c"
+      }
+    ],
+    "profile_in_force": "managed-cooperative",
+    "provisional_hq_mapping_sha256": "sha256:aa2bca5d83193e5b29e552c5f8720fbdd5842e8d8f253e76e1c9e09a1b2e58f1",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema_version": 3,
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/soul-cooperative-member-ready-payload.schema.json"
+}

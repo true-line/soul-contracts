@@ -1,0 +1,115 @@
+{
+  "canonical_sha256": "sha256:a22c54dce490e8469a82227f8cf109fd5fa6a6a9126710bd356bd613deda2d76",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "arms": [
+      {
+        "arm_request": {
+          "arm_nonce": "13df97b96a7c8c21d0644a232ac2967c663778699710ef23ad17e5ce7cae69e5",
+          "bridge_arm": {
+            "adapter_gid": 331,
+            "adapter_pid": 4101,
+            "adapter_start_micros": 100,
+            "adapter_start_seconds": 1795356918,
+            "adapter_uid": 331,
+            "armed_at": "2026-11-22T14:15:20Z",
+            "bridge_uid": 333,
+            "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+            "member_id": "m_lead",
+            "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+            "provider_ingress": "withheld-pending-per-peer-attestation",
+            "relay_peer_rule": "a-attested-live-direct-child-of-adapter-v1",
+            "relay_peer_state": "unobserved",
+            "runtime_id": "runtime_fixture_m_lead",
+            "state": "armed"
+          },
+          "bridge_arm_receipt_sha256": "sha256:a954f447c1d0010a64ea0d7e9e48c029f56be8ad889a1e6708a265abda50dd59",
+          "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+          "kind": "bridge.member.arm.cooperative.v3.request",
+          "member_id": "m_lead",
+          "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+          "observe_nonce": "773f475969f5a4355fb30dfbfe3722c2a3c704af0142fb89ecb9984cbd62cd72",
+          "selectors": {
+            "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
+            "authority_envelope_sha256": "sha256:7adb17770de459c8b9425dbd2b8dde54910c0c3de787c06767debb925c20683c",
+            "installation_id": "inst_0000000000000001",
+            "member_selectors_sha256": "sha256:874b70b21d5234a6b2eecbb3f4ee1564abbb30fc7566f37c48574bcbdf0bc07d",
+            "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+            "plan_id": "plan-20261122T141516Z-abcd",
+            "reservation_digest": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+            "start_id": "st_0123456789abcdef01234567"
+          }
+        },
+        "arm_result": {
+          "arm_nonce": "13df97b96a7c8c21d0644a232ac2967c663778699710ef23ad17e5ce7cae69e5",
+          "bridge_arm_receipt_sha256": "sha256:a954f447c1d0010a64ea0d7e9e48c029f56be8ad889a1e6708a265abda50dd59",
+          "expires_at": "2026-11-22T14:15:36Z",
+          "kind": "bridge.member.arm.cooperative.v3.result",
+          "member_id": "m_lead",
+          "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+          "state": "recorded-pending-aggregate-ready"
+        }
+      },
+      {
+        "arm_request": {
+          "arm_nonce": "4dbf492ca051fabd9756f137ee6dfe0e9097284a9529706c8a357f5e6125010d",
+          "bridge_arm": {
+            "adapter_gid": 331,
+            "adapter_pid": 4102,
+            "adapter_start_micros": 101,
+            "adapter_start_seconds": 1795356918,
+            "adapter_uid": 331,
+            "armed_at": "2026-11-22T14:15:20Z",
+            "bridge_uid": 333,
+            "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+            "member_id": "m_spec",
+            "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+            "provider_ingress": "withheld-pending-per-peer-attestation",
+            "relay_peer_rule": "a-attested-live-direct-child-of-adapter-v1",
+            "relay_peer_state": "unobserved",
+            "runtime_id": "runtime_fixture_m_spec",
+            "state": "armed"
+          },
+          "bridge_arm_receipt_sha256": "sha256:982773648e5fbc3e21f321ab7007cf211564f62b64806b2f19dc8c874cdb1777",
+          "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+          "kind": "bridge.member.arm.cooperative.v3.request",
+          "member_id": "m_spec",
+          "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+          "observe_nonce": "b6582e04c8a8f3653888673735e50d5408b7996d11f4a7bdce613c6f05574259",
+          "selectors": {
+            "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
+            "authority_envelope_sha256": "sha256:7adb17770de459c8b9425dbd2b8dde54910c0c3de787c06767debb925c20683c",
+            "installation_id": "inst_0000000000000001",
+            "member_selectors_sha256": "sha256:874b70b21d5234a6b2eecbb3f4ee1564abbb30fc7566f37c48574bcbdf0bc07d",
+            "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+            "plan_id": "plan-20261122T141516Z-abcd",
+            "reservation_digest": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+            "start_id": "st_0123456789abcdef01234567"
+          }
+        },
+        "arm_result": {
+          "arm_nonce": "4dbf492ca051fabd9756f137ee6dfe0e9097284a9529706c8a357f5e6125010d",
+          "bridge_arm_receipt_sha256": "sha256:982773648e5fbc3e21f321ab7007cf211564f62b64806b2f19dc8c874cdb1777",
+          "expires_at": "2026-11-22T14:15:36Z",
+          "kind": "bridge.member.arm.cooperative.v3.result",
+          "member_id": "m_spec",
+          "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+          "state": "recorded-pending-aggregate-ready"
+        }
+      }
+    ],
+    "bridge_observed_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "member_b_authority_envelope_sha256": "sha256:7adb17770de459c8b9425dbd2b8dde54910c0c3de787c06767debb925c20683c",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/soul-cooperative-member-ready-request.schema.json"
+}
