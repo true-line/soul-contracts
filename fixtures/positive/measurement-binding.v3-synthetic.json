@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:a580296d2f73c0797caf900eed2ec396412c195714feec770c38e120aced2b86",
+  "canonical_sha256": "sha256:eee19913f3451cdccf430ddced7bf781db98e9dd41a3e505763618a7c3b3287a",
   "expect": {
     "schema": "valid"
   },
@@ -50,7 +50,7 @@
       "inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
       "kind": "stage2a-inventory-ref",
       "machine_uid": 501,
-      "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "reader_gid": 331,
       "reader_uid": 331,
       "reviewed_source_inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",

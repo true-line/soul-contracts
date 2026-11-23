@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-reservation-payload.v3-synthetic.json",
-    "sha256": "sha256:f26887ad337accd77d4aad3723117b08230c5f7218b2435551d2b6776027e160"
+    "sha256": "sha256:7609651358383226e38e7dd0ac87cb6a9c174c9e601e2f0bc29a93dcbeff7387"
   },
   "expect": {
     "schema": "invalid"
@@ -130,7 +130,7 @@
         "inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
         "kind": "stage2a-inventory-ref",
         "machine_uid": 501,
-        "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
         "reader_gid": 331,
         "reader_uid": 331,
         "reviewed_source_inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",

@@ -149,6 +149,10 @@ def verify(vector, schemas, pinned, now):
     assignment, binding = r["assignment"], r["measurement_binding"]
     r_rows = inventory_ref(r_inv, binding["r_inventory"], schemas)
     require(binding["r_inventory"]["domain"] == "R-runtime", "R domain")
+    require(h["h_inventory"]["snapshot"]["path"] != binding["r_inventory"]["snapshot"]["path"] and
+            h["h_inventory"]["sidecar"]["path"] != binding["r_inventory"]["sidecar"]["path"] and
+            h["h_inventory"]["reader_gid"] != binding["r_inventory"]["reader_gid"],
+            "disjoint H/R roots, sidecars and reader groups")
     require(binding["h_service_descriptor_digest"] == assignment["h_service_descriptor_digest"] == h_digest,
             "one-use H descriptor digest")
     require(binding["r_inventory"]["inventory_digest"] == assignment["r_inventory_digest"], "one-use R digest")
@@ -156,6 +160,8 @@ def verify(vector, schemas, pinned, now):
     require(binding["installation_id"] == assignment["installation_id"] ==
             binding["r_inventory"]["installation_id"], "Soul installation")
     require(binding["installed_plan_digest"] == assignment["plan_digest"], "installed Soul plan")
+    require(binding["r_inventory"]["owner_plan_digest"] ==
+            "sha256:" + binding["installed_plan_digest"], "R inventory in approved Soul plan")
     for field in ("soul_id", "start_id", "launch_id", "plan_id", "hq_epoch", "package_sha256", "soul_artifact_sha256"):
         require(binding[field] == assignment[field], field + " binding")
     require(assignment["runner_uid"] == binding["r_inventory"]["reader_uid"] and
@@ -245,8 +251,20 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
         "H service installation": (mutate_payload("h", lambda p: p.__setitem__("hq_installation_id", "other")), pinned),
         "R/H UID substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("runner_uid", 309)), pinned),
         "R inventory digest substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("r_inventory_digest", "sha256:" + "0" * 64)), pinned),
+        "R owner plan substitution": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"].__setitem__("owner_plan_digest", "sha256:" + "0" * 64)), pinned),
+        "R sidecar inside measured tree": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("path", p["measurement_binding"]["r_inventory"]["snapshot"]["path"] + "/sidecar.json")), pinned),
+        "R sidecar byte digest": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("sha256", "sha256:" + "0" * 64)), pinned),
+        "R root alias of H": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["snapshot"].__setitem__("path", parse_strict(vector["h_payload_jcs"].encode())["h_inventory"]["snapshot"]["path"])), pinned),
+        "shared H/R reader group": (mutate_payload("r", lambda p: (
+            p["measurement_binding"]["r_inventory"].__setitem__("reader_gid", 309),
+            p["measurement_binding"]["r_inventory"]["snapshot"].__setitem__("owner_gid", 309),
+            p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("owner_gid", 309),
+            p["assignment"].__setitem__("runner_gid", 309))), pinned),
+        "R release row mismatch": ({**vector, "release_manifests": {**vector["release_manifests"],
+             "adapter": [{"path": "cli", "sha256": "sha256:" + "0" * 64}]}}, pinned),
         "adapter executable row digest": (mutate_payload("r", lambda p: p["measurement_binding"]["adapter_release"].__setitem__("executable_sha256", "sha256:" + "0" * 64)), pinned),
         "adapter code input substitution": ({**vector, "adapter_code_inputs_jcs": '["/tmp/unmeasured.mjs"]'}, pinned),
+        "stale one-use reservation": (mutate_payload("r", lambda p: (p.__setitem__("expires_at", "2026-11-22T14:15:19Z"), p["assignment"].__setitem__("expires_at", "2026-11-22T14:15:19Z"))), pinned),
     }
     for name, (candidate, candidate_pin) in cases.items():
         try:

@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/measurement-binding.v3-synthetic.json",
-    "sha256": "sha256:1f1c89d4a08a78ea4b34694e32301585e1cecbdc2d596aa08d4bd8c13ba4ca99"
+    "sha256": "sha256:1d2f40ff75abbfbd1fb788c3576c18c670a1ba2199a3fcb3ae46f87046c4e7e9"
   },
   "expect": {
     "schema": "invalid"
@@ -53,7 +53,7 @@
       "inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
       "kind": "stage2a-inventory-ref",
       "machine_uid": 501,
-      "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "reader_gid": 331,
       "reader_uid": 331,
       "reviewed_source_inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",

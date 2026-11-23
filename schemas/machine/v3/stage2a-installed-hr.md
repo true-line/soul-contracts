@@ -40,6 +40,9 @@ sidecar path/stat identity, sidecar byte size/hash, reviewed source digest,
 counts, total size, inventory digest, and the separately approved owner plan
 digest. The preinstall inventory has **no plan digest**: the owner plan may pin
 that inventory, then A signs the installed result, without a hash cycle.
+The H and R roots, sidecars, and reader groups must be distinct. The R
+reference's `owner_plan_digest` must equal `sha256:` plus the binding's bare
+`installed_plan_digest`; an R reference from another Soul plan refuses.
 
 The **proposed** ceiling is 512 files, 384 MiB per file, and 1 GiB per H or R
 domain, with at most 1,024 explicit child directories and a 2 MiB sidecar.
