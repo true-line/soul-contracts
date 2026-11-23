@@ -3,7 +3,6 @@
 import base64
 import copy
 import hashlib
-import json
 from datetime import datetime, timedelta
 
 from cryptography.exceptions import InvalidSignature
