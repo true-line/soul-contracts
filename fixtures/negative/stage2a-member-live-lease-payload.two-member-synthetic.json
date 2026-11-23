@@ -1,0 +1,49 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-member-live-lease-payload.two-member-synthetic.json",
+    "sha256": "sha256:2a576009370edcaf0117e145b98a2c98f2d5c8dc370fcd0aca9e12221b77675c"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:9c0e8586a3ccb62486c57994f3fcbceac374f5d2f1e78f2172b45ef540f07f5b",
+    "challenge_nonce_base64url": "MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI",
+    "child_observation_envelope_sha256": "sha256:b94f6f09ea2d68f0ade0a4bd3cf48782f459456cbac1476811a440a9b338faf6",
+    "child_process": {
+      "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+      "gid": 331,
+      "parent_pid": 4001,
+      "pid": 4101,
+      "process_group_id": 4001,
+      "start_micros": 100,
+      "start_seconds": 1795356918,
+      "uid": 331
+    },
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:24Z",
+    "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:20Z",
+    "kind": "stage2a-member-live-lease",
+    "launcher_process": {
+      "gid": 331,
+      "pid": 4001,
+      "start_micros": 90,
+      "start_seconds": 1795356917,
+      "uid": 331
+    },
+    "member_id": "m_lead",
+    "member_launch_id": "ln_0123456789abcdef01234567",
+    "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+    "profile_in_force": "managed-protected",
+    "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+    "schema_version": 1,
+    "sequence": 0,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-live-lease-payload.schema.json"
+}

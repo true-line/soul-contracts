@@ -46,6 +46,7 @@ from stage2a_relay_peer_fixtures import check_stage2a_relay_peer_fixtures  # noq
 from stage2a_b_member_authority_fixtures import check_stage2a_b_member_authority_fixtures  # noqa: E402
 from stage2a_b_member_arm_fixtures import check_stage2a_b_member_arm_fixtures  # noqa: E402
 from stage2a_member_attach_fixtures import check_stage2a_member_attach_fixtures  # noqa: E402
+from stage2a_member_live_lease_fixtures import check_stage2a_member_live_lease_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -228,6 +229,7 @@ check_stage2a_relay_peer_fixtures(ROOT, schemas, report)
 check_stage2a_b_member_authority_fixtures(ROOT, schemas, report)
 check_stage2a_b_member_arm_fixtures(ROOT, schemas, report)
 check_stage2a_member_attach_fixtures(ROOT, schemas, report)
+check_stage2a_member_live_lease_fixtures(ROOT, schemas, report)
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
 # shape; runtime verifiers must verify the signature with a pinned public key.
@@ -432,7 +434,8 @@ def vendor_text(path):
                              "stage2a-runner-member-set-fd3.", "stage2a-relay-peer.synthetic",
                              "stage2a-b-member-authority.two-member-synthetic",
                              "stage2a-b-member-arm-exchange.two-member-synthetic",
-                             "stage2a-member-attach.two-member-synthetic")) and \
+                             "stage2a-member-attach.two-member-synthetic",
+                             "stage2a-member-live-lease.two-member-synthetic")) and \
             ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw or
              "_envelope_base64url" in raw or
              "wire_jcs" in raw or "frame_base64url" in raw or "frames_base64url" in raw):
