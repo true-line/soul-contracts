@@ -12,8 +12,9 @@ is the released `notice-query` record with `operation: "peek"`; the result is
 the released `notice-result` with matching request ID and operation. The
 broker kind supplies the outer version discriminator. No runtime, member,
 installation or repository selector is accepted outside the closed query.
-HQ takes runtime identity exclusively from the authenticated Comms broker
-member binding and checks the live grant and notice scope before the read.
+HQ takes runtime identity exclusively from authenticated Comms broker
+metadata and checks the live grant and notice scope before the read. That
+runtime binding alone does not prove which logical member used the handle.
 The kind remains unregistered unless this exact schema is in HQ's pinned
 Contracts bundle. This additive wire does not itself prove a B2-issued handle,
 a copied-handle refusal, zero protected effects, or a restart; physical T01
