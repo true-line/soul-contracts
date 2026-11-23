@@ -102,7 +102,11 @@ def primary_bytes(root, profile, vector, schemas, public):
             "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
             "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json", schemas, public)
         source_private = parse_strict(decode(parse_strict(fx["bridge_envelope_jcs"].encode("utf-8"))["payload_base64url"]))
-        require(private == source_private, "synthetic private B authority uses exact reviewed payload")
+        require(source_private["reservation_sha256"] == digest(fx["reservation_envelope_jcs"].encode("utf-8")) and
+                private["reservation_sha256"] == digest(raw) and
+                {key: value for key, value in private.items() if key != "reservation_sha256"} ==
+                {key: value for key, value in source_private.items() if key != "reservation_sha256"},
+                "synthetic private B authority rebinds exact re-signed primary without changing reviewed fields")
         b = {"account": private["bridge"]["account"], "uid": private["bridge"]["uid"],
              "gid": private["bridge"]["gid"], "endpoints": private["endpoints"]}
         purpose = "agent-bot/soul-cooperative-bridge-assignment/v3"

@@ -1,14 +1,14 @@
 {
   "base": {
     "fixture": "positive/stage2a-provisional-member-map.two-member-synthetic.json",
-    "sha256": "sha256:b2b62b26141e90e1911c9c2f4d65ade37ec85be570085c3cd61e4af74a4320da"
+    "sha256": "sha256:f4609d32a02f32589200f32e4b23c9b0c6fe9626f353849b028c89b3d5c0c476"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
     "acp_authority": "granted",
-    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
     "contract": "hq/v1",
     "expires_at": "2026-11-22T14:15:36Z",
     "host_id": "synthetic-host",

@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-assignment-payload.two-member-synthetic.json",
-    "sha256": "sha256:fd69899e27af61bdb69dc6150378ac5a859f7e62cc766a4dbaec4dfa41e22185"
+    "sha256": "sha256:08a180f320636ca793ffe0bfa5ae00d531acf2d9d62f0789f5e47f4588ea6936"
   },
   "expect": {
     "schema": "invalid"
@@ -9,7 +9,7 @@
   "input": {
     "adapter_manifest_relpath": "Contents/opt/fixture-stock.json",
     "b_authority": {
-      "envelope_sha256": "sha256:bb0bf0cd5806b879117cf9517a495a59e807539c316b7f4ce53a57a59826ec8c",
+      "envelope_sha256": "sha256:9491f8118be1e9ae04fe2d5f8bc944cb5644b62d3d8ec72018f6aa5def882ce1",
       "purpose": "agent-bot/soul-cooperative-bridge-assignment/v3"
     },
     "bridge": {

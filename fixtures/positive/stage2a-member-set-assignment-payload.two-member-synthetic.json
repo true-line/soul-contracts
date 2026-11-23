@@ -1,12 +1,12 @@
 {
-  "canonical_sha256": "sha256:ba6e0c7a32e5b8e6069c3d8194c75b1f86ad366e0a0a07a207a0b9f8da490619",
+  "canonical_sha256": "sha256:7f7bcfe048f9893a15de638c345f1599c2c53b5784aa3d4c9fed98f1a68dcd56",
   "expect": {
     "schema": "valid"
   },
   "input": {
     "adapter_manifest_relpath": "Contents/opt/fixture-stock.json",
     "b_authority": {
-      "envelope_sha256": "sha256:bb0bf0cd5806b879117cf9517a495a59e807539c316b7f4ce53a57a59826ec8c",
+      "envelope_sha256": "sha256:9491f8118be1e9ae04fe2d5f8bc944cb5644b62d3d8ec72018f6aa5def882ce1",
       "purpose": "agent-bot/soul-cooperative-bridge-assignment/v3"
     },
     "bridge": {

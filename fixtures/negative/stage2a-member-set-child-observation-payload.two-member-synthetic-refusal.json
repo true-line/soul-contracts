@@ -1,13 +1,13 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-child-observation-payload.two-member-synthetic.json",
-    "sha256": "sha256:6dd9592ff23e2e0c32186f9347015b60e76a5a5864590c8005858a5a13372b7e"
+    "sha256": "sha256:f59a29c9d8f6f7a00b0d135c547f9dc9f4fbf601590654bd082c4fe48882c65e"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
-    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
     "contract": "machine/v3",
     "expires_at": "2026-11-22T14:15:36Z",
     "host_id": "synthetic-host",
@@ -45,7 +45,7 @@
     "profile_in_force": "managed-cooperative",
     "provisional_hq_mapping": {
       "acp_authority": "withheld",
-      "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+      "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
       "contract": "hq/v1",
       "expires_at": "2026-11-22T14:15:36Z",
       "host_id": "synthetic-host",
@@ -73,7 +73,7 @@
       "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
       "start_id": "st_0123456789abcdef01234567"
     },
-    "provisional_hq_mapping_sha256": "sha256:023cd6c3aec5fadd6524e5766cbb0b92da65734d75b8b079be175a5f01cc5a2a",
+    "provisional_hq_mapping_sha256": "sha256:aa2bca5d83193e5b29e552c5f8720fbdd5842e8d8f253e76e1c9e09a1b2e58f1",
     "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
     "schema_version": 1,
     "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
