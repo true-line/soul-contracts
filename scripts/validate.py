@@ -43,6 +43,7 @@ from stage2a_q_presign_fixtures import check_stage2a_q_presign_fixtures  # noqa:
 from stage2a_member_set_fixtures import check_stage2a_member_set_fixtures  # noqa: E402
 from stage2a_runner_member_set_fixtures import check_stage2a_runner_member_set_fixtures  # noqa: E402
 from stage2a_relay_peer_fixtures import check_stage2a_relay_peer_fixtures  # noqa: E402
+from stage2a_b_member_authority_fixtures import check_stage2a_b_member_authority_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE_ID = "https://true-line.ai/soul-contracts/"
@@ -222,6 +223,7 @@ check_stage2a_q_presign_fixtures(ROOT, schemas, report)
 check_stage2a_member_set_fixtures(ROOT, schemas, report)
 check_stage2a_runner_member_set_fixtures(ROOT, schemas, report)
 check_stage2a_relay_peer_fixtures(ROOT, schemas, report)
+check_stage2a_b_member_authority_fixtures(ROOT, schemas, report)
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
 # shape; runtime verifiers must verify the signature with a pinned public key.
@@ -423,7 +425,8 @@ def vendor_text(path):
                              "machine-658-synthetic",
                              "machine-admin-synthetic", "machine-hr-synthetic", "negative-vectors",
                              "qualification-host-signature.measurement-v3", "stage2a-member-set.synthetic",
-                             "stage2a-runner-member-set-fd3.", "stage2a-relay-peer.synthetic")) and \
+                             "stage2a-runner-member-set-fd3.", "stage2a-relay-peer.synthetic",
+                             "stage2a-b-member-authority.two-member-synthetic")) and \
             ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw or
              "wire_jcs" in raw or "frame_base64url" in raw or "frames_base64url" in raw):
         def decode_reservation(item):
@@ -433,6 +436,9 @@ def vendor_text(path):
                     if (key == "envelope_jcs" or key.endswith("_jcs") or key == "wire_jcs") and isinstance(value, str):
                         out[key] = decode_reservation(json.loads(value))
                     elif key == "attestation_envelope_base64url" and isinstance(value, str):
+                        decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
+                        out[key] = decode_reservation(json.loads(decoded))
+                    elif key.endswith("_envelope_base64url") and isinstance(value, str):
                         decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
                         out[key] = decode_reservation(json.loads(decoded))
                     elif key.endswith("_frame_base64url") or key.endswith("_frames_base64url"):
@@ -447,7 +453,6 @@ def vendor_text(path):
                         except (binascii.Error, UnicodeDecodeError, ValueError, TypeError):
                             out[key] = "<invalid framed bytes>"
                     elif (key in ("payload_base64url", "report_base64url", "signing_preimage_base64url") or
-                          key.endswith("_envelope_base64url") or
                           key.endswith("_raw_base64url")) and isinstance(value, str):
                         try:
                             decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
