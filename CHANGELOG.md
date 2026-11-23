@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 0.9.0 — 2026-11-22
+
+Add a distinct `machine/v3` first-qualification candidate reservation, signed
+envelope, and installed measurement binding for one owner-approved qualification
+attempt before an adapter has a qualification release. The candidate record
+pins the exact adapter package and canonical manifest hashes, test plan,
+request, and spent-attempt receipt. Its fixed purpose and local-test-provider
+network mode separate it from an ordinary protected launch reservation.
+Synthetic positive and refusal fixtures exercise that separation.
+
+These source contracts grant no reusable launch authority, certify no adapter,
+and prove no physical T01/T02/T03/T21 result. Machine must enforce one-use
+approval, independently observe the run, and verify signed evidence before a
+designated release workflow can issue an adapter qualification attestation.
+
 ## 0.8.0 — 2026-11-22
 
 This source release adds the Stage 2a `machine/v3` H/R inventory, installed

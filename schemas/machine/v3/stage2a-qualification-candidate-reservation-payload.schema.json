@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-qualification-candidate-reservation-payload.schema.json",
+  "title": "Stage 2a A-signed one-use qualification candidate reservation payload",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "host_id",
+    "issued_at",
+    "expires_at",
+    "installed_plan_receipt_sha256",
+    "assignment",
+    "member_endpoint",
+    "measurement_binding",
+    "admission_challenge_sha256",
+    "qualification_attempt"
+  ],
+  "properties": {
+    "contract": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/contract"
+    },
+    "kind": {
+      "const": "stage2a-qualification-candidate-reservation"
+    },
+    "schema_version": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/schema_version"
+    },
+    "host_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/host_id"
+    },
+    "issued_at": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/issued_at"
+    },
+    "expires_at": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/expires_at"
+    },
+    "installed_plan_receipt_sha256": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/installed_plan_receipt_sha256"
+    },
+    "assignment": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/assignment"
+    },
+    "member_endpoint": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/member_endpoint"
+    },
+    "measurement_binding": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-qualification-candidate-binding.schema.json"
+    },
+    "admission_challenge_sha256": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/admission_challenge_sha256"
+    },
+    "qualification_attempt": {
+      "type": "object",
+      "required": [
+        "approval_plan_id",
+        "approval_plan_digest",
+        "qualification_request_sha256",
+        "attempt_receipt_sha256",
+        "test_plan_sha256",
+        "suite_revision",
+        "approval_expires_at",
+        "network_mode"
+      ],
+      "properties": {
+        "approval_plan_id": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/plan_id"
+        },
+        "approval_plan_digest": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/installed_plan_digest"
+        },
+        "qualification_request_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "attempt_receipt_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "test_plan_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "suite_revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "approval_expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "network_mode": {
+          "const": "local-test-provider-only"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
