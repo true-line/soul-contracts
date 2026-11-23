@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://true-line.ai/soul-contracts/adapter/v4/qualification-host-signature.schema.json",
-  "title": "Provisional Stage 2a successor host signature envelope (draft)",
-  "description": "Provisional signature envelope over exact canonical v4 report bytes. The fixed preimage is ASCII purpose, NUL, then RFC 8785 JCS report bytes. Shape alone proves no signature or host designation.",
+  "title": "Stage 2a successor host signature envelope (draft)",
+  "description": "Signature envelope over exact canonical v4 report bytes with fixed purpose agent-bot/qualification-host-report/v4. The fixed preimage is ASCII purpose, NUL, then RFC 8785 JCS report bytes. Shape alone proves no signature or host designation.",
   "type": "object",
   "required": [
     "schema_version",
