@@ -56,10 +56,12 @@ The H and R roots, sidecars, and reader groups must be distinct. The R
 reference's `owner_plan_digest` must equal `sha256:` plus the binding's bare
 `installed_plan_digest`; an R reference from another Soul plan refuses.
 
-The **proposed** ceiling is 512 files, 384 MiB per file, and 1 GiB per H or R
-domain, with at most 1,024 explicit child directories and a 2 MiB sidecar.
-These are draft schema ceilings, not owner-approved installed policy. A positive
-verifier also requires exact limits in the authenticated owner plan and checks
+The product owner approved the v3 H/R domain ceiling on 2026-11-22: 512 files,
+384 MiB (402,653,184 bytes) per file, and 1 GiB (1,073,741,824 bytes) per H
+or R domain, with at most 1,024 explicit child directories and a 2 MiB
+sidecar. This approves the structural maximum only, not a selected source,
+installation-plan digest or protected launch. A positive verifier still
+requires exact limits in the authenticated owner plan and checks
 the installed count and bytes against that plan. The measured source lists
 (H 480 regular files, R 428) are sizing inputs only; the final installed list
 and all late loads still require measurement.
