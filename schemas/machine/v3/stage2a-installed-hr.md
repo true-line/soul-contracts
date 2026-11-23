@@ -71,6 +71,16 @@ sufficient. The runtime argv begins with the selected H Node, `--no-addons`,
 the H entry, and `run`; the full ordered argv must match the approved plan.
 The `guard_policy_sha256` is a claim to be checked against the approved
 runtime guard, not evidence that Node's dynamic-code paths are closed.
+The existing launchd service executes an owner helper through `/usr/bin/ruby`
+before Node. For the protected opt-in phase, `outer_launch` therefore pins the
+selected system Ruby path/hash, an H-inventoried and release-mapped Ruby helper
+path/hash, and the exact launchd ProgramArguments. Its ordered argv must be
+`[ruby, "--disable-gems", helper, "launch"]` followed by the entire `runtime.argv`.
+The Ruby image is separately authenticated as a selected OS image; the helper
+is an H release row. A helper that strips or changes Node flags, or a helper
+outside the H inventory, refuses. The current helper needs a reviewed update
+and native test before it can satisfy this wire; the draft descriptor does not
+make the old helper launchable as protected HQ.
 
 The H envelope Ed25519 signature covers ASCII
 `agent-bot/stage2a-h-service-descriptor/v3`, NUL, then exact JCS payload bytes.

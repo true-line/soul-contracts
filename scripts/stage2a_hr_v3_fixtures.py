@@ -139,6 +139,17 @@ def verify(vector, schemas, pinned, now):
                          "--import", runtime["preloader_path"], runtime["entry_path"], "run"],
             "fixed preloader-before-entry argv")
     require(argv == vector["owner_approved_h_argv"], "owner-approved exact argv; no override")
+    outer = h["outer_launch"]
+    h_prefix = h["h_inventory"]["snapshot"]["path"] + "/"
+    require(outer["helper_path"].startswith(h_prefix) and
+            h_rows.get(outer["helper_path"][len(h_prefix):], {}).get("sha256") ==
+            outer["helper_sha256"], "released H Ruby helper installed row")
+    require(outer["ruby_path"] == "/usr/bin/ruby" and
+            outer["ruby_sha256"] == vector["owner_approved_ruby_sha256"],
+            "owner-approved selected system Ruby image")
+    require(outer["argv"] == [outer["ruby_path"], "--disable-gems", outer["helper_path"], "launch"] + argv and
+            outer["argv"] == vector["owner_approved_outer_argv"],
+            "exact launchd Ruby helper and forwarded Node argv")
 
     r_env = parse_strict(vector["reservation_envelope_jcs"].encode())
     r, r_raw = signed_payload(r_env, R_PURPOSE,
@@ -248,6 +259,8 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
              [{"path": "unused", "kind": "directory", "mode": "0555"}]}).decode()}, pinned),
         "H preloader row digest": (mutate_payload("h", lambda p: p["runtime"].__setitem__("preloader_sha256", "sha256:" + "0" * 64)), pinned),
         "H argv override": (mutate_payload("h", lambda p: p["runtime"]["argv"].append("--plugin-dir=/tmp")), pinned),
+        "Ruby helper strips Node flag": (mutate_payload("h", lambda p: p["outer_launch"]["argv"].__setitem__(5, "--no-warnings")), pinned),
+        "unlisted pre-Node helper": (mutate_payload("h", lambda p: p["outer_launch"].__setitem__("helper_path", p["h_inventory"]["snapshot"]["path"] + "/helpers/unlisted.rb")), pinned),
         "H service installation": (mutate_payload("h", lambda p: p.__setitem__("hq_installation_id", "other")), pinned),
         "R/H UID substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("runner_uid", 309)), pinned),
         "R inventory digest substitution": (mutate_payload("r", lambda p: p["assignment"].__setitem__("r_inventory_digest", "sha256:" + "0" * 64)), pinned),

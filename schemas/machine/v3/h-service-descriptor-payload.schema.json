@@ -12,6 +12,7 @@
     "owner_plan_digest",
     "h_inventory",
     "components",
+    "outer_launch",
     "runtime"
   ],
   "properties": {
@@ -71,6 +72,57 @@
         },
         "additionalProperties": false
       }
+    },
+    "outer_launch": {
+      "type": "object",
+      "required": [
+        "ruby_path",
+        "ruby_sha256",
+        "helper_path",
+        "helper_sha256",
+        "argv"
+      ],
+      "properties": {
+        "ruby_path": {
+          "const": "/usr/bin/ruby"
+        },
+        "ruby_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "helper_path": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+        },
+        "helper_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "argv": {
+          "type": "array",
+          "minItems": 11,
+          "maxItems": 36,
+          "prefixItems": [
+            {
+              "const": "/usr/bin/ruby"
+            },
+            {
+              "const": "--disable-gems"
+            },
+            {
+              "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+            },
+            {
+              "const": "launch"
+            }
+          ],
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          }
+        }
+      },
+      "additionalProperties": false
     },
     "runtime": {
       "type": "object",
