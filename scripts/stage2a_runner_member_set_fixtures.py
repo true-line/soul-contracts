@@ -39,6 +39,8 @@ def check_frame(root, profile, frame, vector, schemas, public):
         require(frame["schema"] == "agent-bot-souls/protected-start/v2", "protected FD3 literal")
     else:
         require(frame["schema"] == "agent-bot-souls/cooperative-start/v3" and
+                frame["launch_input_records"]["adapter_transport"] == "brokered-b" and
+                frame["launch_input_records"]["bridge_launch_sha256"] == reservation["bridge_launch_sha256"] and
                 len(decode(frame["admission_challenge_base64url"])) == 32 and
                 frame["member_socket_path"] == assignment["bridge"]["endpoints"]["member"]["socket_path"] and
                 frame["relay_socket_path"] == assignment["bridge"]["endpoints"]["relay"]["socket_path"],

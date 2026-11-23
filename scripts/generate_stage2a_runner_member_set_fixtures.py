@@ -38,7 +38,7 @@ def build(profile):
         frame = {"schema": "agent-bot-souls/protected-start/v2"}
     else:
         fixture = json.loads((ROOT / "fixtures/reservation/v3/soul-cooperative-signed-reservation.brokered-b.synthetic.json").read_text())
-        launch_fixture = "launch-input-records.stage2a-cooperative-synthetic.json"
+        launch_fixture = None
         frame = {"schema": "agent-bot-souls/cooperative-start/v3",
                  "admission_challenge_base64url": fixture["admission_challenge_base64url"],
                  "member_socket_path": assignment["bridge"]["endpoints"]["member"]["socket_path"],
@@ -47,11 +47,21 @@ def build(profile):
                  "request_identity": {"device": "11", "inode": "12", "birthtime_ns": "13",
                                       "owner_uid": assignment["runner_uid"], "group_gid": assignment["runner_gid"],
                                       "mode": 416}}
-    launch = json.loads((ROOT / "fixtures/positive" / launch_fixture).read_text())["input"]
+    if launch_fixture is None:
+        launch = json.loads(json.loads((ROOT / "fixtures/reservation/v3/"
+                                       "soul-cooperative-launch-inputs.brokered-b.synthetic.json").read_text())[
+            "records_jcs"])
+    else:
+        launch = json.loads((ROOT / "fixtures/positive" / launch_fixture).read_text())["input"]
     launch["host_projection"] = json.loads(member_vector["host_projection_jcs"])
     launch["selected_command"] = assignment["members"][0]["command_path"]
     launch["argv"] = [assignment["members"][0]["command_path"]]
     launch["component_digests"]["adapter"] = assignment["members"][0]["command_sha256"]
+    if profile == "managed-cooperative":
+        primary = json.loads(base64.urlsafe_b64decode(
+            json.loads(member_vector["primary_reservation_envelope_jcs"])["payload_base64url"] + "=="))
+        launch["adapter_transport"] = "brokered-b"
+        launch["bridge_launch_sha256"] = primary["bridge_launch_sha256"]
     frame.update({
         "reservation_envelope_base64url": b64(reservation_raw),
         "reservation_sha256": sha(reservation_raw),
@@ -71,6 +81,17 @@ def main():
                 "canonical_sha256": sha(canonicalize(vectors["managed-protected"]))}
     path = "fixtures/positive/stage2a-runner-member-set-fd3.two-member-synthetic.json"
     write(path, positive)
+    cooperative_path = "fixtures/positive/stage2a-runner-member-set-fd3.cooperative-two-member-synthetic.json"
+    write(cooperative_path, {"schema": SCHEMA, "input": vectors["managed-cooperative"],
+                             "expect": {"schema": "valid"},
+                             "canonical_sha256": sha(canonicalize(vectors["managed-cooperative"]))})
+    cooperative_negative = copy.deepcopy(vectors["managed-cooperative"])
+    cooperative_negative["launch_input_records"].pop("bridge_launch_sha256")
+    write("fixtures/negative/stage2a-runner-member-set-fd3.cooperative-two-member-synthetic.json", {
+        "schema": SCHEMA, "input": cooperative_negative, "expect": {"schema": "invalid"},
+        "base": {"fixture": cooperative_path.removeprefix("fixtures/"),
+                 "sha256": sha((ROOT / cooperative_path).read_bytes())},
+    })
     negative = copy.deepcopy(vectors["managed-protected"])
     negative["schema"] = "agent-bot-souls/protected-start/v1"
     write("fixtures/negative/stage2a-runner-member-set-fd3.two-member-synthetic-refusal.json", {

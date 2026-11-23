@@ -2,110 +2,49 @@
   "managed-cooperative": {
     "admission_challenge_base64url": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
     "launch_input_records": {
+      "adapter_transport": "brokered-b",
       "argv": [
         "/fixture/r/adapter/fixture-acp"
       ],
+      "bridge_launch_sha256": "sha256:fab50fc3f566ea3e09e15b91090cb5d5c7ec5975054839509112cc710f579689",
       "component_digests": {
         "adapter": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
-        "bridge": "sha256:25c4b0373b5d9d6b8a8eef147b9c992058c164dd56b120004791098ae26eaddb",
-        "comms_broker": "sha256:5b5954fcead766fae2f9d3dc1c1a8654547e53855d424319af929fcff186db89",
-        "harness": "sha256:999290a5d94a4e13d9134dc019ec4dd94011df9e2887bab0b87f1d0911011b4b",
-        "hq": "sha256:d036b4a0f2740bcd6d6f3334d9baf6df898825d42379894c236876472168912e",
-        "machine": "sha256:12169e3bfb63b78a1e7acd3df0ac3f60dfad4fb9335807d5dad031763abf1526",
-        "souls": "sha256:c566ad4da0dc0fef4d63f8aaaea24427b8d6c7c9c21325795a5100dc257227c3",
-        "test_provider": "sha256:2ac024f9ac130f3528760cf478b00dd6bf29035846b4d365e895595680254d11"
+        "comms_broker": "sha256:15efd590844f747f279ae4089178bca134f7ae76e9911a7ed5fea8d3310452a1",
+        "harness": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "hq": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "machine": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "souls": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "test_provider": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
       },
       "effective_config": {
-        "adapter_id": "fixture-adapter",
-        "profile": "managed-cooperative"
+        "profile": "managed-cooperative",
+        "qualification_provider_config_sha256": "sha256:f38e898744d837fd391d821e990d5cfe9a5604792b4149bc6b88f2d5c0542f4e"
       },
       "environment": {
-        "HOME": "/private/stage2a/runner-home",
-        "TMPDIR": "/private/stage2a/runner-tmp"
+        "AGENT_BOT_SOULS_REQUIRE_HQ_LAUNCH": "1",
+        "HOME": "/private/var/agent-bot-soul-runner-_abm-sr-607220bb49b262d1ec63/state",
+        "PATH": "/usr/bin:/bin"
       },
       "files": [
         {
           "kind": "regular",
-          "mode": "0555",
-          "path": "bin/adapter",
-          "sha256": "19837aaa8806351854b4b1a3c37003227a2da9cd81bb13e3c0e1278481a25411",
-          "size": 14
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/bridge",
-          "sha256": "25c4b0373b5d9d6b8a8eef147b9c992058c164dd56b120004791098ae26eaddb",
-          "size": 13
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/comms-broker",
-          "sha256": "5b5954fcead766fae2f9d3dc1c1a8654547e53855d424319af929fcff186db89",
-          "size": 19
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/harness",
-          "sha256": "999290a5d94a4e13d9134dc019ec4dd94011df9e2887bab0b87f1d0911011b4b",
-          "size": 14
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/hq",
-          "sha256": "d036b4a0f2740bcd6d6f3334d9baf6df898825d42379894c236876472168912e",
-          "size": 9
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/machine",
-          "sha256": "12169e3bfb63b78a1e7acd3df0ac3f60dfad4fb9335807d5dad031763abf1526",
-          "size": 14
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/node",
-          "sha256": "8fa24749dfde768195b5417d92c739b5447816fc70f8a6df44adc201570b9e2f",
-          "size": 11
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/souls",
-          "sha256": "c566ad4da0dc0fef4d63f8aaaea24427b8d6c7c9c21325795a5100dc257227c3",
-          "size": 12
-        },
-        {
-          "kind": "regular",
-          "mode": "0555",
-          "path": "bin/test-provider",
-          "sha256": "2ac024f9ac130f3528760cf478b00dd6bf29035846b4d365e895595680254d11",
-          "size": 20
-        },
-        {
-          "kind": "regular",
           "mode": "0444",
           "path": "host/adapters.json",
-          "sha256": "48c6739f8bd0383410b64043bb220aefa6a69a03990ae2cbd39854062326253e",
-          "size": 30
+          "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "size": 28
         },
         {
           "kind": "regular",
           "mode": "0444",
           "path": "host/installation.json",
-          "sha256": "97e13c08f748c21f77624ebdc7eea076cb724f32685c529ec8ea07733524db89",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
           "size": 29
         },
         {
           "kind": "regular",
           "mode": "0444",
-          "path": "policy/harness-egress.sb",
-          "sha256": "1461895e6bcd6c38bd544c1de59e38271d7a934e98626e287e5277a2e4e045c0",
+          "path": "policy/cooperative.sb",
+          "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
           "size": 25
         }
       ],
@@ -122,22 +61,17 @@
           "installation_id": "inst_0000000000000001"
         }
       },
-      "sandbox_policy_digest": "sha256:1461895e6bcd6c38bd544c1de59e38271d7a934e98626e287e5277a2e4e045c0",
+      "sandbox_policy_digest": "sha256:6801a91ab82f79996e4728f09bcdbd2cdcdff5c2c371e936a79c365b702ae195",
       "selected_command": "/fixture/r/adapter/fixture-acp",
       "system_images": {
-        "build_version": "24G207",
-        "darwin_kernel": "Darwin 24.6.0",
+        "build_version": "24G99",
+        "darwin_kernel": "24.7.0",
         "product_version": "15.7",
         "selected": [
           {
-            "cdhash": "1111111111111111111111111111111111111111",
-            "path": "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
-            "signing_requirement": "anchor apple"
-          },
-          {
-            "cdhash": "2222222222222222222222222222222222222222",
-            "path": "/usr/lib/libSystem.B.dylib",
-            "signing_requirement": "anchor apple"
+            "cdhash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "path": "/usr/bin/sandbox-exec",
+            "signing_requirement": "identifier \"com.apple.sandbox-exec\" and anchor apple"
           }
         ]
       }
