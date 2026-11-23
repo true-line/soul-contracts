@@ -1,0 +1,53 @@
+{
+  "canonical_sha256": "sha256:0f06773b6832f6cf09a709cfb4c49b8bc076e192c6ff874b37c13689c9073c3e",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "challenge_sha256": "sha256:23783d2ad1018997a3d3d60c30b9acec58fcafe4a58927dfe148e38a5b55da03",
+    "child_observation_envelope_sha256": "sha256:d1ddeb528f162ba56b023d96896a8c4c1aa39f02a6d29f65d01c090014534b2a",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:28Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:23Z",
+    "kind": "stage2a-relay-peer-attestation",
+    "member_id": "m_lead",
+    "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+    "nonce_hex": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observed_adapter_parent": {
+      "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+      "pid": 4101,
+      "start_micros": 100,
+      "start_seconds": 1795356918,
+      "uid": 331
+    },
+    "observed_at": "2026-11-22T14:15:23Z",
+    "observed_cli": {
+      "executable_path": "/fixture/r/adapter/fixture-cli",
+      "executable_sha256": "sha256:4575517e516023fd0698342aec5e470a7533a94b5cf003b172af874cf773817f",
+      "gid": 331,
+      "parent_pid": 4101,
+      "pid": 4201,
+      "start_micros": 250,
+      "start_seconds": 1795356922,
+      "uid": 331
+    },
+    "profile_in_force": "managed-cooperative",
+    "ready_envelope_sha256": "sha256:18ed02819684963169b2706bc0749e947baa11b738886564687b73ee2d099f9b",
+    "reported_peer_token": {
+      "pid": 4201,
+      "pid_version": 77,
+      "uid": 331
+    },
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "rpc_id": "rpc_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "runtime_id": "runtime_fixture_m_lead",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-relay-peer-attestation-payload.schema.json"
+}
