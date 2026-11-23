@@ -6,7 +6,7 @@ These vectors pin the wire and signatures. They are not physical T21 results.
 import base64
 import hashlib
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
