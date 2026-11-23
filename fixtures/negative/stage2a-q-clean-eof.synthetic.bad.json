@@ -1,0 +1,23 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-q-clean-eof.synthetic.json",
+    "sha256": "sha256:e5094caf1931e9cf18fb9429ca435248401e85a8eaeb082c82493cd4c3f3b471"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "clean_eof_observed": false,
+    "eof_observed_at": "2026-11-22T12:00:03Z",
+    "finished_frame_sha256": "sha256:10f34dd3496b6d07275acadc7f7b0f6510e32dfeea2e53e16a62607a6e74c6f8",
+    "index_envelope_sha256": "sha256:93c5ee800808440a39be8f208205784f72b53371675c9ae20ed0f9ab91b17986",
+    "issued_at": "2026-11-22T12:00:04Z",
+    "kind": "finished-clean-eof",
+    "no_trailing_bytes": true,
+    "observation_count": 1,
+    "schema": "soul-conformance/qualification-session/v1",
+    "session_id": "1234567890abcdef1234567890abcdef",
+    "wire_sha256": "sha256:3812fa6827240f7db7d4261641c118249d75b15d5ea8ced61998201ffc1c27e8"
+  },
+  "schema": "machine/v3/stage2a-q-clean-eof.schema.json"
+}

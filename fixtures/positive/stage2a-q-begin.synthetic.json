@@ -1,0 +1,30 @@
+{
+  "canonical_sha256": "sha256:f75c66bf24d733daa39a82726bf0affaf61e73ddb0b86cdfdada291b374fdb62",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "challenge_base64url": "QkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkI",
+    "cohort_id": "synthetic-cohort",
+    "deadline_at": "2026-11-22T12:05:00Z",
+    "host_id": "synthetic-host",
+    "installation_id": "synthetic-install",
+    "kind": "begin",
+    "path_roots": [
+      "/tmp/q-root"
+    ],
+    "profile": "managed-protected",
+    "ps_sha256": "sha256:a06dd3c916bc36bb73ace23db395e652fcf2553c1d9981b3bcb0e8efa8d786c1",
+    "q_gid": 20,
+    "q_uid": 501,
+    "require_argv_proof": true,
+    "reservation_sha256": "sha256:809456f3cf60343b02d109373003062722a75d67d08ff8bdb8102761e00866da",
+    "schema": "soul-conformance/qualification-session/v1",
+    "session_id": "1234567890abcdef1234567890abcdef",
+    "soul_id": "agent_12345678-1234-1234-1234-1234567890ab",
+    "start_id": "st_1234567890abcdef12345678",
+    "suite_revision": "1111111111111111111111111111111111111111",
+    "test_plan_sha256": "sha256:216521556a9a3f1d9e5e05884c4c264cbf8072a554d255db128628db37160866"
+  },
+  "schema": "machine/v3/stage2a-q-begin.schema.json"
+}

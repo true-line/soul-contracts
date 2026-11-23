@@ -1,0 +1,24 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-q-ready.synthetic.json",
+    "sha256": "sha256:a73229f18c2ee4c999788e69c849e9a816a97e6697c47731fa26a6ad6686b148"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "argv": [],
+    "captured_at": "2026-11-22T12:00:00Z",
+    "challenge_sha256": "sha256:425ed4e4a36b30ea21b90e21c712c649e8214c29b7eaf68089d1039c6e55384c",
+    "exec_path": "/usr/local/bin/node",
+    "gid": 20,
+    "kind": "ready",
+    "pid": 812,
+    "schema": "soul-conformance/qualification-session/v1",
+    "sequence": 0,
+    "session_id": "1234567890abcdef1234567890abcdef",
+    "source_sha256": "sha256:c8f3126f7ccc3f583d6e55b2eda129de532b0184b0a44878961c013393738f17",
+    "uid": 501
+  },
+  "schema": "machine/v3/stage2a-q-ready.schema.json"
+}

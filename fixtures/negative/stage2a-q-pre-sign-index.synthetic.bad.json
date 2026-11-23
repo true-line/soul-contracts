@@ -1,0 +1,50 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-q-pre-sign-index.synthetic.json",
+    "sha256": "sha256:5b0d1a261ad4c7d44a012bec959d64e9cada1f0b3a1f58cc9cbe56fcaea72911"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "begin_frame_sha256": "sha256:68f546bbab429ee0c9229126cc33eac3f2cf604ee1e1e2defe9d86bcebe1318f",
+    "cohort_id": "synthetic-cohort",
+    "finish_request_frame_sha256": "sha256:b2cbed525bd352c9e5a4e79630428801bbeb8ce9a852d1cce76928678a6951c1",
+    "finished_frame_sha256": "sha256:10f34dd3496b6d07275acadc7f7b0f6510e32dfeea2e53e16a62607a6e74c6f8",
+    "host_id": "synthetic-host",
+    "installation_id": "synthetic-install",
+    "issued_at": "2026-11-22T12:00:04Z",
+    "kind": "pre-sign-index",
+    "launch_challenge_sha256": "sha256:49ad6d516a7f9ea93adcbf18519b98e7277d9f691ac8a80439b78c21d43a8277",
+    "observation_count": 1,
+    "observation_frames_sha256": "sha256:db5517b8d57b4d36bb63e1f26e7b575eb07985e4de706c772dec4f0bedbab049",
+    "ordered_frames_sha256": "sha256:79333df49cea05c6de2310ac53b3a30438013cf8a492df374083505be82c93e7",
+    "profile": "managed-protected",
+    "q_argv": [],
+    "q_challenge_sha256": "sha256:425ed4e4a36b30ea21b90e21c712c649e8214c29b7eaf68089d1039c6e55384c",
+    "q_executable": "/usr/local/bin/node",
+    "q_gid": 20,
+    "q_parent_pid": 811,
+    "q_pid": 812,
+    "q_process_group_id": 811,
+    "q_socket_birth_nanos": 123,
+    "q_socket_birth_seconds": 1795348700,
+    "q_socket_device": 1,
+    "q_socket_inode": 2,
+    "q_socket_path": "/tmp/q.sock",
+    "q_source_sha256": "sha256:c8f3126f7ccc3f583d6e55b2eda129de532b0184b0a44878961c013393738f17",
+    "q_start_micros": 123456,
+    "q_start_seconds": 1795348750,
+    "q_uid": 501,
+    "ready_frame_sha256": "sha256:c4455a5c6e5301a18d9fbd922619a768cc80d52c56516e65f28b46dd2705525d",
+    "request_frames_sha256": "sha256:e30d7c011bc1b36d6f1a91c05062bb902ff8fd1d0afe6b8f2772c3508a69a19b",
+    "reservation_sha256": "sha256:809456f3cf60343b02d109373003062722a75d67d08ff8bdb8102761e00866da",
+    "schema": "soul-conformance/qualification-session/v1",
+    "session_id": "1234567890abcdef1234567890abcdef",
+    "soul_id": "agent_12345678-1234-1234-1234-1234567890ab",
+    "start_id": "st_1234567890abcdef12345678",
+    "test_plan_sha256": "sha256:216521556a9a3f1d9e5e05884c4c264cbf8072a554d255db128628db37160866",
+    "wire_sha256": "sha256:3812fa6827240f7db7d4261641c118249d75b15d5ea8ced61998201ffc1c27e8"
+  },
+  "schema": "machine/v3/stage2a-q-pre-sign-index.schema.json"
+}

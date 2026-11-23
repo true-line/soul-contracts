@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-q-framed-wire.schema.json",
+  "title": "Exact framed Q session bytes",
+  "type": "object",
+  "required": [
+    "schema",
+    "kind",
+    "session_id",
+    "begin_frame_base64url",
+    "ready_frame_base64url",
+    "request_frames_base64url",
+    "observation_frames_base64url",
+    "finish_request_frame_base64url",
+    "finished_frame_base64url"
+  ],
+  "properties": {
+    "schema": {
+      "const": "soul-conformance/qualification-session/v1"
+    },
+    "kind": {
+      "const": "framed-wire"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "begin_frame_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "ready_frame_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "request_frames_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "observation_frames_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "finish_request_frame_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "finished_frame_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
+  },
+  "additionalProperties": false
+}

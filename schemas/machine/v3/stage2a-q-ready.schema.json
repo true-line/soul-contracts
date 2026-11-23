@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-q-ready.schema.json",
+  "title": "Q Ready frame with challenged executable and argv",
+  "type": "object",
+  "required": [
+    "schema",
+    "kind",
+    "session_id",
+    "challenge_sha256",
+    "sequence",
+    "pid",
+    "uid",
+    "gid",
+    "source_sha256",
+    "captured_at",
+    "exec_path",
+    "argv"
+  ],
+  "properties": {
+    "schema": {
+      "const": "soul-conformance/qualification-session/v1"
+    },
+    "kind": {
+      "const": "ready"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "challenge_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "sequence": {
+      "const": 0
+    },
+    "pid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "uid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "gid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "captured_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+    },
+    "exec_path": {
+      "type": "string",
+      "pattern": "^/[^\\u0000\\r\\n]+$",
+      "maxLength": 512
+    },
+    "argv": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 128,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      }
+    }
+  },
+  "additionalProperties": false
+}
