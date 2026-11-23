@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/inventory-ref.schema.json",
+  "title": "Compact A-custody H or R inventory reference (draft)",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "domain",
+    "installation_id",
+    "owner_plan_digest",
+    "reviewed_source_inventory_digest",
+    "machine_uid",
+    "reader_uid",
+    "reader_gid",
+    "snapshot",
+    "sidecar",
+    "file_count",
+    "directory_count",
+    "total_bytes",
+    "inventory_digest"
+  ],
+  "properties": {
+    "contract": {
+      "const": "machine/v3"
+    },
+    "kind": {
+      "const": "stage2a-inventory-ref"
+    },
+    "schema_version": {
+      "const": 3
+    },
+    "domain": {
+      "enum": [
+        "H-code",
+        "R-runtime"
+      ]
+    },
+    "installation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "owner_plan_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reviewed_source_inventory_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "machine_uid": {
+      "type": "integer",
+      "minimum": 400,
+      "maximum": 4294967295
+    },
+    "reader_uid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295
+    },
+    "reader_gid": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295
+    },
+    "snapshot": {
+      "type": "object",
+      "required": [
+        "path",
+        "device",
+        "inode",
+        "generation",
+        "birthtime_ns",
+        "owner_uid",
+        "owner_gid",
+        "mode"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+        },
+        "device": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "inode": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "generation": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "birthtime_ns": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "owner_uid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "owner_gid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "mode": {
+          "const": "0555"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sidecar": {
+      "type": "object",
+      "required": [
+        "path",
+        "device",
+        "inode",
+        "generation",
+        "birthtime_ns",
+        "owner_uid",
+        "owner_gid",
+        "mode",
+        "size_bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+        },
+        "device": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "inode": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "generation": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "birthtime_ns": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "owner_uid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "owner_gid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "mode": {
+          "const": "0440"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2097152
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "file_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 512
+    },
+    "directory_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "total_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1073741824
+    },
+    "inventory_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

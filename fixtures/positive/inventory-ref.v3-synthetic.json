@@ -1,0 +1,46 @@
+{
+  "canonical_sha256": "sha256:9804dae1743a18ead159c8ff610579d40b83793d878f8fa5502cf4a0c9d34dfc",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "machine/v3",
+    "directory_count": 3,
+    "domain": "H-code",
+    "file_count": 5,
+    "installation_id": "hq-inst-1",
+    "inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
+    "kind": "stage2a-inventory-ref",
+    "machine_uid": 501,
+    "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "reader_gid": 309,
+    "reader_uid": 309,
+    "reviewed_source_inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
+    "schema_version": 3,
+    "sidecar": {
+      "birthtime_ns": "1795356916000000000",
+      "device": "1",
+      "generation": "4",
+      "inode": "800",
+      "mode": "0440",
+      "owner_gid": 309,
+      "owner_uid": 501,
+      "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/inventory_7e70155363e4044be4e6178b.jcs",
+      "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
+      "size_bytes": 1471
+    },
+    "snapshot": {
+      "birthtime_ns": "1795356916000000000",
+      "device": "1",
+      "generation": "4",
+      "inode": "700",
+      "mode": "0555",
+      "owner_gid": 309,
+      "owner_uid": 501,
+      "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b"
+    },
+    "total_bytes": 1200
+  },
+  "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
+  "schema": "machine/v3/inventory-ref.schema.json"
+}

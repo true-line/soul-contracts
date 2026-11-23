@@ -35,6 +35,7 @@ from qualification_acceptance_witness_fixtures import check_qualification_accept
 from stage2a_measurement_fixtures import check_stage2a_measurement_fixtures  # noqa: E402
 from stage2a_reservation_fixtures import check_stage2a_reservation_fixtures  # noqa: E402
 from stage2a_reservation_v2_fixtures import check_stage2a_reservation_v2_fixtures  # noqa: E402
+from stage2a_hr_v3_fixtures import check_stage2a_hr_v3_fixtures  # noqa: E402
 from qualification_report_v3_fixtures import check_report_v3_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -206,6 +207,7 @@ check_qualification_acceptance_witness_fixtures(ROOT, schemas, report)
 check_stage2a_measurement_fixtures(ROOT, schemas, report)
 check_stage2a_reservation_fixtures(ROOT, schemas, report)
 check_stage2a_reservation_v2_fixtures(ROOT, schemas, report)
+check_stage2a_hr_v3_fixtures(ROOT, schemas, report)
 check_report_v3_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
 
@@ -405,15 +407,15 @@ def vendor_text(path):
     raw = path.read_text(encoding="utf-8")
     # These synthetic reservation vectors carry encoded JSON and signatures.
     # Inspect decoded JSON, not incidental vendor-like base64 substrings.
-    if path.name.startswith(("stage2a-signed-reservation.", "machine-658-synthetic",
-                             "machine-admin-synthetic", "negative-vectors",
+    if path.name.startswith(("stage2a-signed-reservation.", "h-service-descriptor-signed.", "machine-658-synthetic",
+                             "machine-admin-synthetic", "machine-hr-synthetic", "negative-vectors",
                              "qualification-host-signature.measurement-v3")) and \
-            ("payload_base64url" in raw or "report_base64url" in raw):
+            ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw):
         def decode_reservation(item):
             if isinstance(item, dict):
                 out = {}
                 for key, value in item.items():
-                    if key == "envelope_jcs" and isinstance(value, str):
+                    if (key == "envelope_jcs" or key.endswith("_envelope_jcs")) and isinstance(value, str):
                         out[key] = decode_reservation(json.loads(value))
                     elif key in ("payload_base64url", "report_base64url", "signing_preimage_base64url") and isinstance(value, str):
                         try:

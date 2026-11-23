@@ -1,0 +1,113 @@
+{
+  "base": {
+    "fixture": "positive/h-service-descriptor-payload.v3-synthetic.json",
+    "sha256": "sha256:661e05cb3ab4b6b0500e9d18e0bcc4c2ebfb2053a3c9539309ebe075cc5a73b7"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "components": [
+      {
+        "component_id": "hq",
+        "release_artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "release_manifest_sha256": "sha256:65f434545475f28cd028df7faab86ff68e005f32f5ed10d33ece5589fa4c4cae",
+        "source_repository": "true-line/agent-bot-hq",
+        "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "component_id": "node",
+        "release_artifact_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "release_manifest_sha256": "sha256:b25d275a62300e384c10aae1f8574dc9180a9972c5e72539d55f5d29f9e951dc",
+        "source_repository": "nodejs/node",
+        "source_commit": "dddddddddddddddddddddddddddddddddddddddd",
+        "source_tag": "v26.13.1"
+      }
+    ],
+    "contract": "machine/v3",
+    "h_inventory": {
+      "contract": "machine/v3",
+      "directory_count": 3,
+      "domain": "H-code",
+      "file_count": 5,
+      "installation_id": "hq-inst-1",
+      "inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
+      "kind": "stage2a-inventory-ref",
+      "machine_uid": 501,
+      "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "reader_gid": 309,
+      "reader_uid": 309,
+      "reviewed_source_inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
+      "schema_version": 3,
+      "sidecar": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "800",
+        "mode": "0440",
+        "owner_gid": 309,
+        "owner_uid": 501,
+        "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/inventory_7e70155363e4044be4e6178b.jcs",
+        "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
+        "size_bytes": 1471
+      },
+      "snapshot": {
+        "birthtime_ns": "1795356916000000000",
+        "device": "1",
+        "generation": "4",
+        "inode": "700",
+        "mode": "0555",
+        "owner_gid": 309,
+        "owner_uid": 501,
+        "path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b"
+      },
+      "total_bytes": 1200
+    },
+    "host_id": "synthetic-host",
+    "hq_installation_id": "hq-inst-1",
+    "kind": "stage2a-h-service-descriptor",
+    "outer_launch": {
+      "argv": [
+        "/usr/bin/ruby",
+        "--disable-gems",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/helpers/darwin-owner.rb",
+        "launch",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
+        "--no-addons",
+        "--disallow-code-generation-from-strings",
+        "--import",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
+        "run"
+      ],
+      "helper_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/helpers/darwin-owner.rb",
+      "helper_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "ruby_path": "/usr/bin/ruby",
+      "ruby_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "runtime": {
+      "argv": [
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
+        "--no-addons",
+        "--disallow-code-generation-from-strings",
+        "--import",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
+        "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
+        "run"
+      ],
+      "entry_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/main.mjs",
+      "entry_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "guard_module_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/stage2a-selected-code.mjs",
+      "guard_module_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "node_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/bin/node",
+      "node_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "preloader_path": "/private/var/db/managed-machine/soul-snapshots/hq_f369fe08b969f9ab23f5/snap_7e70155363e4044be4e6178b/hq/preloader.mjs",
+      "preloader_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "schema_version": 3,
+    "hq_epoch": "unexpected"
+  },
+  "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
+  "schema": "machine/v3/h-service-descriptor-payload.schema.json"
+}
