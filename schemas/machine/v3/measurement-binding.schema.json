@@ -74,7 +74,7 @@
     "soul_artifact_sha256": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$",
-      "description": "Exact frozen installable .soul transport bytes. This additive claim requires an independently authenticated release receipt and installed-byte measurement before qualification."
+      "description": "Exact frozen installable .soul transport bytes. For the private Stage 2a pilot, the authenticated owner-approved exact installation-plan digest pins this artifact hash and Machine remeasures installed bytes. This field does not require or assert a separately signed .soul release receipt."
     },
     "profile_in_force": {
       "enum": [

@@ -125,7 +125,11 @@ The separately approved Soul plan pins the installed H descriptor digest and
 its own reviewed R inventory. A's v3 per-start reservation binds that H digest,
 R compact reference, installed Soul plan, HQ epoch, designated host, Soul,
 installation, start and launch IDs, and the v2 frozen definition/launch-input
-measurement fields. The inherited bare `measurement_binding.package_sha256`
+measurement fields. The `soul_artifact_sha256` names exact frozen `.soul`
+transport bytes; for this private pilot the authenticated owner-approved
+installation-plan digest pins that hash and Machine remeasures installed bytes.
+It does not assert a separately signed `.soul` release receipt. The inherited
+bare `measurement_binding.package_sha256`
 names the Machine package. `adapter_release.package_sha256` is a distinct
 qualified adapter release artifact. Its attested release manifest must map all
 adapter component rows; every other R component must map all-and-only to its
