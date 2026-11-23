@@ -62,11 +62,29 @@ def signed(vector, kind, envelope_schema, payload_schema, schemas, public):
     return payload, envelope_raw
 
 
-def primary_bytes(root, profile):
+def verify_existing_envelope(raw, purpose, envelope_schema, payload_schema, schemas, public):
+    envelope = parse_strict(raw)
+    require(canonicalize(envelope) == raw and schemas[envelope_schema].is_valid(envelope) and
+            envelope["purpose"] == purpose and decode(envelope["issuer_public_key_base64url"]) == public,
+            "existing authority shares pinned A key, purpose and JCS")
+    payload_raw = decode(envelope["payload_base64url"])
+    payload = parse_strict(payload_raw)
+    require(canonicalize(payload) == payload_raw and digest(payload_raw) == envelope["payload_sha256"] and
+            schemas[payload_schema].is_valid(payload), "existing authority exact payload/JCS/digest")
+    Ed25519PublicKey.from_public_bytes(public).verify(
+        decode(envelope["signature_base64url"]), purpose.encode("ascii") + b"\0" + payload_raw)
+    return payload
+
+
+def primary_bytes(root, profile, vector, schemas, public):
+    raw = vector["primary_reservation_envelope_jcs"].encode("utf-8")
     if profile == "managed-protected":
-        fx = json.loads((root / "fixtures/positive/stage2a-signed-reservation.v3-synthetic.json").read_text())
-        payload = json.loads((root / "fixtures/positive/stage2a-reservation-payload.v3-synthetic.json").read_text())["input"]
-        raw = canonicalize(fx["input"])
+        payload = verify_existing_envelope(raw, "agent-bot/stage2a-reservation/v3",
+            "machine/v3/stage2a-signed-reservation.schema.json",
+            "machine/v3/stage2a-reservation-payload.schema.json", schemas, public)
+        source_payload = json.loads((root / "fixtures/positive/stage2a-reservation-payload.v3-synthetic.json").read_text())["input"]
+        require(payload == source_payload and vector["private_b_authority_envelope_jcs"] is None,
+                "synthetic primary uses exact reviewed protected payload")
         a = payload["assignment"]
         b = {"account": a["bridge_account"], "uid": a["bridge_uid"], "gid": a["bridge_gid"],
              "endpoints": {name: a[name] for name in ("broker", "member", "relay")}}
@@ -74,10 +92,17 @@ def primary_bytes(root, profile):
         authority_sha = digest(raw)
     else:
         fx = json.loads((root / "fixtures/reservation/v3/soul-cooperative-signed-reservation.brokered-b.synthetic.json").read_text())
-        raw = fx["reservation_envelope_jcs"].encode("utf-8")
-        payload = parse_strict(fx["reservation_payload_jcs"].encode("utf-8"))
-        private_raw = fx["bridge_envelope_jcs"].encode("utf-8")
-        private = parse_strict(decode(parse_strict(private_raw)["payload_base64url"]))
+        payload = verify_existing_envelope(raw, "agent-bot/soul-cooperative-reservation/v3",
+            "machine/v3/soul-cooperative-signed-reservation.schema.json",
+            "machine/v3/soul-cooperative-reservation-payload.schema.json", schemas, public)
+        require(payload == parse_strict(fx["reservation_payload_jcs"].encode("utf-8")),
+                "synthetic primary uses exact reviewed cooperative payload")
+        private_raw = vector["private_b_authority_envelope_jcs"].encode("utf-8")
+        private = verify_existing_envelope(private_raw, "agent-bot/soul-cooperative-bridge-assignment/v3",
+            "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
+            "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json", schemas, public)
+        source_private = parse_strict(decode(parse_strict(fx["bridge_envelope_jcs"].encode("utf-8"))["payload_base64url"]))
+        require(private == source_private, "synthetic private B authority uses exact reviewed payload")
         b = {"account": private["bridge"]["account"], "uid": private["bridge"]["uid"],
              "gid": private["bridge"]["gid"], "endpoints": private["endpoints"]}
         purpose = "agent-bot/soul-cooperative-bridge-assignment/v3"
@@ -89,7 +114,8 @@ def check_vector(root, profile, vector, schemas, public):
     assignment, assignment_envelope = signed(vector, "assignment", SIGNED_ASSIGNMENT, ASSIGNMENT, schemas, public)
     child, child_envelope = signed(vector, "child_observation", SIGNED_CHILD, CHILD, schemas, public)
     ready, ready_envelope = signed(vector, "ready", SIGNED_READY, READY, schemas, public)
-    primary, reservation_raw, bridge, authority_purpose, authority_sha = primary_bytes(root, profile)
+    primary, reservation_raw, bridge, authority_purpose, authority_sha = primary_bytes(
+        root, profile, vector, schemas, public)
     a = primary["assignment"]
     require(vector["source_reservation_sha256"] == digest(reservation_raw) == assignment["reservation_sha256"],
             "exact existing A reservation")

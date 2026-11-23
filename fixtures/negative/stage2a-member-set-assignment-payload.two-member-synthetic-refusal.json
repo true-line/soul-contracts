@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-assignment-payload.two-member-synthetic.json",
-    "sha256": "sha256:66401d3d02de87ce214e44d58bbac1a3ded4c5accef7b0aeab8e932eaa33c64c"
+    "sha256": "sha256:fd69899e27af61bdb69dc6150378ac5a859f7e62cc766a4dbaec4dfa41e22185"
   },
   "expect": {
     "schema": "invalid"
@@ -9,7 +9,7 @@
   "input": {
     "adapter_manifest_relpath": "Contents/opt/fixture-stock.json",
     "b_authority": {
-      "envelope_sha256": "sha256:329493e04e87f8b3d6c6f96cc5878b04a24f3302efbd54600a756fab002668ca",
+      "envelope_sha256": "sha256:bb0bf0cd5806b879117cf9517a495a59e807539c316b7f4ce53a57a59826ec8c",
       "purpose": "agent-bot/soul-cooperative-bridge-assignment/v3"
     },
     "bridge": {
@@ -76,7 +76,7 @@
         "command_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
         "launch_id": "ln_0123456789abcdef01234567",
         "member_id": "m_lead",
-        "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
         "role": "lead"
       }
     ],
@@ -84,7 +84,7 @@
     "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
     "plan_id": "plan-20261122T141516Z-abcd",
     "profile_in_force": "managed-cooperative",
-    "reservation_sha256": "sha256:2fcf23c02b279b697825fd0b7fd60b742171bcd3d68194b3cbe3d6b6121fc2aa",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
     "runner_gid": 331,
     "runner_uid": 331,
     "schema_version": 1,

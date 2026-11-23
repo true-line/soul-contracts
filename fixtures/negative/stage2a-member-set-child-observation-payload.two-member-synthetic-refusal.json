@@ -1,13 +1,13 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-child-observation-payload.two-member-synthetic.json",
-    "sha256": "sha256:cee62fc3b86d5689fdc2a5659e8a590324c7948c95bbf777bdabea9befcccda2"
+    "sha256": "sha256:feb3a715b2e856ba42df7bc23f96462477f25edbb610a91ca0d8552b704a9907"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
-    "assignment_envelope_sha256": "sha256:0e57cd58cb7399cc6b10131ec00403ec81ae5f6295929b380a7ed81d0586741b",
+    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
     "contract": "machine/v3",
     "expires_at": "2026-11-22T14:15:36Z",
     "host_id": "synthetic-host",
@@ -29,7 +29,7 @@
         },
         "launch_id": "ln_0123456789abcdef01234567",
         "member_id": "m_lead",
-        "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
         "runtime_id": "runtime_fixture_m_lead"
       }
     ],
@@ -37,7 +37,7 @@
     "profile_in_force": "managed-cooperative",
     "provisional_hq_mapping": {
       "acp_authority": "withheld",
-      "assignment_envelope_sha256": "sha256:0e57cd58cb7399cc6b10131ec00403ec81ae5f6295929b380a7ed81d0586741b",
+      "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
       "contract": "hq/v1",
       "expires_at": "2026-11-22T14:15:36Z",
       "host_id": "synthetic-host",
@@ -49,13 +49,13 @@
         {
           "channel_binding": "KCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo",
           "member_id": "m_lead",
-          "member_selector": "mb_4093be8cfbe94a55dca9044f834637679d5d41dee5662d1771183a65404f2abd",
+          "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
           "runtime_id": "runtime_fixture_m_lead"
         },
         {
           "channel_binding": "KSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkp",
           "member_id": "m_spec",
-          "member_selector": "mb_b96d7374ab13390e55161e89451142c1fa787759a5760b447abaf691e748fe87",
+          "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
           "runtime_id": "runtime_fixture_m_spec"
         }
       ],
@@ -65,8 +65,8 @@
       "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
       "start_id": "st_0123456789abcdef01234567"
     },
-    "provisional_hq_mapping_sha256": "sha256:edd53755aa8eadcd7174b143ef86712ce27edba3bbf64e81a95a3e0a424d1f2e",
-    "reservation_sha256": "sha256:2fcf23c02b279b697825fd0b7fd60b742171bcd3d68194b3cbe3d6b6121fc2aa",
+    "provisional_hq_mapping_sha256": "sha256:023cd6c3aec5fadd6524e5766cbb0b92da65734d75b8b079be175a5f01cc5a2a",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
     "schema_version": 1,
     "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
     "start_id": "st_0123456789abcdef01234567"

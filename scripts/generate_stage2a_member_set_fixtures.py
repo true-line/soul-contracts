@@ -62,6 +62,17 @@ def sign(kind, payload):
     return payload_raw.decode("utf-8"), envelope, canonicalize(envelope).decode("utf-8")
 
 
+def sign_existing(purpose, payload):
+    """Resign source fixture payloads with this vector's one public A test key."""
+    raw = canonicalize(payload)
+    return canonicalize({
+        "schema_version": 3, "purpose": purpose,
+        "issuer_public_key_base64url": b64(PUBLIC),
+        "payload_sha256": sha(raw), "payload_base64url": b64(raw),
+        "signature_base64url": b64(KEY.sign(purpose.encode("ascii") + b"\0" + raw)),
+    })
+
+
 def selector(reservation_sha256, member_id, launch_id):
     raw = b"agent-bot/stage2a-member-selector/v1\0" + reservation_sha256.encode("ascii") + b"\0"
     raw += member_id.encode("utf-8") + b"\0" + launch_id.encode("ascii")
@@ -71,7 +82,8 @@ def selector(reservation_sha256, member_id, launch_id):
 def profile_inputs(profile):
     if profile == "managed-protected":
         payload = json_file("fixtures/positive/stage2a-reservation-payload.v3-synthetic.json")["input"]
-        primary = canonicalize(json_file("fixtures/positive/stage2a-signed-reservation.v3-synthetic.json")["input"])
+        primary = sign_existing("agent-bot/stage2a-reservation/v3", payload)
+        private = None
         a = payload["assignment"]
         bridge = {"account": a["bridge_account"], "uid": a["bridge_uid"], "gid": a["bridge_gid"],
                   "endpoints": {name: a[name] for name in ("broker", "member", "relay")}}
@@ -81,21 +93,21 @@ def profile_inputs(profile):
     else:
         vector = json_file("fixtures/reservation/v3/soul-cooperative-signed-reservation.brokered-b.synthetic.json")
         payload = json.loads(vector["reservation_payload_jcs"])
-        primary = vector["reservation_envelope_jcs"].encode("utf-8")
-        private = vector["bridge_envelope_jcs"].encode("utf-8")
-        envelope = json.loads(private)
+        primary = sign_existing("agent-bot/soul-cooperative-reservation/v3", payload)
+        envelope = json.loads(vector["bridge_envelope_jcs"])
         raw = base64.urlsafe_b64decode(envelope["payload_base64url"] + "=" * (-len(envelope["payload_base64url"]) % 4))
         b = json.loads(raw)
+        private = sign_existing("agent-bot/soul-cooperative-bridge-assignment/v3", b)
         bridge = {"account": b["bridge"]["account"], "uid": b["bridge"]["uid"],
                   "gid": b["bridge"]["gid"], "endpoints": b["endpoints"]}
         authority = {"purpose": "agent-bot/soul-cooperative-bridge-assignment/v3", "envelope_sha256": sha(private)}
         bridge_executable = b["bridge"]["executable_sha256"]
         source = "fixtures/reservation/v3/soul-cooperative-signed-reservation.brokered-b.synthetic.json"
-    return payload, primary, bridge, authority, bridge_executable, source
+    return payload, primary, private, bridge, authority, bridge_executable, source
 
 
 def build(profile):
-    primary, reservation_raw, bridge, authority, bridge_executable, source = profile_inputs(profile)
+    primary, reservation_raw, private_raw, bridge, authority, bridge_executable, source = profile_inputs(profile)
     a = primary["assignment"]
     commands = {"m_lead": b"synthetic-acp-command", "m_spec": b"synthetic-acp-command"}
     paths = {"m_lead": "/fixture/r/adapter/fixture-acp", "m_spec": "/fixture/r/adapter/fixture-acp"}
@@ -200,6 +212,8 @@ def build(profile):
     ready_jcs, ready_envelope, ready_envelope_jcs = sign("ready", ready)
     return {
         "source_reservation_fixture": source, "source_reservation_sha256": sha(reservation_raw),
+        "primary_reservation_envelope_jcs": reservation_raw.decode("utf-8"),
+        "private_b_authority_envelope_jcs": private_raw.decode("utf-8") if private_raw else None,
         "frozen_soul_info_raw_base64url": b64(soul_info_raw), "host_projection_jcs": canonicalize(host_projection).decode("utf-8"),
         "adapter_manifest_raw_base64url": b64(manifest_raw), "cli_bytes_base64url": b64(cli_bytes),
         "command_bytes_base64url": {member_id: b64(raw) for member_id, raw in commands.items()},
