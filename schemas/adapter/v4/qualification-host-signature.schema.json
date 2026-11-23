@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v4/qualification-host-signature.schema.json",
+  "title": "Provisional Stage 2a successor host signature envelope (draft)",
+  "description": "Provisional signature envelope over exact canonical v4 report bytes. The fixed preimage is ASCII purpose, NUL, then RFC 8785 JCS report bytes. Shape alone proves no signature or host designation.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "purpose",
+    "host_id",
+    "signer_id",
+    "report_sha256",
+    "report_base64url",
+    "signature_base64url"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 4
+    },
+    "purpose": {
+      "const": "agent-bot/qualification-host-report/v4"
+    },
+    "host_id": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/host_id"
+    },
+    "signer_id": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/signer_id"
+    },
+    "report_sha256": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/report_sha256"
+    },
+    "report_base64url": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/report_base64url"
+    },
+    "signature_base64url": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-signature.schema.json#/properties/signature_base64url"
+    }
+  },
+  "additionalProperties": false
+}

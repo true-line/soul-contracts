@@ -1,0 +1,28 @@
+{
+  "canonical_sha256": "sha256:941f64e48d83cfe1c011fe8e78e5da2e4308d9954bbd16911ee2f38b1fcc15c1",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "bridge_assignment_sha256": "sha256:9da073bcce5dba341fcf2a8f3e440c4e532da61c7fa567a7bea44aa6f5224116",
+    "challenge_sha256": "sha256:630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd",
+    "cohort_id": "synthetic-cohort-cooperative",
+    "completed_at": "2026-11-22T14:15:26Z",
+    "cooperative_order_receipt_sha256": "sha256:70b9d45831de5272906a1546bfd91d43f0517d8b99ed1e5e3f1011ba1cbd85ee",
+    "host_id": "synthetic-host",
+    "installation_id": "inst_0000000000000001",
+    "kind": "stage2a-execution-completion",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "measurement_binding_sha256": "sha256:c4f0621586d14385e4c7c70bbdf2c7ea7f962d6eaf1691c08e6e6e683cae4d46",
+    "profile_in_force": "managed-cooperative",
+    "q_clean_eof_envelope_sha256": "sha256:10f5bc7ec54f3eb0092005fc165ba90993560c276ae5aa0d46f83e0124cd4d59",
+    "q_frame_index_envelope_sha256": "sha256:03daa66eceb61fc510270734d62b81df5851aa0b6a7906e1d71098213e6ec93c",
+    "q_framed_wire_sha256": "sha256:31cd8d8e862efdff7bfa940c29fb0e1c7c1fafa4921216a3de255320b7a30995",
+    "report_candidate_sha256": "sha256:ab3cca1f913f980f7819aacfcfd022cd7cbc5563698dd8d75519fb60dd5a7a60",
+    "reservation_sha256": "sha256:28310c54d8d222d8723108fa2a52597781a5fb2b41a1bcab55aaa4e7ac8ad410",
+    "schema_version": 2,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v2/stage2a-execution-completion-payload.schema.json"
+}

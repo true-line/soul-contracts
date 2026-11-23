@@ -1,0 +1,27 @@
+{
+  "canonical_sha256": "sha256:1ba8f514d0c5ecdced0fd23c1e07675b8d0e2b9733b3ff3a94b462513d4343a9",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
+    "cohort_id": "synthetic-cohort-protected",
+    "completed_at": "2026-11-22T14:15:26Z",
+    "finalization_sha256": "sha256:9d3193ca021d89962f7210a0dbd30d82c7f9a4d05689f22fd86b3147b41756b5",
+    "host_id": "synthetic-host",
+    "installation_id": "inst_0000000000000001",
+    "kind": "stage2a-execution-completion",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "measurement_binding_sha256": "sha256:1cde769ef301cffc83e4eebb034b60851b90e27266c2e8e792f38a3151a77446",
+    "profile_in_force": "managed-protected",
+    "q_clean_eof_envelope_sha256": "sha256:df41b56da021044c80ed9d5759473c2d4fb9118cc17d6fe6b77738a678e60c6b",
+    "q_frame_index_envelope_sha256": "sha256:381cc3db4cf3323b23d12c4271152d696987186d5b9a624bb7375c711a363863",
+    "q_framed_wire_sha256": "sha256:8b9b9e0fed5ba1e73d31ba3ce563348822c90170cb4eb2a95d5ed73bd99a08a9",
+    "report_candidate_sha256": "sha256:9c01047ab4ed1af7b5220591207e4df5ad4961d70e27a05cf4f9acabadd10d82",
+    "reservation_sha256": "sha256:13c834ba39190c5289fef6d88d75d180525b4cd0cc4abe8c1973233b8f1d6d06",
+    "schema_version": 2,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v2/stage2a-execution-completion-payload.schema.json"
+}

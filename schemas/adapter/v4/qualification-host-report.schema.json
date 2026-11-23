@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/adapter/v4/qualification-host-report.schema.json",
+  "title": "Stage 2a designated-host report with signed Q and profile-specific completion (draft)",
+  "description": "Successor report for machine/v3 measurements. Protected and brokered-B cooperative attempts bind distinct one-use records and exact A-signed Q wire, frame-index, and clean-EOF envelopes. Shape alone grants no signing or qualification.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "adapter",
+    "launch",
+    "harness",
+    "runner",
+    "soul_start",
+    "host",
+    "profile_in_force",
+    "renders",
+    "cost_bound",
+    "evaluation_cells",
+    "suite_revision",
+    "run_id",
+    "outcome",
+    "checks",
+    "gates",
+    "measurement_binding",
+    "run_evidence",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 4
+    },
+    "adapter": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/adapter"
+    },
+    "launch": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/launch"
+    },
+    "harness": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/harness"
+    },
+    "runner": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/runner"
+    },
+    "soul_start": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/soul_start"
+    },
+    "host": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/host"
+    },
+    "profile_in_force": {
+      "enum": [
+        "managed-protected",
+        "managed-cooperative"
+      ]
+    },
+    "renders": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/renders"
+    },
+    "cost_bound": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/cost_bound"
+    },
+    "evaluation_cells": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/evaluation_cells"
+    },
+    "suite_revision": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/suite_revision"
+    },
+    "run_id": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/run_id"
+    },
+    "outcome": {
+      "const": "pass"
+    },
+    "checks": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/checks"
+    },
+    "gates": {
+      "type": "object"
+    },
+    "measurement_binding": {
+      "type": "object"
+    },
+    "run_evidence": {
+      "description": "Exact local byte references; a verifier resolves and authenticates every blob. The pre-sign completion report-candidate digest covers this object with only execution_completion omitted.",
+      "type": "object",
+      "required": [
+        "reservation",
+        "execution_completion",
+        "challenge_sha256",
+        "q_session"
+      ],
+      "properties": {
+        "reservation": {
+          "$ref": "#/$defs/evidence"
+        },
+        "finalization": {
+          "$ref": "#/$defs/evidence"
+        },
+        "bridge_assignment": {
+          "$ref": "#/$defs/evidence"
+        },
+        "cooperative_order_receipt": {
+          "$ref": "#/$defs/evidence"
+        },
+        "execution_completion": {
+          "$ref": "#/$defs/evidence"
+        },
+        "challenge_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "q_session": {
+          "type": "object",
+          "required": [
+            "framed_wire",
+            "frame_index_envelope",
+            "clean_eof_envelope"
+          ],
+          "properties": {
+            "framed_wire": {
+              "$ref": "#/$defs/evidence"
+            },
+            "frame_index_envelope": {
+              "$ref": "#/$defs/evidence"
+            },
+            "clean_eof_envelope": {
+              "$ref": "#/$defs/evidence"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "bridge": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-host-report.schema.json#/properties/bridge"
+    },
+    "recorded_at": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-host-report.schema.json#/properties/recorded_at"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "properties": {
+        "host": {
+          "properties": {
+            "os": {
+              "const": "darwin"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "profile_in_force": {
+            "const": "managed-protected"
+          }
+        },
+        "required": [
+          "profile_in_force"
+        ]
+      },
+      "then": {
+        "required": [
+          "bridge"
+        ],
+        "properties": {
+          "gates": {
+            "$ref": "https://true-line.ai/soul-contracts/adapter/v2/qualification-host-report.schema.json#/properties/gates"
+          },
+          "checks": {
+            "type": "object",
+            "properties": {
+              "egress": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "credentials": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "state_redirect": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "safe_interrupt_resume": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "session_reuse": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "cost_bound": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              },
+              "render_coverage": {
+                "properties": {
+                  "outcome": {
+                    "const": "pass"
+                  }
+                }
+              }
+            }
+          },
+          "run_evidence": {
+            "required": [
+              "finalization"
+            ],
+            "properties": {
+              "bridge_assignment": false,
+              "cooperative_order_receipt": false
+            }
+          },
+          "measurement_binding": {
+            "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "bridge": false,
+          "gates": {
+            "type": "object",
+            "required": [
+              "T21"
+            ],
+            "properties": {
+              "T21": {
+                "$ref": "#/$defs/passing_gate"
+              }
+            },
+            "additionalProperties": false
+          },
+          "run_evidence": {
+            "required": [
+              "bridge_assignment",
+              "cooperative_order_receipt"
+            ],
+            "properties": {
+              "finalization": false
+            }
+          },
+          "measurement_binding": {
+            "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/cooperativeMeasurementBinding"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "evidence": {
+      "$ref": "https://true-line.ai/soul-contracts/adapter/v1/qualification-evidence.schema.json#/$defs/evidence_ref"
+    },
+    "passing_gate": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "evidence"
+      ],
+      "properties": {
+        "outcome": {
+          "const": "pass"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
