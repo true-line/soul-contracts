@@ -29,6 +29,16 @@ def digest(raw):
     return "sha256:" + hashlib.sha256(raw).hexdigest()
 
 
+def domain_names(domain, installation_id):
+    slot = hashlib.sha256(b"agent-bot/stage2a-domain-slot/v3\0" +
+        domain.encode() + b"\0" + installation_id.encode()).hexdigest()[:20]
+    stem = hashlib.sha256(b"agent-bot/stage2a-domain-snapshot/v3\0" +
+        domain.encode() + b"\0" + installation_id.encode()).hexdigest()[:24]
+    prefix = "hq_" if domain == "H-code" else "r_"
+    parent = "/private/var/db/managed-machine/soul-snapshots/" + prefix + slot
+    return parent + "/snap_" + stem, parent + "/inventory_" + stem + ".jcs"
+
+
 def decode(value):
     raw = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
     if base64.urlsafe_b64encode(raw).rstrip(b"=").decode() != value:
@@ -93,6 +103,8 @@ def inventory_ref(inv, ref, schemas):
             "sidecar outside inventoried tree")
     require(os.path.dirname(sidecar["path"]) == os.path.dirname(root["path"]),
             "A-sealed snapshot and sidecar share an exact private namespace")
+    require((root["path"], sidecar["path"]) == domain_names(inv["domain"], inv["installation_id"]),
+            "A-sealed snapshot and sidecar use the exact domain-separated names")
     return {row["path"]: row for row in inv["files"]}
 
 
@@ -271,6 +283,7 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
         "R owner plan substitution": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"].__setitem__("owner_plan_digest", "sha256:" + "0" * 64)), pinned),
         "R sidecar inside measured tree": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("path", p["measurement_binding"]["r_inventory"]["snapshot"]["path"] + "/sidecar.json")), pinned),
         "R sidecar byte digest": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["sidecar"].__setitem__("sha256", "sha256:" + "0" * 64)), pinned),
+        "R plausible wrong snapshot name": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["snapshot"].__setitem__("path", p["measurement_binding"]["r_inventory"]["snapshot"]["path"][:-1] + "0")), pinned),
         "R root alias of H": (mutate_payload("r", lambda p: p["measurement_binding"]["r_inventory"]["snapshot"].__setitem__("path", parse_strict(vector["h_payload_jcs"].encode())["h_inventory"]["snapshot"]["path"])), pinned),
         "shared H/R reader group": (mutate_payload("r", lambda p: (
             p["measurement_binding"]["r_inventory"].__setitem__("reader_gid", 309),

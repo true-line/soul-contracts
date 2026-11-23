@@ -32,6 +32,16 @@ must reopen by no-follow descriptors and reject any missing, extra, changed,
 linked, writable, ACL-bearing or unlisted path, and recheck before every start.
 JSON Schema cannot prove the filesystem observations.
 
+Machine derives each namespace as
+`/private/var/db/managed-machine/soul-snapshots/<prefix><slot>`, where prefix
+is `hq_` for H or `r_` for R. `slot` is the first 10 SHA-256 bytes of ASCII
+`agent-bot/stage2a-domain-slot/v3`, NUL, domain, NUL, installation ID.
+The root is `snap_<stem>` and sibling sidecar is `inventory_<stem>.jcs`, where
+`stem` is the first 12 SHA-256 bytes of ASCII
+`agent-bot/stage2a-domain-snapshot/v3`, NUL, domain, NUL, installation ID.
+Render both byte slices as lowercase hex. Plausibly shaped alternate names
+must be refused.
+
 The fixed inventory digest is SHA-256 of ASCII purpose, NUL, then exact JCS
 inventory bytes, formatted `sha256:` plus lowercase hex. Purpose is
 `agent-bot/stage2a-h-code-inventory/v3` for `H-code` and
