@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v1/stage2a-member-peer-signed-role.schema.json",
+  "title": "Draft purpose-separated A-signed T01 member peer role",
+  "description": "The issuer key is informational. An offline verifier must use the independently enrolled Machine A key, exact payload, fresh challenge and observed member process; this source-only envelope grants no T01 credit.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "purpose": {"const": "agent-bot/stage2a-member-peer-role/v1"},
+    "issuer_public_key_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+    "payload_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "payload_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+    "signature_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+  },
+  "additionalProperties": false
+}
