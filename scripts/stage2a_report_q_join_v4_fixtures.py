@@ -74,7 +74,7 @@ def joined(run, schemas):
     require(schemas[reservation_schema].is_valid(reservation), "released reservation schema")
     refs = report["run_evidence"]
     evidence = [refs["reservation"], refs["execution_completion"], *refs["q_session"].values()]
-    evidence.extend(refs[name] for name in ("finalization", "bridge_assignment", "cooperative_order_receipt")
+    evidence.extend(refs[name] for name in ("finalization", "bridge_assignment", "cooperative_publish_order", "cooperative_publish_outcome")
                     if name in refs)
     require(len({value["uri"] for value in evidence}) == len(evidence) and
             len({value["sha256"] for value in evidence}) == len(evidence),
@@ -138,13 +138,37 @@ def joined(run, schemas):
         require(bridge["reservation_sha256"] == refs["reservation"]["sha256"] and
                 refs["bridge_assignment"]["sha256"] == sha(run["bridge_assignment_envelope_jcs"].encode()) ==
                 completion["bridge_assignment_sha256"], "private B assignment")
-        require(refs["cooperative_order_receipt"]["sha256"] ==
-                completion["cooperative_order_receipt_sha256"], "order receipt reference")
+        order_raw = run["cooperative_publish_order_envelope_jcs"].encode()
+        outcome_raw = run["cooperative_publish_outcome_envelope_jcs"].encode()
+        order = authenticated_payload(run["cooperative_publish_order_envelope_jcs"],
+                                      "agent-bot/soul-cooperative-publish-order/v3", 3, key)
+        outcome = authenticated_payload(run["cooperative_publish_outcome_envelope_jcs"],
+                                        "agent-bot/soul-cooperative-publish-outcome/v3", 3, key)
+        require(schemas["machine/v3/soul-cooperative-publish-order-payload.schema.json"].is_valid(order),
+                "signed B order schema")
+        require(schemas["machine/v3/soul-cooperative-publish-outcome-payload.schema.json"].is_valid(outcome),
+                "signed B outcome schema")
+        require(order == run["cooperative_publish_order_payload"] and
+                outcome == run["cooperative_publish_outcome_payload"], "signed B payloads")
+        require(refs["cooperative_publish_order"]["sha256"] == sha(order_raw) ==
+                completion["cooperative_publish_order_sha256"] and
+                refs["cooperative_publish_outcome"]["sha256"] == sha(outcome_raw) ==
+                completion["cooperative_publish_outcome_sha256"], "both exact B envelopes")
+        require(order["reservation_sha256"] == outcome["reservation_sha256"] ==
+                refs["reservation"]["sha256"] and
+                order["bridge_assignment_sha256"] == outcome["bridge_assignment_sha256"] ==
+                refs["bridge_assignment"]["sha256"] and
+                outcome["order_sha256"] == sha(order_raw), "B order to outcome chain")
+        for identity in ("installation_id", "start_id", "launch_id"):
+            require(order[identity] == outcome[identity] == completion[identity], identity + " B publication")
+        require(outcome["request_sha256"] == sha(b"synthetic watched R request bytes") and
+                outcome["publication_mode"] == "direct", "fixture watched request publication")
         require("finalization" not in refs and "finalization_sha256" not in completion,
                 "no protected finalization in T21")
     else:
         require(refs["finalization"]["sha256"] == completion["finalization_sha256"] and
-                "bridge_assignment" not in refs and "cooperative_order_receipt" not in refs,
+                "bridge_assignment" not in refs and "cooperative_publish_order" not in refs and
+                "cooperative_publish_outcome" not in refs,
                 "protected finalization only")
 
 
@@ -162,7 +186,14 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
                                                    q_index_envelope_jcs=vector["protected"]["q_index_envelope_jcs"],
                                                    q_eof_envelope_jcs=vector["protected"]["q_eof_envelope_jcs"])),
         ("protected receipt in T21", lambda r: r["report"]["run_evidence"].update(
-            finalization=r["report"]["run_evidence"].pop("cooperative_order_receipt"))),
+            finalization=r["report"]["run_evidence"].pop("cooperative_publish_outcome"))),
+        ("missing B publication outcome", lambda r: r["report"]["run_evidence"].pop("cooperative_publish_outcome")),
+        ("swapped B order and outcome refs", lambda r: r["report"]["run_evidence"].update(
+            cooperative_publish_order=r["report"]["run_evidence"]["cooperative_publish_outcome"],
+            cooperative_publish_outcome=r["report"]["run_evidence"]["cooperative_publish_order"])),
+        ("changed B outcome signature", lambda r: r.update(
+            cooperative_publish_outcome_envelope_jcs=canonicalize({**parse_strict(r["cooperative_publish_outcome_envelope_jcs"].encode()),
+                "signature_base64url": "A" * 86}).decode())),
         ("duplicate Q evidence URI", lambda r: r["report"]["run_evidence"]["q_session"]["clean_eof_envelope"].update(
             uri=r["report"]["run_evidence"]["q_session"]["frame_index_envelope"]["uri"])),
     ):

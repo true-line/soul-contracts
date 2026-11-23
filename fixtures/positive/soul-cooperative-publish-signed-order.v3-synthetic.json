@@ -1,0 +1,15 @@
+{
+  "canonical_sha256": "sha256:709f80450e32c0fc9ebc43b7305917334becc842ff0d30ab89cef01d7b7a326e",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "issuer_public_key_base64url": "Zs1gi5KLiOUODv6qM_rxxDzv4HKUsLh-n-CrpqPPdjM",
+    "payload_base64url": "eyJhdXRob3JpemVkX2F0IjoiMjAyNi0xMS0yMlQxNDoxNToxOFoiLCJiaW5kX3JlY2VpcHRfc2hhMjU2Ijoic2hhMjU2Ojg4OTAwZjQ0M2Q4NzEyYzM3YWVkZmI3ZGVjYmJjODliZGQzNDRjODRjMTZlNTQxN2VjNGZkM2NhMjk3ZWU4M2QiLCJicmlkZ2VfYXNzaWdubWVudF9zaGEyNTYiOiJzaGEyNTY6OWRhMDczYmNjZTVkYmEzNDFmY2YyYThmM2U0NDBjNGU1MzJkYTYxYzdmYTU2N2E3YmVhNDRhYTZmNTIyNDExNiIsImJyaWRnZV9ncmFudF9zaGEyNTYiOiJzaGEyNTY6OWMyOTc2NzcxYWIzMzcxZjJkNTEzODcyY2EwZjcyNjBmY2I1NTc2M2U4MDU0ZGY5MTBiM2VkZTEwMDYwNzQ3ZiIsImNvbnRyYWN0IjoibWFjaGluZS92MyIsImluc3RhbGxhdGlvbl9pZCI6Imluc3RfMDAwMDAwMDAwMDAwMDAwMSIsImtpbmQiOiJzb3VsLWNvb3BlcmF0aXZlLXB1Ymxpc2gtb3JkZXIiLCJsYXVuY2hfaWQiOiJsbl8wMTIzNDU2Nzg5YWJjZGVmMDEyMzQ1NjciLCJyZWxheV9zdGF0dXNfc2hhMjU2Ijoic2hhMjU2OmVhMzVjMzE1NTlhZDliOTE1YTY1Njg1MzIzZmRkODZmYTA4Yjg1ZjBkZDA5YjMyNTM0MmU4NmEyYWNhYzRlNTgiLCJyZXNlcnZhdGlvbl9zaGEyNTYiOiJzaGEyNTY6MjgzMTBjNTRkOGQyMjJkODcyMzEwOGZhMmE1MjU5Nzc4MWE1ZmIyYjQxYTFiY2FiNTVhYWE0ZTdhYzhhZDQxMCIsInNjaGVtYV92ZXJzaW9uIjozLCJzdGFydF9pZCI6InN0XzAxMjM0NTY3ODlhYmNkZWYwMTIzNDU2NyJ9",
+    "payload_sha256": "sha256:b86e348b5f0b66d80c58e55f144951175ffcac14ecff1f61f5893d49ab85ffc6",
+    "purpose": "agent-bot/soul-cooperative-publish-order/v3",
+    "schema_version": 3,
+    "signature_base64url": "m0AARnXsM7tGtugcCDask11IfohkjoGmJfLmFAvZgKTU_fhzxmB7OKk4a81ataaFk4QfZ0dniCi4FmJFtt-dAg"
+  },
+  "schema": "machine/v3/soul-cooperative-publish-signed-order.schema.json"
+}

@@ -148,7 +148,29 @@ def make_run(profile):
            "challenge_sha256": reservation["admission_challenge_sha256"], "q_session": q}
     if cooperative:
         run["bridge_assignment"] = ref("cooperative-b-assignment", bridge_raw)
-        run["cooperative_order_receipt"] = ref("cooperative-order-receipt", b"synthetic order receipt: pending wire")
+        assignment = reservation["assignment"]
+        order = {
+            "contract": "machine/v3", "kind": "soul-cooperative-publish-order", "schema_version": 3,
+            "reservation_sha256": sha(reservation_raw), "bridge_assignment_sha256": sha(bridge_raw),
+            "bridge_grant_sha256": sha(b"synthetic one-use B grant"),
+            "bind_receipt_sha256": sha(b"synthetic H/Comms B bind receipt"),
+            "relay_status_sha256": sha(b"synthetic authenticated relay status"),
+            "installation_id": assignment["installation_id"], "start_id": assignment["start_id"],
+            "launch_id": assignment["launch_id"], "authorized_at": "2026-11-22T14:15:18Z",
+        }
+        order_raw = sign(order, "agent-bot/soul-cooperative-publish-order/v3", 3)
+        outcome = {
+            "contract": "machine/v3", "kind": "soul-cooperative-publish-outcome", "schema_version": 3,
+            "reservation_sha256": sha(reservation_raw), "bridge_assignment_sha256": sha(bridge_raw),
+            "order_sha256": sha(order_raw), "request_sha256": sha(b"synthetic watched R request bytes"),
+            "request_device": "7", "request_inode": "12345", "request_birthtime_ns": "1720000000000000000",
+            "installation_id": assignment["installation_id"], "start_id": assignment["start_id"],
+            "launch_id": assignment["launch_id"], "published_at": "2026-11-22T14:15:19Z",
+            "expires_at": reservation["expires_at"], "publication_mode": "direct",
+        }
+        outcome_raw = sign(outcome, "agent-bot/soul-cooperative-publish-outcome/v3", 3)
+        run["cooperative_publish_order"] = ref("cooperative-publish-order", order_raw)
+        run["cooperative_publish_outcome"] = ref("cooperative-publish-outcome", outcome_raw)
     else:
         run["finalization"] = ref("protected-finalization", b"synthetic protected finalization: pending run")
         assignment = report["bridge"]["assignment"]
@@ -175,7 +197,8 @@ def make_run(profile):
     }
     if cooperative:
         completion["bridge_assignment_sha256"] = run["bridge_assignment"]["sha256"]
-        completion["cooperative_order_receipt_sha256"] = run["cooperative_order_receipt"]["sha256"]
+        completion["cooperative_publish_order_sha256"] = run["cooperative_publish_order"]["sha256"]
+        completion["cooperative_publish_outcome_sha256"] = run["cooperative_publish_outcome"]["sha256"]
     else:
         completion["finalization_sha256"] = run["finalization"]["sha256"]
     completion_raw = sign(completion, "agent-bot/stage2a-execution-completion/v2", 2)
@@ -193,6 +216,10 @@ def make_run(profile):
             "host_signature_envelope": host_signature,
             "reservation_envelope_jcs": reservation_raw.decode(),
             "bridge_assignment_envelope_jcs": bridge_raw.decode() if bridge_raw else None,
+            "cooperative_publish_order_payload": order if cooperative else None,
+            "cooperative_publish_order_envelope_jcs": order_raw.decode() if cooperative else None,
+            "cooperative_publish_outcome_payload": outcome if cooperative else None,
+            "cooperative_publish_outcome_envelope_jcs": outcome_raw.decode() if cooperative else None,
             "q_wire_jcs": wire_raw.decode(), "q_index_envelope_jcs": index_raw.decode(),
             "q_eof_envelope_jcs": eof_raw.decode(), "q_index": idx,
             "issuer_public_key_base64url": b64(PUBLIC)}
@@ -211,20 +238,41 @@ def main():
     for name, run in runs.items():
         fixture("qualification-host-report.v4-" + name + ".synthetic.json", report_schema, run["report"])
         fixture("stage2a-execution-completion-payload.v2-" + name + ".synthetic.json", completion_schema, run["completion"])
+    for kind in ("order", "outcome"):
+        prefix = "soul-cooperative-publish-" + kind
+        payload_schema = "machine/v3/" + prefix + "-payload.schema.json"
+        signed_schema = "machine/v3/soul-cooperative-publish-signed-" + kind + ".schema.json"
+        payload = runs["cooperative"]["cooperative_publish_" + kind + "_payload"]
+        envelope = parse_strict(runs["cooperative"]["cooperative_publish_" + kind + "_envelope_jcs"].encode())
+        fixture(prefix + "-payload.v3-synthetic.json", payload_schema, payload)
+        signed_prefix = "soul-cooperative-publish-signed-" + kind
+        fixture(signed_prefix + ".v3-synthetic.json", signed_schema, envelope)
+        wrong = dict(payload)
+        wrong["kind"] = "soul-cooperative-publish-" + ("outcome" if kind == "order" else "order")
+        fixture(prefix + "-payload.v3-wrong-kind.json", payload_schema, wrong, True,
+                prefix + "-payload.v3-synthetic.json")
+        wrong = dict(envelope)
+        wrong["purpose"] = "agent-bot/soul-cooperative-publish-" + ("outcome" if kind == "order" else "order") + "/v3"
+        fixture(signed_prefix + ".v3-wrong-purpose.json", signed_schema, wrong, True,
+                signed_prefix + ".v3-synthetic.json")
     protected = copy.deepcopy(runs["protected"]["report"])
     del protected["run_evidence"]["q_session"]["clean_eof_envelope"]
     fixture("qualification-host-report.v4-missing-q-eof.json", report_schema, protected, True,
             "qualification-host-report.v4-protected.synthetic.json")
     cooperative = copy.deepcopy(runs["cooperative"]["report"])
-    cooperative["run_evidence"]["finalization"] = cooperative["run_evidence"].pop("cooperative_order_receipt")
+    cooperative["run_evidence"]["finalization"] = cooperative["run_evidence"].pop("cooperative_publish_outcome")
     fixture("qualification-host-report.v4-cooperative-protected-finalization.json", report_schema,
+            cooperative, True, "qualification-host-report.v4-cooperative.synthetic.json")
+    cooperative = copy.deepcopy(runs["cooperative"]["report"])
+    del cooperative["run_evidence"]["cooperative_publish_outcome"]
+    fixture("qualification-host-report.v4-cooperative-missing-outcome.json", report_schema,
             cooperative, True, "qualification-host-report.v4-cooperative.synthetic.json")
     bad_completion = copy.deepcopy(runs["protected"]["completion"])
     del bad_completion["q_frame_index_envelope_sha256"]
     fixture("stage2a-execution-completion-payload.v2-missing-q-index.json", completion_schema,
             bad_completion, True, "stage2a-execution-completion-payload.v2-protected.synthetic.json")
     bad_completion = copy.deepcopy(runs["cooperative"]["completion"])
-    bad_completion["finalization_sha256"] = bad_completion.pop("cooperative_order_receipt_sha256")
+    bad_completion["finalization_sha256"] = bad_completion.pop("cooperative_publish_outcome_sha256")
     fixture("stage2a-execution-completion-payload.v2-cooperative-protected-finalization.json", completion_schema,
             bad_completion, True, "stage2a-execution-completion-payload.v2-cooperative.synthetic.json")
     signed_completion = parse_strict(runs["protected"]["completion_envelope_jcs"].encode())

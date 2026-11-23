@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-publish-signed-outcome.schema.json",
+  "title": "Managed cooperative A-signed publish outcome (draft)",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "purpose",
+    "issuer_public_key_base64url",
+    "payload_sha256",
+    "payload_base64url",
+    "signature_base64url"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 3
+    },
+    "purpose": {
+      "const": "agent-bot/soul-cooperative-publish-outcome/v3"
+    },
+    "issuer_public_key_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "payload_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "payload_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "signature_base64url": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  },
+  "additionalProperties": false
+}

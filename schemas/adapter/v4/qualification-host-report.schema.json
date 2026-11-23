@@ -99,7 +99,10 @@
         "bridge_assignment": {
           "$ref": "#/$defs/evidence"
         },
-        "cooperative_order_receipt": {
+        "cooperative_publish_order": {
+          "$ref": "#/$defs/evidence"
+        },
+        "cooperative_publish_outcome": {
           "$ref": "#/$defs/evidence"
         },
         "execution_completion": {
@@ -234,7 +237,8 @@
             ],
             "properties": {
               "bridge_assignment": false,
-              "cooperative_order_receipt": false
+              "cooperative_publish_order": false,
+              "cooperative_publish_outcome": false
             }
           },
           "measurement_binding": {
@@ -260,7 +264,8 @@
           "run_evidence": {
             "required": [
               "bridge_assignment",
-              "cooperative_order_receipt"
+              "cooperative_publish_order",
+              "cooperative_publish_outcome"
             ],
             "properties": {
               "finalization": false

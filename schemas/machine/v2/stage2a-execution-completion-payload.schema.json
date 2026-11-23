@@ -78,7 +78,11 @@
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"
     },
-    "cooperative_order_receipt_sha256": {
+    "cooperative_publish_order_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "cooperative_publish_outcome_sha256": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$"
     },
@@ -126,13 +130,15 @@
         ],
         "properties": {
           "bridge_assignment_sha256": false,
-          "cooperative_order_receipt_sha256": false
+          "cooperative_publish_order_sha256": false,
+          "cooperative_publish_outcome_sha256": false
         }
       },
       "else": {
         "required": [
           "bridge_assignment_sha256",
-          "cooperative_order_receipt_sha256"
+          "cooperative_publish_order_sha256",
+          "cooperative_publish_outcome_sha256"
         ],
         "properties": {
           "finalization_sha256": false
