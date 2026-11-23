@@ -435,6 +435,7 @@ def vendor_text(path):
                              "stage2a-b-member-authority.two-member-synthetic",
                              "stage2a-b-member-arm-exchange.two-member-synthetic",
                              "stage2a-member-attach.two-member-synthetic",
+                             "stage2a-member-attach.cooperative-two-member-synthetic",
                              "stage2a-member-live-lease.two-member-synthetic")) and \
             ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw or
              "_envelope_base64url" in raw or

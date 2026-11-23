@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-member-attach.schema.json",
   "title": "Verified two-member H-to-R post-Hello launch result (draft)",
-  "description": "Only the verified two-member protected Stage 2a path returns this additive versioned result from stage2a.member.attach.prepare({runtime_id}) on the original authenticated Hello session, after H verifies A-signed aggregate Ready and live B. R then calls stage2a.member.attach({launch_id,attach}) on a fresh connection for one-use takeover of the already prestarted child; generic launch and launch.attach remain unchanged. H must prove the same live R kernel UID, PIDVersion/process start across prepare and attach, refusing PID reuse and same-UID siblings, and bind runtime/launch/member/installation/start to the A-signed child. R already holds the exact A-signed assignment from protected FD3 v2; before bridge_ready or ACP attach it independently verifies the fixed installed A pin and the full child observation, distinct two-member B authority and aggregate Ready envelopes, their exact JCS bytes, purposes, signatures, hashes, expiry, plan/reservation/member selectors, H provisional runtime map, A-observed child, B policy and signed member endpoint. H-minted attach and bridge tokens remain local transport capabilities, never A authority. A changed or missing field refuses. The complete result must be at most 131,072 RFC 8785 JCS UTF-8 bytes, below the existing H/R 1 MiB socket line limit.",
+  "description": "Only verified two-member managed-protected or managed-cooperative Stage 2a paths returns this additive versioned result from stage2a.member.attach.prepare({runtime_id}) on the original authenticated Hello session, after H verifies A-signed aggregate Ready and live B. R then calls stage2a.member.attach({launch_id,attach}) on a fresh connection for one-use takeover of the already prestarted child; generic launch and launch.attach remain unchanged. H must prove the same live R kernel UID, PIDVersion/process start across prepare and attach, refusing PID reuse and same-UID siblings, and bind runtime/launch/member/installation/start to the A-signed child. R already holds the exact A-signed assignment from its profile-specific FD3 v3 and derives the profile only from that signature; before bridge_ready or ACP attach it independently verifies the fixed installed A pin and the full child observation, distinct two-member B authority and aggregate Ready envelopes, their exact JCS bytes, purposes, signatures, hashes, expiry, plan/reservation/member selectors, H provisional runtime map, A-observed child, B policy and signed member endpoint. H-minted attach and bridge tokens remain local transport capabilities, never A authority. A changed or missing field refuses. The complete result must be at most 131,072 RFC 8785 JCS UTF-8 bytes, below the existing H/R 1 MiB socket line limit.",
   "type": "object",
   "required": ["version", "installation_id", "start_id", "member_id", "member_selector", "runtime_id", "launch_id", "attach", "expires_at", "cwd", "member_socket", "member_endpoint", "member_bridge_token", "bridge_ready_nonce", "runner_endpoint", "child_observation_envelope_base64url", "child_observation_envelope_sha256", "member_b_authority_envelope_base64url", "member_b_authority_envelope_sha256", "ready_envelope_base64url", "ready_envelope_sha256"],
   "properties": {
@@ -18,15 +18,21 @@
     "cwd": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
     "member_socket": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
     "member_endpoint": {
-      "type": "object", "required": ["directory", "owner_uid", "group_gid", "dir_mode", "socket_mode", "peer_uids"],
-      "properties": {
-        "directory": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
-        "owner_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
-        "group_gid": { "type": "integer", "minimum": 300, "maximum": 399 },
-        "dir_mode": { "const": 1512 },
-        "socket_mode": { "const": 432 },
-        "peer_uids": { "type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": { "type": "integer", "minimum": 300, "maximum": 399 } }
-      }, "additionalProperties": false
+      "description": "Profile-specific exact A-signed member endpoint. Protected projects out socket_path; cooperative includes the signed parent identity and expected B peer UID. R verifies equality to its signed assignment and live filesystem state.",
+      "oneOf": [
+        {
+          "type": "object", "required": ["directory", "owner_uid", "group_gid", "dir_mode", "socket_mode", "peer_uids"],
+          "properties": {
+            "directory": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+            "owner_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+            "group_gid": { "type": "integer", "minimum": 300, "maximum": 399 },
+            "dir_mode": { "const": 1512 },
+            "socket_mode": { "const": 432 },
+            "peer_uids": { "type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": { "type": "integer", "minimum": 300, "maximum": 399 } }
+          }, "additionalProperties": false
+        },
+        { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-bridge-assignment-payload.schema.json#/$defs/endpoint" }
+      ]
     },
     "member_bridge_token": { "type": "string", "pattern": "^[0-9a-f]{48}$" },
     "bridge_ready_nonce": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
