@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/soul-cooperative-reservation-payload.v3-synthetic.json",
-    "sha256": "sha256:ada92df8e35d2dce6b0baf0283c0a1102f9014d08855b97cfb343b2002a5cbe8"
+    "sha256": "sha256:5d5717a52cf95ec9348c2c8e2d24cd42f2cf16bd16bb3a36b01610a09dda3cda"
   },
   "expect": {
     "schema": "invalid"
@@ -75,7 +75,7 @@
       "installed_plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "kind": "stage2a-measurement-binding",
       "launch_id": "ln_0123456789abcdef01234567",
-      "launch_input_measurement": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "launch_input_measurement": "sha256:668b6650e76f6a3814ab1d89b8de07553ab4f6e150d46dfe25c05d950bdcbe1a",
       "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "plan_id": "plan-20261122T141516Z-abcd",
       "profile_in_force": "managed-cooperative",
@@ -86,21 +86,28 @@
           "release_manifest_sha256": "sha256:d33003a1d3a376d794ab42f5205f7e174ac1a1c089d30825751fece988dfb7e5",
           "source_commit": "cccccccccccccccccccccccccccccccccccccccc",
           "source_repository": "true-line/soul-adapters"
+        },
+        {
+          "component_id": "souls",
+          "release_artifact_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "release_manifest_sha256": "sha256:cca6582d62727689d8fbc89d0e5fbbdd3ff9c51a5b061256defbed0663331793",
+          "source_commit": "dddddddddddddddddddddddddddddddddddddddd",
+          "source_repository": "true-line/agent-bot-souls"
         }
       ],
       "r_inventory": {
         "contract": "machine/v3",
-        "directory_count": 1,
+        "directory_count": 2,
         "domain": "R-runtime",
-        "file_count": 2,
+        "file_count": 4,
         "installation_id": "inst_0000000000000001",
-        "inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
+        "inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
         "kind": "stage2a-inventory-ref",
         "machine_uid": 501,
         "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
         "reader_gid": 331,
         "reader_uid": 331,
-        "reviewed_source_inventory_digest": "sha256:edfbac321a9cbce08cabd1eef751e86b5861078576ee49a115931b04137d409e",
+        "reviewed_source_inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
         "schema_version": 3,
         "sidecar": {
           "birthtime_ns": "1795356916000000000",
@@ -111,8 +118,8 @@
           "owner_gid": 331,
           "owner_uid": 501,
           "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/inventory_6594547120bbfa77564d4abe.jcs",
-          "sha256": "sha256:8ae3cca7d50e66be59dbe566cc73218cb8a9430f1a08e5cb96a863b6dad9b266",
-          "size_bytes": 736
+          "sha256": "sha256:4c85900d37a26be28709b63385f0ca19f9ce88f5a9c491efd771aedab7088a28",
+          "size_bytes": 1215
         },
         "snapshot": {
           "birthtime_ns": "1795356916000000000",
@@ -124,7 +131,7 @@
           "owner_uid": 501,
           "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe"
         },
-        "total_bytes": 900
+        "total_bytes": 1200
       },
       "schema_version": 3,
       "snapshots": {

@@ -1,0 +1,42 @@
+{
+  "inventory_jcs": "{\"contract\":\"machine/v3\",\"directories\":[{\"kind\":\"directory\",\"mode\":\"0550\",\"path\":\"adapter\"},{\"kind\":\"directory\",\"mode\":\"0550\",\"path\":\"bin\"}],\"domain\":\"R-runtime\",\"files\":[{\"component_id\":\"adapter\",\"kind\":\"regular\",\"mode\":\"0550\",\"path\":\"adapter/cli\",\"release_path\":\"cli\",\"sha256\":\"sha256:5555555555555555555555555555555555555555555555555555555555555555\",\"size_bytes\":400},{\"component_id\":\"adapter\",\"kind\":\"regular\",\"mode\":\"0440\",\"path\":\"adapter/library.mjs\",\"release_path\":\"library.mjs\",\"sha256\":\"sha256:6666666666666666666666666666666666666666666666666666666666666666\",\"size_bytes\":500},{\"component_id\":\"souls\",\"kind\":\"regular\",\"mode\":\"0440\",\"path\":\"bin/agent-bot-souls.mjs\",\"release_path\":\"bin/agent-bot-souls.mjs\",\"sha256\":\"sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",\"size_bytes\":200},{\"component_id\":\"souls\",\"kind\":\"regular\",\"mode\":\"0550\",\"path\":\"bin/node\",\"release_path\":\"bin/node\",\"sha256\":\"sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\",\"size_bytes\":100}],\"installation_id\":\"inst_0000000000000001\",\"kind\":\"stage2a-domain-inventory\",\"limits\":{\"max_file_bytes\":402653184,\"max_files\":512,\"max_total_bytes\":1073741824},\"schema_version\":3,\"total_bytes\":1200}",
+  "note": "Synthetic A-sealed R inventory sidecar; test rows only.",
+  "reference": {
+    "contract": "machine/v3",
+    "directory_count": 2,
+    "domain": "R-runtime",
+    "file_count": 4,
+    "installation_id": "inst_0000000000000001",
+    "inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
+    "kind": "stage2a-inventory-ref",
+    "machine_uid": 501,
+    "owner_plan_digest": "sha256:471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "reader_gid": 331,
+    "reader_uid": 331,
+    "reviewed_source_inventory_digest": "sha256:cc6fa183278164eee9a7ad11122835d5ee70d2bed405f0fd1e21b8ed6777336c",
+    "schema_version": 3,
+    "sidecar": {
+      "birthtime_ns": "1795356916000000000",
+      "device": "1",
+      "generation": "4",
+      "inode": "900",
+      "mode": "0440",
+      "owner_gid": 331,
+      "owner_uid": 501,
+      "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/inventory_6594547120bbfa77564d4abe.jcs",
+      "sha256": "sha256:4c85900d37a26be28709b63385f0ca19f9ce88f5a9c491efd771aedab7088a28",
+      "size_bytes": 1215
+    },
+    "snapshot": {
+      "birthtime_ns": "1795356916000000000",
+      "device": "1",
+      "generation": "4",
+      "inode": "800",
+      "mode": "0555",
+      "owner_gid": 331,
+      "owner_uid": 501,
+      "path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe"
+    },
+    "total_bytes": 1200
+  }
+}
