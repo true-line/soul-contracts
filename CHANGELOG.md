@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 0.8.0 — 2026-11-22
+
+This source release adds the Stage 2a `machine/v3` H/R inventory, installed
+reference, H service descriptor, and one-use reservation contracts and
+synthetic fixtures. The private pilot uses an owner-approved exact plan for
+component source, artifact and manifest hashes, followed by Machine admin
+remeasurement. The separate H/R release attestation remains future work.
+
+The approved H/R ceilings are 512 files, 384 MiB per file, 1 GiB per domain,
+1,024 child directories, and a 2 MiB inventory sidecar. These contract bytes
+do not install a protected service, qualify an adapter, sign a `.soul` package,
+or prove T01/T02/T03/T21. The vendor adapter qualification attestation remains
+a separate requirement.
+
 ## 0.7.0 — 2026-11-22
 
 This version publishes Stage 2a contract shapes and synthetic fixtures. It
