@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/h-service-descriptor-payload.v3-synthetic.json",
-    "sha256": "sha256:49f795179bd02b7d9b64b0cca381aec1f3ca79fe2b9fdbd12bbf7f128140668d"
+    "sha256": "sha256:09362d1e6374e8fa3376f0bb4b698bd055b995347c1dd4dcd7d30ad6b4dc85cf"
   },
   "expect": {
     "schema": "invalid"
@@ -12,7 +12,7 @@
         "component_id": "hq",
         "release_artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "release_attestation_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "release_manifest_sha256": "sha256:623d7342bd65ab9e17b0c8478c9edbca4699283eb78e0b7e3044bf36735ef9e5"
+        "release_manifest_sha256": "sha256:7e798b19bfd92fa54bb52dc48da6d27a9e7866ee895950eec301eddecead5f33"
       },
       {
         "component_id": "node",
@@ -24,17 +24,17 @@
     "contract": "machine/v3",
     "h_inventory": {
       "contract": "machine/v3",
-      "directory_count": 2,
+      "directory_count": 3,
       "domain": "H-code",
-      "file_count": 3,
+      "file_count": 4,
       "installation_id": "hq-inst-1",
-      "inventory_digest": "sha256:46ad50bcc3751c43575275b262748e3555c385d3542b44def996d6f30ff537bb",
+      "inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
       "kind": "stage2a-inventory-ref",
       "machine_uid": 501,
       "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
       "reader_gid": 309,
       "reader_uid": 309,
-      "reviewed_source_inventory_digest": "sha256:46ad50bcc3751c43575275b262748e3555c385d3542b44def996d6f30ff537bb",
+      "reviewed_source_inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
       "schema_version": 3,
       "sidecar": {
         "birthtime_ns": "1795356916000000000",
@@ -45,8 +45,8 @@
         "owner_gid": 309,
         "owner_uid": 501,
         "path": "/private/var/db/managed-machine/metadata/hq-inst-1/h-inventory.json",
-        "sha256": "sha256:538895286637da5cb685f52bdfbe1e8dc3402a2ea8080f1a60395e1c0d22f644",
-        "size_bytes": 957
+        "sha256": "sha256:45efaeb1643aeaf7f5933815a917286d630bc94222d2d5eb5daeef08ac3415fa",
+        "size_bytes": 1236
       },
       "snapshot": {
         "birthtime_ns": "1795356916000000000",
@@ -58,12 +58,31 @@
         "owner_uid": 501,
         "path": "/private/var/db/managed-machine/hq-code/hq-inst-1"
       },
-      "total_bytes": 600
+      "total_bytes": 850
     },
     "host_id": "synthetic-host",
     "hq_epoch": "unexpected",
     "hq_installation_id": "hq-inst-1",
     "kind": "stage2a-h-service-descriptor",
+    "outer_launch": {
+      "argv": [
+        "/usr/bin/ruby",
+        "--disable-gems",
+        "/private/var/db/managed-machine/hq-code/hq-inst-1/helpers/darwin-owner.rb",
+        "launch",
+        "/private/var/db/managed-machine/hq-code/hq-inst-1/bin/node",
+        "--no-addons",
+        "--disallow-code-generation-from-strings",
+        "--import",
+        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/preloader.mjs",
+        "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/main.mjs",
+        "run"
+      ],
+      "helper_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/helpers/darwin-owner.rb",
+      "helper_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "ruby_path": "/usr/bin/ruby",
+      "ruby_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    },
     "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
     "runtime": {
       "argv": [

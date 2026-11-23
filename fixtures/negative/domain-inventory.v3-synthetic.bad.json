@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/domain-inventory.v3-synthetic.json",
-    "sha256": "sha256:52c137c295ca07108e073c517fa590fa5a4b82e989f6c0ed4cceb5f0cf73d554"
+    "sha256": "sha256:ffc993827ecbb8adcf5999385cd5f1a41b7406aefc30953d9185ca1324334563"
   },
   "expect": {
     "schema": "invalid"
@@ -13,6 +13,11 @@
         "kind": "directory",
         "mode": "0550",
         "path": "bin"
+      },
+      {
+        "kind": "directory",
+        "mode": "0550",
+        "path": "helpers"
       },
       {
         "kind": "directory",
@@ -30,6 +35,15 @@
         "release_path": "bin/node",
         "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
         "size_bytes": 100
+      },
+      {
+        "component_id": "hq",
+        "kind": "regular",
+        "mode": "0440",
+        "path": "helpers/darwin-owner.rb",
+        "release_path": "helpers/darwin-owner.rb",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "size_bytes": 250
       },
       {
         "component_id": "hq",
@@ -58,7 +72,7 @@
       "max_total_bytes": 1073741824
     },
     "schema_version": 3,
-    "total_bytes": 600
+    "total_bytes": 850
   },
   "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
   "schema": "machine/v3/domain-inventory.schema.json"
