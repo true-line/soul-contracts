@@ -1,0 +1,28 @@
+{
+  "base": {
+    "fixture": "positive/soul-cooperative-publish-outcome-payload.v3-synthetic.json",
+    "sha256": "sha256:ffed90fe649464757a51a28bd2219b1f469613e64cea7e9ab67e5e3805eb8477"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "bridge_assignment_sha256": "sha256:9da073bcce5dba341fcf2a8f3e440c4e532da61c7fa567a7bea44aa6f5224116",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "installation_id": "inst_0000000000000001",
+    "kind": "soul-cooperative-publish-order",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "order_sha256": "sha256:709f80450e32c0fc9ebc43b7305917334becc842ff0d30ab89cef01d7b7a326e",
+    "publication_mode": "direct",
+    "published_at": "2026-11-22T14:15:19Z",
+    "request_birthtime_ns": "1720000000000000000",
+    "request_device": "7",
+    "request_inode": "12345",
+    "request_sha256": "sha256:7bcc66567e4faee260343b8a99a343764580e0517469fb4b1da2871538b21e27",
+    "reservation_sha256": "sha256:28310c54d8d222d8723108fa2a52597781a5fb2b41a1bcab55aaa4e7ac8ad410",
+    "schema_version": 3,
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/soul-cooperative-publish-outcome-payload.schema.json"
+}

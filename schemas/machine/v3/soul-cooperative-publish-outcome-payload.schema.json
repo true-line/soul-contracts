@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-publish-outcome-payload.schema.json",
+  "title": "Managed cooperative A-signed watched request publication outcome (draft)",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "reservation_sha256",
+    "bridge_assignment_sha256",
+    "order_sha256",
+    "request_sha256",
+    "request_device",
+    "request_inode",
+    "request_birthtime_ns",
+    "installation_id",
+    "start_id",
+    "launch_id",
+    "published_at",
+    "expires_at",
+    "publication_mode"
+  ],
+  "properties": {
+    "contract": {
+      "const": "machine/v3"
+    },
+    "kind": {
+      "const": "soul-cooperative-publish-outcome"
+    },
+    "schema_version": {
+      "const": 3
+    },
+    "reservation_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "bridge_assignment_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "order_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "request_device": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "request_inode": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "request_birthtime_ns": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "installation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "start_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "launch_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "publication_mode": {
+      "const": "direct"
+    }
+  }
+}
