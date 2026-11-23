@@ -67,10 +67,9 @@
       },
       "additionalProperties": false
     },
-    "measurement_binding": {
-      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json"
-    },
-    "admission_challenge_sha256": { "$ref": "#/$defs/digest" }
+    "measurement_binding": { "$ref": "#/$defs/cooperativeMeasurementBinding" },
+    "admission_challenge_sha256": { "$ref": "#/$defs/digest" },
+    "qualification_provider": { "$ref": "#/$defs/qualificationProvider" }
   },
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
@@ -114,6 +113,247 @@
             "harness": ["test_provider"],
             "test_provider": ["harness"]
           }
+        }
+      },
+      "additionalProperties": false
+    },
+    "cooperativeMeasurementBinding": {
+      "type": "object",
+      "required": [
+        "contract",
+        "kind",
+        "schema_version",
+        "installation_id",
+        "soul_id",
+        "start_id",
+        "launch_id",
+        "host_id",
+        "hq_epoch",
+        "plan_id",
+        "installed_plan_digest",
+        "package_sha256",
+        "profile_in_force",
+        "claimed_definition_digest",
+        "definition_measurement",
+        "launch_input_measurement",
+        "snapshots",
+        "soul_artifact_sha256",
+        "h_service_descriptor_digest",
+        "r_inventory",
+        "r_components",
+        "adapter_release",
+        "hq_broker"
+      ],
+      "properties": {
+        "contract": {
+          "const": "machine/v3"
+        },
+        "kind": {
+          "const": "stage2a-measurement-binding"
+        },
+        "schema_version": {
+          "const": 3
+        },
+        "installation_id": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id"
+        },
+        "soul_id": {
+          "type": "string",
+          "pattern": "^agent_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "start_id": {
+          "type": "string",
+          "pattern": "^st_[0-9a-f]{24}$"
+        },
+        "launch_id": {
+          "type": "string",
+          "pattern": "^ln_[0-9a-f]{24}$"
+        },
+        "host_id": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id"
+        },
+        "hq_epoch": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "plan_id": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id"
+        },
+        "installed_plan_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "package_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "soul_artifact_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "Exact frozen installable .soul transport bytes. For the private Stage 2a pilot, the authenticated owner-approved exact installation-plan digest pins this artifact hash and Machine remeasures installed bytes. This field does not require or assert a separately signed .soul release receipt."
+        },
+        "profile_in_force": {
+          "const": "managed-cooperative"
+        },
+        "claimed_definition_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "definition_measurement": {
+          "$ref": "#/$defs/digest"
+        },
+        "launch_input_measurement": {
+          "$ref": "#/$defs/digest"
+        },
+        "snapshots": {
+          "type": "object",
+          "required": [
+            "definition",
+            "launch_inputs"
+          ],
+          "properties": {
+            "definition": {
+              "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json"
+            },
+            "launch_inputs": {
+              "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json"
+            }
+          },
+          "additionalProperties": false
+        },
+        "h_service_descriptor_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "r_inventory": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/inventory-ref.schema.json"
+        },
+        "adapter_release": {
+          "type": "object",
+          "required": [
+            "component_id",
+            "package_sha256",
+            "release_attestation_sha256",
+            "release_manifest_sha256",
+            "executable_path",
+            "executable_sha256",
+            "code_inputs_digest",
+            "code_input_count"
+          ],
+          "properties": {
+            "component_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+            },
+            "package_sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "release_attestation_sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "release_manifest_sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "executable_path": {
+              "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+            },
+            "executable_sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "code_inputs_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "code_input_count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 512
+            }
+          },
+          "additionalProperties": false
+        },
+        "r_components": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "required": [
+              "component_id",
+              "source_repository",
+              "source_commit",
+              "release_artifact_sha256",
+              "release_manifest_sha256"
+            ],
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+              },
+              "source_repository": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"
+              },
+              "source_commit": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              "source_tag": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._+/-]{0,127}$"
+              },
+              "release_artifact_sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "release_manifest_sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "hq_broker": {
+          "$ref": "#/$defs/hqBrokerBinding"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hqBrokerBinding": {
+      "type": "object",
+      "required": [
+        "module_path",
+        "module_sha256"
+      ],
+      "properties": {
+        "module_path": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path"
+        },
+        "module_sha256": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualificationProvider": {
+      "type": "object",
+      "required": [
+        "config_base64url",
+        "config_sha256"
+      ],
+      "properties": {
+        "config_base64url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 65536,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "config_sha256": {
+          "$ref": "#/$defs/digest"
         }
       },
       "additionalProperties": false
