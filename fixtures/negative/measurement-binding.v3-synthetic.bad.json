@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/measurement-binding.v3-synthetic.json",
-    "sha256": "sha256:e00c000eb22c6786b33535ce7c61a9fbec3938b72ef04696884ee61e33c7e9c3"
+    "sha256": "sha256:3854e40b24a828c96e0910c77017f35bcc8dfa5cb235c46ba79cf9606deba524"
   },
   "expect": {
     "schema": "invalid"
@@ -25,7 +25,7 @@
     "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "contract": "machine/v2",
     "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    "h_service_descriptor_digest": "sha256:094e590ae2a69ff4f8d003f7ed5175d9d91b824e105bd59dda9610c17cdc417e",
+    "h_service_descriptor_digest": "sha256:ec7702f445c00d21d96be0964c9d95e6b9cae81edfa445a3498798afc7bccbb5",
     "host_id": "synthetic-host",
     "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "installation_id": "inst_0000000000000001",

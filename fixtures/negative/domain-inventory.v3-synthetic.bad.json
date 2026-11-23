@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/domain-inventory.v3-synthetic.json",
-    "sha256": "sha256:ffc993827ecbb8adcf5999385cd5f1a41b7406aefc30953d9185ca1324334563"
+    "sha256": "sha256:6bc3a35b2146bfb0f8817657deabd25deb62710e6920f6063e8c491c3c4a0e71"
   },
   "expect": {
     "schema": "invalid"
@@ -62,6 +62,15 @@
         "release_path": "preloader.mjs",
         "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
         "size_bytes": 200
+      },
+      {
+        "component_id": "hq",
+        "kind": "regular",
+        "mode": "0440",
+        "path": "hq/stage2a-selected-code.mjs",
+        "release_path": "stage2a-selected-code.mjs",
+        "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "size_bytes": 350
       }
     ],
     "installation_id": "hq-inst-1",
@@ -72,7 +81,7 @@
       "max_total_bytes": 1073741824
     },
     "schema_version": 3,
-    "total_bytes": 850
+    "total_bytes": 1200
   },
   "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
   "schema": "machine/v3/domain-inventory.schema.json"

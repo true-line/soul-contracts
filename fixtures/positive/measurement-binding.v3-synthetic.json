@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:6e2d01fc7e1d25d597cd13d279582309d3a96fead2cbf8e5a59c8b21ca9e9a9d",
+  "canonical_sha256": "sha256:1067f9528c0d06ae6293cc4fd84449ac75c6530cb905d8ff2144a92a8e66db63",
   "expect": {
     "schema": "valid"
   },
@@ -22,7 +22,7 @@
     "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "contract": "machine/v3",
     "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    "h_service_descriptor_digest": "sha256:094e590ae2a69ff4f8d003f7ed5175d9d91b824e105bd59dda9610c17cdc417e",
+    "h_service_descriptor_digest": "sha256:ec7702f445c00d21d96be0964c9d95e6b9cae81edfa445a3498798afc7bccbb5",
     "host_id": "synthetic-host",
     "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "installation_id": "inst_0000000000000001",

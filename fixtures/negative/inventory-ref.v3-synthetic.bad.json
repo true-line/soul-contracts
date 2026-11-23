@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/inventory-ref.v3-synthetic.json",
-    "sha256": "sha256:a6d4fd05b776c8f20e54c894e1f146b48006cd66ca905784131a6df9db0de589"
+    "sha256": "sha256:150176f528aa70ec579b87667e6e728c64fb325a1b8aa1fca3fc82b926c1b64d"
   },
   "expect": {
     "schema": "invalid"
@@ -10,15 +10,15 @@
     "contract": "machine/v3",
     "directory_count": 3,
     "domain": "H-code",
-    "file_count": 4,
+    "file_count": 5,
     "installation_id": "hq-inst-1",
-    "inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
+    "inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
     "kind": "stage2a-inventory-ref",
     "machine_uid": 0,
     "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
     "reader_gid": 309,
     "reader_uid": 309,
-    "reviewed_source_inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
+    "reviewed_source_inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
     "schema_version": 3,
     "sidecar": {
       "birthtime_ns": "1795356916000000000",
@@ -29,8 +29,8 @@
       "owner_gid": 309,
       "owner_uid": 501,
       "path": "/private/var/db/managed-machine/metadata/hq-inst-1/h-inventory.json",
-      "sha256": "sha256:45efaeb1643aeaf7f5933815a917286d630bc94222d2d5eb5daeef08ac3415fa",
-      "size_bytes": 1236
+      "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
+      "size_bytes": 1471
     },
     "snapshot": {
       "birthtime_ns": "1795356916000000000",
@@ -42,7 +42,7 @@
       "owner_uid": 501,
       "path": "/private/var/db/managed-machine/hq-code/hq-inst-1"
     },
-    "total_bytes": 850
+    "total_bytes": 1200
   },
   "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
   "schema": "machine/v3/inventory-ref.schema.json"

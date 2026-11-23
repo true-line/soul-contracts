@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:afbc8b79b65c90fdc15c9bccfa3cf7ca5f82bdcbd75cdf2ad3879e9f13097a44",
+  "canonical_sha256": "sha256:c03c53fd2cd1c6176dc58f2848e6091c1d3eba14265ca149403fba508477fc97",
   "expect": {
     "schema": "valid"
   },
@@ -9,7 +9,7 @@
         "component_id": "hq",
         "release_artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "release_attestation_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "release_manifest_sha256": "sha256:7e798b19bfd92fa54bb52dc48da6d27a9e7866ee895950eec301eddecead5f33"
+        "release_manifest_sha256": "sha256:65f434545475f28cd028df7faab86ff68e005f32f5ed10d33ece5589fa4c4cae"
       },
       {
         "component_id": "node",
@@ -23,15 +23,15 @@
       "contract": "machine/v3",
       "directory_count": 3,
       "domain": "H-code",
-      "file_count": 4,
+      "file_count": 5,
       "installation_id": "hq-inst-1",
-      "inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
+      "inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
       "kind": "stage2a-inventory-ref",
       "machine_uid": 501,
       "owner_plan_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
       "reader_gid": 309,
       "reader_uid": 309,
-      "reviewed_source_inventory_digest": "sha256:f45fcafed551417b4b485930dd775bdd5b83a70d86df886957f28637df15583d",
+      "reviewed_source_inventory_digest": "sha256:cbe2a0bcc8a4e519c6ca3e7fabf0b176c0d0428902e0f32141c2fd7ee8f06eb8",
       "schema_version": 3,
       "sidecar": {
         "birthtime_ns": "1795356916000000000",
@@ -42,8 +42,8 @@
         "owner_gid": 309,
         "owner_uid": 501,
         "path": "/private/var/db/managed-machine/metadata/hq-inst-1/h-inventory.json",
-        "sha256": "sha256:45efaeb1643aeaf7f5933815a917286d630bc94222d2d5eb5daeef08ac3415fa",
-        "size_bytes": 1236
+        "sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
+        "size_bytes": 1471
       },
       "snapshot": {
         "birthtime_ns": "1795356916000000000",
@@ -55,7 +55,7 @@
         "owner_uid": 501,
         "path": "/private/var/db/managed-machine/hq-code/hq-inst-1"
       },
-      "total_bytes": 850
+      "total_bytes": 1200
     },
     "host_id": "synthetic-host",
     "hq_installation_id": "hq-inst-1",
@@ -92,7 +92,8 @@
       ],
       "entry_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/main.mjs",
       "entry_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
-      "guard_policy_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "guard_module_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/stage2a-selected-code.mjs",
+      "guard_module_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "node_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/bin/node",
       "node_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
       "preloader_path": "/private/var/db/managed-machine/hq-code/hq-inst-1/hq/preloader.mjs",

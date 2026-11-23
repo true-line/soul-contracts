@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:3b7e4f3bf41f9b1870a0a0146102906337690dbd38c5f43e12ffe9336b575575",
+  "canonical_sha256": "sha256:bd497cf36975ec62b32f877a21f32e5bd9fab8aaeba895b19caf39b06d6c4889",
   "expect": {
     "schema": "valid"
   },
@@ -32,7 +32,7 @@
         "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock"
       },
       "expires_at": "2026-11-22T14:15:36Z",
-      "h_service_descriptor_digest": "sha256:094e590ae2a69ff4f8d003f7ed5175d9d91b824e105bd59dda9610c17cdc417e",
+      "h_service_descriptor_digest": "sha256:ec7702f445c00d21d96be0964c9d95e6b9cae81edfa445a3498798afc7bccbb5",
       "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "hq_uid": 309,
       "installation_id": "inst_0000000000000001",
@@ -99,7 +99,7 @@
       "claimed_definition_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "contract": "machine/v3",
       "definition_measurement": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "h_service_descriptor_digest": "sha256:094e590ae2a69ff4f8d003f7ed5175d9d91b824e105bd59dda9610c17cdc417e",
+      "h_service_descriptor_digest": "sha256:ec7702f445c00d21d96be0964c9d95e6b9cae81edfa445a3498798afc7bccbb5",
       "host_id": "synthetic-host",
       "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "installation_id": "inst_0000000000000001",

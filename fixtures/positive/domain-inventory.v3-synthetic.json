@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:45efaeb1643aeaf7f5933815a917286d630bc94222d2d5eb5daeef08ac3415fa",
+  "canonical_sha256": "sha256:0044e171c43bc1830607481b8444f44c08d877b1f80731b427b11b1f812d3db7",
   "expect": {
     "schema": "valid"
   },
@@ -59,6 +59,15 @@
         "release_path": "preloader.mjs",
         "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
         "size_bytes": 200
+      },
+      {
+        "component_id": "hq",
+        "kind": "regular",
+        "mode": "0440",
+        "path": "hq/stage2a-selected-code.mjs",
+        "release_path": "stage2a-selected-code.mjs",
+        "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "size_bytes": 350
       }
     ],
     "installation_id": "hq-inst-1",
@@ -69,7 +78,7 @@
       "max_total_bytes": 1073741824
     },
     "schema_version": 3,
-    "total_bytes": 850
+    "total_bytes": 1200
   },
   "note": "Public synthetic shape only; no installed owner policy, physical host, or authority.",
   "schema": "machine/v3/domain-inventory.schema.json"
