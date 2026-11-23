@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-runner-member-set-fd3.schema.json",
+  "title": "Stage 2a Machine-to-R FD3 two-member pre-Hello delivery (draft)",
+  "description": "Machine's fixed launcher supplies the exact A-signed one-use v3 reservation and #85 member-set assignment before R sends Hello. H selects an A-authenticated start but cannot create or replace either envelope. R independently reads the fixed root:wheel 0444 raw A Ed25519 pin, verifies both signatures and exact JCS bytes, rederives the measured eight-field two-member projection and joins the reservation/plan/start. Legacy runner FD3 versions remain unchanged. This frame does not grant provider ingress or physical qualification.",
+  "oneOf": [
+    { "$ref": "#/$defs/protected" },
+    { "$ref": "#/$defs/cooperative" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "absolute": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+    "requestIdentity": {
+      "type": "object",
+      "required": ["device", "inode", "birthtime_ns", "owner_uid", "group_gid", "mode"],
+      "properties": {
+        "device": { "type": "string", "pattern": "^[1-9][0-9]{0,19}$" },
+        "inode": { "type": "string", "pattern": "^[1-9][0-9]{0,19}$" },
+        "birthtime_ns": { "type": "string", "pattern": "^[1-9][0-9]{0,19}$" },
+        "owner_uid": { "type": "integer", "minimum": 0 },
+        "group_gid": { "type": "integer", "minimum": 0 },
+        "mode": { "const": 416 }
+      },
+      "additionalProperties": false
+    },
+    "protected": {
+      "type": "object",
+      "required": ["schema", "reservation_envelope_base64url", "reservation_sha256", "machine_pin_path", "launch_input_records", "state_root", "member_set_assignment_envelope_base64url"],
+      "properties": {
+        "schema": { "const": "agent-bot-souls/protected-start/v2" },
+        "reservation_envelope_base64url": { "$ref": "#/$defs/base64url", "description": "Full exact JCS bytes of purpose agent-bot/stage2a-reservation/v3, unpadded base64url." },
+        "reservation_sha256": { "$ref": "#/$defs/digest" },
+        "machine_pin_path": { "const": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub" },
+        "launch_input_records": { "$ref": "https://true-line.ai/soul-contracts/machine/v1/launch-input-records.schema.json" },
+        "state_root": { "$ref": "#/$defs/absolute" },
+        "member_set_assignment_envelope_base64url": { "$ref": "#/$defs/base64url", "description": "Full exact JCS bytes of A-signed purpose agent-bot/stage2a-member-set-assignment/v1, unpadded base64url; R verifies against the installed pin before Hello." }
+      },
+      "additionalProperties": false
+    },
+    "cooperative": {
+      "type": "object",
+      "required": ["schema", "reservation_envelope_base64url", "reservation_sha256", "machine_pin_path", "launch_input_records", "state_root", "admission_challenge_base64url", "member_socket_path", "relay_socket_path", "publish_outcome_envelope_base64url", "request_identity", "member_set_assignment_envelope_base64url"],
+      "properties": {
+        "schema": { "const": "agent-bot-souls/cooperative-start/v3" },
+        "reservation_envelope_base64url": { "$ref": "#/$defs/base64url", "description": "Full exact JCS bytes of purpose agent-bot/soul-cooperative-reservation/v3, unpadded base64url." },
+        "reservation_sha256": { "$ref": "#/$defs/digest" },
+        "machine_pin_path": { "const": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub" },
+        "launch_input_records": { "$ref": "https://true-line.ai/soul-contracts/machine/v1/launch-input-records.schema.json" },
+        "state_root": { "$ref": "#/$defs/absolute" },
+        "admission_challenge_base64url": { "$ref": "#/$defs/base64url", "description": "Exactly 32 decoded bytes; H's existing admission challenge from the signed v3 reservation." },
+        "member_socket_path": { "$ref": "#/$defs/absolute" },
+        "relay_socket_path": { "$ref": "#/$defs/absolute" },
+        "publish_outcome_envelope_base64url": { "$ref": "#/$defs/base64url" },
+        "request_identity": { "$ref": "#/$defs/requestIdentity" },
+        "member_set_assignment_envelope_base64url": { "$ref": "#/$defs/base64url", "description": "Full exact JCS bytes of A-signed purpose agent-bot/stage2a-member-set-assignment/v1, unpadded base64url; R verifies against the installed pin before Hello." }
+      },
+      "additionalProperties": false
+    }
+  }
+}
