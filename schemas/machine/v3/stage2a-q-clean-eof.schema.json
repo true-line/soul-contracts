@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-q-clean-eof.schema.json",
+  "title": "A observed clean EOF receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "kind",
+    "session_id",
+    "index_envelope_sha256",
+    "wire_sha256",
+    "finished_frame_sha256",
+    "observation_count",
+    "clean_eof_observed",
+    "no_trailing_bytes",
+    "eof_observed_at",
+    "issued_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "soul-conformance/qualification-session/v1"
+    },
+    "kind": {
+      "const": "finished-clean-eof"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "index_envelope_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "wire_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "finished_frame_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "observation_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 128
+    },
+    "clean_eof_observed": {
+      "const": true
+    },
+    "no_trailing_bytes": {
+      "const": true
+    },
+    "eof_observed_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+    },
+    "issued_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+    }
+  },
+  "additionalProperties": false
+}
