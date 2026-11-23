@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from jcs import canonicalize, parse_strict
-from stage2a_hr_v3_fixtures import H_PURPOSE, INVENTORY_PURPOSE, inventory_ref, signed_payload
+from stage2a_hr_v3_fixtures import H_PURPOSE, inventory_ref, signed_payload
 
 PURPOSE = b"agent-bot/soul-cooperative-reservation/v3"
 LAUNCH_PURPOSE = b"agent-bot/stage2a-cooperative-launch-inputs/v3"
@@ -204,12 +204,10 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         partial_q = copy.deepcopy(launch_records)
         partial_q["component_digests"].pop("harness")
         require(not launch_validator.is_valid(partial_q), "qualification harness and test provider are paired")
-        r_components = {component["component_id"]: component for component in binding["r_components"]}
         h_components = {component["component_id"]: component for component in h_payload["components"]}
         h_rows = {row["path"]: row for row in h_inventory["files"]}
         r_rows = {row["path"]: row for row in r_inventory["files"]}
         hq_broker = binding["hq_broker"]
-        h_prefix = h_inventory.get("snapshot", {}).get("path")
         # The inventory sidecar is separate from its signed compact reference.
         h_prefix = h_payload["h_inventory"]["snapshot"]["path"]
         broker_relative_path = "vendor/plugins/agent-comms/lib/hq-plugin/broker.mjs"
