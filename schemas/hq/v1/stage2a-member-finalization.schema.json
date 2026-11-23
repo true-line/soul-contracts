@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-member-finalization.schema.json",
+  "title": "Durably committed protected H two-member finalization (draft)",
+  "description": "H constructs this exact RFC 8785 JCS record only after verifying the A-signed protected assignment, both child observations, two-member B authority and aggregate Ready, the two sorted arm rows, authenticated provisional map and bind receipt. The launch_id is the A-signed primary reservation launch, distinct from the two member launch IDs. H fsyncs its private record and readbacks exact bytes and digest before paired A intake, and reopens it on each lease renewal. Its complete canonical UTF-8 bytes are at most 8192. A independently compares exact selectors, A envelopes, member rows, live roles and owner approval, caches the accepted bytes/digest and signs a separate acknowledgement. The record is H identity evidence, not independent H observation of the B-private relay socket, a runtime lease, ACP permission or physical T21 result.",
+  "type": "object",
+  "required": ["schema", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch", "reservation_sha256", "launch_id", "plan_id", "plan_digest", "assignment_envelope_sha256", "child_observation_envelope_sha256", "ready_envelope_sha256", "member_b_authority_envelope_sha256", "provisional_hq_mapping_sha256", "bind_receipt_sha256", "members", "committed_at"],
+  "properties": {
+    "schema": { "const": "agent-bot-hq/stage2a-member-finalization/v1" },
+    "profile_in_force": { "const": "managed-protected" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "ready_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "member_b_authority_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "provisional_hq_mapping_sha256": { "$ref": "#/$defs/digest" },
+    "bind_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "members": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/member" }, "description": "Exactly two rows in ascending A-signed member ID order. Cross-field equality and order require semantic verification." },
+    "committed_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "member": {
+      "type": "object",
+      "required": ["member_id", "member_selector", "member_launch_id", "runtime_id", "grant_sha256", "bridge_arm_receipt_sha256", "launcher_process", "child_process"],
+      "properties": {
+        "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+        "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+        "member_launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
+        "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+        "grant_sha256": { "$ref": "#/$defs/digest" },
+        "bridge_arm_receipt_sha256": { "$ref": "#/$defs/digest" },
+        "launcher_process": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-child-observation-payload.schema.json#/$defs/launcherProcess" },
+        "child_process": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-child-observation-payload.schema.json#/$defs/childProcess" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

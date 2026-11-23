@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-finalization-signed-ack.schema.json",
+  "title": "A-signed acknowledgement of protected H two-member finalization (draft)",
+  "description": "The secure-admin Machine signs ASCII agent-bot/stage2a-member-finalization-ack/v1, one NUL and exact RFC 8785 JCS UTF-8 payload bytes with the fixed installed Ed25519 A authority. Verify the exact JCS envelope and payload bytes, SHA-256, purpose, pinned key, signature, H finalization bytes/digest, A-signed Ready and child observation, selectors, chronology and live run before accepting. This acknowledgement does not itself grant a member runtime or B ingress lease.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "purpose": { "const": "agent-bot/stage2a-member-finalization-ack/v1" },
+    "issuer_public_key_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+    "payload_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "payload_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}

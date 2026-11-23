@@ -1,0 +1,79 @@
+{
+  "canonical_sha256": "sha256:75a48a9d249664a91496a61b63d0402da2a9697a1900f448cb20f1bce1d4e682",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:9c0e8586a3ccb62486c57994f3fcbceac374f5d2f1e78f2172b45ef540f07f5b",
+    "bind_receipt_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+    "child_observation_envelope_sha256": "sha256:b94f6f09ea2d68f0ade0a4bd3cf48782f459456cbac1476811a440a9b338faf6",
+    "committed_at": "2026-11-22T14:15:22.000Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "member_b_authority_envelope_sha256": "sha256:e19981334b0b8d5a118ecd80823601628527321665702e647c84aacbfccc7df3",
+    "members": [
+      {
+        "bridge_arm_receipt_sha256": "sha256:86174dfdf16755301def73b9b4dd70728b6e5661ad49d99b6b189c6a06b846c1",
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4001,
+          "pid": 4101,
+          "process_group_id": 4001,
+          "start_micros": 100,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4001,
+          "start_micros": 90,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_lead",
+        "member_launch_id": "ln_0123456789abcdef01234567",
+        "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+        "runtime_id": "runtime_fixture_m_lead"
+      },
+      {
+        "bridge_arm_receipt_sha256": "sha256:90e596cc8396a8a037d96094063eeac9822a775651cb72c1cf10e605fb80ab0a",
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4002,
+          "pid": 4102,
+          "process_group_id": 4002,
+          "start_micros": 101,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:936eeac0130799e749cbff6deab719b49a7ce5ad08ce25143e4fb95a4bd6b19f",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4002,
+          "start_micros": 91,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_spec",
+        "member_launch_id": "ln_0123456789abcdef01234568",
+        "member_selector": "mb_fd87fbfbc1a19e41890485e6ba557c03c1649ddf18982f283796f2bb253ba688",
+        "runtime_id": "runtime_fixture_m_spec"
+      }
+    ],
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "profile_in_force": "managed-protected",
+    "provisional_hq_mapping_sha256": "sha256:ad0cf6b1dbc056ccfb45d58ca157f12c4dc12105f0101de8cf102b63fdfd3118",
+    "ready_envelope_sha256": "sha256:be8818d5497cbb00cd0dc1ed80fb59e87a1f08abd7c3dee6d80f3f9f19112d1f",
+    "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+    "schema": "agent-bot-hq/stage2a-member-finalization/v1",
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "hq/v1/stage2a-member-finalization.schema.json"
+}
