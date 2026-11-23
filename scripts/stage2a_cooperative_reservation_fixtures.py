@@ -8,8 +8,14 @@ from datetime import datetime, timedelta
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from jcs import canonicalize, parse_strict
+from stage2a_hr_v3_fixtures import H_PURPOSE, INVENTORY_PURPOSE, inventory_ref, signed_payload
 
 PURPOSE = b"agent-bot/soul-cooperative-reservation/v3"
+LAUNCH_PURPOSE = b"agent-bot/stage2a-cooperative-launch-inputs/v3"
+H_ENVELOPE = "machine/v3/h-service-descriptor-signed.schema.json"
+H_PAYLOAD = "machine/v3/h-service-descriptor-payload.schema.json"
+INVENTORY = "machine/v3/domain-inventory.schema.json"
+INVENTORY_REF = "machine/v3/inventory-ref.schema.json"
 PAYLOAD = "machine/v3/soul-cooperative-reservation-payload.schema.json"
 ENVELOPE = "machine/v3/soul-cooperative-signed-reservation.schema.json"
 
@@ -55,6 +61,47 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         Ed25519PublicKey.from_public_bytes(public_key).verify(
             decode(envelope["signature_base64url"]), PURPOSE + b"\0" + payload_raw)
 
+        # Re-open the same static H descriptor and sidecar named by the signed binding.
+        h_envelope_raw = vector["h_envelope_jcs"].encode()
+        h_envelope = parse_strict(h_envelope_raw)
+        h_payload, h_raw = signed_payload(
+            h_envelope, H_PURPOSE, schemas[H_ENVELOPE], schemas[H_PAYLOAD],
+            decode(vector["h_issuer_public_key_base64url"]))
+        require(canonicalize(h_envelope) == h_envelope_raw and h_raw == vector["h_payload_jcs"].encode(),
+                "exact H descriptor envelope and payload")
+        h_digest = digest(H_PURPOSE + b"\0" + h_raw)
+        require(h_digest == vector["h_descriptor_digest"], "purpose-separated H descriptor digest")
+        require(h_digest == payload["measurement_binding"]["h_service_descriptor_digest"],
+                "H descriptor digest bound by reservation")
+        h_inventory = parse_strict(vector["h_inventory_jcs"])
+        inventory_ref(h_inventory, h_payload["h_inventory"], schemas)
+
+        # Exact complete R sidecar and cooperative input records accompany the signed refs.
+        r_vector_path = root / vector["r_inventory_fixture"]
+        launch_vector_path = root / vector["launch_input_fixture"]
+        require(r_vector_path == root / "fixtures/reservation/v3/soul-cooperative-r-inventory.synthetic.json" and
+                launch_vector_path == root / "fixtures/reservation/v3/soul-cooperative-launch-inputs.synthetic.json",
+                "fixed in-tree inventory and launch-input fixtures")
+        r_vector = parse_strict(r_vector_path.read_bytes())
+        r_inventory = parse_strict(r_vector["inventory_jcs"])
+        r_ref = r_vector["reference"]
+        inventory_ref(r_inventory, r_ref, schemas)
+        require(r_ref == payload["measurement_binding"]["r_inventory"], "exact R reference equals signed binding")
+        require(schemas[INVENTORY].is_valid(r_inventory) and schemas[INVENTORY_REF].is_valid(r_ref),
+                "R inventory and reference schemas")
+        launch_vector = parse_strict(launch_vector_path.read_bytes())
+        launch_raw = launch_vector["records_jcs"].encode()
+        launch_records = parse_strict(launch_raw)
+        require(canonicalize(launch_records) == launch_raw, "launch-input records are exact JCS bytes")
+        launch_ref = "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/cooperativeLaunchInputRecords"
+        launch_validator = schemas[PAYLOAD].evolve(schema={"$ref": launch_ref})
+        require(launch_validator.is_valid(launch_records), "bridge-free cooperative launch-input schema")
+        require(len(launch_raw) <= 1_048_576, "cooperative launch-input JCS size bound")
+        launch_digest = digest(LAUNCH_PURPOSE + b"\0" + launch_raw)
+        require(launch_vector["domain"] == LAUNCH_PURPOSE.decode() and launch_vector["sha256"] == launch_digest and
+                launch_digest == payload["measurement_binding"]["launch_input_measurement"],
+                "purpose-separated launch-input digest equals signed binding")
+
         assignment, binding, endpoints = payload["assignment"], payload["measurement_binding"], payload["endpoints"]
         require(binding["profile_in_force"] == "managed-cooperative", "cooperative-only measurement profile")
         require(payload["host_id"] == binding["host_id"], "host binding")
@@ -72,13 +119,13 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
                 "package root binds frozen definition snapshot")
         require(assignment["launch_inputs_root"] == binding["snapshots"]["launch_inputs"]["root_path"],
                 "launch inputs root binds frozen launch-input snapshot")
-        inventory = binding["r_inventory"]
-        require(inventory["domain"] == "R-runtime", "R installed inventory reference")
-        require(inventory["installation_id"] == assignment["installation_id"], "R installation binding")
-        require(inventory["owner_plan_digest"] == "sha256:" + assignment["plan_digest"], "R plan binding")
-        require(inventory["reader_uid"] == assignment["runner_uid"] and
-                inventory["reader_gid"] == assignment["runner_gid"], "runner and R inventory binding")
-        require(assignment["runtime_root"] == inventory["snapshot"]["path"],
+        inventory_binding = binding["r_inventory"]
+        require(inventory_binding["domain"] == "R-runtime", "R installed inventory reference")
+        require(inventory_binding["installation_id"] == assignment["installation_id"], "R installation binding")
+        require(inventory_binding["owner_plan_digest"] == "sha256:" + assignment["plan_digest"], "R plan binding")
+        require(inventory_binding["reader_uid"] == assignment["runner_uid"] and
+                inventory_binding["reader_gid"] == assignment["runner_gid"], "runner and R inventory binding")
+        require(assignment["runtime_root"] == inventory_binding["snapshot"]["path"],
                 "runtime root binds sealed R inventory snapshot")
         require(assignment["node_path"] == assignment["runtime_root"].rstrip("/") + "/bin/node" and
                 assignment["entry_path"] == assignment["runtime_root"].rstrip("/") + "/bin/agent-bot-souls.mjs",
@@ -98,6 +145,27 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
             require(endpoint["socket_path"].startswith(endpoint["directory"].rstrip("/") + "/"), name + " socket is inside directory")
             paths.add(endpoint["socket_path"])
         require(len(paths) == 2, "admission and broker sockets are distinct")
+        argv = [assignment["node_path"], assignment["entry_path"], "run", "--soul", assignment["package_root"],
+                "--admission-socket", endpoints["admission"]["socket_path"], "--broker-socket",
+                endpoints["broker"]["socket_path"], "--profile", "managed-cooperative",
+                "--cooperative-start-fd", "3"]
+        require(launch_records["selected_command"] == assignment["node_path"] and
+                launch_records["argv"] == argv, "complete launch inputs bind fixed T21 argv")
+        launch_files = {row["path"]: row for row in launch_records["files"]}
+        inventory_files = {row["path"]: row for row in r_inventory["files"]}
+        for relpath, fullpath in (("bin/node", assignment["node_path"]),
+                                  ("bin/agent-bot-souls.mjs", assignment["entry_path"])):
+            row = inventory_files.get(relpath)
+            launch_row = launch_files.get(relpath)
+            require(row is not None and launch_row is not None and
+                    fullpath == assignment["runtime_root"].rstrip("/") + "/" + relpath and
+                    row["sha256"][7:] == launch_row["sha256"], relpath + " exact R sidecar and launch-input row")
+        require(set(launch_records["component_digests"]) ==
+                {"machine", "hq", "souls", "comms_broker", "adapter", "harness", "test_provider"},
+                "exact seven cooperative component digests; no bridge")
+        require(launch_records["component_digests"]["souls"] ==
+                "sha256:" + inventory_files["bin/agent-bot-souls.mjs"]["sha256"][7:],
+                "souls component digest binds installed entry row")
 
         protected_payload = copy.deepcopy(payload)
         protected_envelope = copy.deepcopy(envelope)

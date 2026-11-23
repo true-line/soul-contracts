@@ -74,6 +74,46 @@
   },
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "cooperativeLaunchInputRecords": {
+      "type": "object",
+      "required": ["files", "host_projection", "selected_command", "argv", "environment", "effective_config", "system_images", "sandbox_policy_digest", "component_digests"],
+      "properties": {
+        "files": {
+          "type": "array", "minItems": 1, "maxItems": 64,
+          "items": { "$ref": "https://true-line.ai/soul-contracts/machine/v1/definition-records.schema.json#/$defs/file" }
+        },
+        "host_projection": {
+          "type": "object", "required": ["adapters", "installation"],
+          "properties": { "adapters": { "type": "object", "maxProperties": 256 }, "installation": { "type": "object", "maxProperties": 256 } },
+          "additionalProperties": false
+        },
+        "selected_command": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "argv": { "type": "array", "minItems": 1, "maxItems": 128, "items": { "type": "string", "maxLength": 4096 } },
+        "environment": {
+          "type": "object", "maxProperties": 256,
+          "patternProperties": { "^[A-Za-z_][A-Za-z0-9_]*$": { "type": "string", "maxLength": 8192 } },
+          "additionalProperties": false
+        },
+        "effective_config": { "type": "object", "required": ["profile"], "properties": { "profile": { "const": "managed-cooperative" } } },
+        "system_images": { "$ref": "https://true-line.ai/soul-contracts/machine/v1/launch-input-records.schema.json#/properties/system_images" },
+        "sandbox_policy_digest": { "$ref": "#/$defs/digest" },
+        "component_digests": {
+          "type": "object",
+          "required": ["machine", "hq", "souls", "comms_broker", "adapter", "harness", "test_provider"],
+          "properties": {
+            "machine": { "$ref": "#/$defs/digest" },
+            "hq": { "$ref": "#/$defs/digest" },
+            "souls": { "$ref": "#/$defs/digest" },
+            "comms_broker": { "$ref": "#/$defs/digest" },
+            "adapter": { "$ref": "#/$defs/digest" },
+            "harness": { "$ref": "#/$defs/digest" },
+            "test_provider": { "$ref": "#/$defs/digest" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
     "endpoint": {
       "type": "object",
       "required": ["directory", "socket_path", "owner_uid", "group_gid", "dir_mode", "socket_mode", "expected_peer_uid"],
