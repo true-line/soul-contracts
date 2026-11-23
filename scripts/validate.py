@@ -36,6 +36,7 @@ from stage2a_measurement_fixtures import check_stage2a_measurement_fixtures  # n
 from stage2a_reservation_fixtures import check_stage2a_reservation_fixtures  # noqa: E402
 from stage2a_reservation_v2_fixtures import check_stage2a_reservation_v2_fixtures  # noqa: E402
 from stage2a_hr_v3_fixtures import check_stage2a_hr_v3_fixtures  # noqa: E402
+from stage2a_candidate_v3_fixtures import check_stage2a_candidate_v3_fixtures  # noqa: E402
 from qualification_report_v3_fixtures import check_report_v3_fixtures  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -208,6 +209,7 @@ check_stage2a_measurement_fixtures(ROOT, schemas, report)
 check_stage2a_reservation_fixtures(ROOT, schemas, report)
 check_stage2a_reservation_v2_fixtures(ROOT, schemas, report)
 check_stage2a_hr_v3_fixtures(ROOT, schemas, report)
+check_stage2a_candidate_v3_fixtures(ROOT, schemas, report)
 check_report_v3_fixtures(ROOT, schemas, report)
 check_qualification_policy_fixtures(ROOT, schemas, report)
 

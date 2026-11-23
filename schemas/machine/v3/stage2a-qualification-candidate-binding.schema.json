@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-qualification-candidate-binding.schema.json",
+  "title": "Stage 2a one-use qualification candidate installed binding",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "schema_version",
+    "installation_id",
+    "soul_id",
+    "start_id",
+    "launch_id",
+    "host_id",
+    "hq_epoch",
+    "plan_id",
+    "installed_plan_digest",
+    "package_sha256",
+    "profile_in_force",
+    "claimed_definition_digest",
+    "definition_measurement",
+    "launch_input_measurement",
+    "snapshots",
+    "soul_artifact_sha256",
+    "h_service_descriptor_digest",
+    "r_inventory",
+    "r_components",
+    "broker_executable",
+    "candidate_adapter"
+  ],
+  "properties": {
+    "contract": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/contract"
+    },
+    "kind": {
+      "const": "stage2a-qualification-candidate-binding"
+    },
+    "schema_version": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/schema_version"
+    },
+    "installation_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/installation_id"
+    },
+    "soul_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/soul_id"
+    },
+    "start_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/start_id"
+    },
+    "launch_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/launch_id"
+    },
+    "host_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/host_id"
+    },
+    "hq_epoch": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/hq_epoch"
+    },
+    "plan_id": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/plan_id"
+    },
+    "installed_plan_digest": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/installed_plan_digest"
+    },
+    "package_sha256": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/package_sha256"
+    },
+    "profile_in_force": {
+      "const": "managed-protected"
+    },
+    "claimed_definition_digest": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/claimed_definition_digest"
+    },
+    "definition_measurement": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/definition_measurement"
+    },
+    "launch_input_measurement": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/launch_input_measurement"
+    },
+    "snapshots": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/snapshots"
+    },
+    "soul_artifact_sha256": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/soul_artifact_sha256"
+    },
+    "h_service_descriptor_digest": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/h_service_descriptor_digest"
+    },
+    "r_inventory": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/r_inventory"
+    },
+    "r_components": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/r_components"
+    },
+    "broker_executable": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/broker_executable"
+    },
+    "candidate_adapter": {
+      "type": "object",
+      "required": [
+        "component_id",
+        "package_sha256",
+        "executable_path",
+        "executable_sha256",
+        "code_inputs_digest",
+        "code_input_count",
+        "candidate_manifest_sha256"
+      ],
+      "properties": {
+        "component_id": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/component_id"
+        },
+        "package_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/package_sha256",
+          "description": "SHA-256 of the exact owner-reviewed candidate artifact. A vendor ZIP includes every manifest member. A raw executable is the whole artifact only when it is the sole manifest member."
+        },
+        "executable_path": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/executable_path"
+        },
+        "executable_sha256": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/executable_sha256"
+        },
+        "code_inputs_digest": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/code_inputs_digest"
+        },
+        "code_input_count": {
+          "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/adapter_release/properties/code_input_count"
+        },
+        "candidate_manifest_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 of the exact canonical manifest reviewed by the owner. Machine matches every artifact file to its corresponding installed R row."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
