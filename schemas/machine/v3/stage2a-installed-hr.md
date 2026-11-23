@@ -69,8 +69,11 @@ rows by release path and byte hash. A matching archive digest alone is not
 sufficient. The runtime argv begins with the selected H Node, `--no-addons`,
 `--disallow-code-generation-from-strings`, `--import`, the selected H preloader,
 the H entry, and `run`; the full ordered argv must match the approved plan.
-The `guard_policy_sha256` is a claim to be checked against the approved
-runtime guard, not evidence that Node's dynamic-code paths are closed.
+`guard_module_path` and `guard_module_sha256` name the exact released H row
+containing the selected runtime guard implementation. There is no implicit
+external guard-policy object. The preloader verifies that row before importing
+the guard; a matching byte hash alone is not evidence that Node's dynamic-code
+paths are closed. The protected release must pass separate native guard tests.
 The existing launchd service executes an owner helper through `/usr/bin/ruby`
 before Node. For the protected opt-in phase, `outer_launch` therefore pins the
 selected system Ruby path/hash, an H-inventoried and release-mapped Ruby helper

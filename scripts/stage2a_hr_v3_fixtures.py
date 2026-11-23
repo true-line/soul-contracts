@@ -128,7 +128,7 @@ def verify(vector, schemas, pinned, now):
         released_rows(h_rows, component, vector["release_manifests"][name])
     require(set(components) == {row["component_id"] for row in h_rows.values()}, "all H rows released")
     runtime = h["runtime"]
-    for name in ("node", "preloader", "entry"):
+    for name in ("node", "preloader", "entry", "guard_module"):
         path = runtime[name + "_path"]
         prefix = h["h_inventory"]["snapshot"]["path"] + "/"
         require(path.startswith(prefix), name + " inside H tree")
@@ -258,6 +258,7 @@ def check_stage2a_hr_v3_fixtures(root, schemas, report):
              "directories": parse_strict(vector["h_inventory_jcs"].encode())["directories"] +
              [{"path": "unused", "kind": "directory", "mode": "0555"}]}).decode()}, pinned),
         "H preloader row digest": (mutate_payload("h", lambda p: p["runtime"].__setitem__("preloader_sha256", "sha256:" + "0" * 64)), pinned),
+        "H guard module row digest": (mutate_payload("h", lambda p: p["runtime"].__setitem__("guard_module_sha256", "sha256:" + "0" * 64)), pinned),
         "H argv override": (mutate_payload("h", lambda p: p["runtime"]["argv"].append("--plugin-dir=/tmp")), pinned),
         "Ruby helper strips Node flag": (mutate_payload("h", lambda p: p["outer_launch"]["argv"].__setitem__(5, "--no-warnings")), pinned),
         "unlisted pre-Node helper": (mutate_payload("h", lambda p: p["outer_launch"].__setitem__("helper_path", p["h_inventory"]["snapshot"]["path"] + "/helpers/unlisted.rb")), pinned),
