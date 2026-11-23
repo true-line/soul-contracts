@@ -1,0 +1,20 @@
+{
+  "base": {
+    "fixture": "positive/cooperative-member-set-attach.two-member-synthetic.json",
+    "sha256": "sha256:f65137bdefa37cf0189511c0082ece68dc30f9ac3f4211b288fed31b7d65e6eb"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "acp_ticket_base64url": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "broker_socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "member_b_authority_envelope_sha256": "sha256:7adb17770de459c8b9425dbd2b8dde54910c0c3de787c06767debb925c20683c",
+    "member_set_assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema": "hq/cooperative-member-set-attach/v3",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "hq/v1/cooperative-member-set-attach.schema.json"
+}

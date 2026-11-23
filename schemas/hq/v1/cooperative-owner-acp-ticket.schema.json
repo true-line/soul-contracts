@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/cooperative-owner-acp-ticket.schema.json",
+  "title": "Delayed cooperative two-member owner ACP ticket exchange (draft)",
+  "description": "On the original authenticated H/R admission session, R requests cooperative.owner-acp-ticket.v3 only after independently verifying both 21-field member attach results against the same A-signed aggregate Ready. H issues one ticket only after rechecking the same live R kernel identity, both attached member selectors and launch IDs under that Ready, and trusted B readiness evidence for both exact A-observed children and arm receipts. The result binds the primary R reservation/start/launch and Ready envelope hash; it is not A authority. A fresh cooperative.acp.v3 owner stream spends the 32-byte ticket once. No ticket or ACP bytes before all joins; refusal has no state transition.",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "request": {
+      "type": "object", "required": ["ready_envelope_sha256"],
+      "properties": { "ready_envelope_sha256": { "$ref": "#/$defs/digest" } },
+      "additionalProperties": false
+    },
+    "result": {
+      "type": "object", "required": ["schema", "reservation_sha256", "start_id", "launch_id", "ready_envelope_sha256", "acp_ticket_base64url"],
+      "properties": {
+        "schema": { "const": "hq/cooperative-owner-acp-ticket/v3" },
+        "reservation_sha256": { "$ref": "#/$defs/digest" },
+        "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+        "ready_envelope_sha256": { "$ref": "#/$defs/digest" },
+        "acp_ticket_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$", "description": "Canonical unpadded base64url of exactly 32 fresh one-use H ticket bytes; verifier checks decode and re-encode equality." }
+      },
+      "additionalProperties": false
+    }
+  }
+}
