@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-bridge-assignment-payload.schema.json",
+  "title": "Managed cooperative private bridge assignment",
+  "description": "A-signed H/B authority for the exact R-visible reservation envelope. Live socket identities and the one-use proof are supplied by the authenticated B handoff after binding.",
+  "type": "object",
+  "required": [
+    "contract", "kind", "schema_version", "host_id", "installation_id", "start_id", "launch_id",
+    "plan_id", "plan_digest", "hq_epoch", "expires_at", "reservation_sha256", "bridge_launch_sha256", "bridge", "endpoints"
+  ],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "soul-cooperative-bridge-assignment" },
+    "schema_version": { "const": 3 },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/installation_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/plan_digest" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/hq_epoch" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/host_id" },
+    "expires_at": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/expires_at" },
+    "reservation_sha256": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/digest" },
+    "bridge_launch_sha256": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/bridgeLaunchDigest" },
+    "bridge": { "$ref": "#/$defs/bridge" },
+    "endpoints": {
+      "type": "object",
+      "required": ["broker", "member", "relay"],
+      "properties": {
+        "broker": { "$ref": "#/$defs/endpoint" },
+        "member": { "$ref": "#/$defs/endpoint" },
+        "relay": { "$ref": "#/$defs/endpoint" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "endpoint": {
+      "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/endpoint",
+      "required": ["parent_device", "parent_inode", "parent_birthtime_ns"]
+    },
+    "bridge": {
+      "type": "object",
+      "required": [
+        "account", "uid", "gid", "state_root", "state_root_mode",
+        "executable_path", "executable_sha256", "sandbox_profile_path", "sandbox_profile_sha256", "argv"
+      ],
+      "properties": {
+        "account": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/runner_account" },
+        "uid": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/runner_uid" },
+        "gid": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/runner_gid" },
+        "state_root": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/state_root" },
+        "state_root_mode": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/state_root_mode" },
+        "executable_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/node_path" },
+        "executable_sha256": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/digest" },
+        "sandbox_profile_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/node_path" },
+        "sandbox_profile_sha256": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/digest" },
+        "argv": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/cooperativeLaunchInputRecords/properties/argv" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,4 +1,4 @@
-"""Bridge-free cooperative reservation vectors and cross-field checks."""
+"""Cooperative reservation vectors and cross-field checks."""
 
 import base64
 import copy
@@ -12,6 +12,7 @@ from jcs import canonicalize, parse_strict
 from stage2a_hr_v3_fixtures import H_PURPOSE, inventory_ref, signed_payload
 
 PURPOSE = b"agent-bot/soul-cooperative-reservation/v3"
+BRIDGE_PURPOSE = b"agent-bot/soul-cooperative-bridge-assignment/v3"
 LAUNCH_PURPOSE = b"agent-bot/stage2a-cooperative-launch-inputs/v3"
 H_ENVELOPE = "machine/v3/h-service-descriptor-signed.schema.json"
 H_PAYLOAD = "machine/v3/h-service-descriptor-payload.schema.json"
@@ -19,6 +20,8 @@ INVENTORY = "machine/v3/domain-inventory.schema.json"
 INVENTORY_REF = "machine/v3/inventory-ref.schema.json"
 PAYLOAD = "machine/v3/soul-cooperative-reservation-payload.schema.json"
 ENVELOPE = "machine/v3/soul-cooperative-signed-reservation.schema.json"
+BRIDGE_PAYLOAD = "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json"
+BRIDGE_ENVELOPE = "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json"
 
 
 def decode(value):
@@ -37,14 +40,68 @@ def require(condition, message):
         raise ValueError(message)
 
 
-def peers_match(payload):
+def topology_matches(payload, private_assignment=None):
     assignment = payload["assignment"]
-    return all(endpoint["expected_peer_uid"] == assignment["runner_uid"]
-               for endpoint in payload["endpoints"].values())
+    endpoints = payload["endpoints"]
+    h = assignment["hq_uid"]
+    r = assignment["runner_uid"]
+    rg = assignment["runner_gid"]
+    expected = {"admission": (h, rg, r), "broker": (h, rg, r)}
+    if private_assignment is not None:
+        bridge = private_assignment["bridge"]
+        b, bg = bridge["uid"], bridge["gid"]
+        if b in (h, r, assignment["machine_uid"]) or bg == rg or bridge["account"] == assignment["runner_account"]:
+            return False
+        if bridge["state_root"] == assignment["state_root"] or bridge["argv"][0] != bridge["executable_path"]:
+            return False
+        private_endpoints = private_assignment["endpoints"]
+        if any(private_endpoints[name] != endpoints[name] for name in ("member", "relay")):
+            return False
+        endpoints = {**endpoints, "broker": private_endpoints["broker"]}
+        expected.update(broker=(h, bg, b), member=(r, bg, b), relay=(b, rg, r))
+
+    if set(endpoints) != set(expected):
+        return False
+    paths = set()
+    for name, endpoint in endpoints.items():
+        if (endpoint["owner_uid"], endpoint["group_gid"], endpoint["expected_peer_uid"]) != expected[name]:
+            return False
+        socket = PurePosixPath(endpoint["socket_path"])
+        if socket.parent != PurePosixPath(endpoint["directory"]) or socket in paths:
+            return False
+        paths.add(socket)
+    return True
+
+
+def bridge_assignment_matches(payload, private_assignment, envelope_raw):
+    assignment = payload["assignment"]
+    return (
+        payload["adapter_transport"] == "brokered-b"
+        and private_assignment["reservation_sha256"] == digest(envelope_raw)
+        and all(private_assignment[field] == payload[field] for field in ("host_id", "expires_at"))
+        and all(private_assignment[field] == assignment[field]
+                for field in ("installation_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch"))
+        and payload["bridge_launch_sha256"] == private_assignment["bridge_launch_sha256"]
+        and private_assignment["bridge_launch_sha256"] == digest(canonicalize(private_assignment["bridge"]))
+        and topology_matches(payload, private_assignment)
+    )
+
+
+def qualification_provider_matches(payload, launch_records):
+    provider = payload.get("qualification_provider")
+    measured = launch_records["effective_config"].get("qualification_provider_config_sha256")
+    if provider is None:
+        return measured is None
+    return measured == provider["config_sha256"]
 
 
 def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
-    path = root / "fixtures/reservation/v3/soul-cooperative-signed-reservation.synthetic.json"
+    vectors = root / "fixtures/reservation/v3"
+    for vector_type in ("synthetic", "brokered-b.synthetic"):
+        check_reservation(root, vectors / f"soul-cooperative-signed-reservation.{vector_type}.json", schemas, report)
+
+
+def check_reservation(root, path, schemas, report):
     try:
         vector = parse_strict(path.read_bytes())
         envelope_raw = vector["reservation_envelope_jcs"].encode()
@@ -65,6 +122,16 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         Ed25519PublicKey.from_public_bytes(public_key).verify(
             decode(envelope["signature_base64url"]), PURPOSE + b"\0" + payload_raw)
 
+        private_assignment = None
+        if payload["adapter_transport"] == "brokered-b":
+            private_raw = vector["bridge_envelope_jcs"].encode()
+            private_envelope = parse_strict(private_raw)
+            require(canonicalize(private_envelope) == private_raw, "private assignment envelope is exact JCS")
+            private_assignment, _ = signed_payload(
+                private_envelope, BRIDGE_PURPOSE, schemas[BRIDGE_ENVELOPE], schemas[BRIDGE_PAYLOAD], public_key)
+            require(bridge_assignment_matches(payload, private_assignment, envelope_raw),
+                    "private B authority joins the exact signed primary, launch commitment and endpoints")
+
         # Re-open the same static H descriptor and sidecar named by the signed binding.
         h_envelope_raw = vector["h_envelope_jcs"].encode()
         h_envelope = parse_strict(h_envelope_raw)
@@ -83,8 +150,9 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         # Exact complete R sidecar and cooperative input records accompany the signed refs.
         r_vector_path = root / vector["r_inventory_fixture"]
         launch_vector_path = root / vector["launch_input_fixture"]
+        fixture_type = "brokered-b.synthetic" if payload["adapter_transport"] == "brokered-b" else "synthetic"
         require(r_vector_path == root / "fixtures/reservation/v3/soul-cooperative-r-inventory.synthetic.json" and
-                launch_vector_path == root / "fixtures/reservation/v3/soul-cooperative-launch-inputs.synthetic.json",
+                launch_vector_path == root / f"fixtures/reservation/v3/soul-cooperative-launch-inputs.{fixture_type}.json",
                 "fixed in-tree inventory and launch-input fixtures")
         r_vector = parse_strict(r_vector_path.read_bytes())
         r_inventory = parse_strict(r_vector["inventory_jcs"])
@@ -99,7 +167,7 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         require(canonicalize(launch_records) == launch_raw, "launch-input records are exact JCS bytes")
         launch_ref = "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/$defs/cooperativeLaunchInputRecords"
         launch_validator = schemas[PAYLOAD].evolve(schema={"$ref": launch_ref})
-        require(launch_validator.is_valid(launch_records), "bridge-free cooperative launch-input schema")
+        require(launch_validator.is_valid(launch_records), "cooperative launch-input schema")
         require(len(launch_raw) <= 1_048_576, "cooperative launch-input JCS size bound")
         launch_digest = digest(LAUNCH_PURPOSE + b"\0" + launch_raw)
         require(launch_vector["domain"] == LAUNCH_PURPOSE.decode() and launch_vector["sha256"] == launch_digest and
@@ -137,18 +205,11 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         require(assignment["state_root"] == f"/private/var/agent-bot-soul-runner-{assignment['runner_account']}/state" and
                 assignment["state_root_mode"] == "0700", "dedicated external runner state path and mode")
         require(binding["h_service_descriptor_digest"], "H descriptor digest is bound")
-        require(set(endpoints) == {"admission", "broker"}, "exact admission and broker endpoints")
-        require(peers_match(payload), "both endpoints expect the assigned R peer")
-        paths = set()
-        for name, endpoint in endpoints.items():
-            require(endpoint["owner_uid"] == assignment["hq_uid"], name + " is H-owned")
-            require(endpoint["group_gid"] == assignment["runner_gid"], name + " grants runner group access")
-            require(endpoint["expected_peer_uid"] == assignment["runner_uid"], name + " expects assigned R peer")
-            require(endpoint["dir_mode"] == 0o2750 and endpoint["socket_mode"] == 0o660,
-                    name + " has only H-owner and assigned R-group access")
-            require(endpoint["socket_path"].startswith(endpoint["directory"].rstrip("/") + "/"), name + " socket is inside directory")
-            paths.add(endpoint["socket_path"])
-        require(len(paths) == 2, "admission and broker sockets are distinct")
+        require(topology_matches(payload, private_assignment), "assigned endpoint ownership, peer and path topology")
+        require(launch_records["adapter_transport"] == payload["adapter_transport"],
+                "signed adapter transport equals measured launch transport")
+        require(launch_records.get("bridge_launch_sha256") == payload.get("bridge_launch_sha256"),
+                "signed B launch commitment equals measured launch-input record")
         admission_directory = PurePosixPath(endpoints["admission"]["directory"])
         start_slot = hashlib.sha256(b"agent-bot-soul-endpoint-start/v1\0" +
                                     assignment["installation_id"].encode() + b"\0" +
@@ -156,14 +217,18 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
         require(admission_directory.parent.name == "c" and
                 PurePosixPath(endpoints["admission"]["socket_path"]).name == start_slot + ".sock",
                 "cooperative admission uses the per-installation c/start path")
-        broker_directory = "/Library/Application Support/ai.true-line.agent-bot-hq/broker/" + assignment["runner_account"]
-        require(endpoints["broker"]["directory"] == broker_directory and
-                endpoints["broker"]["socket_path"] == broker_directory + "/broker.sock",
-                "broker path is H-owned and scoped to the assigned runner account")
         argv = [assignment["node_path"], assignment["entry_path"], "run", "--soul", assignment["package_root"],
-                "--admission-socket", endpoints["admission"]["socket_path"], "--broker-socket",
-                endpoints["broker"]["socket_path"], "--profile", "managed-cooperative",
-                "--cooperative-start-fd", "3"]
+                "--admission-socket", endpoints["admission"]["socket_path"]]
+        if payload["adapter_transport"] == "direct-comms":
+            broker_directory = "/Library/Application Support/ai.true-line.agent-bot-hq/broker/" + assignment["runner_account"]
+            require(endpoints["broker"]["directory"] == broker_directory and
+                    endpoints["broker"]["socket_path"] == broker_directory + "/broker.sock",
+                    "direct broker path is H-owned and scoped to the assigned runner account")
+            argv += ["--broker-socket", endpoints["broker"]["socket_path"]]
+        else:
+            argv += ["--member-socket", endpoints["member"]["socket_path"],
+                     "--relay-socket", endpoints["relay"]["socket_path"]]
+        argv += ["--profile", "managed-cooperative", "--cooperative-start-fd", "3"]
         require(launch_records["selected_command"] == assignment["node_path"] and
                 launch_records["argv"] == argv, "complete launch inputs bind fixed T21 argv")
         require(launch_records["environment"].get("PATH") == "/usr/bin:/bin" and
@@ -194,12 +259,13 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
                 "launch-input snapshot does not duplicate A-sealed R closure bytes")
         require(set(launch_records["component_digests"]) ==
                 {"machine", "hq", "souls", "comms_broker", "adapter", "harness", "test_provider"},
-                "T21 qualification vector pins all seven components; no bridge")
+                "T21 qualification vector pins all seven H/R/Q components")
         ordinary_components = copy.deepcopy(launch_records["component_digests"])
         ordinary_components.pop("harness")
         ordinary_components.pop("test_provider")
         ordinary_launch = copy.deepcopy(launch_records)
         ordinary_launch["component_digests"] = ordinary_components
+        ordinary_launch["effective_config"].pop("qualification_provider_config_sha256")
         require(launch_validator.is_valid(ordinary_launch), "ordinary cooperative schema does not require installed harnesses")
         partial_q = copy.deepcopy(launch_records)
         partial_q["component_digests"].pop("harness")
@@ -229,6 +295,17 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
                 set(provider_config) == {"model", "request_sha256", "response_text"} and
                 provider_config["request_sha256"].startswith("sha256:"),
                 "exact canonical Machine qualification provider config bytes are digest-bound")
+        require(qualification_provider_matches(payload, launch_records),
+                "measured effective config binds exact canonical qualification provider bytes")
+        missing_provider_digest = copy.deepcopy(launch_records)
+        del missing_provider_digest["effective_config"]["qualification_provider_config_sha256"]
+        require(not launch_validator.is_valid(missing_provider_digest),
+                "qualification launch inputs require measured provider config digest")
+        wrong_provider_digest = copy.deepcopy(launch_records)
+        wrong_provider_digest["effective_config"]["qualification_provider_config_sha256"] = digest(b"wrong provider config")
+        require(launch_validator.is_valid(wrong_provider_digest) and
+                not qualification_provider_matches(payload, wrong_provider_digest),
+                "wrong measured provider digest reaches the cross-field equality check")
         adapter = binding["adapter_release"]
         require(adapter["executable_path"] == assignment["runtime_root"] + "/adapter/cli" and
                 adapter["executable_sha256"] == r_rows["adapter/cli"]["sha256"],
@@ -262,13 +339,62 @@ def check_stage2a_cooperative_reservation_fixtures(root, schemas, report):
             raise ValueError("protected purpose must not verify the cooperative signature")
         require(not schemas["machine/v3/stage2a-reservation-payload.schema.json"].is_valid(protected_payload),
                 "protected reservation schema refuses cooperative payload")
-        wrong_peer = copy.deepcopy(payload)
-        wrong_peer["endpoints"]["broker"]["expected_peer_uid"] += 1
-        require(schemas[PAYLOAD].is_valid(wrong_peer), "wrong peer fixture reaches semantic binding check")
-        require(not peers_match(wrong_peer), "wrong broker peer is rejected by runner binding")
+        if private_assignment is None:
+            wrong_peer = copy.deepcopy(payload)
+            wrong_peer["endpoints"]["broker"]["expected_peer_uid"] += 1
+            require(schemas[PAYLOAD].is_valid(wrong_peer), "wrong peer fixture reaches semantic binding check")
+            require(not topology_matches(wrong_peer), "wrong broker peer is rejected by runner binding")
+        else:
+            check_b_refusals(payload, private_assignment, envelope_raw, schemas)
         bridged = copy.deepcopy(payload)
         bridged["assignment"]["bridge_uid"] = 333
-        require(not schemas[PAYLOAD].is_valid(bridged), "cooperative schema refuses bridge claims")
+        require(not schemas[PAYLOAD].is_valid(bridged), "cooperative schema refuses legacy assignment bridge claims")
         report(True, str(path.relative_to(root)))
     except (KeyError, OSError, ValueError, InvalidSignature) as exc:
         report(False, str(path.relative_to(root)), str(exc))
+
+
+def check_b_refusals(payload, private_assignment, envelope_raw, schemas):
+    primary_schema, private_schema = schemas[PAYLOAD], schemas[BRIDGE_PAYLOAD]
+    for field in ("adapter_transport", "bridge_launch_sha256"):
+        missing = copy.deepcopy(payload)
+        del missing[field]
+        require(not primary_schema.is_valid(missing), f"B reservation requires {field}")
+    leaked = copy.deepcopy(payload)
+    leaked["endpoints"]["broker"] = private_assignment["endpoints"]["broker"]
+    require(not primary_schema.is_valid(leaked), "R-visible B reservation refuses the private H broker")
+    direct = copy.deepcopy(payload)
+    direct["adapter_transport"] = "direct-comms"
+    require(not primary_schema.is_valid(direct), "direct transport refuses B commitments and endpoints")
+    for name in ("member", "relay"):
+        missing = copy.deepcopy(payload)
+        del missing["endpoints"][name]
+        require(not primary_schema.is_valid(missing), f"B reservation requires {name} endpoint")
+    for name in ("broker", "member", "relay"):
+        missing_inode = copy.deepcopy(private_assignment)
+        del missing_inode["endpoints"][name]["parent_inode"]
+        require(not private_schema.is_valid(missing_inode), f"B assignment requires {name} parent inode")
+        premature = copy.deepcopy(private_assignment)
+        premature["endpoints"][name]["socket_inode"] = "1099"
+        require(not private_schema.is_valid(premature), f"B assignment cannot preclaim {name} socket inode")
+    for name, field, value in (
+        ("broker", "expected_peer_uid", payload["assignment"]["runner_uid"]),
+        ("member", "parent_inode", "1099"),
+        ("relay", "group_gid", private_assignment["bridge"]["gid"]),
+    ):
+        broken = copy.deepcopy(private_assignment)
+        broken["endpoints"][name][field] = value
+        require(private_schema.is_valid(broken) and not bridge_assignment_matches(payload, broken, envelope_raw),
+                f"B wrong {name} {field} fails the primary join")
+    wrong_launch = copy.deepcopy(private_assignment)
+    wrong_launch["bridge"]["executable_sha256"] = digest(b"wrong executable")
+    require(private_schema.is_valid(wrong_launch) and not bridge_assignment_matches(payload, wrong_launch, envelope_raw),
+            "B executable change fails measured launch digest")
+    wrong_reservation = copy.deepcopy(private_assignment)
+    wrong_reservation["reservation_sha256"] = digest(b"other reservation")
+    require(private_schema.is_valid(wrong_reservation) and not bridge_assignment_matches(payload, wrong_reservation, envelope_raw),
+            "B assignment for another primary reservation is refused")
+    same_role = copy.deepcopy(private_assignment)
+    same_role["bridge"]["uid"] = payload["assignment"]["runner_uid"]
+    require(private_schema.is_valid(same_role) and not topology_matches(payload, same_role),
+            "B cannot share the R principal")

@@ -1,13 +1,14 @@
 {
   "base": {
     "fixture": "positive/soul-cooperative-reservation-payload.v3-synthetic.json",
-    "sha256": "sha256:57173b564bb7a51c11ff699f4a8c0c1cb7a6651680c3f0cb036163bcf66bbc34"
+    "sha256": "sha256:5d9c74cb7f95b5964905eab3d04854b82bb824d17fe02c59bd59bcd80f45e02a"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
-    "admission_challenge_sha256": "sha256:425b622cd681a975f14f9bc9ef56fe5c3658ecdb1af68fe0f2871b96f6d5eb59",
+    "adapter_transport": "direct-comms",
+    "admission_challenge_sha256": "sha256:630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd",
     "assignment": {
       "entry_path": "/private/var/db/managed-machine/soul-snapshots/r_23bc1c3252f7992b4298/snap_6594547120bbfa77564d4abe/bin/agent-bot-souls.mjs",
       "expires_at": "2026-11-22T14:15:36Z",
@@ -74,7 +75,7 @@
       "installed_plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
       "kind": "stage2a-measurement-binding",
       "launch_id": "ln_0123456789abcdef01234567",
-      "launch_input_measurement": "sha256:2bc01b8b2654e5a1c819dad0472b9fa60395413a688fceb1e113e7dbfc6636da",
+      "launch_input_measurement": "sha256:c081c8f5f22b06f11bc05e6b0828846e7c96ea9d9b57efca66f4802b6a0349a1",
       "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "plan_id": "plan-20261122T141516Z-abcd",
       "profile_in_force": "managed-cooperative",
@@ -165,6 +166,6 @@
     },
     "schema_version": 3
   },
-  "note": "Both cooperative endpoints are required.",
+  "note": "Direct transport requires the assigned HQ broker endpoint.",
   "schema": "machine/v3/soul-cooperative-reservation-payload.schema.json"
 }
