@@ -84,10 +84,7 @@
       "format": "date-time"
     },
     "publication_mode": {
-      "enum": [
-        "direct",
-        "recovered"
-      ]
+      "const": "direct"
     }
   }
 }

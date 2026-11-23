@@ -219,7 +219,7 @@ def joined(run, schemas):
         expires = datetime.fromisoformat(outcome["expires_at"].replace("Z", "+00:00"))
         reserved_expires = datetime.fromisoformat(reservation["expires_at"].replace("Z", "+00:00"))
         require(authorized <= published < expires == reserved_expires and
-                outcome["publication_mode"] in ("direct", "recovered"),
+                outcome["publication_mode"] == "direct",
                 "authorized publication before reservation expiry")
         require("finalization" not in refs and "finalization_sha256" not in completion,
                 "no protected finalization in T21")
@@ -300,6 +300,8 @@ def check_stage2a_report_q_join_v4_fixtures(root, schemas, report):
         ("re-signed B outcome at expiry", "cooperative",
          lambda r: r["cooperative_publish_outcome_payload"].update(
              published_at=r["cooperative_publish_outcome_payload"]["expires_at"])),
+        ("re-signed unsupported recovered publication", "cooperative",
+         lambda r: r["cooperative_publish_outcome_payload"].update(publication_mode="recovered")),
     )
     for label, profile, change in coherent_changes:
         bad = copy.deepcopy(vector[profile])

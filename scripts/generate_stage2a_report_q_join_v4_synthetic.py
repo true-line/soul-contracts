@@ -281,6 +281,10 @@ def main():
             zero_inode["request_inode"] = "0"
             fixture(prefix + "-payload.v3-zero-inode.json", payload_schema, zero_inode, True,
                     prefix + "-payload.v3-synthetic.json")
+            recovered = dict(payload)
+            recovered["publication_mode"] = "recovered"
+            fixture(prefix + "-payload.v3-unsupported-recovered-mode.json", payload_schema, recovered, True,
+                    prefix + "-payload.v3-synthetic.json")
         wrong = dict(envelope)
         wrong["purpose"] = "agent-bot/soul-cooperative-publish-" + ("outcome" if kind == "order" else "order") + "/v3"
         fixture(signed_prefix + ".v3-wrong-purpose.json", signed_schema, wrong, True,
