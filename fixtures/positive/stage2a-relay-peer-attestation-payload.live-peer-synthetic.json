@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:0f06773b6832f6cf09a709cfb4c49b8bc076e192c6ff874b37c13689c9073c3e",
+  "canonical_sha256": "sha256:c0a570038eebb2be148527069ab86e6f7174e0efec48e7c706caf1909b6b67ca",
   "expect": {
     "schema": "valid"
   },
@@ -36,7 +36,7 @@
       "uid": 331
     },
     "profile_in_force": "managed-cooperative",
-    "ready_envelope_sha256": "sha256:18ed02819684963169b2706bc0749e947baa11b738886564687b73ee2d099f9b",
+    "ready_envelope_sha256": "sha256:acac174bc254241cd2f5d22a96868f6d801413c01610b0bb92ed90eead8122ad",
     "reported_peer_token": {
       "pid": 4201,
       "pid_version": 77,

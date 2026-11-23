@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-relay-peer-attestation-payload.live-peer-synthetic.json",
-    "sha256": "sha256:150b2fb02128828a93c906beba1a215253ffdf91d51487a182a687fef32baaa1"
+    "sha256": "sha256:88c48c9534becc55da9585fde4b5fbc4fbe242ec3e16b117fcf9bd008e134391"
   },
   "expect": {
     "schema": "invalid"
@@ -39,7 +39,7 @@
       "uid": 331
     },
     "profile_in_force": "managed-cooperative",
-    "ready_envelope_sha256": "sha256:18ed02819684963169b2706bc0749e947baa11b738886564687b73ee2d099f9b",
+    "ready_envelope_sha256": "sha256:acac174bc254241cd2f5d22a96868f6d801413c01610b0bb92ed90eead8122ad",
     "reported_peer_token": {
       "pid": 4201,
       "pid_version": 77,
