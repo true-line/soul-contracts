@@ -1,64 +1,79 @@
 {
   "base": {
     "fixture": "positive/soul-cooperative-bridge-assignment-payload.v3-synthetic.json",
-    "sha256": "sha256:15c412ff605a82fe36adb8472743a2e98a37a58e36246e2c50cfde9f66852251"
+    "sha256": "sha256:55247b3fde44f9f1b00ae41477276a1bd24cb7bc488cfbc4d8d0ae2cb542ecb8"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
     "bridge": {
-      "account": "_abm-b-a",
+      "account": "_abm-br-6a88e323518d66a7e3dd",
       "argv": [
-        "/private/var/db/managed-machine/bridge/bin/agent-bot-comms-bridge"
+        "/usr/bin/sandbox-exec",
+        "-D",
+        "BROKER_SOCKET=/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock",
+        "-D",
+        "MEMBER_SOCKET=/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock",
+        "-D",
+        "RELAY_SOCKET=/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock",
+        "-f",
+        "/Library/Application Support/ai.true-line.agent-bot-hq/soul-bridge-egress.sb",
+        "/Library/Application Support/ai.true-line.agent-bot-hq/soul-bridge",
+        "--assignment-fd",
+        "3",
+        "--proof-fd",
+        "4",
+        "--status-fd",
+        "5"
       ],
-      "executable_path": "/private/var/db/managed-machine/bridge/bin/agent-bot-comms-bridge",
+      "executable_path": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-bridge",
       "executable_sha256": "sha256:10e00c4e48f6966ddd0f3edbe5bfc9764310896d38f21008f61948c2ee62d80a",
-      "gid": 702,
-      "sandbox_profile_path": "/private/var/db/managed-machine/bridge/profiles/bridge.sb",
+      "gid": 333,
+      "sandbox_profile_path": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-bridge-egress.sb",
       "sandbox_profile_sha256": "sha256:a8001cbfc889e1426a0ef73552d10c3131e60589703adda2338fe8ed998fcb14",
-      "state_root": "/private/var/agent-bot-bridge-_abm-b-a/state",
+      "state_root": "/private/var/agent-bot-soul-bridge-_abm-br-6a88e323518d66a7e3dd/state",
       "state_root_mode": "0700",
-      "uid": 602
+      "uid": 333
     },
-    "bridge_launch_sha256": "sha256:1a8bc769a4999da3d9acdc78ee89f4fedf5af16723f58c1a78b042130b54e47d",
+    "bridge_launch_sha256": "sha256:fab50fc3f566ea3e09e15b91090cb5d5c7ec5975054839509112cc710f579689",
     "contract": "machine/v3",
     "endpoints": {
       "broker": {
         "dir_mode": 1512,
-        "directory": "/private/var/run/agent-bot/hb/_abm-b-a",
-        "expected_peer_uid": 602,
-        "group_gid": 702,
+        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd",
+        "expected_peer_uid": 333,
+        "group_gid": 333,
         "owner_uid": 309,
         "parent_birthtime_ns": "1795356936000000000",
         "parent_device": "1",
         "parent_inode": "2001",
         "socket_mode": 432,
-        "socket_path": "/private/var/run/agent-bot/hb/_abm-b-a/broker.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock"
       },
       "member": {
         "dir_mode": 1512,
-        "directory": "/private/var/run/agent-bot/member/_abm-soul-a/0123456789abcdef0123",
-        "expected_peer_uid": 602,
-        "group_gid": 702,
+        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d",
+        "expected_peer_uid": 333,
+        "group_gid": 333,
         "owner_uid": 331,
         "parent_birthtime_ns": "1795356936000000000",
         "parent_device": "1",
         "parent_inode": "2002",
         "socket_mode": 432,
-        "socket_path": "/private/var/run/agent-bot/member/_abm-soul-a/0123456789abcdef0123/member.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
       },
       "relay": {
         "dir_mode": 1512,
-        "directory": "/private/var/run/agent-bot/relay/_abm-b-a/0123456789abcdef0123",
+        "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d",
         "expected_peer_uid": 331,
         "group_gid": 331,
-        "owner_uid": 602,
+        "owner_uid": 333,
         "parent_birthtime_ns": "1795356936000000000",
         "parent_device": "1",
         "parent_inode": "2003",
         "socket_mode": 432,
-        "socket_path": "/private/var/run/agent-bot/relay/_abm-b-a/0123456789abcdef0123/relay.sock"
+        "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
       }
     },
     "expires_at": "2026-11-22T14:15:36Z",

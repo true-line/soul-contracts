@@ -50,11 +50,40 @@ def topology_matches(payload, private_assignment=None):
     if private_assignment is not None:
         bridge = private_assignment["bridge"]
         b, bg = bridge["uid"], bridge["gid"]
-        if b in (h, r, assignment["machine_uid"]) or bg == rg or bridge["account"] == assignment["runner_account"]:
+        installation = assignment["installation_id"]
+        bridge_account = "_abm-br-" + hashlib.sha256(b"agent-bot-soul-bridge/v1\0" + installation.encode()).hexdigest()[:20]
+        runner_account = "_abm-sr-" + hashlib.sha256(installation.encode()).hexdigest()[:20]
+        if (b < 300 or b > 399 or bg != b or b in (h, r, assignment["machine_uid"]) or
+                bg == rg or bridge["account"] != bridge_account or assignment["runner_account"] != runner_account):
             return False
-        if bridge["state_root"] == assignment["state_root"] or bridge["argv"][0] != bridge["executable_path"]:
-            return False
+        base = "/Library/Application Support/ai.true-line.agent-bot-hq"
+        installation_slot = hashlib.sha256(b"agent-bot-soul-endpoint-installation/v1\0" + installation.encode()).hexdigest()[:20]
+        start_slot = hashlib.sha256(b"agent-bot-soul-endpoint-start/v1\0" +
+                                    installation.encode() + b"\0" + assignment["start_id"].encode()).hexdigest()[:20]
         private_endpoints = private_assignment["endpoints"]
+        expected_paths = {
+            "admission": f"{base}/r/{installation_slot}/{start_slot}.sock",
+            "broker": f"{base}/ipc/{bridge_account}/broker.sock",
+            "member": f"{base}/m/{installation_slot}/{start_slot}.sock",
+            "relay": f"{base}/s/{installation_slot}/{start_slot}.sock",
+        }
+        if any(endpoint["socket_path"] != expected_paths[name] or
+               endpoint["directory"] != str(PurePosixPath(expected_paths[name]).parent) or
+               len(expected_paths[name]) > 103
+               for name, endpoint in {**endpoints, "broker": private_endpoints["broker"]}.items()):
+            return False
+        if (bridge["state_root"] != f"/private/var/agent-bot-soul-bridge-{bridge_account}/state" or
+                bridge["state_root_mode"] != "0700" or
+                bridge["executable_path"] != base + "/soul-bridge" or
+                bridge["sandbox_profile_path"] != base + "/soul-bridge-egress.sb"):
+            return False
+        expected_argv = ["/usr/bin/sandbox-exec", "-D", "BROKER_SOCKET=" + expected_paths["broker"],
+                         "-D", "MEMBER_SOCKET=" + expected_paths["member"],
+                         "-D", "RELAY_SOCKET=" + expected_paths["relay"],
+                         "-f", bridge["sandbox_profile_path"], bridge["executable_path"],
+                         "--assignment-fd", "3", "--proof-fd", "4", "--status-fd", "5"]
+        if bridge["argv"] != expected_argv:
+            return False
         if any(private_endpoints[name] != endpoints[name] for name in ("member", "relay")):
             return False
         endpoints = {**endpoints, "broker": private_endpoints["broker"]}
@@ -214,7 +243,8 @@ def check_reservation(root, path, schemas, report):
         start_slot = hashlib.sha256(b"agent-bot-soul-endpoint-start/v1\0" +
                                     assignment["installation_id"].encode() + b"\0" +
                                     assignment["start_id"].encode()).hexdigest()[:20]
-        require(admission_directory.parent.name == "c" and
+        admission_scope = "r" if payload["adapter_transport"] == "brokered-b" else "c"
+        require(admission_directory.parent.name == admission_scope and
                 PurePosixPath(endpoints["admission"]["socket_path"]).name == start_slot + ".sock",
                 "cooperative admission uses the per-installation c/start path")
         argv = [assignment["node_path"], assignment["entry_path"], "run", "--soul", assignment["package_root"],
@@ -398,3 +428,23 @@ def check_b_refusals(payload, private_assignment, envelope_raw, schemas):
     same_role["bridge"]["uid"] = payload["assignment"]["runner_uid"]
     require(private_schema.is_valid(same_role) and not topology_matches(payload, same_role),
             "B cannot share the R principal")
+    wrong_uid = copy.deepcopy(private_assignment)
+    wrong_uid["bridge"]["uid"] = wrong_uid["bridge"]["gid"] = 602
+    require(private_schema.is_valid(wrong_uid) and not topology_matches(payload, wrong_uid),
+            "B cannot use an account outside Machine's dedicated 300-399 range")
+    chosen_account = copy.deepcopy(private_assignment)
+    chosen_account["bridge"]["account"] = "_abm-b-a"
+    require(private_schema.is_valid(chosen_account) and not topology_matches(payload, chosen_account),
+            "B account must derive from the installation")
+    wrong_path = copy.deepcopy(payload)
+    wrong_private_path = copy.deepcopy(private_assignment)
+    for endpoint in (wrong_path["endpoints"]["member"], wrong_private_path["endpoints"]["member"]):
+        endpoint["directory"] = "/private/var/run/agent-bot/member/wrong"
+        endpoint["socket_path"] = endpoint["directory"] + "/member.sock"
+    require(primary_schema.is_valid(wrong_path) and private_schema.is_valid(wrong_private_path) and
+            not topology_matches(wrong_path, wrong_private_path),
+            "B member path must use Machine's installation and start slots")
+    wrong_argv = copy.deepcopy(private_assignment)
+    wrong_argv["bridge"]["argv"][0] = wrong_argv["bridge"]["executable_path"]
+    require(private_schema.is_valid(wrong_argv) and not topology_matches(payload, wrong_argv),
+            "B argv must include the measured sandbox command and fixed FDs")
