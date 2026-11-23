@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-cooperative-bridge-bind-exchange.schema.json",
+  "title": "Purpose-separated cooperative B-to-H same-stream HMAC bind (draft)",
+  "description": "B is the client on its assigned broker socket. The first bridge.bind.cooperative.v3 request has an empty payload and H replies with a fresh single-use 64-lowercase-hex nonce, hmac-sha256 algorithm, fixed context and expiry no later than both A-signed FD3 reservation and detached cooperative B assignment. On the same kernel-authenticated connection B sends the exact proof request. H and B form the HMAC-SHA256 preimage as UTF-8 fields joined by one NUL with no trailing NUL: context, nonce, hq_epoch, installation_id, start_id, launch_id, plan_id, plan_digest, reservation_sha256, bridge_assignment_envelope_sha256, bridge_uid in canonical base-10 with no leading zero, broker_socket_path. Context is ASCII agent-bot-stage2a-cooperative-bridge-bind-v3; key is A's fresh 32 raw FD4 bytes, which never reach R. The bridge_assignment digest is the detached cooperative B assignment already on FD3, never the later two-member B authority digest. H verifies the same A-paired proof and live B UID/PIDVersion/process start before recording bind. Protected v3 bind is separate. A changed/replayed/expired value refuses without policy delivery or traffic.",
+  "oneOf": [
+    { "$ref": "#/$defs/challengeRequest" },
+    { "$ref": "#/$defs/challengeResult" },
+    { "$ref": "#/$defs/proofRequest" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "nonce": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "challengeRequest": { "type": "object", "maxProperties": 0 },
+    "challengeResult": {
+      "type": "object", "required": ["nonce", "algorithm", "context", "hq_epoch", "expires_at"],
+      "properties": {
+        "nonce": { "$ref": "#/$defs/nonce" },
+        "algorithm": { "const": "hmac-sha256" },
+        "context": { "const": "agent-bot-stage2a-cooperative-bridge-bind-v3" },
+        "hq_epoch": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      }, "additionalProperties": false
+    },
+    "proofRequest": {
+      "type": "object", "required": ["nonce", "hq_epoch", "installation_id", "start_id", "launch_id", "plan_id", "plan_digest", "reservation_sha256", "bridge_assignment_envelope_sha256", "bridge_uid", "broker_socket_path", "proof_hex"],
+      "properties": {
+        "nonce": { "$ref": "#/$defs/nonce" },
+        "hq_epoch": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+        "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+        "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+        "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+        "reservation_sha256": { "$ref": "#/$defs/digest" },
+        "bridge_assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+        "bridge_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "broker_socket_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "proof_hex": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }, "additionalProperties": false
+    }
+  }
+}

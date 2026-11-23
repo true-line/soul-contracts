@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-cooperative-member-policy-exchange.schema.json",
+  "title": "Same-bound cooperative two-member A-policy delivery (draft)",
+  "description": "After successful bridge.bind.cooperative.v3 HMAC proof on one B-client/H-server broker connection, B calls bridge.member-policy.v3 on that same connection with only its exact A-signed primary reservation and detached cooperative B assignment envelope hashes. H returns full exact A-signed #85 member-set assignment and #87 two-member B authority JCS envelopes as unpadded base64url with SHA-256 of each envelope's raw bytes. H cannot mint policy rows. B verifies both purposes, signatures, exact JCS, fixed installed A pin, assignment and authority cross-hash, primary reservation and detached B assignment digests, two selectors/launch/command/adjacent CLI bytes and endpoint parent identities before any member observe/arm or R/provider traffic. Missing, swapped or changed envelope refuses; no new listener or pre-bind delivery.",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/result" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "request": {
+      "type": "object", "required": ["reservation_sha256", "bridge_assignment_envelope_sha256"],
+      "properties": {
+        "reservation_sha256": { "$ref": "#/$defs/digest" },
+        "bridge_assignment_envelope_sha256": { "$ref": "#/$defs/digest" }
+      }, "additionalProperties": false
+    },
+    "result": {
+      "type": "object", "required": ["member_set_assignment_envelope_base64url", "member_set_assignment_envelope_sha256", "member_b_authority_envelope_base64url", "member_b_authority_envelope_sha256"],
+      "properties": {
+        "member_set_assignment_envelope_base64url": { "$ref": "#/$defs/base64url" },
+        "member_set_assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+        "member_b_authority_envelope_base64url": { "$ref": "#/$defs/base64url" },
+        "member_b_authority_envelope_sha256": { "$ref": "#/$defs/digest" }
+      }, "additionalProperties": false
+    }
+  }
+}
