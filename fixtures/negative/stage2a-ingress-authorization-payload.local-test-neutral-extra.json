@@ -1,0 +1,30 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-ingress-authorization-payload.local-test-neutral.json",
+    "sha256": "sha256:b582f1db84a092b94898497e0219ac92a24292628ed99bc44245aa28cb577a95"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "expires_at": "2026-11-24T12:00:16Z",
+    "ingress_core_sha256": "sha256:4297e08b7e7d8b83280ac09e32abda6f7fbb58c7e6c09246d3abe9e5a0bccd40",
+    "issued_at": "2026-11-24T12:00:11Z",
+    "kind": "observed-body-local-test-ingress-authorization",
+    "provider_claim_sha256": "sha256:cea9dddce2f3e0c9ff5f33d6f526f8f3a7848bffb79a5668dec0dad091702008",
+    "schema": "agent-bot-machine/stage2a-observed-body-local-test-ingress-authorization/v1",
+    "selectors": {
+      "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
+      "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+      "installation_id": "inst.fixture",
+      "launch_id": "ln_222222222222222222222222",
+      "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+      "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "plan_id": "plan.fixture",
+      "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "start_id": "st_111111111111111111111111"
+    },
+    "unexpected_field": true
+  },
+  "schema": "machine/local-test-v1/stage2a-ingress-authorization-payload.schema.json"
+}

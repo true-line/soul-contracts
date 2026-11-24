@@ -1,0 +1,108 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-prewrite-proof-payload.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "authorization_envelope_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "hq_epoch": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "issued_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "kind": {
+      "const": "observed-body-local-test-prewrite-acceptance"
+    },
+    "prewrite_core_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "prewrite_receipt": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "agent-bot-machine/stage2a-observed-body-local-test-prewrite-acceptance/v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "selectors": {
+      "additionalProperties": false,
+      "properties": {
+        "assignment_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authority_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "installation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "launch_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        "member_selectors_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "reservation_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "start_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assignment_envelope_sha256",
+        "authority_envelope_sha256",
+        "installation_id",
+        "launch_id",
+        "member_selectors_sha256",
+        "plan_digest",
+        "plan_id",
+        "reservation_digest",
+        "start_id"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "authorization_envelope_sha256",
+    "expires_at",
+    "hq_epoch",
+    "issued_at",
+    "kind",
+    "prewrite_core_sha256",
+    "prewrite_receipt",
+    "schema",
+    "schema_version",
+    "selectors"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a prewrite proof payload",
+  "type": "object"
+}

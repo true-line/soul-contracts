@@ -1,0 +1,92 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-local-test-ingress-reply.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ok": {
+      "const": true
+    },
+    "result": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_envelope_base64url": {
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "type": "string"
+        },
+        "authorization_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "ingress_core_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "provider": {
+          "additionalProperties": false,
+          "properties": {
+            "invocation": {
+              "const": 1
+            },
+            "mode": {
+              "const": "observed-body-local-test/v1"
+            },
+            "model": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "observed_body_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "response_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "response_text": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "invocation",
+            "mode",
+            "model",
+            "observed_body_sha256",
+            "response_sha256",
+            "response_text"
+          ],
+          "type": "object"
+        },
+        "provider_request_body_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "provider_response_body_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "authorization_envelope_base64url",
+        "authorization_envelope_sha256",
+        "ingress_core_sha256",
+        "provider",
+        "provider_request_body_sha256",
+        "provider_response_body_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "ok",
+    "result"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a local test ingress reply",
+  "type": "object"
+}

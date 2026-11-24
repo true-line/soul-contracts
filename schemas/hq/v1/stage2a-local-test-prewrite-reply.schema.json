@@ -1,0 +1,27 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-local-test-prewrite-reply.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "prewrite_proof_envelope_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    },
+    "prewrite_proof_envelope_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "prewrite_receipt": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "prewrite_proof_envelope_base64url",
+    "prewrite_proof_envelope_sha256",
+    "prewrite_receipt"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a local test prewrite reply",
+  "type": "object"
+}

@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+Add draft `machine/local-test-v1` observed-body local-test reservation,
+two-member assignment, B authority and FD3, ingress authorization, and a
+separate Machine-signed prewrite acceptance proof. Add the exact HQ ingress
+reply and completion ack shapes, a deterministic vendor-neutral signed tuple,
+and signature, join, expiry and refusal oracles. The frozen private source is
+pinned by SHA-256 and is not copied into the release. The prewrite proof is a
+new proposed checkpoint; frozen candidate 4 remains diagnostic. These source
+contracts establish no installed route, guest run, or Stage 2a acceptance.
+
 ## 0.9.0 — 2026-11-22
 
 Add a distinct `machine/v3` first-qualification candidate reservation, signed

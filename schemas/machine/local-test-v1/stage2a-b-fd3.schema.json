@@ -1,0 +1,663 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-b-fd3.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "assignment_envelope_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    },
+    "authority_envelope_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    },
+    "bridge_uid": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "broker": {
+      "additionalProperties": false,
+      "properties": {
+        "parent": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "gid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "inode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "mode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "gid",
+            "inode",
+            "mode",
+            "uid"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "socket": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "gid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "inode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "mode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "gid",
+            "inode",
+            "mode",
+            "uid"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "parent",
+        "path",
+        "socket"
+      ],
+      "type": "object"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "hq_epoch": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "hq_uid": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "local_test": {
+      "additionalProperties": false,
+      "properties": {
+        "ancillary_profile": {
+          "additionalProperties": false,
+          "properties": {
+            "ancillary_http_status": {
+              "const": 422
+            },
+            "body_profile": {
+              "const": "stage2a-stock-ancillary-one-block/v1"
+            },
+            "first_header_shape": {
+              "additionalProperties": false,
+              "properties": {
+                "allow_extra": {
+                  "const": false
+                },
+                "forbidden": {
+                  "items": false,
+                  "maxItems": 3,
+                  "minItems": 3,
+                  "prefixItems": [
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "host": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "required_fixed": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "propertyNames": {
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  "type": "object"
+                },
+                "required_volatile": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "propertyNames": {
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  "type": "object"
+                },
+                "schema": {
+                  "const": "stage2a-stock-ancillary-header-shape/v1"
+                }
+              },
+              "required": [
+                "allow_extra",
+                "forbidden",
+                "host",
+                "required_fixed",
+                "required_volatile",
+                "schema"
+              ],
+              "type": "object"
+            },
+            "first_headers_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "max_ancillary": {
+              "const": 2
+            },
+            "normalized_body_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "order": {
+              "items": false,
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              ],
+              "type": "array"
+            },
+            "schema": {
+              "const": "stage2a-stock-ancillary-local-test-profile/v1"
+            },
+            "second_header_shape": {
+              "additionalProperties": false,
+              "properties": {
+                "allow_extra": {
+                  "const": false
+                },
+                "forbidden": {
+                  "items": false,
+                  "maxItems": 3,
+                  "minItems": 3,
+                  "prefixItems": [
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "host": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "required_fixed": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "propertyNames": {
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  "type": "object"
+                },
+                "required_volatile": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "propertyNames": {
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  "type": "object"
+                },
+                "schema": {
+                  "const": "stage2a-stock-ancillary-header-shape/v1"
+                }
+              },
+              "required": [
+                "allow_extra",
+                "forbidden",
+                "host",
+                "required_fixed",
+                "required_volatile",
+                "schema"
+              ],
+              "type": "object"
+            },
+            "second_headers_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "target_after": {
+              "items": false,
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              ],
+              "type": "array"
+            }
+          },
+          "required": [
+            "ancillary_http_status",
+            "body_profile",
+            "first_header_shape",
+            "first_headers_sha256",
+            "max_ancillary",
+            "normalized_body_sha256",
+            "order",
+            "schema",
+            "second_header_shape",
+            "second_headers_sha256",
+            "target_after"
+          ],
+          "type": "object"
+        },
+        "ancillary_profile_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "body_profile": {
+          "const": "stage2a-stock-observed-local-test/v1"
+        },
+        "client_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "expected_child_cwd_emitted": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "expected_child_cwd_lexical": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "expected_child_home_lexical": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "expected_memory_path_lexical": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "fixture_config_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "header_shape": {
+          "additionalProperties": false,
+          "properties": {
+            "allow_extra": {
+              "const": false
+            },
+            "forbidden": {
+              "items": false,
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              ],
+              "type": "array"
+            },
+            "host": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "required_fixed": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "propertyNames": {
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "type": "object"
+            },
+            "required_volatile": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "propertyNames": {
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "type": "object"
+            },
+            "schema": {
+              "const": "stage2a-observed-body-header-shape/v1"
+            }
+          },
+          "required": [
+            "allow_extra",
+            "forbidden",
+            "host",
+            "required_fixed",
+            "required_volatile",
+            "schema"
+          ],
+          "type": "object"
+        },
+        "header_shape_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "http_host": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "messages_query": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "model": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "owner_prompt_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "r_first_brief_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "runner_account": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "selected_launch_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        "selected_member_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "selected_member_selector": {
+          "pattern": "^mb_[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "static_projection_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ancillary_profile",
+        "ancillary_profile_sha256",
+        "body_profile",
+        "client_key_sha256",
+        "expected_child_cwd_emitted",
+        "expected_child_cwd_lexical",
+        "expected_child_home_lexical",
+        "expected_memory_path_lexical",
+        "fixture_config_sha256",
+        "header_shape",
+        "header_shape_sha256",
+        "http_host",
+        "messages_query",
+        "model",
+        "owner_prompt_sha256",
+        "r_first_brief_sha256",
+        "runner_account",
+        "selected_launch_id",
+        "selected_member_id",
+        "selected_member_selector",
+        "static_projection_sha256"
+      ],
+      "type": "object"
+    },
+    "machine_pin_path": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relay": {
+      "additionalProperties": false,
+      "properties": {
+        "parent": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "gid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "inode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "mode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "gid",
+            "inode",
+            "mode",
+            "uid"
+          ],
+          "type": "object"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "socket": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "gid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "inode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "mode": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uid": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "gid",
+            "inode",
+            "mode",
+            "uid"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "parent",
+        "path",
+        "socket"
+      ],
+      "type": "object"
+    },
+    "runner_uid": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "selectors": {
+      "additionalProperties": false,
+      "properties": {
+        "assignment_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authority_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "installation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "launch_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        "member_selectors_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "reservation_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "start_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assignment_envelope_sha256",
+        "authority_envelope_sha256",
+        "installation_id",
+        "launch_id",
+        "member_selectors_sha256",
+        "plan_digest",
+        "plan_id",
+        "reservation_digest",
+        "start_id"
+      ],
+      "type": "object"
+    },
+    "version": {
+      "const": "stage2a-b-observed-body-local-test-assignment/v1"
+    }
+  },
+  "required": [
+    "assignment_envelope_base64url",
+    "authority_envelope_base64url",
+    "bridge_uid",
+    "broker",
+    "expires_at",
+    "hq_epoch",
+    "hq_uid",
+    "local_test",
+    "machine_pin_path",
+    "relay",
+    "runner_uid",
+    "selectors",
+    "version"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a b fd3",
+  "type": "object"
+}
