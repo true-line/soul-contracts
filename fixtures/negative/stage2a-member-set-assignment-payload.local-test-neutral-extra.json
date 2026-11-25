@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-set-assignment-payload.local-test-neutral.json",
-    "sha256": "sha256:34e64e61f9ff0f27e2e37cca5f8245c4beabe96c730b17dfe5f92766db0a4c66"
+    "sha256": "sha256:2a1c2dedb0ca0b0c3a7ae15064125c10c60f2461cd81d034f8327c71bbefd111"
   },
   "expect": {
     "schema": "invalid"
@@ -9,7 +9,7 @@
   "input": {
     "adapter_manifest_relpath": "Contents/opt/fixture-adapter.json",
     "b_authority": {
-      "envelope_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "envelope_sha256": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
       "purpose": "agent-bot/stage2a-observed-body-local-test-reservation/v1"
     },
     "bridge": {
@@ -74,7 +74,7 @@
         "command_sha256": "sha256:80c39ca442bb23c036294cca65e3727565b5871c07a4034a2928df6e10a052b7",
         "launch_id": "ln_111111111111111111111111",
         "member_id": "m_lead",
-        "member_selector": "mb_5e2c61e59b8bbd3ba952464b3d1f6d67cbe58fff9c247f379b6fea3a8887f863",
+        "member_selector": "mb_488eb2ec85fc895187f6d2cf2f32a5e4b9c26477627032bc06196ebd0e722bc8",
         "role": "lead"
       },
       {
@@ -86,7 +86,7 @@
         "command_sha256": "sha256:80c39ca442bb23c036294cca65e3727565b5871c07a4034a2928df6e10a052b7",
         "launch_id": "ln_222222222222222222222222",
         "member_id": "m_spec",
-        "member_selector": "mb_2b8ffa16cf498714285f8de39724408cf80e3d1a47c3934bc30c9e89dfffdf96",
+        "member_selector": "mb_53db6fbcdde27db375d123fb66bf5c58797fa8e9a06eee6352cbf9d7bac45a49",
         "role": "specialist"
       }
     ],
@@ -94,7 +94,7 @@
     "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
     "plan_id": "plan.fixture",
     "profile_in_force": "managed-protected",
-    "reservation_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+    "reservation_sha256": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
     "runner_gid": 331,
     "runner_uid": 331,
     "schema_version": 1,

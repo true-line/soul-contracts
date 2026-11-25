@@ -1,0 +1,211 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-reservation-payload.local-test-neutral.json",
+    "sha256": "sha256:fb3a3f886504fd04bfe00bea6b69625f13e1cc39975f3a174306d39d400c7f88"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "admission_challenge_sha256": "sha256:ef9db0e76bb28bb4d5fe3f6ab5477fe8ae8b8e943b666420a4b239402305b579",
+    "assignment": {
+      "admission": {
+        "dir_mode": 1512,
+        "directory": "/var/run/abtest/r",
+        "group_gid": 331,
+        "owner_uid": 309,
+        "peer_uids": [
+          331
+        ],
+        "socket_mode": 432,
+        "socket_path": "/var/run/abtest/r/start.sock"
+      },
+      "bridge_account": "_abm-b-fixture",
+      "bridge_gid": 332,
+      "bridge_uid": 332,
+      "broker": {
+        "dir_mode": 1512,
+        "directory": "/var/run/abtest/broker",
+        "group_gid": 332,
+        "owner_uid": 309,
+        "peer_uids": [
+          332
+        ],
+        "socket_mode": 432,
+        "socket_path": "/var/run/abtest/broker/broker.sock"
+      },
+      "expires_at": "2026-11-24T12:00:20Z",
+      "h_service_descriptor_digest": "sha256:2d1ef76c38303bab1a9c6f0f9c634d8ac810063482a26f583d96c136441dc92e",
+      "hq_epoch": "2222222222222222222222222222222222222222222222222222222222222222",
+      "hq_uid": 309,
+      "installation_id": "inst.fixture",
+      "launch_id": "ln_222222222222222222222222",
+      "machine_uid": 501,
+      "member": {
+        "dir_mode": 1512,
+        "directory": "/var/run/abtest/m",
+        "group_gid": 332,
+        "owner_uid": 331,
+        "peer_uids": [
+          331,
+          332
+        ],
+        "socket_mode": 432,
+        "socket_path": "/var/run/abtest/m/start.sock"
+      },
+      "package_root": "/fixture/runner/package",
+      "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "plan_id": "plan.fixture",
+      "r_inventory_digest": "sha256:4850f5bc8790abcae9fe2693c127006224a250b9ef1b5070f3dff5c1b3cd61c6",
+      "relay": {
+        "dir_mode": 1512,
+        "directory": "/var/run/abtest/s",
+        "group_gid": 331,
+        "owner_uid": 332,
+        "peer_uids": [
+          331
+        ],
+        "socket_mode": 432,
+        "socket_path": "/var/run/abtest/s/start.sock"
+      },
+      "runner_account": "_abm-sr-8418d3315c8a4f09327c",
+      "runner_gid": 331,
+      "runner_uid": 331,
+      "schema": "agent-bot-machine/soul-start-assignment-local-test/v1",
+      "soul_artifact_sha256": "a8ad89e4382796c6bd66f70cdca5c00f5bb4639f36458efe6ef3ea3263f0b9be",
+      "soul_id": "agent_01234567-0123-4123-8123-0123456789ab",
+      "start_id": "st_111111111111111111111111"
+    },
+    "contract": "machine/local-test-v1",
+    "expires_at": "2026-11-24T12:00:20Z",
+    "host_id": "host.fixture",
+    "installed_plan_receipt_sha256": "sha256:9f6311ce6472bb8f146674465182527870cb6691efdb4ab20793244cc0306675",
+    "issued_at": "2026-11-24T12:00:00Z",
+    "kind": "stage2a-observed-body-local-test-reservation",
+    "measurement_binding": {
+      "adapter_release": {
+        "code_input_count": 1,
+        "code_inputs_digest": "sha256:937bcb8da9c6b39740ae810e5e9356de4f1aa66223ef241dacb55779d66d4657",
+        "component_id": "fixture-adapter",
+        "executable_path": "/fixture/adapter/fixture-adapter-acp",
+        "executable_sha256": "sha256:80c39ca442bb23c036294cca65e3727565b5871c07a4034a2928df6e10a052b7",
+        "package_sha256": "sha256:2edc269d330361661b97cd30da4a933ee559ca2dd2a76e55e533c20fe855ce7e",
+        "release_attestation_sha256": "sha256:71cbafa48163b5782a825a9e562e968e950d2effeb5a5e1b85004fa8da90556a",
+        "release_manifest_sha256": "sha256:67dc3c1bd98fa00bdb131064859e0eaf06bcbe736297defe5fb6eca8d03645a2"
+      },
+      "broker_executable": {
+        "path": "/fixture/bin/stage2a-bridge",
+        "provider_config_sha256": "sha256:5ae79e865eff44c10ba43909a2ae44d5307037a8cf91233ea92072450a01dd5d",
+        "sha256": "sha256:67c870453b95f14b5b3f594d0f6a36593ca1a24c6d4c829b5e6f075d4b3f84bd"
+      },
+      "claimed_definition_digest": "sha256:45a950685ba36a6323d79239c5ff39394f2ef361e80c9219f9fe859d75135c38",
+      "contract": "machine/local-test-v1",
+      "definition_measurement": "sha256:cd1ccf4432cfab257d6e18c1ade962790cc9e92219168b1b9974d8a41750cd33",
+      "h_service_descriptor_digest": "sha256:2d1ef76c38303bab1a9c6f0f9c634d8ac810063482a26f583d96c136441dc92e",
+      "host_id": "host.fixture",
+      "hq_epoch": "2222222222222222222222222222222222222222222222222222222222222222",
+      "installation_id": "inst.fixture",
+      "installed_plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "kind": "stage2a-measurement-binding",
+      "launch_id": "ln_222222222222222222222222",
+      "launch_input_measurement": "sha256:df6e3cd98e63df91e9eace6739a9087f58447ae6a4f79ce41b302cb00b692f2f",
+      "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "plan_id": "plan.fixture",
+      "profile_in_force": "managed-protected",
+      "r_components": [
+        {
+          "component_id": "souls-runtime",
+          "release_artifact_sha256": "sha256:984e63659e69a3fd5dfdc20ea1d98c8a123a221a035d02f9a673a5eb7c7d7741",
+          "release_manifest_sha256": "sha256:204aa08014e98a328bfa3c9a8503e24c0b5945d4b81b16e2b2a05c12f0274bc5",
+          "source_commit": "1111111111111111111111111111111111111111",
+          "source_repository": "true-line/agent-bot-souls"
+        }
+      ],
+      "r_inventory": {
+        "contract": "machine/v3",
+        "directory_count": 1,
+        "domain": "r",
+        "file_count": 40,
+        "installation_id": "inst.fixture",
+        "inventory_digest": "sha256:4850f5bc8790abcae9fe2693c127006224a250b9ef1b5070f3dff5c1b3cd61c6",
+        "kind": "stage2a-inventory-ref",
+        "machine_uid": 501,
+        "owner_plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+        "reader_gid": 331,
+        "reader_uid": 331,
+        "reviewed_source_inventory_digest": "sha256:4850f5bc8790abcae9fe2693c127006224a250b9ef1b5070f3dff5c1b3cd61c6",
+        "schema_version": 3,
+        "sidecar": {
+          "birthtime_ns": "100",
+          "device": "1",
+          "generation": "1",
+          "inode": "21",
+          "mode": "0555",
+          "owner_gid": 0,
+          "owner_uid": 0,
+          "path": "/fixture/runner/package/inventory.json",
+          "sha256": "sha256:e8fde72bd5937c8a55aa925891749a66eff939386070ab31943a33624a4a05a4",
+          "size_bytes": 100
+        },
+        "snapshot": {
+          "birthtime_ns": "100",
+          "device": "1",
+          "generation": "1",
+          "inode": "20",
+          "mode": "0555",
+          "owner_gid": 0,
+          "owner_uid": 0,
+          "path": "/fixture/runner/package"
+        },
+        "total_bytes": 10000
+      },
+      "schema_version": 1,
+      "snapshots": {
+        "definition": {
+          "birthtime_ns": "100",
+          "device": "1",
+          "generation": "1",
+          "inode": "11",
+          "mode": "0555",
+          "owner_gid": 331,
+          "owner_uid": 501,
+          "root_path": "/fixture/definition"
+        },
+        "launch_inputs": {
+          "birthtime_ns": "100",
+          "device": "1",
+          "generation": "1",
+          "inode": "12",
+          "mode": "0555",
+          "owner_gid": 331,
+          "owner_uid": 501,
+          "root_path": "/fixture/launch-inputs"
+        }
+      },
+      "soul_artifact_sha256": "a8ad89e4382796c6bd66f70cdca5c00f5bb4639f36458efe6ef3ea3263f0b9be",
+      "soul_id": "agent_01234567-0123-4123-8123-0123456789ab",
+      "start_id": "st_111111111111111111111111"
+    },
+    "member_endpoint": {
+      "member_endpoint": {
+        "dir_mode": 1512,
+        "directory": "/var/run/abtest/m",
+        "group_gid": 332,
+        "owner_uid": 331,
+        "peer_uids": [
+          331,
+          332
+        ],
+        "socket_mode": 432
+      },
+      "member_socket": "/var/run/abtest/m/start.sock"
+    },
+    "schema_version": 1,
+    "start_scope": {
+      "mode": "provider-pending-local-test/v1",
+      "one_use_start_claim_name": "test-start-claim"
+    }
+  },
+  "schema": "machine/local-test-v1/stage2a-reservation-payload.schema.json"
+}

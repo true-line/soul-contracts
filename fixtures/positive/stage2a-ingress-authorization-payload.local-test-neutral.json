@@ -1,24 +1,24 @@
 {
-  "canonical_sha256": "sha256:f9960a5d595b539a9e59c2f1bc623d1f4b353c9b74576696e559cd14d0cafa5b",
+  "canonical_sha256": "sha256:401199cdffa3a53259db148a4ae760761d0fca9c2a015fbdf09ae9939b381274",
   "expect": {
     "schema": "valid"
   },
   "input": {
     "expires_at": "2026-11-24T12:00:16Z",
-    "ingress_core_sha256": "sha256:4297e08b7e7d8b83280ac09e32abda6f7fbb58c7e6c09246d3abe9e5a0bccd40",
+    "ingress_core_sha256": "sha256:8a9dbc1edd5ed05e780fb37a6e5099716a917a56f01a236d4c0d43b7babd4a49",
     "issued_at": "2026-11-24T12:00:11Z",
     "kind": "observed-body-local-test-ingress-authorization",
     "provider_claim_sha256": "sha256:cea9dddce2f3e0c9ff5f33d6f526f8f3a7848bffb79a5668dec0dad091702008",
     "schema": "agent-bot-machine/stage2a-observed-body-local-test-ingress-authorization/v1",
     "selectors": {
-      "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
-      "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+      "assignment_envelope_sha256": "sha256:dbc88778633bfd4d0484171d2e49a5d955a9113621a0523f90b08b639addeac8",
+      "authority_envelope_sha256": "sha256:18e1a16fd1d2ae2db24527a481d73c0a7f721a3b5aad1091281e1bfef7acb555",
       "installation_id": "inst.fixture",
       "launch_id": "ln_222222222222222222222222",
-      "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+      "member_selectors_sha256": "sha256:7a6841b0ccce4af1b01d1f235695d5c8249fe588685ccd78c275030226f491d1",
       "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
       "plan_id": "plan.fixture",
-      "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "reservation_digest": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
       "start_id": "st_111111111111111111111111"
     }
   },

@@ -9,6 +9,15 @@ brand or production authority. Run `scripts/validate.py` for schema, signature,
 JCS, selector, reply, ack and refusal checks. The generator requires the
 private file with that exact digest and is not part of a runtime parser.
 
+The frozen source carries an older R inventory kind and sidecar mode. The
+derived neutral tuple corrects only `measurement_binding.r_inventory.kind` to
+`stage2a-inventory-ref` and its `sidecar.mode` to `0440`, matching Machine's
+sealed v3 inventory reference. The snapshot and other directory modes stay
+`0555`. The generator re-signs the reservation and every downstream record
+whose digest or selector depends on it. Negative fixtures reject the two old
+R fields separately. This correction does not change the frozen source or
+claim a physical R measurement.
+
 The signed reservation identifies the outer launch and host assignment. The
 signed two-member assignment binds the reservation, member selectors and
 reviewed member set. The signed B authority selects the lead for local-test

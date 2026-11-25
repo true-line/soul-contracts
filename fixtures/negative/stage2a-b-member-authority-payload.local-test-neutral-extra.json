@@ -1,14 +1,14 @@
 {
   "base": {
     "fixture": "positive/stage2a-b-member-authority-payload.local-test-neutral.json",
-    "sha256": "sha256:1b0e0b96466bfefa0786e16f971f485aad86393d931d2f1d27c702c0a5d56a06"
+    "sha256": "sha256:d3a70ede60900f517f310a886387d1a4fa816027d8f81a122ab4ab964225ad17"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
     "b_authority": {
-      "envelope_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "envelope_sha256": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
       "purpose": "agent-bot/stage2a-observed-body-local-test-reservation/v1"
     },
     "bridge": {
@@ -197,17 +197,17 @@
       "runner_account": "_abm-sr-8418d3315c8a4f09327c",
       "selected_launch_id": "ln_111111111111111111111111",
       "selected_member_id": "m_lead",
-      "selected_member_selector": "mb_5e2c61e59b8bbd3ba952464b3d1f6d67cbe58fff9c247f379b6fea3a8887f863",
+      "selected_member_selector": "mb_488eb2ec85fc895187f6d2cf2f32a5e4b9c26477627032bc06196ebd0e722bc8",
       "static_projection_sha256": "sha256:be1a2eb44af23b9b0c9ec02da8dc9a6f974bb437442110e627d6045bab2a779f"
     },
-    "member_set_assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
+    "member_set_assignment_envelope_sha256": "sha256:dbc88778633bfd4d0484171d2e49a5d955a9113621a0523f90b08b639addeac8",
     "members": [
       {
         "adjacent_cli_path": "/fixture/adapter/fixture",
         "adjacent_cli_sha256": "sha256:ef4b480f501d9d925b2844755e67047b2f28f7fe0c84592a44f0a1a01dfb96a3",
         "launch_id": "ln_111111111111111111111111",
         "member_id": "m_lead",
-        "member_selector": "mb_5e2c61e59b8bbd3ba952464b3d1f6d67cbe58fff9c247f379b6fea3a8887f863",
+        "member_selector": "mb_488eb2ec85fc895187f6d2cf2f32a5e4b9c26477627032bc06196ebd0e722bc8",
         "qualification": {
           "body_profile": "stage2a-stock-observed-local-test/v1",
           "client_key_sha256": "sha256:da4fec28d868ca5cf8f00f43869f703f138bd4211683b8637a751b904860ddf0",
@@ -227,7 +227,7 @@
         "adjacent_cli_sha256": "sha256:ef4b480f501d9d925b2844755e67047b2f28f7fe0c84592a44f0a1a01dfb96a3",
         "launch_id": "ln_222222222222222222222222",
         "member_id": "m_spec",
-        "member_selector": "mb_2b8ffa16cf498714285f8de39724408cf80e3d1a47c3934bc30c9e89dfffdf96",
+        "member_selector": "mb_53db6fbcdde27db375d123fb66bf5c58797fa8e9a06eee6352cbf9d7bac45a49",
         "qualification": {
           "mode": "disabled"
         }
@@ -238,7 +238,7 @@
     "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
     "plan_id": "plan.fixture",
     "profile_in_force": "managed-protected",
-    "reservation_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+    "reservation_sha256": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
     "runner_uid": 331,
     "schema_version": 1,
     "soul_id": "agent_01234567-0123-4123-8123-0123456789ab",

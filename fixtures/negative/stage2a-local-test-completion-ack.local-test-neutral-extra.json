@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-local-test-completion-ack.local-test-neutral.json",
-    "sha256": "sha256:689435ecf39e50ebb9ac67800afed8bcaf203ca1289fb007b508388785ad79c6"
+    "sha256": "sha256:9368c3af189a62c46e9602c0e1951c5f98bcb0c1d2de3dd5f7e00c7b8d8ca279"
   },
   "expect": {
     "schema": "invalid"
@@ -11,19 +11,19 @@
     "ok": true,
     "result": {
       "accepted": true,
-      "authorization_envelope_sha256": "sha256:13546fd68630f4146bd905f0a90de1a7dc6cbdb62a5804d3591ce56b64728032",
+      "authorization_envelope_sha256": "sha256:7b655c3752c2d86d7488f6c4fd903a11c14a9b01f3d37f0907ba1db2a7c118b3",
       "completed_run_sha256": "sha256:fa0a568817ed7900bd2d0c2b2a3cdd834b424dcdf95284506631406654593f87",
       "completion_core_sha256": "sha256:e819cf602349706e6fd59084268bd218d5c3e8bdc528f8cae06062fff76c819b",
       "observed_body_sha256": "sha256:6ae1a74fa2a4d3ab8fdeddd5c77f1e766cfa17898acdbc640b27e5c07363b07a",
       "selectors": {
-        "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
-        "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+        "assignment_envelope_sha256": "sha256:dbc88778633bfd4d0484171d2e49a5d955a9113621a0523f90b08b639addeac8",
+        "authority_envelope_sha256": "sha256:18e1a16fd1d2ae2db24527a481d73c0a7f721a3b5aad1091281e1bfef7acb555",
         "installation_id": "inst.fixture",
         "launch_id": "ln_222222222222222222222222",
-        "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+        "member_selectors_sha256": "sha256:7a6841b0ccce4af1b01d1f235695d5c8249fe588685ccd78c275030226f491d1",
         "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
         "plan_id": "plan.fixture",
-        "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+        "reservation_digest": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
         "start_id": "st_111111111111111111111111"
       }
     },

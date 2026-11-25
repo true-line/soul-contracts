@@ -1,13 +1,13 @@
 {
-  "canonical_sha256": "sha256:e09337365b9dac03561a5bdff96eebb80292996d8ebd6abe6d5eaa0e9c27bc16",
+  "canonical_sha256": "sha256:77bd0bffbc08f2f410bcf9a76b8d7a96639861622475972768e9222b260709f7",
   "expect": {
     "schema": "valid"
   },
   "input": {
-    "authorization_envelope_sha256": "sha256:13546fd68630f4146bd905f0a90de1a7dc6cbdb62a5804d3591ce56b64728032",
+    "authorization_envelope_sha256": "sha256:7b655c3752c2d86d7488f6c4fd903a11c14a9b01f3d37f0907ba1db2a7c118b3",
     "bind_receipt_sha256": "sha256:6ab9b47ac81d0ed0bee885a1f6b9b16866ed2074020efb05049754e4365dd852",
     "http_status": 200,
-    "ingress_core_sha256": "sha256:4297e08b7e7d8b83280ac09e32abda6f7fbb58c7e6c09246d3abe9e5a0bccd40",
+    "ingress_core_sha256": "sha256:8a9dbc1edd5ed05e780fb37a6e5099716a917a56f01a236d4c0d43b7babd4a49",
     "observed_body_sha256": "sha256:6ae1a74fa2a4d3ab8fdeddd5c77f1e766cfa17898acdbc640b27e5c07363b07a",
     "observed_headers_sha256": "sha256:e188941e48c52ae51096ed1f9f400f1913bd4f9991a7206c11de3c3d37f9b30e",
     "owner_prompt_sha256": "sha256:3bb2c84ec4808c1af2dcf87ab54ace3682755360ef8b7b10ff241a4a85ad76cb",
@@ -27,14 +27,14 @@
     "response_wire_sha256": "sha256:3b43cf862cfa25648e319e17c8bff9addefff1fdf02b068661891b9875dfeda2",
     "schema": "stage2a-observed-body-local-test-prewrite/v1",
     "selectors": {
-      "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
-      "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+      "assignment_envelope_sha256": "sha256:dbc88778633bfd4d0484171d2e49a5d955a9113621a0523f90b08b639addeac8",
+      "authority_envelope_sha256": "sha256:18e1a16fd1d2ae2db24527a481d73c0a7f721a3b5aad1091281e1bfef7acb555",
       "installation_id": "inst.fixture",
       "launch_id": "ln_222222222222222222222222",
-      "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+      "member_selectors_sha256": "sha256:7a6841b0ccce4af1b01d1f235695d5c8249fe588685ccd78c275030226f491d1",
       "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
       "plan_id": "plan.fixture",
-      "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "reservation_digest": "sha256:419338171c0e018292da2f0765c6c898bc0825586d6effca5a8f696d70ac9bdd",
       "start_id": "st_111111111111111111111111"
     },
     "static_projection_sha256": "sha256:be1a2eb44af23b9b0c9ec02da8dc9a6f974bb437442110e627d6045bab2a779f"
