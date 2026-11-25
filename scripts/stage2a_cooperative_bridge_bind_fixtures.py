@@ -1,11 +1,15 @@
 """Independent cooperative B/H HMAC preimage and signed policy joins."""
 
 import base64
+import copy
 import hashlib
 import hmac
 
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from jcs import parse_strict
-from stage2a_member_set_fixtures import digest, require
+from stage2a_cooperative_b_fd3_fixtures import signed_detached_with_expiry
+from stage2a_member_set_fixtures import digest, require, verify_existing_envelope, when
 
 BIND = "hq/v1/stage2a-cooperative-bridge-bind-exchange.schema.json"
 POLICY = "hq/v1/stage2a-cooperative-member-policy-exchange.schema.json"
@@ -26,12 +30,24 @@ def check(root, vector, source, schemas):
             "closed challenge/proof and same-bound policy shapes")
     primary_raw = source["primary_reservation_envelope_jcs"].encode()
     detached_raw = source["private_b_authority_envelope_jcs"].encode()
-    primary = parse_strict(decode(parse_strict(primary_raw)["payload_base64url"]))
-    detached = parse_strict(decode(parse_strict(detached_raw)["payload_base64url"]))
+    public = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33))).public_key().public_bytes(
+        serialization.Encoding.Raw, serialization.PublicFormat.Raw)
+    primary = verify_existing_envelope(
+        primary_raw, "agent-bot/soul-cooperative-reservation/v3",
+        "machine/v3/soul-cooperative-signed-reservation.schema.json",
+        "machine/v3/soul-cooperative-reservation-payload.schema.json", schemas, public)
+    detached = verify_existing_envelope(
+        detached_raw, "agent-bot/soul-cooperative-bridge-assignment/v3",
+        "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
+        "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json", schemas, public)
     assigned = primary["assignment"]
+    require(when(detached["expires_at"]) <= when(primary["expires_at"]),
+            "detached B assignment expires no later than the primary reservation")
+    require(when(challenge["expires_at"]) <= min(
+        when(primary["expires_at"]), when(detached["expires_at"])),
+        "bind challenge expires no later than both signed authorities")
     require(challenge["context"] == CONTEXT and request["nonce"] == challenge["nonce"] and
             request["hq_epoch"] == challenge["hq_epoch"] == assigned["hq_epoch"] and
-            challenge["expires_at"] <= primary["expires_at"] and
             all(request[key] == assigned[key] for key in
                 ("installation_id", "start_id", "launch_id", "plan_id", "plan_digest")) and
             request["reservation_sha256"] == policy_request["reservation_sha256"] == digest(primary_raw) and
@@ -77,6 +93,23 @@ def check_stage2a_cooperative_bridge_bind_fixtures(root, schemas, report):
             pass
         else:
             raise ValueError("later member authority digest accepted in pre-bind FD3 slot")
+        offset = copy.deepcopy(vector)
+        offset["challenge_result"]["expires_at"] = "2026-11-22T09:15:37-05:00"
+        try:
+            check(root, offset, source, schemas)
+        except ValueError as error:
+            require(str(error) == "bind challenge expires no later than both signed authorities",
+                    "offset challenge refused for the intended expiry reason")
+        else:
+            raise ValueError("later offset challenge expiry accepted")
+        earlier = signed_detached_with_expiry(source, "2026-11-22T14:15:35Z")
+        try:
+            check(root, vector, earlier, schemas)
+        except ValueError as error:
+            require(str(error) == "bind challenge expires no later than both signed authorities",
+                    "signed earlier detached expiry refused for the intended reason")
+        else:
+            raise ValueError("challenge accepted after earlier signed detached expiry")
         report(True, "cooperative B/H exact HMAC preimage and post-bind A-policy joins")
     except Exception as error:
         report(False, "cooperative B/H exact HMAC preimage and post-bind A-policy joins", str(error))
