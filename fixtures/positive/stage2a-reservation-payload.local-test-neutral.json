@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:c573c6c6f03194fb65978376d874f67a081dc19c7738769b6b3b2cd985aceaa1",
+  "canonical_sha256": "sha256:382f0f5c2464a941a95cba9f2b97d1cc42813ceb0e53d6fb9b32e43fa88bf607",
   "expect": {
     "schema": "valid"
   },
@@ -126,7 +126,7 @@
         "file_count": 40,
         "installation_id": "inst.fixture",
         "inventory_digest": "sha256:4850f5bc8790abcae9fe2693c127006224a250b9ef1b5070f3dff5c1b3cd61c6",
-        "kind": "stage2a-domain-inventory",
+        "kind": "stage2a-inventory-ref",
         "machine_uid": 501,
         "owner_plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
         "reader_gid": 331,
@@ -138,7 +138,7 @@
           "device": "1",
           "generation": "1",
           "inode": "21",
-          "mode": "0555",
+          "mode": "0440",
           "owner_gid": 0,
           "owner_uid": 0,
           "path": "/fixture/runner/package/inventory.json",

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Correct the draft local-test reservation's nested sealed R reference to use
+the `machine/v3` inventory-ref kind and read-only sidecar mode. Re-sign the
+neutral tuple and dependent fixtures, and reject the stale kind and mode.
+Snapshot and other directory modes remain unchanged. This is a source-contract
+correction; it records no installed run or Stage 2a acceptance.
+
 Add draft `machine/local-test-v2` c5 per-start child path and ancillary-order
 schemas, a vendor-neutral re-signed vector pinned to the external reviewed
 source SHA-256, and signed stale-path and target-first refusal oracles. The

@@ -584,7 +584,7 @@
               "type": "string"
             },
             "kind": {
-              "const": "stage2a-domain-inventory"
+              "const": "stage2a-inventory-ref"
             },
             "machine_uid": {
               "maximum": 9007199254740991,
@@ -632,7 +632,7 @@
                   "type": "string"
                 },
                 "mode": {
-                  "const": "0555"
+                  "const": "0440"
                 },
                 "owner_gid": {
                   "maximum": 9007199254740991,

@@ -71,6 +71,10 @@ def check_tuple(vector, schemas):
     policy = vector["policy"]
     auth = vector["authorization"]
     r, a, b, ap = (vector[name]["payload"] for name in ("reservation", "assignment", "policy", "authorization"))
+    r_ref = r["measurement_binding"]["r_inventory"]
+    require(r_ref["kind"] == "stage2a-inventory-ref" and
+            r_ref["sidecar"]["mode"] == "0440" and
+            r_ref["snapshot"]["mode"] == "0555", "sealed v3 R reference shape")
     outer = r["assignment"]
     fd3 = vector["b_fd3"]
     selectors = fd3["selectors"]

@@ -125,6 +125,14 @@ def main(source_path):
         raise SystemExit("private candidate-4 source SHA differs")
     source = json.loads(raw)
     r = neutral(copy.deepcopy(source["reservation"]["payload"]))
+    # The frozen candidate-4 source predates Machine's sealed v3 R reference.
+    # Keep that source pinned, but model the producer's sealed reference shape
+    # in this derived, re-signed contract fixture.
+    r_ref = r["measurement_binding"]["r_inventory"]
+    if (r_ref["kind"], r_ref["sidecar"]["mode"]) != ("stage2a-domain-inventory", "0555"):
+        raise SystemExit("candidate-4 R reference differs from the reviewed source")
+    r_ref["kind"] = "stage2a-inventory-ref"
+    r_ref["sidecar"]["mode"] = "0440"
     reservation = signed(source["reservation"]["purpose"], r)
     a = neutral(copy.deepcopy(source["member_assignment"]["payload"]))
     a["reservation_sha256"] = reservation["envelope_sha256"]
@@ -259,6 +267,19 @@ def main(source_path):
                               "base": {"fixture": "positive/" + pos_path.name,
                                        "sha256": sha(pos_path.read_bytes())},
                               "expect": {"schema": "invalid"}})
+        if path.endswith("stage2a-reservation-payload.schema.json"):
+            for suffix, field, stale in (("stale-r-kind", "kind", "stage2a-domain-inventory"),
+                                         ("stale-r-sidecar-mode", "mode", "0555")):
+                wrong = copy.deepcopy(record)
+                r_ref = wrong["measurement_binding"]["r_inventory"]
+                if field == "mode":
+                    r_ref = r_ref["sidecar"]
+                r_ref[field] = stale
+                write_json(ROOT / "fixtures/negative" / f"{stem}.local-test-{suffix}.json",
+                           {"schema": path, "input": wrong,
+                            "base": {"fixture": "positive/" + pos_path.name,
+                                     "sha256": sha(pos_path.read_bytes())},
+                            "expect": {"schema": "invalid"}})
     print("generated", len(records), "schemas and neutral signed fixtures")
 
 
