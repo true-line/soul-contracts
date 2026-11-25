@@ -11,7 +11,7 @@
     "kind": { "const": "stage2a-child-path-binding-local-test" },
     "schema_version": { "const": 1 },
     "installation_id": { "type": "string", "minLength": 1 },
-    "start_id": { "type": "string", "pattern": "^(st|ln)_[0-9a-f]{24}$" },
+    "start_id": { "type": "string", "pattern": "^st_[0-9a-f]{24}$" },
     "runner_account": { "type": "string", "pattern": "^_abm-sr-[0-9a-f]{20}$" },
     "runner_home_lexical": { "$ref": "#/$defs/absolutePath" },
     "start_slot": { "type": "string", "pattern": "^[0-9a-f]{20}$" },
