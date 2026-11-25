@@ -9,7 +9,6 @@ import copy
 import hashlib
 import json
 import pathlib
-import re
 import sys
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
