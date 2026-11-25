@@ -1,0 +1,88 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-member-set-ready-payload.two-member-synthetic.json",
+    "sha256": "sha256:09dd3037d296589be039c4ea98fec917b533d02da77e084b02d9a43bdff51d9a"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "b_authority_sha256": "sha256:bb0bf0cd5806b879117cf9517a495a59e807539c316b7f4ce53a57a59826ec8c",
+    "bridge_process": {
+      "executable_sha256": "sha256:10e00c4e48f6966ddd0f3edbe5bfc9764310896d38f21008f61948c2ee62d80a",
+      "gid": 333,
+      "pid": 3901,
+      "start_micros": 99,
+      "start_seconds": 1795356917,
+      "uid": 333
+    },
+    "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:21Z",
+    "kind": "stage2a-member-set-ready",
+    "member_b_authority_envelope_sha256": "sha256:70f7ee9a2bcac7a3d0c8f7eba903e629d202d1c51f5141c4b6e1f259bba9632c",
+    "members": [
+      {
+        "bridge_arm": {
+          "adapter_gid": 331,
+          "adapter_pid": 4101,
+          "adapter_start_micros": 100,
+          "adapter_start_seconds": 1795356918,
+          "adapter_uid": 331,
+          "armed_at": "2026-11-22T14:15:20Z",
+          "bridge_uid": 333,
+          "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
+          "member_id": "m_lead",
+          "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+          "provider_ingress": "withheld-pending-per-peer-attestation",
+          "relay_peer_rule": "a-attested-live-direct-child-of-adapter-v1",
+          "relay_peer_state": "unobserved",
+          "runtime_id": "runtime_fixture_m_lead",
+          "state": "armed"
+        },
+        "bridge_arm_receipt_sha256": "sha256:95cc573a60c515663be34988aa40ea35f72cdfee52be0783accf5f88012a5a71",
+        "launch_id": "ln_0123456789abcdef01234567",
+        "member_id": "m_lead",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+        "runtime_id": "runtime_fixture_m_lead"
+      },
+      {
+        "bridge_arm": {
+          "adapter_gid": 331,
+          "adapter_pid": 4102,
+          "adapter_start_micros": 101,
+          "adapter_start_seconds": 1795356918,
+          "adapter_uid": 331,
+          "armed_at": "2026-11-22T14:15:20Z",
+          "bridge_uid": 333,
+          "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
+          "member_id": "m_spec",
+          "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+          "provider_ingress": "withheld-pending-per-peer-attestation",
+          "relay_peer_rule": "a-attested-live-direct-child-of-adapter-v1",
+          "relay_peer_state": "unobserved",
+          "runtime_id": "runtime_fixture_m_spec",
+          "state": "unarmed"
+        },
+        "bridge_arm_receipt_sha256": "sha256:7b59ea10db3b64625f750fa0e66e08ec8f5d63a76e1e3a6d981dbe9dc25b070b",
+        "launch_id": "ln_0123456789abcdef01234568",
+        "member_id": "m_spec",
+        "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+        "runtime_id": "runtime_fixture_m_spec"
+      }
+    ],
+    "observed_at": "2026-11-22T14:15:20Z",
+    "profile_in_force": "managed-cooperative",
+    "provisional_hq_mapping_sha256": "sha256:023cd6c3aec5fadd6524e5766cbb0b92da65734d75b8b079be175a5f01cc5a2a",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-set-ready-payload.schema.json"
+}

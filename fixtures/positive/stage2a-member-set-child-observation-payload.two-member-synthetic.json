@@ -1,0 +1,104 @@
+{
+  "canonical_sha256": "sha256:103b37d85dbb1963917f424e73c4e2d67f1b61a964cbb854f54e544eadd6f2b5",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:19Z",
+    "kind": "stage2a-member-set-child-observation",
+    "members": [
+      {
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4001,
+          "pid": 4101,
+          "process_group_id": 4001,
+          "start_micros": 100,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:e364a380099840638f7fe0e69d3663442708e83dafe4012f1d2c00a7f618b846",
+        "launch_id": "ln_0123456789abcdef01234567",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4001,
+          "start_micros": 90,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_lead",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+        "runtime_id": "runtime_fixture_m_lead"
+      },
+      {
+        "child_process": {
+          "executable_sha256": "sha256:d904480689034c73d063d9a60e1a03c53df3c26bfcfb19a58f49c41b9b549242",
+          "gid": 331,
+          "parent_pid": 4002,
+          "pid": 4102,
+          "process_group_id": 4002,
+          "start_micros": 101,
+          "start_seconds": 1795356918,
+          "uid": 331
+        },
+        "grant_sha256": "sha256:936eeac0130799e749cbff6deab719b49a7ce5ad08ce25143e4fb95a4bd6b19f",
+        "launch_id": "ln_0123456789abcdef01234568",
+        "launcher_process": {
+          "gid": 331,
+          "pid": 4002,
+          "start_micros": 91,
+          "start_seconds": 1795356917,
+          "uid": 331
+        },
+        "member_id": "m_spec",
+        "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+        "runtime_id": "runtime_fixture_m_spec"
+      }
+    ],
+    "observed_at": "2026-11-22T14:15:19Z",
+    "profile_in_force": "managed-cooperative",
+    "provisional_hq_mapping": {
+      "acp_authority": "withheld",
+      "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+      "contract": "hq/v1",
+      "expires_at": "2026-11-22T14:15:36Z",
+      "host_id": "synthetic-host",
+      "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "installation_id": "inst_0000000000000001",
+      "issued_at": "2026-11-22T14:15:18Z",
+      "kind": "stage2a-provisional-member-map",
+      "members": [
+        {
+          "channel_binding": "KCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo",
+          "member_id": "m_lead",
+          "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+          "runtime_id": "runtime_fixture_m_lead"
+        },
+        {
+          "channel_binding": "KSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkp",
+          "member_id": "m_spec",
+          "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+          "runtime_id": "runtime_fixture_m_spec"
+        }
+      ],
+      "profile_in_force": "managed-cooperative",
+      "runtime_state": "provisional",
+      "schema_version": 1,
+      "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+      "start_id": "st_0123456789abcdef01234567"
+    },
+    "provisional_hq_mapping_sha256": "sha256:023cd6c3aec5fadd6524e5766cbb0b92da65734d75b8b079be175a5f01cc5a2a",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-set-child-observation-payload.schema.json"
+}

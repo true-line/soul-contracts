@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json",
+  "title": "Stage 2a exact two-member pre-launch assignment (draft)",
+  "description": "A signs this additive assignment after the existing one-use reservation and private bridge assignment, before either member child is launched. The sorted members must equal the measured frozen SoulInfo.json and host projection. This record does not assert a future child process, B readiness, ACP initialization or physical result.",
+  "type": "object",
+  "required": [
+    "contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id",
+    "start_id", "hq_epoch", "plan_id", "plan_digest", "owner_plan_member_set_sha256", "reservation_sha256", "b_authority",
+    "soul_artifact_sha256", "frozen_soul_info_sha256", "adapter_manifest_relpath", "frozen_adapter_manifest_sha256", "host_projection_sha256", "definition_measurement",
+    "runner_uid", "runner_gid", "bridge", "members", "issued_at", "expires_at"
+  ],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-member-set-assignment" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/hq_epoch" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/$defs/id" },
+    "plan_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "owner_plan_member_set_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact RFC 8785 JCS bytes of the stable sorted member projection (member_id, role, adapter_id, adapter_version, command_path, command_sha256, adjacent_cli_path, adjacent_cli_sha256), explicitly selected by the authenticated owner-reviewed installed plan. A refuses if that plan field is absent or differs; measured SoulInfo alone cannot authorize this cohort." },
+    "reservation_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of the exact existing A-signed one-use reservation envelope bytes." },
+    "b_authority": {
+      "type": "object",
+      "required": ["purpose", "envelope_sha256"],
+      "properties": {
+        "purpose": { "enum": ["agent-bot/stage2a-reservation/v3", "agent-bot/soul-cooperative-bridge-assignment/v3"] },
+        "envelope_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false,
+      "description": "Existing A-signed B authority: the protected reservation itself or the distinct cooperative private B assignment. No new B listener or account is implied."
+    },
+    "soul_artifact_sha256": { "$ref": "#/$defs/digest" },
+    "frozen_soul_info_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact frozen SoulInfo.json file bytes in the measured definition snapshot." },
+    "adapter_manifest_relpath": { "type": "string", "pattern": "^Contents/opt/[A-Za-z0-9][A-Za-z0-9._-]*\\.json$", "description": "Relative path to the frozen measured adapter source declaration. A reads this exact file from its definition snapshot, never from an R-supplied path." },
+    "frozen_adapter_manifest_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact raw bytes at adapter_manifest_relpath, checked against A's measured definition snapshot. The declaration is not a release signature." },
+    "host_projection_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact RFC 8785 JCS bytes of the measured launch-input host_projection object." },
+    "definition_measurement": { "$ref": "#/$defs/digest" },
+    "runner_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "runner_gid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "bridge": {
+      "type": "object",
+      "required": ["account", "uid", "gid", "endpoints"],
+      "properties": {
+        "account": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-bridge-assignment-payload.schema.json#/$defs/bridge/properties/account" },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+        "endpoints": {
+          "type": "object",
+          "required": ["broker", "member", "relay"],
+          "properties": {
+            "broker": { "$ref": "#/$defs/approvedEndpoint" },
+            "member": { "$ref": "#/$defs/approvedEndpoint" },
+            "relay": { "$ref": "#/$defs/approvedEndpoint" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "description": "One existing B account and the three existing approved endpoints for the whole Soul. Per-member selectors do not create new listeners or authority."
+    },
+    "members": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/member" },
+      "contains": { "type": "object", "required": ["role"], "properties": { "role": { "const": "lead" } } },
+      "minContains": 1,
+      "maxContains": 1,
+      "description": "Exactly the frozen two-member set, strictly ascending by member_id UTF-8 bytes with no duplicate IDs, launch IDs or selectors. ACP command path comes from measured host projection; its basename and digest must match the frozen adapter manifest. The adjacent CLI path is its sibling, using the manifest's adjacent_cli basename and digest. Consumers enforce these cross-source and cross-item rules."
+    },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "profile_in_force": { "const": "managed-protected" } } },
+      "then": { "properties": { "b_authority": { "properties": { "purpose": { "const": "agent-bot/stage2a-reservation/v3" } } } } },
+      "else": { "properties": { "b_authority": { "properties": { "purpose": { "const": "agent-bot/soul-cooperative-bridge-assignment/v3" } } } } }
+    }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "approvedEndpoint": {
+      "oneOf": [
+        { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/assignment/properties/broker" },
+        { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-bridge-assignment-payload.schema.json#/$defs/endpoint" }
+      ],
+      "description": "Exact existing protected or cooperative endpoint object. The profile-specific reservation and B authority determine which form is permitted."
+    },
+    "member": {
+      "type": "object",
+      "required": ["member_id", "role", "adapter_id", "adapter_version", "command_path", "command_sha256", "adjacent_cli_path", "adjacent_cli_sha256", "launch_id", "member_selector"],
+      "properties": {
+        "member_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json#/properties/requested_roles/items/properties/member_id" },
+        "role": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json#/properties/requested_roles/items/properties/role" },
+        "adapter_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json#/properties/requested_roles/items/properties/adapter_id" },
+        "adapter_version": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/hello.schema.json#/properties/requested_roles/items/properties/adapter_version" },
+        "command_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "command_sha256": { "$ref": "#/$defs/digest" },
+        "adjacent_cli_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "adjacent_cli_sha256": { "$ref": "#/$defs/digest" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/measurement-binding.schema.json#/properties/launch_id" },
+        "member_selector": { "type": "string", "pattern": "^mb_[0-9a-f]{64}$", "description": "Non-bearer selector: mb_ plus SHA-256 hex of UTF-8 purpose agent-bot/stage2a-member-selector/v1, NUL, reservation_sha256 ASCII, NUL, member_id UTF-8, NUL, launch_id ASCII. It never substitutes for a kernel PID/start check." }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-child-observation-payload.schema.json",
+  "title": "Stage 2a A-observed provisional two-member child set (draft)",
+  "description": "A issues this purpose-separated record after both measured children are spawned inertly and before B arms either selector. It binds A-observed child PID/start to the signed assignment and the exact H provisional runtime map. It does not claim a child-to-B connection, B readiness, ACP initialization or a physical gate result.",
+  "type": "object",
+  "required": [
+    "contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch",
+    "reservation_sha256", "assignment_envelope_sha256", "provisional_hq_mapping_sha256", "provisional_hq_mapping",
+    "members", "observed_at", "issued_at", "expires_at"
+  ],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-member-set-child-observation" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "provisional_hq_mapping_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact RFC 8785 JCS bytes of provisional_hq_mapping, received on the paired local H-to-A channel." },
+    "provisional_hq_mapping": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-provisional-member-map.schema.json" },
+    "members": {
+      "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["member_id", "launch_id", "member_selector", "runtime_id", "grant_sha256", "launcher_process", "child_process"],
+        "properties": {
+          "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+          "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
+          "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+          "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+          "grant_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of the full exact A-signed member-specific stage2a-exec/v1 grant envelope under which this inert child wrapper started. A and the wrapper verify the grant independently; offline verification resolves its exact bytes." },
+          "launcher_process": { "$ref": "#/$defs/launcherProcess", "description": "A-observed member-specific wrapper PID, account and kernel start. The child_process.parent_pid must equal this PID; the selected wrapper checks its own tuple and grant before accepting a live lease." },
+          "child_process": { "$ref": "#/$defs/childProcess" }
+        },
+        "additionalProperties": false
+      },
+      "description": "Exactly the assigned sorted member IDs, selectors and launch IDs, with distinct A-observed child process identities and H-provisional runtime IDs."
+    },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "launcherProcess": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "start_seconds", "start_micros"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 }
+      },
+      "additionalProperties": false
+    },
+    "childProcess": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "parent_pid", "process_group_id", "start_seconds", "start_micros", "executable_sha256"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1 },
+        "parent_pid": { "type": "integer", "minimum": 2 },
+        "process_group_id": { "type": "integer", "minimum": 2 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "executable_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

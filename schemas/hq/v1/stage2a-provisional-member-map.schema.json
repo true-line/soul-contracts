@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-provisional-member-map.schema.json",
+  "title": "Paired H-to-A provisional two-member runtime map (draft)",
+  "description": "H sends these exact RFC 8785 JCS UTF-8 bytes over the authenticated paired local H-to-A channel after provisional Hello and before either runtime is usable. A binds their full contents into the signed child observation and their digest into the later signed ready record. H rechecks its own live map and withheld ACP authority before finalization. This object is not a bearer credential or an independently signed receipt.",
+  "type": "object",
+  "required": [
+    "contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch",
+    "assignment_envelope_sha256", "runtime_state", "acp_authority", "members", "issued_at", "expires_at"
+  ],
+  "properties": {
+    "contract": { "const": "hq/v1" },
+    "kind": { "const": "stage2a-provisional-member-map" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "assignment_envelope_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "runtime_state": { "const": "provisional" },
+    "acp_authority": { "const": "withheld" },
+    "members": {
+      "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["member_id", "member_selector", "runtime_id", "channel_binding"],
+        "properties": {
+          "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+          "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+          "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+          "channel_binding": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/channel_binding" }
+        },
+        "additionalProperties": false
+      },
+      "description": "Exactly the sorted assigned members and H-allocated runtime IDs; consumers compare each member ID and selector with the A-signed assignment."
+    },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,40 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-provisional-member-map.two-member-synthetic.json",
+    "sha256": "sha256:b2b62b26141e90e1911c9c2f4d65ade37ec85be570085c3cd61e4af74a4320da"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "acp_authority": "granted",
+    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
+    "contract": "hq/v1",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:18Z",
+    "kind": "stage2a-provisional-member-map",
+    "members": [
+      {
+        "channel_binding": "KCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo",
+        "member_id": "m_lead",
+        "member_selector": "mb_d86a2563023a8d1282eca73aa7c12d23f660d98764d14d3083bbcc95f00124ea",
+        "runtime_id": "runtime_fixture_m_lead"
+      },
+      {
+        "channel_binding": "KSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkp",
+        "member_id": "m_spec",
+        "member_selector": "mb_065581cad7b2b9c0cae33b5794b0d01540749598925f68ddd1bde005d843f22c",
+        "runtime_id": "runtime_fixture_m_spec"
+      }
+    ],
+    "profile_in_force": "managed-cooperative",
+    "runtime_state": "provisional",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "hq/v1/stage2a-provisional-member-map.schema.json"
+}
