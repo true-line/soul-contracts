@@ -23,6 +23,12 @@ def when(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+def cooperative_lead_launch(assignment, detached, observed):
+    leads = [member for member in assignment["members"] if member["role"] == "lead"]
+    require(len(leads) == 1 and observed["launch_id"] == detached["launch_id"] == leads[0]["launch_id"],
+            "cooperative B observation names the unique signed lead launch")
+
+
 def check(results, source, schemas, public, cooperative=None):
     assignment, assignment_raw = signed(source, "assignment", SIGNED_ASSIGNMENT, ASSIGNMENT, schemas, public)
     child, child_raw = signed(source, "child_observation", SIGNED_CHILD, CHILD, schemas, public)
@@ -61,12 +67,12 @@ def check(results, source, schemas, public, cooperative=None):
                 observed["start_id"] == assignment["start_id"] and
                 all(observed[key] == detached[key] == assignment[key] for key in
                     ("plan_id", "plan_digest", "hq_epoch", "installation_id", "start_id")) and
-                observed["launch_id"] == detached["launch_id"] == assignment["members"][0]["launch_id"] and
                 observed["bridge"]["uid"] == detached["bridge"]["uid"] and
                 observed["bridge"]["gid"] == detached["bridge"]["gid"] and
                 observed["relay_socket_birthtime_ns"].isdigit() and
                 observed["relay_socket"]["path"] == assignment["bridge"]["endpoints"]["relay"]["socket_path"],
                 "exact A-observed B and relay identity join cooperative Ready")
+        cooperative_lead_launch(assignment, detached, observed)
         require(when(assignment["issued_at"]) <= when(observed["observed_at"]) <=
                 when(ready["issued_at"]) <= min(when(observed["expires_at"]),
                     when(detached["expires_at"]), when(assignment["expires_at"])) and
@@ -147,25 +153,26 @@ def check(results, source, schemas, public, cooperative=None):
                     "A-observed child and exact B arm row join cooperative Ready")
 
 
+def resign_payload_envelope(raw, payload):
+    signer = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
+    envelope = parse_strict(raw.encode())
+    payload_raw = canonicalize(payload)
+    envelope["payload_base64url"] = base64.urlsafe_b64encode(payload_raw).rstrip(b"=").decode()
+    envelope["payload_sha256"] = digest(payload_raw)
+    envelope["signature_base64url"] = base64.urlsafe_b64encode(
+        signer.sign(envelope["purpose"].encode() + b"\0" + payload_raw)).rstrip(b"=").decode()
+    return canonicalize(envelope)
+
+
 def resign_cooperative_mutant(evidence, results, observed_field=None, observed_value=None,
                               arm_field=None, arm_value=None):
     changed_evidence = copy.deepcopy(evidence)
     changed_results = copy.deepcopy(results)
-    signer = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
-
-    def resign(raw, payload):
-        envelope = parse_strict(raw.encode())
-        payload_raw = canonicalize(payload)
-        envelope["payload_base64url"] = base64.urlsafe_b64encode(payload_raw).rstrip(b"=").decode()
-        envelope["payload_sha256"] = digest(payload_raw)
-        envelope["signature_base64url"] = base64.urlsafe_b64encode(
-            signer.sign(envelope["purpose"].encode() + b"\0" + payload_raw)).rstrip(b"=").decode()
-        return canonicalize(envelope)
 
     observed = parse_strict(changed_evidence["payload_jcs"].encode())
     if observed_field is not None:
         observed[observed_field] = observed_value
-    observed_raw = resign(changed_evidence["envelope_jcs"], observed)
+    observed_raw = resign_payload_envelope(changed_evidence["envelope_jcs"], observed)
     changed_evidence["payload_jcs"] = canonicalize(observed).decode()
     changed_evidence["envelope_jcs"] = observed_raw.decode()
 
@@ -177,7 +184,7 @@ def resign_cooperative_mutant(evidence, results, observed_field=None, observed_v
         arm_raw = canonicalize(arm)
         changed_evidence["bridge_arm_rows_jcs"][0] = arm_raw.decode()
         ready["members"][0]["b_arm_receipt_sha256"] = digest(arm_raw)
-    ready_raw = resign(changed_evidence["ready_envelope_jcs"], ready)
+    ready_raw = resign_payload_envelope(changed_evidence["ready_envelope_jcs"], ready)
     changed_evidence["ready_payload_jcs"] = canonicalize(ready).decode()
     changed_evidence["ready_envelope_jcs"] = ready_raw.decode()
     for result in changed_results:
@@ -242,13 +249,47 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
             else:
                 raise ValueError("cross-profile A-signed Ready accepted")
             if profile == "managed-cooperative":
+                second_lead_source = copy.deepcopy(source)
+                second_lead_assignment = parse_strict(source["assignment_payload_jcs"].encode())
+                second_lead_assignment["members"].reverse()
+                second_lead_source["assignment_payload_jcs"] = canonicalize(second_lead_assignment).decode()
+                second_lead_source["assignment_envelope_jcs"] = resign_payload_envelope(
+                    source["assignment_envelope_jcs"], second_lead_assignment).decode()
+                signed_second_lead, _ = signed(second_lead_source, "assignment", SIGNED_ASSIGNMENT,
+                    ASSIGNMENT, schemas, public)
+                require(signed_second_lead["members"][1]["role"] == "lead",
+                        "A-signed non-first cooperative lead fixture")
+                detached = verify_existing_envelope(
+                    source["private_b_authority_envelope_jcs"].encode(),
+                    "agent-bot/soul-cooperative-bridge-assignment/v3",
+                    "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
+                    "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json", schemas, public)
+                signed_observed = verify_existing_envelope(
+                    evidence["envelope_jcs"].encode(), "agent-bot/soul-cooperative-b-observed/v3",
+                    "machine/v3/soul-cooperative-b-signed-observed.schema.json",
+                    "machine/v3/soul-cooperative-b-observed-payload.schema.json", schemas, public)
+                cooperative_lead_launch(signed_second_lead, detached, signed_observed)
+                wrong_launch = copy.deepcopy(signed_observed)
+                wrong_launch["launch_id"] = signed_second_lead["members"][0]["launch_id"]
+                wrong_raw = resign_payload_envelope(evidence["envelope_jcs"], wrong_launch)
+                signed_wrong_launch = verify_existing_envelope(
+                    wrong_raw, "agent-bot/soul-cooperative-b-observed/v3",
+                    "machine/v3/soul-cooperative-b-signed-observed.schema.json",
+                    "machine/v3/soul-cooperative-b-observed-payload.schema.json", schemas, public)
+                try:
+                    cooperative_lead_launch(signed_second_lead, detached, signed_wrong_launch)
+                except ValueError as error:
+                    require(str(error) == "cooperative B observation names the unique signed lead launch",
+                            "re-signed non-first-lead wrong launch refused at the intended join")
+                else:
+                    raise ValueError("re-signed non-first-lead wrong launch accepted")
                 signed_mutants = (
                     ("wrong detached B assignment", "bridge_assignment_sha256", "sha256:" + "0" * 64,
                      None, None, "exact A-observed B and relay identity join cooperative Ready"),
                     ("wrong plan", "plan_id", "plan_wrong", None, None,
                      "exact A-observed B and relay identity join cooperative Ready"),
                     ("wrong launch", "launch_id", "ln_ffffffffffffffffffffffff", None, None,
-                     "exact A-observed B and relay identity join cooperative Ready"),
+                     "cooperative B observation names the unique signed lead launch"),
                     ("wrong epoch", "hq_epoch", "f" * 64, None, None,
                      "exact A-observed B and relay identity join cooperative Ready"),
                     ("stale observation", "observed_at", "2026-11-22T14:15:22Z", None, None,
