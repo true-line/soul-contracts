@@ -1,7 +1,6 @@
 """Independent synthetic signature and cross-record oracle for B v3 authority."""
 
 import copy
-import json
 from datetime import datetime
 
 from cryptography.hazmat.primitives import serialization

@@ -29,7 +29,7 @@ def check(vectors, source, ready_expires, schemas, public):
     require(ready_expires == ready["expires_at"] and len(vectors) == 7,
             "synthetic signed Ready and two separately leased members")
     histories = {}
-    used = set()
+    used_nonces = {}
     for vector in vectors:
         raw = vector["envelope_jcs"].encode()
         payload = verify_existing_envelope(raw, PURPOSE, ENVELOPE, PAYLOAD, schemas, public)
@@ -60,9 +60,8 @@ def check(vectors, source, ready_expires, schemas, public):
                     ("pid", "uid", "gid", "start_seconds", "start_micros")),
                 "own member grant, arm, wrapper/child and B kernel identity")
         nonce = decode(payload["challenge_nonce_base64url"])
-        key = (payload["member_id"], payload["sequence"], nonce)
-        require(len(nonce) == 32 and key not in used, "fresh 32-byte one-use member challenge")
-        used.add(key)
+        require(len(nonce) == 32 and nonce not in used_nonces.get(payload["member_id"], set()),
+                "fresh 32-byte challenge in each member's active lease chain")
         issued, expires, approved = (when(payload[k]) for k in ("issued_at", "expires_at", "approved_until"))
         require(when(ready["issued_at"]) <= issued < expires <= approved and
                 (expires - issued).total_seconds() <= 5 and
@@ -84,6 +83,7 @@ def check(vectors, source, ready_expires, schemas, public):
                     payload["q_process"] == prior_payload["q_process"] and
                     payload["owner_driver_process"] == prior_payload["owner_driver_process"],
                     "unbroken previous exact signed envelope, process and approval chain")
+        used_nonces.setdefault(payload["member_id"], set()).add(nonce)
         history.append({"payload": payload, "raw": raw})
     require(len(histories) == 2 and sorted(len(v) for v in histories.values()) == [1, 6] and
             any(when(v["payload"]["issued_at"]) > when(ready["expires_at"])
@@ -114,6 +114,9 @@ def check_stage2a_member_runtime_lease_fixtures(root, schemas, report):
         for label, patch in (
             ("wrong prior digest", {"previous_lease_envelope_sha256": "sha256:" + "0" * 64}),
             ("missed renewal", {"issued_at": "2026-11-22T14:15:27Z", "expires_at": "2026-11-22T14:15:31Z"}),
+            ("repeated nonce at next sequence", {"challenge_nonce_base64url":
+                                                  parse_strict(vector["members"][0]["payload_jcs"].encode())[
+                                                      "challenge_nonce_base64url"]}),
         ):
             bad = copy.deepcopy(vector["members"])
             payload = parse_strict(bad[1]["payload_jcs"].encode())
@@ -122,8 +125,9 @@ def check_stage2a_member_runtime_lease_fixtures(root, schemas, report):
                              "envelope_jcs": bad[1]["envelope_jcs"]}, key)
             try:
                 check(bad, source, vector["ready_expires_at"], schemas, public)
-            except ValueError:
-                pass
+            except ValueError as error:
+                if label == "repeated nonce at next sequence" and "fresh 32-byte challenge" not in str(error):
+                    raise ValueError("repeated nonce refused for a different reason") from error
             else:
                 raise ValueError(label + " accepted")
         report(True, "protected post-Ready A member runtime signature and unbroken five-second chain")
