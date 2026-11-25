@@ -1,5 +1,6 @@
 """Independent A-envelope joins for synthetic prestarted H-to-R attach results."""
 
+import base64
 import copy
 from datetime import datetime
 
@@ -102,6 +103,8 @@ def check(results, source, schemas, public, cooperative=None):
                 result["member_endpoint"] == endpoint,
                 "signed member socket")
         if cooperative is None:
+            require(armed["runtime_id"] == result["runtime_id"],
+                    "protected Ready runtime equals the attached A-observed runtime")
             require(armed["bridge_arm"]["adapter_pid"] == observed["child_process"]["pid"] and
                     armed["bridge_arm_receipt_sha256"] == digest(canonicalize(armed["bridge_arm"])),
                     "A-observed ACP child equals B arm receipt")
@@ -206,6 +209,31 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
                     pass
                 else:
                     raise ValueError("32769-byte cooperative result accepted")
+            else:
+                changed_source = copy.deepcopy(source)
+                changed = copy.deepcopy(results)
+                ready_payload = parse_strict(changed_source["ready_payload_jcs"].encode())
+                ready_payload["members"][0]["runtime_id"] = "runtime_wrong"
+                payload_raw = canonicalize(ready_payload)
+                envelope = parse_strict(changed_source["ready_envelope_jcs"].encode())
+                envelope["payload_base64url"] = base64.urlsafe_b64encode(payload_raw).rstrip(b"=").decode()
+                envelope["payload_sha256"] = digest(payload_raw)
+                signer = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
+                envelope["signature_base64url"] = base64.urlsafe_b64encode(
+                    signer.sign(envelope["purpose"].encode() + b"\0" + payload_raw)).rstrip(b"=").decode()
+                envelope_raw = canonicalize(envelope)
+                changed_source["ready_payload_jcs"] = payload_raw.decode()
+                changed_source["ready_envelope_jcs"] = envelope_raw.decode()
+                for result in changed:
+                    result["ready_envelope_base64url"] = base64.urlsafe_b64encode(envelope_raw).rstrip(b"=").decode()
+                    result["ready_envelope_sha256"] = digest(envelope_raw)
+                try:
+                    check(changed, changed_source, schemas, public)
+                except ValueError as error:
+                    if "protected Ready runtime" not in str(error):
+                        raise ValueError("Ready/runtime mismatch refused for a different reason") from error
+                else:
+                    raise ValueError("A-signed protected Ready/runtime mismatch accepted")
             report(True, f"{profile} H-to-R prestarted attach exact A child/B-policy/Ready joins")
         except Exception as error:
             report(False, f"{profile} H-to-R prestarted attach exact A child/B-policy/Ready joins", str(error))
