@@ -57,8 +57,10 @@ def verify_vector(root, profile, vector, schemas, used):
     require(ready["assignment_envelope_sha256"] == challenge["assignment_envelope_sha256"] and
             ready["child_observation_envelope_sha256"] == challenge["child_observation_envelope_sha256"],
             "ready joins the same frozen set")
-    member = assignment["members"][0]
-    observed_child = child["members"][0]
+    assigned = [member for member in assignment["members"] if member["member_id"] == challenge["member_id"]]
+    observed = [member for member in child["members"] if member["member_id"] == challenge["member_id"]]
+    require(len(assigned) == len(observed) == 1, "one exact assigned and observed member")
+    member, observed_child = assigned[0], observed[0]
     require(challenge["member_id"] == attestation["member_id"] == member["member_id"] and
             challenge["member_selector"] == attestation["member_selector"] == member["member_selector"] and
             challenge["runtime_id"] == attestation["runtime_id"] == observed_child["runtime_id"],
@@ -124,21 +126,49 @@ def resign_mutation(vector, change):
     return mutant
 
 
-def resign_challenge_mutation(vector, change):
+def resign_challenge_mutation(vector, change, payload_change=None):
     """Re-sign a valid A proof for a changed B challenge and H reply."""
     mutant = copy.deepcopy(vector)
     challenge = parse_strict(mutant["challenge_jcs"].encode("utf-8"))
     change(challenge)
     challenge_raw = canonicalize(challenge)
     mutant["challenge_jcs"] = challenge_raw.decode("utf-8")
-    mutant = resign_mutation(mutant, lambda payload: payload.update(
-        rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
-        challenge_sha256=digest(challenge_raw)))
+    def update_payload(payload):
+        payload.update(rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+                       member_id=challenge["member_id"], member_selector=challenge["member_selector"],
+                       runtime_id=challenge["runtime_id"], reported_peer_token=challenge["peer_token"],
+                       challenge_sha256=digest(challenge_raw))
+        if payload_change is not None:
+            payload_change(payload)
+    mutant = resign_mutation(mutant, update_payload)
     verified = parse_strict(mutant["verified_jcs"].encode("utf-8"))
     verified.update(rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+                    member_id=challenge["member_id"], member_selector=challenge["member_selector"],
+                    runtime_id=challenge["runtime_id"], peer_token=challenge["peer_token"],
                     challenge_sha256=digest(challenge_raw))
     mutant["verified_jcs"] = canonicalize(verified).decode("utf-8")
     return mutant
+
+
+def second_member_vector(root, profile, vector):
+    source = json.loads((root / "fixtures/reservation/v3/stage2a-member-set.synthetic.json").read_text())[profile]
+    assignment = parse_strict(source["assignment_payload_jcs"].encode("utf-8"))
+    child = parse_strict(source["child_observation_payload_jcs"].encode("utf-8"))
+    member = assignment["members"][1]
+    observed = child["members"][1]
+    process = observed["child_process"]
+
+    def change_challenge(challenge):
+        challenge.update(member_id=member["member_id"], member_selector=member["member_selector"],
+                         runtime_id=observed["runtime_id"], peer_token={"pid": 4202,
+                             "pid_version": challenge["peer_token"]["pid_version"], "uid": process["uid"]})
+
+    def change_payload(payload):
+        payload["observed_cli"].update(pid=4202, parent_pid=process["pid"], start_micros=251)
+        payload["observed_adapter_parent"].update({key: process[key] for key in
+            ("pid", "uid", "start_seconds", "start_micros", "executable_sha256")})
+
+    return resign_challenge_mutation(vector, change_challenge, change_payload)
 
 
 def check_stage2a_relay_peer_fixtures(root, schemas, report):
@@ -165,6 +195,16 @@ def check_stage2a_relay_peer_fixtures(root, schemas, report):
                     report(False, "relay-peer " + profile + " refuses " + label)
                 except ValueError:
                     report(True, "relay-peer " + profile + " refuses " + label)
+            second = second_member_vector(root, profile, vector)
+            verify_vector(root, profile, second, schemas, {})
+            report(True, "relay-peer " + profile + " accepts signed second member")
+            wrong_member = resign_challenge_mutation(second,
+                lambda challenge: challenge.update(member_selector="mb_" + "0" * 64))
+            try:
+                verify_vector(root, profile, wrong_member, schemas, {})
+                report(False, "relay-peer " + profile + " refuses wrong signed member selector")
+            except ValueError:
+                report(True, "relay-peer " + profile + " refuses wrong signed member selector")
             for label, change in (
                 ("wrong direct parent", lambda p: p["observed_cli"].update(parent_pid=9999)),
                 ("wrong CLI bytes", lambda p: p["observed_cli"].update(executable_sha256="sha256:" + "0" * 64)),
