@@ -30,7 +30,9 @@ def check_frame(root, profile, frame, vector, schemas, public):
             digest(canonicalize(frame["launch_input_records"]["host_projection"])) ==
                 assignment["host_projection_sha256"],
             "fixed pin, profile, and measured host projection")
-    lead = assignment["members"][0]
+    leads = [member for member in assignment["members"] if member["role"] == "lead"]
+    require(len(leads) == 1, "exactly one signed lead in FD3 assignment")
+    lead = leads[0]
     require(frame["launch_input_records"]["selected_command"] == lead["command_path"] and
             frame["launch_input_records"]["component_digests"]["adapter"] == lead["command_sha256"] and
             reservation["assignment"]["plan_digest"] == assignment["plan_digest"],
@@ -50,6 +52,7 @@ def check_frame(root, profile, frame, vector, schemas, public):
 def check_stage2a_runner_member_set_fixtures(root, schemas, report):
     vectors = json.loads((root / "fixtures/reservation/v3/stage2a-member-set.synthetic.json").read_text())
     frames = json.loads((root / "fixtures/reservation/v3/stage2a-runner-member-set-fd3.synthetic.json").read_text())
+    non_first = json.loads((root / "fixtures/reservation/v3/stage2a-runner-member-set-fd3.non-first-lead.synthetic.json").read_text())
     public = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33))).public_key().public_bytes(
         serialization.Encoding.Raw, serialization.PublicFormat.Raw)
     for profile in ("managed-protected", "managed-cooperative"):
@@ -66,3 +69,22 @@ def check_stage2a_runner_member_set_fixtures(root, schemas, report):
             report(True, "runner FD3 " + profile + " signed assignment/reservation/measured-input joins")
         except Exception as error:
             report(False, "runner FD3 " + profile + " signed assignment/reservation/measured-input joins", str(error))
+        try:
+            variant = json.loads(json.dumps(vectors[profile]))
+            frame = json.loads(json.dumps(frames[profile]))
+            row = non_first[profile]
+            variant["assignment_payload_jcs"] = row["assignment_payload_jcs"]
+            variant["assignment_envelope_jcs"] = row["assignment_envelope_jcs"]
+            frame["member_set_assignment_envelope_base64url"] = row["assignment_envelope_base64url"]
+            check_frame(root, profile, frame, variant, schemas, public)
+            wrong = json.loads(json.dumps(frame))
+            wrong["launch_input_records"]["component_digests"]["adapter"] = row["non_lead_command_sha256"]
+            try:
+                check_frame(root, profile, wrong, variant, schemas, public)
+            except ValueError:
+                pass
+            else:
+                raise ValueError("selected non-lead command digest accepted")
+            report(True, "runner FD3 " + profile + " signed non-first lead and non-lead refusal")
+        except Exception as error:
+            report(False, "runner FD3 " + profile + " signed non-first lead and non-lead refusal", str(error))

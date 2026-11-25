@@ -446,8 +446,13 @@ def vendor_text(path):
                             out[key] = records
                         except (binascii.Error, UnicodeDecodeError, ValueError, TypeError):
                             out[key] = "<invalid framed bytes>"
+                    elif key.endswith("_envelope_base64url") and isinstance(value, str):
+                        try:
+                            decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
+                            out[key] = decode_reservation(json.loads(decoded))
+                        except (binascii.Error, UnicodeDecodeError, ValueError, TypeError):
+                            out[key] = "<invalid encoded envelope>"
                     elif (key in ("payload_base64url", "report_base64url", "signing_preimage_base64url") or
-                          key.endswith("_envelope_base64url") or
                           key.endswith("_raw_base64url")) and isinstance(value, str):
                         try:
                             decoded = base64.b64decode(value + "=" * (-len(value) % 4), altchars=b"-_", validate=True)
