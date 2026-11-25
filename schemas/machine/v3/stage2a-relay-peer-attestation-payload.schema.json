@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-relay-peer-attestation-payload.schema.json",
+  "title": "Stage 2a A-observed live adjacent relay peer (draft)",
+  "description": "A independently observes a live CLI process and its direct ACP adapter parent after H forwards an exact B challenge over the paired local channel. A signs this short-lived, single-challenge record under the secure admin account. The echoed pid_version comes from B's kernel token; A independently proves PID/start, pinned executable bytes and parent PID/start. H verifies A's signature and active member set before replying to B. This does not grant provider ingress by itself.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch", "reservation_sha256", "assignment_envelope_sha256", "child_observation_envelope_sha256", "ready_envelope_sha256", "challenge_sha256", "member_id", "member_selector", "runtime_id", "rpc_id", "nonce_hex", "reported_peer_token", "observed_cli", "observed_adapter_parent", "observed_at", "issued_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-relay-peer-attestation" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/profile_in_force" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "ready_envelope_sha256": { "$ref": "#/$defs/digest", "description": "A's exact aggregate signed-ready envelope bytes; H checks this against its finalized active start before returning a result." },
+    "challenge_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact RFC 8785 JCS UTF-8 bytes of the complete B challenge received by A through H." },
+    "member_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/member_id" },
+    "member_selector": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/member_selector" },
+    "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/runtime_id" },
+    "rpc_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/rpc_id" },
+    "nonce_hex": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/nonce_hex" },
+    "reported_peer_token": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/$defs/peerToken" },
+    "observed_cli": {
+      "type": "object",
+      "required": ["pid", "uid", "gid", "start_seconds", "start_micros", "executable_path", "executable_sha256", "parent_pid"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "gid": { "type": "integer", "minimum": 1 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "executable_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "executable_sha256": { "$ref": "#/$defs/digest" },
+        "parent_pid": { "type": "integer", "minimum": 2 }
+      },
+      "additionalProperties": false
+    },
+    "observed_adapter_parent": {
+      "type": "object",
+      "required": ["pid", "uid", "start_seconds", "start_micros", "executable_sha256"],
+      "properties": {
+        "pid": { "type": "integer", "minimum": 2 },
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "start_seconds": { "type": "integer", "minimum": 1 },
+        "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "executable_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time", "description": "At most five seconds after issued_at; does not override B's live token/liveness recheck or one-use nonce." }
+  },
+  "additionalProperties": false,
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }
+}

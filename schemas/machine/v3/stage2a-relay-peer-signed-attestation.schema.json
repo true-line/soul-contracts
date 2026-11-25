@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-relay-peer-signed-attestation.schema.json",
+  "title": "Purpose-separated A-signed live CLI peer attestation (draft)",
+  "description": "Ed25519 signs the ASCII purpose, one NUL byte and exact RFC 8785 JCS UTF-8 payload bytes. H must pin the paired secure-admin A public key independently of this self-declared issuer field. The envelope is short-lived and single-challenge; B receives only H's verified result over its existing bound broker connection.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "purpose": { "const": "agent-bot/stage2a-relay-peer-attestation/v1" },
+    "issuer_public_key_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+    "payload_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "payload_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}

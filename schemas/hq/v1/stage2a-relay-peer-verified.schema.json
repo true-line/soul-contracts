@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-verified.schema.json",
+  "title": "Stage 2a H-verified live relay peer reply (draft)",
+  "description": "H sends this result only on the same active authenticated B-to-H broker connection after independently verifying A's signed live-peer envelope, the exact challenge, active finalized member set, A key pin, and five-second expiry. This result has no separate H signature and is not independently trustworthy offline; its included A envelope and challenge are. B checks RPC ID/nonce/token and immediately rechecks the live kernel peer before serving even policy GET. No result is sent for refusal or timeout.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "start_id", "rpc_id", "nonce_hex", "member_id", "member_selector", "runtime_id", "peer_token", "challenge_sha256", "attestation_envelope_sha256", "attestation_envelope_base64url", "verdict", "verified_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "hq/v1" },
+    "kind": { "const": "stage2a-relay-peer-verified" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/profile_in_force" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/start_id" },
+    "rpc_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/rpc_id" },
+    "nonce_hex": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/nonce_hex" },
+    "member_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/member_id" },
+    "member_selector": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/member_selector" },
+    "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/properties/runtime_id" },
+    "peer_token": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/$defs/peerToken" },
+    "challenge_sha256": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/$defs/digest" },
+    "attestation_envelope_sha256": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json#/$defs/digest" },
+    "attestation_envelope_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$", "description": "Exact JCS bytes of the A-signed envelope, base64url without padding, retained for independent offline verification." },
+    "verdict": { "const": "verified" },
+    "verified_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time", "description": "Equals the A attestation expiry; B must also apply the challenge deadline and immediate live token check." }
+  },
+  "additionalProperties": false
+}

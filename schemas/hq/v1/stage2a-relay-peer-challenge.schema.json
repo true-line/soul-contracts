@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/stage2a-relay-peer-challenge.schema.json",
+  "title": "Stage 2a B-to-H live relay peer challenge (draft)",
+  "description": "B sends this exact RFC 8785 JCS object on its existing authenticated, one-use bound broker connection after accepting one Unix relay request and before answering it. The consumed initial B proof key is not reused as a per-call MAC. H checks active bind/finalization and forwards the exact challenge over its paired local H-to-A channel. Every accepted request gets a fresh nonce and unique RPC ID; neither a selector nor a shared UID authorizes ingress.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch", "reservation_sha256", "assignment_envelope_sha256", "child_observation_envelope_sha256", "member_id", "member_selector", "runtime_id", "rpc_id", "nonce_hex", "peer_token", "accepted_at", "deadline_at"],
+  "properties": {
+    "contract": { "const": "hq/v1" },
+    "kind": { "const": "stage2a-relay-peer-challenge" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "enum": ["managed-protected", "managed-cooperative"] },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+    "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+    "runtime_id": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/admission-result.schema.json#/properties/admitted_runtimes/items/properties/runtime_id" },
+    "rpc_id": { "type": "string", "pattern": "^rpc_[0-9a-f]{32}$", "description": "Unique within the active B-to-H bound start, never reused across accepted requests or retries." },
+    "nonce_hex": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Fresh cryptographically random 32 bytes encoded as exactly 64 lowercase hex digits; one-use for this accepted request." },
+    "peer_token": { "$ref": "#/$defs/peerToken", "description": "B's kernel LOCAL_PEERTOKEN observation at accept; A independently re-observes live process and parent. A cannot infer pid_version from its process snapshot, so this field remains B-reported and B must recheck it after H replies." },
+    "accepted_at": { "type": "string", "format": "date-time" },
+    "deadline_at": { "type": "string", "format": "date-time", "description": "At most 10 seconds after accepted_at. A late H reply is unusable even if it is otherwise valid." }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "peerToken": {
+      "type": "object",
+      "required": ["uid", "pid", "pid_version"],
+      "properties": {
+        "uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+        "pid": { "type": "integer", "minimum": 2 },
+        "pid_version": { "type": "integer", "minimum": 1, "maximum": 4294967295 }
+      },
+      "additionalProperties": false
+    }
+  }
+}
