@@ -1,7 +1,7 @@
 {
   "base": {
     "fixture": "positive/stage2a-member-runtime-request.two-member-synthetic.json",
-    "sha256": "sha256:111d3634391b723dd69a21e71d3def5b2ce776b5cfb6f10da3de5b4bfeeabee3"
+    "sha256": "sha256:057d0e272d08202545c9cebd212eff0a19cd06c2f4dccde16492af3b8e1a5d35"
   },
   "expect": {
     "schema": "invalid"
@@ -26,7 +26,7 @@
     "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
     "plan_id": "plan-20261122T141516Z-abcd",
     "previous_lease_envelope_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-    "prior_expires_at": "2026-11-22T14:15:23Z",
+    "prior_expires_at": "2026-11-22T14:15:24Z",
     "ready_envelope_sha256": "sha256:be8818d5497cbb00cd0dc1ed80fb59e87a1f08abd7c3dee6d80f3f9f19112d1f",
     "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
     "start_id": "st_0123456789abcdef01234567"

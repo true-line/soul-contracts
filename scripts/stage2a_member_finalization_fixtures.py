@@ -22,13 +22,16 @@ RUNTIME_REQUEST = "machine/v3/stage2a-member-runtime-request.schema.json"
 LEASE_PURPOSE = "agent-bot/stage2a-member-runtime-lease/v1"
 LEASE_ENVELOPE = "machine/v3/stage2a-member-signed-runtime-lease.schema.json"
 LEASE_PAYLOAD = "machine/v3/stage2a-member-runtime-lease-payload.schema.json"
+INERT_PURPOSE = "agent-bot/stage2a-member-live-lease/v1"
+INERT_ENVELOPE = "machine/v3/stage2a-member-signed-live-lease.schema.json"
+INERT_PAYLOAD = "machine/v3/stage2a-member-live-lease-payload.schema.json"
 
 
 def when(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def check(source, vector, schemas, public, prior_lease_raw=None, used_nonces=()):
+def check(source, vector, schemas, public, prior_lease_raw=None, used_nonces=(), inert_lease_raw=None):
     assignment, assignment_raw = signed(source, "assignment", SIGNED_ASSIGNMENT, ASSIGNMENT, schemas, public)
     child, child_raw = signed(source, "child_observation", SIGNED_CHILD, CHILD, schemas, public)
     ready, ready_raw = signed(source, "ready", SIGNED_READY, READY, schemas, public)
@@ -117,12 +120,23 @@ def check(source, vector, schemas, public, prior_lease_raw=None, used_nonces=())
     require(len(nonce) == 32 and nonce not in used_nonces,
             "runtime request has a fresh canonical 32-byte challenge")
     if prior_lease_raw is None:
+        require(inert_lease_raw is not None, "first request requires A's signed inert member lease")
+        inert = verify_existing_envelope(inert_lease_raw, INERT_PURPOSE,
+            INERT_ENVELOPE, INERT_PAYLOAD, schemas, public)
         require(runtime["after_sequence"] == 0 and
                 runtime["previous_lease_envelope_sha256"] is None and
-                when(record["committed_at"]) <= when(runtime["prior_expires_at"]) <=
-                    when(ready["expires_at"]) and
-                when(ack["issued_at"]) < when(ready["expires_at"]),
-                "first request and acknowledgement precede signed Ready expiry")
+                inert["member_id"] == runtime["member_id"] and
+                all(inert[key] == runtime[key] for key in
+                    ("member_selector", "member_launch_id", "grant_sha256",
+                     "child_observation_envelope_sha256", "installation_id", "start_id",
+                     "hq_epoch", "reservation_sha256")) and
+                inert["assignment_envelope_sha256"] == digest(assignment_raw) and
+                inert["launcher_process"]["pid"] == runtime["launcher_pid"] == runtime["peer_pid"] and
+                inert["child_process"]["pid"] == runtime["child_pid"] and
+                when(inert["issued_at"]) <= when(record["committed_at"]) <=
+                    when(ack["issued_at"]) < when(inert["expires_at"]) <= when(ready["expires_at"]) and
+                when(runtime["prior_expires_at"]) == when(inert["expires_at"]),
+                "first request uses A-signed live inert lease; H expiry cannot extend it")
     else:
         prior = verify_existing_envelope(prior_lease_raw, LEASE_PURPOSE,
             LEASE_ENVELOPE, LEASE_PAYLOAD, schemas, public)
@@ -162,8 +176,19 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
     source = parse_strict((root / "fixtures/reservation/v3/stage2a-member-set.synthetic.json").read_bytes())[
         "managed-protected"]
     vector = parse_strict((root / "fixtures/reservation/v3/stage2a-member-finalization.two-member-synthetic.json").read_bytes())
+    inert_vectors = parse_strict((root / "fixtures/reservation/v3/"
+        "stage2a-member-live-lease.two-member-synthetic.json").read_bytes())["members"]
+    inert_by_member = {parse_strict(item["payload_jcs"].encode())["member_id"]:
+                       item["envelope_jcs"].encode() for item in inert_vectors}
+
+    def verify(candidate, prior_lease_raw=None, used_nonces=(), inert_override=None):
+        requested = parse_strict(candidate["runtime_request_jcs"].encode())
+        inert = (inert_by_member[requested["member_id"]] if inert_override is None
+                 else inert_override)
+        check(source, candidate, schemas, public, prior_lease_raw, used_nonces, inert)
+
     try:
-        check(source, vector, schemas, public)
+        verify(vector)
         second = copy.deepcopy(vector)
         record = parse_strict(second["record_jcs"].encode())
         selected = record["members"][1]
@@ -173,7 +198,37 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         runtime["launcher_pid"] = runtime["peer_pid"] = selected["launcher_process"]["pid"]
         runtime["child_pid"] = selected["child_process"]["pid"]
         second["runtime_request_jcs"] = canonicalize(runtime).decode()
-        check(source, second, schemas, public)
+        verify(second)
+        for label, claimed_expiry in (("shortened inert expiry", "2026-11-22T14:15:23Z"),
+                                      ("extended inert expiry", "2026-11-22T14:15:25Z")):
+            wrong = copy.deepcopy(vector)
+            claimed = parse_strict(wrong["runtime_request_jcs"].encode())
+            claimed["prior_expires_at"] = claimed_expiry
+            wrong["runtime_request_jcs"] = canonicalize(claimed).decode()
+            try:
+                verify(wrong)
+            except ValueError as error:
+                require(str(error) == "first request uses A-signed live inert lease; H expiry cannot extend it",
+                        label + " refused at exact A-derived expiry")
+            else:
+                raise ValueError(label + " accepted")
+        try:
+            verify(vector, inert_override=inert_by_member[record["members"][1]["member_id"]])
+        except ValueError as error:
+            require(str(error) == "first request uses A-signed live inert lease; H expiry cannot extend it",
+                    "cross-member signed inert lease refused at first-request join")
+        else:
+            raise ValueError("cross-member signed inert lease accepted")
+        stale_inert = parse_strict(inert_vectors[0]["payload_jcs"].encode())
+        stale_inert["expires_at"] = "2026-11-22T14:15:22.050Z"
+        stale_raw = resign_payload_envelope(inert_vectors[0]["envelope_jcs"], stale_inert)
+        try:
+            verify(vector, inert_override=stale_raw)
+        except ValueError as error:
+            require(str(error) == "first request uses A-signed live inert lease; H expiry cannot extend it",
+                    "stale A-signed inert lease refused before first runtime request")
+        else:
+            raise ValueError("stale A-signed inert lease accepted")
         for label, field, value in (
                 ("selector", "member_selector", record["members"][0]["member_selector"]),
                 ("launcher PID", "launcher_pid", record["members"][0]["launcher_process"]["pid"]),
@@ -184,7 +239,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
             mutated[field] = value
             wrong["runtime_request_jcs"] = canonicalize(mutated).decode()
             try:
-                check(source, wrong, schemas, public)
+                verify(wrong)
             except ValueError as error:
                 require(str(error) == "renewal carries exact reopened H bytes and peer-bound member selectors",
                         "cross-member " + label + " refused for intended signed row join")
@@ -207,7 +262,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         request["challenge_nonce_base64url"] = base64.urlsafe_b64encode(
             bytes(range(32, 64))).rstrip(b"=").decode()
         renewed["runtime_request_jcs"] = canonicalize(request).decode()
-        check(source, renewed, schemas, public, prior_raw)
+        verify(renewed, prior_raw)
         for label, field, value, expected in (
                 ("replayed sequence", "after_sequence", 2,
                  "renewal names exact prior signed sequence, digest and expiry"),
@@ -223,13 +278,13 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
             mutated[field] = value
             wrong["runtime_request_jcs"] = canonicalize(mutated).decode()
             try:
-                check(source, wrong, schemas, public, prior_raw)
+                verify(wrong, prior_raw)
             except ValueError as error:
                 require(str(error) == expected, label + " refused at intended prior-lease join")
             else:
                 raise ValueError(label + " accepted")
         try:
-            check(source, renewed, schemas, public, prior_raw,
+            verify(renewed, prior_raw,
                   {decode(request["challenge_nonce_base64url"])})
         except ValueError as error:
             require(str(error) == "runtime request has a fresh canonical 32-byte challenge",
@@ -241,7 +296,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         other["issued_at"] = "2026-11-22T14:15:22.200Z"
         other_raw = resign_payload_envelope(lease_fixture["members"][-1]["envelope_jcs"], other)
         try:
-            check(source, renewed, schemas, public, other_raw)
+            verify(renewed, other_raw)
         except ValueError as error:
             require(str(error) == "renewal follows the same signed member lease and H finalization",
                     "cross-member prior lease refused at member join")
@@ -253,9 +308,9 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         late["ack_payload_jcs"] = canonicalize(late_ack).decode()
         late["ack_envelope_jcs"] = resign_payload_envelope(late["ack_envelope_jcs"], late_ack).decode()
         try:
-            check(source, late, schemas, public)
+            verify(late)
         except ValueError as error:
-            require(str(error) == "first request and acknowledgement precede signed Ready expiry",
+            require(str(error) == "first request uses A-signed live inert lease; H expiry cannot extend it",
                     "late A acknowledgement cannot feed first lease")
         else:
             raise ValueError("late A acknowledgement accepted for first lease")
@@ -264,7 +319,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         record["members"][0]["runtime_id"] = record["members"][1]["runtime_id"]
         changed["record_jcs"] = canonicalize(record).decode()
         try:
-            check(source, changed, schemas, public)
+            verify(changed)
         except ValueError:
             pass
         else:
@@ -274,7 +329,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         record["launch_id"] = record["members"][1]["member_launch_id"]
         changed["record_jcs"] = canonicalize(record).decode()
         try:
-            check(source, changed, schemas, public)
+            verify(changed)
         except ValueError:
             pass
         else:
@@ -284,7 +339,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         record["committed_at"] = "2026-11-22T14:15:37.000Z"
         changed["record_jcs"] = canonicalize(record).decode()
         try:
-            check(source, changed, schemas, public)
+            verify(changed)
         except ValueError:
             pass
         else:
@@ -294,7 +349,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         request["finalization_sha256"] = "sha256:" + "0" * 64
         changed["request_jcs"] = canonicalize(request).decode()
         try:
-            check(source, changed, schemas, public)
+            verify(changed)
         except ValueError:
             pass
         else:
@@ -305,7 +360,7 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
         runtime["hq_finalization_base64url"] = raw_field[:-1] + ("B" if raw_field[-1] == "A" else "A")
         changed["runtime_request_jcs"] = canonicalize(runtime).decode()
         try:
-            check(source, changed, schemas, public)
+            verify(changed)
         except ValueError:
             pass
         else:
