@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+Add a distinct source-only `machine/v3` T21 cooperative qualification-candidate
+reservation with a separate signing purpose, exact Q and provider selectors,
+an uncertified adapter candidate, and signed positive/refusal fixtures. The
+ordinary released cooperative reservation still requires its attestation
+digest. This contract grants no candidate install or launch authority and
+records no physical T21 result.
+
 Add draft `machine/local-test-v2` c5 per-start child path and ancillary-order
 schemas, a vendor-neutral re-signed vector pinned to the external reviewed
 source SHA-256, and signed stale-path and target-first refusal oracles. The
