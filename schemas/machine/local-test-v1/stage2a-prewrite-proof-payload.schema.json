@@ -2,7 +2,7 @@
   "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-prewrite-proof-payload.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "description": "Source-enabling exact A-signed prewrite proof shape. The proof binds the prepared response core and ingress authorization. The receipt is consumed once before the first response byte; a repeated receipt refuses even when re-signed or still in its validity window. Signed authority, cross-record joins, current lifetime, spent-receipt state and kernel observations require independent verification.",
   "properties": {
     "authorization_envelope_sha256": {
       "pattern": "^sha256:[0-9a-f]{64}$",
@@ -29,7 +29,8 @@
     },
     "prewrite_receipt": {
       "pattern": "^[0-9a-f]{64}$",
-      "type": "string"
+      "type": "string",
+      "description": "A-created one-use receipt; H verifies the exact A-signed proof and atomically refuses a previously consumed receipt before any response byte."
     },
     "schema": {
       "const": "agent-bot-machine/stage2a-observed-body-local-test-prewrite-acceptance/v1"

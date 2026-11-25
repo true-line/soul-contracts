@@ -143,7 +143,7 @@ def check_tuple(vector, schemas):
             timedelta(seconds=30), "live bounded authorization")
 
 
-def check_prewrite(vector, fixture, schemas):
+def check_prewrite(vector, fixture, schemas, used_receipts=()):
     public = decode(vector["machine_public_key_base64url"])
     proof = fixture["proof"]
     check_signed(proof, "proof", schemas, public)
@@ -160,6 +160,8 @@ def check_prewrite(vector, fixture, schemas):
                       "prewrite_proof_envelope_base64url": proof["envelope_base64url"],
                       "prewrite_proof_envelope_sha256": proof["envelope_sha256"]},
             "HQ forwards exact A proof and receipt")
+    require(payload["prewrite_receipt"] not in used_receipts,
+            "A-signed prewrite receipt is consumed once before first byte")
     require(prewrite["response_wire_bytes"] == len(wire) and
             prewrite["response_wire_sha256"] == sha(wire) and
             prewrite["http_status"] == 200, "exact prepared response wire")
@@ -172,7 +174,17 @@ def check_prewrite(vector, fixture, schemas):
     require(prewrite["ingress_core_sha256"] == sha(canonicalize(vector["ingress_core"])) and
             prewrite["observed_body_sha256"] == vector["ingress_core"]["observed_body_sha256"],
             "A proof binds request body and ingress")
-    require(when(payload["issued_at"]) < when(payload["expires_at"]) <=
+    ingress = vector["ingress_core"]
+    require(prewrite["peer_sha256"] == sha(canonicalize(prewrite["peer"])) and
+            ingress["peer_sha256"] == sha(canonicalize(ingress["peer"])),
+            "prewrite and ingress peer digests are recomputed")
+    require(prewrite["peer"] == ingress["peer"] and
+            all(prewrite[field] == ingress[field] for field in
+                ("peer_sha256", "bind_receipt_sha256", "observed_headers_sha256",
+                 "owner_prompt_sha256", "static_projection_sha256")),
+            "prewrite core repeats signed ingress peer and request evidence")
+    require(when(auth["payload"]["issued_at"]) <= when(payload["issued_at"]) <
+            when(payload["expires_at"]) <=
             min(when(auth["payload"]["expires_at"]), when(policy["payload"]["expires_at"]),
                 when(vector["reservation"]["payload"]["expires_at"])) and
             when(payload["expires_at"]) - when(payload["issued_at"]) <= timedelta(seconds=30),
@@ -195,6 +207,13 @@ def resign_proof(record):
     envelope_raw = canonicalize(envelope)
     record["envelope_base64url"] = base64.urlsafe_b64encode(envelope_raw).rstrip(b"=").decode()
     record["envelope_sha256"] = sha(envelope_raw)
+
+
+def resign_prewrite_core(fixture):
+    fixture["proof"]["payload"]["prewrite_core_sha256"] = sha(canonicalize(fixture["prewrite_core"]))
+    resign_proof(fixture["proof"])
+    fixture["prewrite_reply"]["prewrite_proof_envelope_base64url"] = fixture["proof"]["envelope_base64url"]
+    fixture["prewrite_reply"]["prewrite_proof_envelope_sha256"] = fixture["proof"]["envelope_sha256"]
 
 
 def check_stage2a_local_test_fixtures(root, schemas, report):
@@ -246,6 +265,7 @@ def check_stage2a_local_test_fixtures(root, schemas, report):
         "wrong epoch": ("hq_epoch", "0" * 64),
         "wrong selector": ("selectors", {**prewrite["proof"]["payload"]["selectors"],
                                           "launch_id": "ln_" + "0" * 24}),
+        "proof predates authorization": ("issued_at", "2026-11-24T12:00:10Z"),
         "expired before first byte": ("expires_at", "2026-11-24T12:00:13Z"),
         "expiry beyond authorization": ("expires_at", "2026-11-24T12:00:17Z"),
     }
@@ -262,6 +282,43 @@ def check_stage2a_local_test_fixtures(root, schemas, report):
             report(False, "prewrite zero-write refusal: " + label, "accepted signed mutant")
         except Exception:  # noqa: BLE001
             report(True, "prewrite zero-write refusal: " + label)
+    for label, field in (("peer", "peer"), ("peer digest", "peer_sha256"),
+                         ("bind receipt", "bind_receipt_sha256"),
+                         ("headers", "observed_headers_sha256"),
+                         ("prompt", "owner_prompt_sha256"),
+                         ("static projection", "static_projection_sha256")):
+        changed = copy.deepcopy(prewrite)
+        if field == "peer":
+            changed["prewrite_core"]["peer"]["pid"] += 1
+            changed["prewrite_core"]["peer_sha256"] = sha(canonicalize(changed["prewrite_core"]["peer"]))
+        else:
+            changed["prewrite_core"][field] = "sha256:" + "0" * 64
+        resign_prewrite_core(changed)
+        reason = ("prewrite and ingress peer digests are recomputed" if field == "peer_sha256" else
+                  "prewrite core repeats signed ingress peer and request evidence")
+        try:
+            check_prewrite(vector, changed, schemas)
+        except ValueError as exc:
+            report(str(exc) == reason, "prewrite signed ingress mismatch refusal: " + label,
+                   "refused for a different reason: " + str(exc))
+        else:
+            report(False, "prewrite signed ingress mismatch refusal: " + label,
+                   "accepted re-signed prewrite mutant")
+    receipt = prewrite["proof"]["payload"]["prewrite_receipt"]
+    for label, changed in (("identical proof replay", copy.deepcopy(prewrite)),
+                           ("re-signed proof receipt replay", copy.deepcopy(prewrite))):
+        if label.startswith("re-signed"):
+            changed["proof"]["payload"]["issued_at"] = "2026-11-24T12:00:12.500Z"
+            resign_proof(changed["proof"])
+            changed["prewrite_reply"]["prewrite_proof_envelope_base64url"] = changed["proof"]["envelope_base64url"]
+            changed["prewrite_reply"]["prewrite_proof_envelope_sha256"] = changed["proof"]["envelope_sha256"]
+        try:
+            check_prewrite(vector, changed, schemas, {receipt})
+        except ValueError as exc:
+            report(str(exc) == "A-signed prewrite receipt is consumed once before first byte",
+                   "prewrite one-use refusal: " + label, "refused for a different reason: " + str(exc))
+        else:
+            report(False, "prewrite one-use refusal: " + label, "accepted spent receipt")
     for label, path in (("forged A signature", ("proof", "envelope", "signature_base64url")),
                         ("altered response wire", ("response_wire_utf8",)),
                         ("altered observed body", ("prewrite_core", "observed_body_sha256")),
