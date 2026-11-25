@@ -2,6 +2,7 @@
 
 import base64
 import copy
+import hashlib
 from datetime import datetime
 
 from cryptography.hazmat.primitives import serialization
@@ -23,10 +24,11 @@ def when(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def cooperative_lead_launch(assignment, detached, observed):
+def cooperative_lead_launch(assignment, primary, detached, observed):
     leads = [member for member in assignment["members"] if member["role"] == "lead"]
-    require(len(leads) == 1 and observed["launch_id"] == detached["launch_id"] == leads[0]["launch_id"],
-            "cooperative B observation names the unique signed lead launch")
+    require(len(leads) == 1 and observed["launch_id"] == detached["launch_id"] ==
+            primary["assignment"]["launch_id"] == leads[0]["launch_id"],
+            "cooperative B observation names the primary and unique signed lead launch")
 
 
 def check(results, source, schemas, public, cooperative=None):
@@ -51,6 +53,10 @@ def check(results, source, schemas, public, cooperative=None):
             authority["member_set_assignment_envelope_sha256"] == digest(assignment_raw),
             "three exact A envelopes and distinct B policy close the assignment chain")
     if cooperative is not None:
+        primary_raw = source["primary_reservation_envelope_jcs"].encode()
+        primary = verify_existing_envelope(primary_raw, "agent-bot/soul-cooperative-reservation/v3",
+            "machine/v3/soul-cooperative-signed-reservation.schema.json",
+            "machine/v3/soul-cooperative-reservation-payload.schema.json", schemas, public)
         detached_raw = source["private_b_authority_envelope_jcs"].encode()
         detached = verify_existing_envelope(detached_raw, "agent-bot/soul-cooperative-bridge-assignment/v3",
             "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
@@ -62,7 +68,8 @@ def check(results, source, schemas, public, cooperative=None):
         require(ready["bridge_observed_sha256"] == digest(observed_raw) and
                 observed["bridge_assignment_sha256"] == digest(detached_raw) ==
                     assignment["b_authority"]["envelope_sha256"] and
-                observed["reservation_sha256"] == assignment["reservation_sha256"] and
+                observed["reservation_sha256"] == detached["reservation_sha256"] ==
+                    digest(primary_raw) == assignment["reservation_sha256"] and
                 observed["installation_id"] == assignment["installation_id"] and
                 observed["start_id"] == assignment["start_id"] and
                 all(observed[key] == detached[key] == assignment[key] for key in
@@ -72,7 +79,7 @@ def check(results, source, schemas, public, cooperative=None):
                 observed["relay_socket_birthtime_ns"].isdigit() and
                 observed["relay_socket"]["path"] == assignment["bridge"]["endpoints"]["relay"]["socket_path"],
                 "exact A-observed B and relay identity join cooperative Ready")
-        cooperative_lead_launch(assignment, detached, observed)
+        cooperative_lead_launch(assignment, primary, detached, observed)
         require(when(assignment["issued_at"]) <= when(observed["observed_at"]) <=
                 when(ready["issued_at"]) <= min(when(observed["expires_at"]),
                     when(detached["expires_at"]), when(assignment["expires_at"])) and
@@ -251,14 +258,50 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
             if profile == "managed-cooperative":
                 second_lead_source = copy.deepcopy(source)
                 second_lead_assignment = parse_strict(source["assignment_payload_jcs"].encode())
-                second_lead_assignment["members"].reverse()
+                first, second = second_lead_assignment["members"]
+                first["role"], second["role"] = second["role"], first["role"]
+                first["launch_id"], second["launch_id"] = second["launch_id"], first["launch_id"]
+                for member in second_lead_assignment["members"]:
+                    preimage = (b"agent-bot/stage2a-member-selector/v1\0" +
+                        second_lead_assignment["reservation_sha256"].encode() + b"\0" +
+                        member["member_id"].encode() + b"\0" + member["launch_id"].encode())
+                    member["member_selector"] = "mb_" + hashlib.sha256(preimage).hexdigest()
+                frozen = parse_strict(decode(source["frozen_soul_info_raw_base64url"]))
+                for frozen_member, assigned in zip(sorted(frozen["members"], key=lambda row: row["member_id"]),
+                                                   second_lead_assignment["members"]):
+                    frozen_member["role"] = assigned["role"]
+                frozen_raw = canonicalize(frozen)
+                second_lead_source["frozen_soul_info_raw_base64url"] = base64.urlsafe_b64encode(
+                    frozen_raw).rstrip(b"=").decode()
+                second_lead_assignment["frozen_soul_info_sha256"] = digest(frozen_raw)
+                stable_keys = ("member_id", "role", "adapter_id", "adapter_version", "command_path",
+                               "command_sha256", "adjacent_cli_path", "adjacent_cli_sha256")
+                stable = [{key: member[key] for key in stable_keys}
+                          for member in second_lead_assignment["members"]]
+                selected_digest = digest(canonicalize(stable))
+                second_lead_assignment["owner_plan_member_set_sha256"] = selected_digest
+                second_lead_source["owner_plan_selection"]["owner_plan_member_set_sha256"] = selected_digest
                 second_lead_source["assignment_payload_jcs"] = canonicalize(second_lead_assignment).decode()
                 second_lead_source["assignment_envelope_jcs"] = resign_payload_envelope(
                     source["assignment_envelope_jcs"], second_lead_assignment).decode()
                 signed_second_lead, _ = signed(second_lead_source, "assignment", SIGNED_ASSIGNMENT,
                     ASSIGNMENT, schemas, public)
-                require(signed_second_lead["members"][1]["role"] == "lead",
-                        "A-signed non-first cooperative lead fixture")
+                ids = [member["member_id"] for member in signed_second_lead["members"]]
+                require(ids == sorted(ids) and signed_second_lead["members"][1]["role"] == "lead" and
+                        len({member["member_selector"] for member in signed_second_lead["members"]}) == 2 and
+                        signed_second_lead["frozen_soul_info_sha256"] == digest(frozen_raw) and
+                        signed_second_lead["owner_plan_member_set_sha256"] ==
+                            second_lead_source["owner_plan_selection"]["owner_plan_member_set_sha256"] ==
+                            digest(canonicalize(stable)) and
+                        all(member["role"] == frozen_member["role"] for member, frozen_member in
+                            zip(signed_second_lead["members"],
+                                sorted(frozen["members"], key=lambda row: row["member_id"]))),
+                        "A-signed ID-sorted non-first lead matches frozen roles, selectors and owner selection")
+                primary = verify_existing_envelope(
+                    source["primary_reservation_envelope_jcs"].encode(),
+                    "agent-bot/soul-cooperative-reservation/v3",
+                    "machine/v3/soul-cooperative-signed-reservation.schema.json",
+                    "machine/v3/soul-cooperative-reservation-payload.schema.json", schemas, public)
                 detached = verify_existing_envelope(
                     source["private_b_authority_envelope_jcs"].encode(),
                     "agent-bot/soul-cooperative-bridge-assignment/v3",
@@ -268,7 +311,7 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
                     evidence["envelope_jcs"].encode(), "agent-bot/soul-cooperative-b-observed/v3",
                     "machine/v3/soul-cooperative-b-signed-observed.schema.json",
                     "machine/v3/soul-cooperative-b-observed-payload.schema.json", schemas, public)
-                cooperative_lead_launch(signed_second_lead, detached, signed_observed)
+                cooperative_lead_launch(signed_second_lead, primary, detached, signed_observed)
                 wrong_launch = copy.deepcopy(signed_observed)
                 wrong_launch["launch_id"] = signed_second_lead["members"][0]["launch_id"]
                 wrong_raw = resign_payload_envelope(evidence["envelope_jcs"], wrong_launch)
@@ -277,9 +320,9 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
                     "machine/v3/soul-cooperative-b-signed-observed.schema.json",
                     "machine/v3/soul-cooperative-b-observed-payload.schema.json", schemas, public)
                 try:
-                    cooperative_lead_launch(signed_second_lead, detached, signed_wrong_launch)
+                    cooperative_lead_launch(signed_second_lead, primary, detached, signed_wrong_launch)
                 except ValueError as error:
-                    require(str(error) == "cooperative B observation names the unique signed lead launch",
+                    require(str(error) == "cooperative B observation names the primary and unique signed lead launch",
                             "re-signed non-first-lead wrong launch refused at the intended join")
                 else:
                     raise ValueError("re-signed non-first-lead wrong launch accepted")
@@ -289,7 +332,7 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
                     ("wrong plan", "plan_id", "plan_wrong", None, None,
                      "exact A-observed B and relay identity join cooperative Ready"),
                     ("wrong launch", "launch_id", "ln_ffffffffffffffffffffffff", None, None,
-                     "cooperative B observation names the unique signed lead launch"),
+                     "cooperative B observation names the primary and unique signed lead launch"),
                     ("wrong epoch", "hq_epoch", "f" * 64, None, None,
                      "exact A-observed B and relay identity join cooperative Ready"),
                     ("stale observation", "observed_at", "2026-11-22T14:15:22Z", None, None,
