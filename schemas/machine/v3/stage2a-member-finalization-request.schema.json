@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-finalization-request.schema.json",
+  "title": "Paired H-to-A protected two-member finalization intake (draft)",
+  "description": "Paired verb stage2a-member-finalization carries all seven exact Stage2aStopRequest selectors plus the reopened canonical H JCS finalization record bytes as canonical unpadded base64url and their SHA-256. H must fsync and read back its durable record before request. A strict-decodes the exact H bytes (at most 8192 bytes), checks canonical JCS, digest, cached A-signed records, both members and live roles, then issues its separate signed acknowledgement. The complete request must be at most 16384 JCS UTF-8 bytes. Neither H's self-asserted B relay socket tuple nor a birthtime absent independent observation is treated as measured authority.",
+  "type": "object",
+  "required": ["reservation_sha256", "installation_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch", "finalization_base64url", "finalization_sha256"],
+  "properties": {
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "finalization_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$", "maxLength": 10923 },
+    "finalization_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "additionalProperties": false,
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }
+}

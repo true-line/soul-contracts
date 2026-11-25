@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-finalization-ack-payload.schema.json",
+  "title": "A acknowledgement of the durably committed protected H two-member finalization (draft)",
+  "description": "Machine A issues this purpose-separated acknowledgement only after paired H submits the exact reopened, durably committed canonical H finalization record, its SHA-256, all seven Stop selectors and A verifies its cached A-signed assignment, child observation, B authority, aggregate Ready, H map, arm rows and current live roles/owner approval. This record binds H's committed record bytes to A's selected protected run. It is not a renewable runtime lease, a B relay socket observation, an owner ACP ticket, or physical T21 credit. H verifies the fixed installed A pin and stores the exact A acknowledgement before serving any member runtime or ACP request. A compares reopened H bytes and digest on every renewal; a digest alone is insufficient.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch", "reservation_sha256", "hq_finalization_sha256", "ready_envelope_sha256", "child_observation_envelope_sha256", "issued_at"],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-member-finalization-ack" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "const": "managed-protected" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "hq_finalization_sha256": { "$ref": "#/$defs/digest" },
+    "ready_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "issued_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }
+}

@@ -1,0 +1,26 @@
+{
+  "canonical_sha256": "sha256:97c21e3298bd766bc9e7a74012341802fb9e1bc9af7720ea3c3e3412b7e05794",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "child_observation_envelope_sha256": "sha256:b94f6f09ea2d68f0ade0a4bd3cf48782f459456cbac1476811a440a9b338faf6",
+    "contract": "machine/v3",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hq_finalization_sha256": "sha256:75a48a9d249664a91496a61b63d0402da2a9697a1900f448cb20f1bce1d4e682",
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:22.100Z",
+    "kind": "stage2a-member-finalization-ack",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "profile_in_force": "managed-protected",
+    "ready_envelope_sha256": "sha256:be8818d5497cbb00cd0dc1ed80fb59e87a1f08abd7c3dee6d80f3f9f19112d1f",
+    "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-member-finalization-ack-payload.schema.json"
+}
