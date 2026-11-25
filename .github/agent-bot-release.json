@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "tag": "v0.10.3",
+  "tag": "v0.10.4",
   "workflows": [
     {
       "path": ".github/workflows/validate.yml",
