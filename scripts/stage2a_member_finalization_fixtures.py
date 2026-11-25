@@ -131,8 +131,11 @@ def check(source, vector, schemas, public, prior_lease_raw=None, used_nonces=(),
                      "child_observation_envelope_sha256", "installation_id", "start_id",
                      "hq_epoch", "reservation_sha256")) and
                 inert["assignment_envelope_sha256"] == digest(assignment_raw) and
+                inert["launcher_process"] == member["launcher_process"] and
+                inert["child_process"] == member["child_process"] and
                 inert["launcher_process"]["pid"] == runtime["launcher_pid"] == runtime["peer_pid"] and
                 inert["child_process"]["pid"] == runtime["child_pid"] and
+                inert["launcher_process"]["uid"] == runtime["peer_uid"] and
                 when(inert["issued_at"]) <= when(record["committed_at"]) <=
                     when(ack["issued_at"]) < when(inert["expires_at"]) <= when(ready["expires_at"]) and
                 when(runtime["prior_expires_at"]) == when(inert["expires_at"]),
@@ -229,6 +232,20 @@ def check_stage2a_member_finalization_fixtures(root, schemas, report):
                     "stale A-signed inert lease refused before first runtime request")
         else:
             raise ValueError("stale A-signed inert lease accepted")
+        for label, process, field, value in (
+                ("same-PID different-start launcher", "launcher_process", "start_seconds", 1795356919),
+                ("different launcher UID", "launcher_process", "uid", 332),
+                ("different child GID", "child_process", "gid", 332)):
+            wrong_inert = parse_strict(inert_vectors[0]["payload_jcs"].encode())
+            wrong_inert[process][field] = value
+            wrong_raw = resign_payload_envelope(inert_vectors[0]["envelope_jcs"], wrong_inert)
+            try:
+                verify(vector, inert_override=wrong_raw)
+            except ValueError as error:
+                require(str(error) == "first request uses A-signed live inert lease; H expiry cannot extend it",
+                        label + " refused at full signed process tuple")
+            else:
+                raise ValueError("re-signed " + label + " inert lease accepted")
         for label, field, value in (
                 ("selector", "member_selector", record["members"][0]["member_selector"]),
                 ("launcher PID", "launcher_pid", record["members"][0]["launcher_process"]["pid"]),
