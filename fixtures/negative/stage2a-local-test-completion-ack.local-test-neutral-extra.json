@@ -1,0 +1,33 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-local-test-completion-ack.local-test-neutral.json",
+    "sha256": "sha256:689435ecf39e50ebb9ac67800afed8bcaf203ca1289fb007b508388785ad79c6"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "id": "complete",
+    "ok": true,
+    "result": {
+      "accepted": true,
+      "authorization_envelope_sha256": "sha256:13546fd68630f4146bd905f0a90de1a7dc6cbdb62a5804d3591ce56b64728032",
+      "completed_run_sha256": "sha256:fa0a568817ed7900bd2d0c2b2a3cdd834b424dcdf95284506631406654593f87",
+      "completion_core_sha256": "sha256:e819cf602349706e6fd59084268bd218d5c3e8bdc528f8cae06062fff76c819b",
+      "observed_body_sha256": "sha256:6ae1a74fa2a4d3ab8fdeddd5c77f1e766cfa17898acdbc640b27e5c07363b07a",
+      "selectors": {
+        "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
+        "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+        "installation_id": "inst.fixture",
+        "launch_id": "ln_222222222222222222222222",
+        "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+        "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+        "plan_id": "plan.fixture",
+        "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+        "start_id": "st_111111111111111111111111"
+      }
+    },
+    "unexpected_field": true
+  },
+  "schema": "hq/v1/stage2a-local-test-completion-ack.schema.json"
+}

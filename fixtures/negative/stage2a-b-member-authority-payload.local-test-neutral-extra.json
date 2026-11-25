@@ -1,0 +1,249 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-b-member-authority-payload.local-test-neutral.json",
+    "sha256": "sha256:1b0e0b96466bfefa0786e16f971f485aad86393d931d2f1d27c702c0a5d56a06"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "b_authority": {
+      "envelope_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "purpose": "agent-bot/stage2a-observed-body-local-test-reservation/v1"
+    },
+    "bridge": {
+      "account": "_abm-b-fixture",
+      "endpoints": {
+        "broker": {
+          "dir_mode": 1512,
+          "directory": "/var/run/abtest/broker",
+          "group_gid": 332,
+          "owner_uid": 309,
+          "peer_uids": [
+            332
+          ],
+          "socket_mode": 432,
+          "socket_path": "/var/run/abtest/broker/broker.sock"
+        },
+        "member": {
+          "dir_mode": 1512,
+          "directory": "/var/run/abtest/m",
+          "group_gid": 332,
+          "owner_uid": 331,
+          "peer_uids": [
+            331,
+            332
+          ],
+          "socket_mode": 432,
+          "socket_path": "/var/run/abtest/m/start.sock"
+        },
+        "relay": {
+          "dir_mode": 1512,
+          "directory": "/var/run/abtest/s",
+          "group_gid": 331,
+          "owner_uid": 332,
+          "peer_uids": [
+            331
+          ],
+          "socket_mode": 432,
+          "socket_path": "/var/run/abtest/s/start.sock"
+        }
+      },
+      "gid": 332,
+      "uid": 332
+    },
+    "contract": "machine/local-test-v1",
+    "expires_at": "2026-11-24T12:00:20Z",
+    "host_id": "host.fixture",
+    "hq_epoch": "2222222222222222222222222222222222222222222222222222222222222222",
+    "hq_uid": 309,
+    "installation_id": "inst.fixture",
+    "issued_at": "2026-11-24T12:00:00Z",
+    "kind": "stage2a-b-member-authority",
+    "local_test": {
+      "ancillary_profile": {
+        "ancillary_http_status": 422,
+        "body_profile": "stage2a-stock-ancillary-one-block/v1",
+        "first_header_shape": {
+          "allow_extra": false,
+          "forbidden": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "host": "fixture.invalid",
+          "required_fixed": {
+            "accept": "application/json",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "connection": "keep-alive",
+            "content-type": "application/json",
+            "fixture-beta": "interleaved-thinking-2025-05-14,context-management-2025-06-27,thinking-token-count-2026-05-13,structured-outputs-2025-12-15",
+            "fixture-dangerous-direct-browser-access": "true",
+            "fixture-version": "2023-06-01",
+            "user-agent": "fixture-cli/2.1.328 (external, sdk-ts, agent-sdk/0.3.328)",
+            "x-app": "cli",
+            "x-stainless-arch": "arm64",
+            "x-stainless-lang": "js",
+            "x-stainless-os": "MacOS",
+            "x-stainless-package-version": "0.128.0",
+            "x-stainless-retry-count": "0",
+            "x-stainless-runtime": "node",
+            "x-stainless-runtime-version": "v26.12.1",
+            "x-stainless-timeout": "600"
+          },
+          "required_volatile": {
+            "content-length": "decimal-buffered-body-bytes/v1",
+            "x-api-key": "signed-client-key-sha256/v1",
+            "x-fixture-adapter-session-id": "uuid/v1"
+          },
+          "schema": "stage2a-stock-ancillary-header-shape/v1"
+        },
+        "first_headers_sha256": "sha256:1e9da8b2d5ede69f6e38fd68c7d3d988c9e1619d6dfc6f846bc403c92b6871bf",
+        "max_ancillary": 2,
+        "normalized_body_sha256": "sha256:c80c571cb895589c135d499e703b2efbc22b996c3e03f9d65f7fbdb2877e4696",
+        "order": [
+          "first",
+          "second"
+        ],
+        "schema": "stage2a-stock-ancillary-local-test-profile/v1",
+        "second_header_shape": {
+          "allow_extra": false,
+          "forbidden": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "host": "fixture.invalid",
+          "required_fixed": {
+            "accept": "application/json",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "connection": "keep-alive",
+            "content-type": "application/json",
+            "fixture-beta": "interleaved-thinking-2025-05-14,context-management-2025-06-27,structured-outputs-2025-12-15",
+            "fixture-dangerous-direct-browser-access": "true",
+            "fixture-version": "2023-06-01",
+            "user-agent": "fixture-cli/2.1.328 (external, sdk-ts, agent-sdk/0.3.328)",
+            "x-app": "cli",
+            "x-stainless-arch": "arm64",
+            "x-stainless-lang": "js",
+            "x-stainless-os": "MacOS",
+            "x-stainless-package-version": "0.128.0",
+            "x-stainless-retry-count": "0",
+            "x-stainless-runtime": "node",
+            "x-stainless-runtime-version": "v26.12.1",
+            "x-stainless-timeout": "600"
+          },
+          "required_volatile": {
+            "content-length": "decimal-buffered-body-bytes/v1",
+            "x-api-key": "signed-client-key-sha256/v1",
+            "x-fixture-adapter-session-id": "uuid/v1"
+          },
+          "schema": "stage2a-stock-ancillary-header-shape/v1"
+        },
+        "second_headers_sha256": "sha256:806c9d7c3c2d583c5057d6df83445cdef3380e8b4b4fc8d7b247c93df4573c78",
+        "target_after": [
+          "first",
+          "second"
+        ]
+      },
+      "ancillary_profile_sha256": "sha256:29b409da5d7559e4ea5ddbd0e21d3f4248a0583af9d30ade8d6bd21057cf6c57",
+      "body_profile": "stage2a-stock-observed-local-test/v1",
+      "client_key_sha256": "sha256:da4fec28d868ca5cf8f00f43869f703f138bd4211683b8637a751b904860ddf0",
+      "expected_child_cwd_emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/work",
+      "expected_child_cwd_lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/work",
+      "expected_child_home_lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/home",
+      "expected_memory_path_lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/home/.fixture/projects/-private-var-agent-bot-soul-runner--abm-sr-8418d3315c8a4f09327c-work/memory/",
+      "fixture_config_sha256": "sha256:125fdac2de1ca172ddee2bdba3eefd63f4c8f6f7e3e356dbb8471e22ee235f41",
+      "header_shape": {
+        "allow_extra": false,
+        "forbidden": [
+          "authorization",
+          "cookie",
+          "proxy-authorization"
+        ],
+        "host": "fixture.invalid",
+        "required_fixed": {
+          "accept": "application/json",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "fixture-beta": "interleaved-thinking-2025-05-14,context-management-2025-06-27,fixture-adapter-20250219,thinking-token-count-2026-05-13,advanced-tool-use-2025-11-20,thinking-display-updates-2026-08-18",
+          "fixture-dangerous-direct-browser-access": "true",
+          "fixture-version": "2023-06-01",
+          "user-agent": "fixture-cli/2.1.328 (external, sdk-ts, agent-sdk/0.3.328)",
+          "x-app": "cli",
+          "x-stainless-arch": "arm64",
+          "x-stainless-lang": "js",
+          "x-stainless-os": "MacOS",
+          "x-stainless-package-version": "0.128.0",
+          "x-stainless-retry-count": "0",
+          "x-stainless-runtime": "node",
+          "x-stainless-runtime-version": "v26.12.1",
+          "x-stainless-timeout": "600"
+        },
+        "required_volatile": {
+          "content-length": "decimal-buffered-body-bytes/v1",
+          "x-api-key": "signed-client-key-sha256/v1",
+          "x-fixture-adapter-session-id": "uuid/v1"
+        },
+        "schema": "stage2a-observed-body-header-shape/v1"
+      },
+      "header_shape_sha256": "sha256:7099df2c1ea0ec9bbeefb5351cf414f07fbe297454ab3e2e8fbfb38a513f4dc6",
+      "http_host": "fixture.invalid",
+      "messages_query": "beta=true",
+      "model": "fixture-model",
+      "owner_prompt_sha256": "sha256:3bb2c84ec4808c1af2dcf87ab54ace3682755360ef8b7b10ff241a4a85ad76cb",
+      "r_first_brief_sha256": "sha256:53796ff22d8ab5009c8671640f008c7a55d74449e7739f23369f8380ab3df185",
+      "runner_account": "_abm-sr-8418d3315c8a4f09327c",
+      "selected_launch_id": "ln_111111111111111111111111",
+      "selected_member_id": "m_lead",
+      "selected_member_selector": "mb_5e2c61e59b8bbd3ba952464b3d1f6d67cbe58fff9c247f379b6fea3a8887f863",
+      "static_projection_sha256": "sha256:be1a2eb44af23b9b0c9ec02da8dc9a6f974bb437442110e627d6045bab2a779f"
+    },
+    "member_set_assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
+    "members": [
+      {
+        "adjacent_cli_path": "/fixture/adapter/fixture",
+        "adjacent_cli_sha256": "sha256:ef4b480f501d9d925b2844755e67047b2f28f7fe0c84592a44f0a1a01dfb96a3",
+        "launch_id": "ln_111111111111111111111111",
+        "member_id": "m_lead",
+        "member_selector": "mb_5e2c61e59b8bbd3ba952464b3d1f6d67cbe58fff9c247f379b6fea3a8887f863",
+        "qualification": {
+          "body_profile": "stage2a-stock-observed-local-test/v1",
+          "client_key_sha256": "sha256:da4fec28d868ca5cf8f00f43869f703f138bd4211683b8637a751b904860ddf0",
+          "header_shape_sha256": "sha256:7099df2c1ea0ec9bbeefb5351cf414f07fbe297454ab3e2e8fbfb38a513f4dc6",
+          "http_host": "fixture.invalid",
+          "messages_query": "beta=true",
+          "mode": "observed-body-local-test/v1",
+          "model": "fixture-model",
+          "owner_prompt_sha256": "sha256:3bb2c84ec4808c1af2dcf87ab54ace3682755360ef8b7b10ff241a4a85ad76cb",
+          "r_first_brief_sha256": "sha256:53796ff22d8ab5009c8671640f008c7a55d74449e7739f23369f8380ab3df185",
+          "response_text_sha256": "sha256:367cc2ec72f0b8063e8587c97fc4a5bf15b37997994c4e690488f236cae0dc16",
+          "static_projection_sha256": "sha256:be1a2eb44af23b9b0c9ec02da8dc9a6f974bb437442110e627d6045bab2a779f"
+        }
+      },
+      {
+        "adjacent_cli_path": "/fixture/adapter/fixture",
+        "adjacent_cli_sha256": "sha256:ef4b480f501d9d925b2844755e67047b2f28f7fe0c84592a44f0a1a01dfb96a3",
+        "launch_id": "ln_222222222222222222222222",
+        "member_id": "m_spec",
+        "member_selector": "mb_2b8ffa16cf498714285f8de39724408cf80e3d1a47c3934bc30c9e89dfffdf96",
+        "qualification": {
+          "mode": "disabled"
+        }
+      }
+    ],
+    "outer_launch_id": "ln_222222222222222222222222",
+    "owner_plan_member_set_sha256": "sha256:c86f45fb562a408745d611bbebb19c83d0e52a8f9d17b966812d88a1168a12df",
+    "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "plan_id": "plan.fixture",
+    "profile_in_force": "managed-protected",
+    "reservation_sha256": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+    "runner_uid": 331,
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4123-8123-0123456789ab",
+    "start_id": "st_111111111111111111111111",
+    "unexpected_field": true
+  },
+  "schema": "machine/local-test-v1/stage2a-b-member-authority-payload.schema.json"
+}

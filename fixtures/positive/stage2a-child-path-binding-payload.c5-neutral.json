@@ -1,0 +1,38 @@
+{
+  "canonical_sha256": "sha256:a73114c2184ecc025aafd531589a76d04c0b361be6d5fdabbb66c19e6410cd94",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "ancillary_order": [
+      "first",
+      "second"
+    ],
+    "cwd": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/work",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/work"
+    },
+    "expires_at": "2026-11-24T12:00:20Z",
+    "home": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home"
+    },
+    "installation_id": "inst.fixture",
+    "issued_at": "2026-11-24T12:00:00Z",
+    "kind": "stage2a-child-path-binding-local-test",
+    "memory": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home/.fixture/projects/-private-var-agent-bot-soul-runner--abm-sr-8418d3315c8a4f09327c-state-child-70799e6441e7d13e10b2-work/memory/",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home/.fixture/projects/-private-var-agent-bot-soul-runner--abm-sr-8418d3315c8a4f09327c-state-child-70799e6441e7d13e10b2-work/memory/"
+    },
+    "runner_account": "_abm-sr-8418d3315c8a4f09327c",
+    "runner_home_lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c",
+    "schema": "agent-bot-machine/stage2a-child-path-binding-local-test/v1",
+    "schema_version": 1,
+    "start_id": "st_111111111111111111111111",
+    "start_slot": "70799e6441e7d13e10b2",
+    "target_after": [
+      "first"
+    ]
+  },
+  "schema": "machine/local-test-v2/stage2a-child-path-binding-payload.schema.json"
+}

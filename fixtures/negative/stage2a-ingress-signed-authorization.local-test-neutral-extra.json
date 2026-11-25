@@ -1,0 +1,19 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-ingress-signed-authorization.local-test-neutral.json",
+    "sha256": "sha256:d3fc454dc8a34177db5240cdca31beb99a4fafe2d50822f733c6feba33c33ff7"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "issuer_public_key_base64url": "Ivwpd5Lwtv_Av8_bftsMCqFOAlo2XsDjQuhuOCnLdLY",
+    "payload_base64url": "eyJleHBpcmVzX2F0IjoiMjAyNi0xMS0yNFQxMjowMDoxNloiLCJpbmdyZXNzX2NvcmVfc2hhMjU2Ijoic2hhMjU2OjQyOTdlMDhiN2U3ZDhiODMyODBhYzA5ZTMyYWJkYTZmN2ZiYjU4YzdlNmMwOTI0NmQzYWJlOWU1YTBiY2NkNDAiLCJpc3N1ZWRfYXQiOiIyMDI2LTExLTI0VDEyOjAwOjExWiIsImtpbmQiOiJvYnNlcnZlZC1ib2R5LWxvY2FsLXRlc3QtaW5ncmVzcy1hdXRob3JpemF0aW9uIiwicHJvdmlkZXJfY2xhaW1fc2hhMjU2Ijoic2hhMjU2OmNlYTlkZGRjZTJmM2UwYzlmZjVmMzNkNmY1MjZmOGYzYTc4NDhiZmZiNzlhNTY2OGRlYzBkYWQwOTE3MDIwMDgiLCJzY2hlbWEiOiJhZ2VudC1ib3QtbWFjaGluZS9zdGFnZTJhLW9ic2VydmVkLWJvZHktbG9jYWwtdGVzdC1pbmdyZXNzLWF1dGhvcml6YXRpb24vdjEiLCJzZWxlY3RvcnMiOnsiYXNzaWdubWVudF9lbnZlbG9wZV9zaGEyNTYiOiJzaGEyNTY6OTM1NGI4OGM4MWZiMjgzNWU3MjJhMDUzM2ZhMWZjOWU3ZDEwMDRkOTNmNmE4OWZjY2E4OTRlNGQzODM1NjY4ZiIsImF1dGhvcml0eV9lbnZlbG9wZV9zaGEyNTYiOiJzaGEyNTY6ODc5NjllMTAwNGNjZTdmM2FjZTBiZWJiMWI4YWFkY2QzZjA2NTY0NGUyZDZkNmNlMjA4NGJkM2RmYmRiNDBhNCIsImluc3RhbGxhdGlvbl9pZCI6Imluc3QuZml4dHVyZSIsImxhdW5jaF9pZCI6ImxuXzIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMiIsIm1lbWJlcl9zZWxlY3RvcnNfc2hhMjU2Ijoic2hhMjU2OmI3YzhhNGE1N2ZhOThjZTNmNzU1YjcxNjllZjQzZDE1YjdmOWRiNmMwMGQ5ODI0MWE5YWEwNzY3NGNjZmVjMWYiLCJwbGFuX2RpZ2VzdCI6IjMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMiLCJwbGFuX2lkIjoicGxhbi5maXh0dXJlIiwicmVzZXJ2YXRpb25fZGlnZXN0Ijoic2hhMjU2OjAwYTA0NWI2ZmZmOWRiYThhZjJmNDM0YTYzNGEyNDZkZjU1OTc3NzFlYjcyNDhhMmUzZGEzZDQ3NjJkNWVmYzAiLCJzdGFydF9pZCI6InN0XzExMTExMTExMTExMTExMTExMTExMTExMSJ9fQ",
+    "payload_sha256": "sha256:f9960a5d595b539a9e59c2f1bc623d1f4b353c9b74576696e559cd14d0cafa5b",
+    "purpose": "agent-bot/stage2a-observed-body-local-test-ingress-authorization/v1",
+    "schema_version": 1,
+    "signature_base64url": "s4HMIAjV1dpXwsoc7otrnkITB5j6lmYw78rlRUaiUUEOksgk7OV-oyzkPuOifmGo-vmt2a1yVyySQZwBh_teAQ",
+    "unexpected_field": true
+  },
+  "schema": "machine/local-test-v1/stage2a-ingress-signed-authorization.schema.json"
+}
