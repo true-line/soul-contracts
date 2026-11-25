@@ -34,6 +34,7 @@ delete payload.measurement_binding.adapter_release;
 payload.measurement_binding.adapter_candidate = candidate;
 const syntheticInstalledReview = Object.fromEntries([
   'q_plan_id', 'q_plan_digest', 'test_plan_sha256', 'provider_config_sha256', 'reviewed_start_id',
+  'installed_plan_receipt_sha256',
 ].map(key => [key, payload[key]]));
 const raw = Buffer.from(jcs(payload));
 const seed = Buffer.alloc(32, 0x42);
@@ -75,6 +76,11 @@ negative('missing Q plan digest', p => { delete p.q_plan_digest; });
 negative('missing test plan digest', p => { delete p.test_plan_sha256; });
 negative('missing provider config digest', p => { delete p.provider_config_sha256; });
 negative('wrong provider config digest', p => { p.provider_config_sha256 = sha(Buffer.from('wrong')); });
+negative('altered provider config bytes', p => {
+  const config = JSON.parse(Buffer.from(p.qualification_provider.config_base64url, 'base64url').toString());
+  config.response_text += '!';
+  p.qualification_provider.config_base64url = Buffer.from(jcs(config)).toString('base64url');
+});
 negative('other installed Q plan ID', p => { p.q_plan_id = 'plan-20261122T141516Z-abcd'; });
 negative('other installed Q plan digest', p => { p.q_plan_digest = sha(Buffer.from('other-q-plan')).slice(7); });
 negative('other reviewed test plan digest', p => { p.test_plan_sha256 = sha(Buffer.from('other-test-plan')); });
@@ -87,6 +93,22 @@ negative('host differs from signed measurement', p => { p.host_id = 'other-host'
 negative('assignment expiry differs', p => { p.assignment.expires_at = '2026-11-22T14:15:35Z'; });
 negative('lease exceeds 30 seconds', p => { p.expires_at = '2026-11-22T14:16:00Z'; p.assignment.expires_at = p.expires_at; });
 negative('installed plan differs from assignment', p => { p.measurement_binding.installed_plan_digest = 'f'.repeat(64); });
+negative('package root leaves frozen definition', p => { p.assignment.package_root += '-other'; });
+negative('runtime root leaves sealed R snapshot', p => { p.assignment.runtime_root += '-other'; });
+negative('launch-input root leaves frozen snapshot', p => { p.assignment.launch_inputs_root += '-other'; });
+negative('installed plan receipt substitution', p => { p.installed_plan_receipt_sha256 = sha(Buffer.from('other-installed-plan')); });
+negative('launch-input digest substitution', p => { p.measurement_binding.launch_input_measurement = sha(Buffer.from('other-launch-inputs')); });
+negative('H descriptor digest substitution', p => { p.measurement_binding.h_service_descriptor_digest = sha(Buffer.from('other-H-descriptor')); });
+negative('runner substitution against R inventory', p => {
+  const oldUid = p.assignment.runner_uid;
+  const oldGid = p.assignment.runner_gid;
+  p.assignment.runner_uid = oldUid + 1;
+  p.assignment.runner_gid = oldGid + 1;
+  for (const endpoint of Object.values(p.endpoints)) {
+    if (endpoint.expected_peer_uid === oldUid) endpoint.expected_peer_uid = p.assignment.runner_uid;
+    if (endpoint.group_gid === oldGid) endpoint.group_gid = p.assignment.runner_gid;
+  }
+});
 const ordinaryRaw = Buffer.from(old.reservation_payload_jcs);
 negatives.push({ name: 'ordinary released payload', payload_jcs: ordinaryRaw.toString(),
   reservation_envelope_jcs: jcs(signedEnvelope(ordinaryRaw)) });
