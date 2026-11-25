@@ -1,7 +1,6 @@
 """Independent A-envelope joins for synthetic prestarted H-to-R attach results."""
 
 import copy
-import json
 from datetime import datetime
 
 from cryptography.hazmat.primitives import serialization

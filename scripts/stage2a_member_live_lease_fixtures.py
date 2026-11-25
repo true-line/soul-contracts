@@ -1,7 +1,6 @@
 """Independent fixture oracle for A-signed inert member wrapper live leases."""
 
 import copy
-import json
 from datetime import datetime
 
 from cryptography.hazmat.primitives import serialization
