@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v2/stage2a-child-path-binding-payload.schema.json",
+  "title": "Synthetic Stage 2a c5 child path and ancillary order payload",
+  "description": "Vendor-neutral source-only contract for one per-start child path binding. This shape alone grants no installed selection, guest run, or qualification credit. Machine must verify the exact owner-approved selected stock tuple and current kernel paths before use.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "kind", "schema_version", "installation_id", "start_id", "runner_account", "runner_home_lexical", "start_slot", "cwd", "home", "memory", "ancillary_order", "target_after", "issued_at", "expires_at"],
+  "properties": {
+    "schema": { "const": "agent-bot-machine/stage2a-child-path-binding-local-test/v1" },
+    "kind": { "const": "stage2a-child-path-binding-local-test" },
+    "schema_version": { "const": 1 },
+    "installation_id": { "type": "string", "minLength": 1 },
+    "start_id": { "type": "string", "pattern": "^(st|ln)_[0-9a-f]{24}$" },
+    "runner_account": { "type": "string", "pattern": "^_abm-sr-[0-9a-f]{20}$" },
+    "runner_home_lexical": { "$ref": "#/$defs/absolutePath" },
+    "start_slot": { "type": "string", "pattern": "^[0-9a-f]{20}$" },
+    "cwd": { "$ref": "#/$defs/pathPair" },
+    "home": { "$ref": "#/$defs/pathPair" },
+    "memory": { "$ref": "#/$defs/pathPair" },
+    "ancillary_order": { "const": ["first", "second"] },
+    "target_after": { "type": "array", "items": { "enum": ["first", "second"] }, "maxItems": 2, "uniqueItems": true },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "absolutePath": { "type": "string", "pattern": "^/[^\\u0000]*$", "maxLength": 4096 },
+    "pathPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lexical", "emitted"],
+      "properties": {
+        "lexical": { "$ref": "#/$defs/absolutePath" },
+        "emitted": { "$ref": "#/$defs/absolutePath" }
+      }
+    }
+  }
+}

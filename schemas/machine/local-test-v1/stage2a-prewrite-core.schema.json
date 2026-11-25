@@ -1,0 +1,188 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-prewrite-core.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "authorization_envelope_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "bind_receipt_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "http_status": {
+      "const": 200
+    },
+    "ingress_core_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "observed_body_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "observed_headers_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "owner_prompt_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "peer": {
+      "additionalProperties": false,
+      "properties": {
+        "parent_pid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "parent_start_micros": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "parent_start_seconds": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "parent_uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pid_version": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "start_micros": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "start_seconds": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "parent_pid",
+        "parent_start_micros",
+        "parent_start_seconds",
+        "parent_uid",
+        "pid",
+        "pid_version",
+        "start_micros",
+        "start_seconds",
+        "uid"
+      ],
+      "type": "object"
+    },
+    "peer_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "response_wire_bytes": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "response_wire_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "stage2a-observed-body-local-test-prewrite/v1"
+    },
+    "selectors": {
+      "additionalProperties": false,
+      "properties": {
+        "assignment_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authority_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "installation_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "launch_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        "member_selectors_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "reservation_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "start_id": {
+          "pattern": "^(st|ln)_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assignment_envelope_sha256",
+        "authority_envelope_sha256",
+        "installation_id",
+        "launch_id",
+        "member_selectors_sha256",
+        "plan_digest",
+        "plan_id",
+        "reservation_digest",
+        "start_id"
+      ],
+      "type": "object"
+    },
+    "static_projection_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "authorization_envelope_sha256",
+    "bind_receipt_sha256",
+    "http_status",
+    "ingress_core_sha256",
+    "observed_body_sha256",
+    "observed_headers_sha256",
+    "owner_prompt_sha256",
+    "peer",
+    "peer_sha256",
+    "response_wire_bytes",
+    "response_wire_sha256",
+    "schema",
+    "selectors",
+    "static_projection_sha256"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a prewrite core",
+  "type": "object"
+}
