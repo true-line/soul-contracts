@@ -1,0 +1,33 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-prewrite-proof-payload.local-test-neutral.json",
+    "sha256": "sha256:428e1e868428e51bbd9b2fb510bfa652de46b519453d6f18cab32aac87c939c1"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "authorization_envelope_sha256": "sha256:13546fd68630f4146bd905f0a90de1a7dc6cbdb62a5804d3591ce56b64728032",
+    "expires_at": "2026-11-24T12:00:16Z",
+    "hq_epoch": "2222222222222222222222222222222222222222222222222222222222222222",
+    "issued_at": "2026-11-24T12:00:12Z",
+    "kind": "observed-body-local-test-prewrite-acceptance",
+    "prewrite_core_sha256": "sha256:e09337365b9dac03561a5bdff96eebb80292996d8ebd6abe6d5eaa0e9c27bc16",
+    "prewrite_receipt": "717e78f74bccac1081cf1eb94711957dfbc2453d394fe02f6b8fe9e7070ce236",
+    "schema": "agent-bot-machine/stage2a-observed-body-local-test-prewrite-acceptance/v1",
+    "schema_version": 1,
+    "selectors": {
+      "assignment_envelope_sha256": "sha256:9354b88c81fb2835e722a0533fa1fc9e7d1004d93f6a89fcca894e4d3835668f",
+      "authority_envelope_sha256": "sha256:87969e1004cce7f3ace0bebb1b8aadcd3f065644e2d6d6ce2084bd3dfbdb40a4",
+      "installation_id": "inst.fixture",
+      "launch_id": "ln_222222222222222222222222",
+      "member_selectors_sha256": "sha256:b7c8a4a57fa98ce3f755b7169ef43d15b7f9db6c00d98241a9aa07674ccfec1f",
+      "plan_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "plan_id": "plan.fixture",
+      "reservation_digest": "sha256:00a045b6fff9dba8af2f434a634a246df5597771eb7248a2e3da3d4762d5efc0",
+      "start_id": "st_111111111111111111111111"
+    },
+    "unexpected_field": true
+  },
+  "schema": "machine/local-test-v1/stage2a-prewrite-proof-payload.schema.json"
+}

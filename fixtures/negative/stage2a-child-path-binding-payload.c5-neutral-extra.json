@@ -1,0 +1,43 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-child-path-binding-payload.c5-neutral.json",
+    "sha256": "sha256:7558a005f52ab9b68195707b5545281088291568646cae0127271c20306c32d2"
+  },
+  "canonical_sha256": "sha256:196053d6afba3540075ef1c66474dcc1dc2ea6b45d7e01859a8f9b0bbbd5d82d",
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "ancillary_order": [
+      "first",
+      "second"
+    ],
+    "cwd": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/work",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/work"
+    },
+    "expires_at": "2026-11-24T12:00:20Z",
+    "home": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home"
+    },
+    "installation_id": "inst.fixture",
+    "issued_at": "2026-11-24T12:00:00Z",
+    "kind": "stage2a-child-path-binding-local-test",
+    "memory": {
+      "emitted": "/private/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home/.fixture/projects/-private-var-agent-bot-soul-runner--abm-sr-8418d3315c8a4f09327c-state-child-70799e6441e7d13e10b2-work/memory/",
+      "lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c/state/child-70799e6441e7d13e10b2/home/.fixture/projects/-private-var-agent-bot-soul-runner--abm-sr-8418d3315c8a4f09327c-state-child-70799e6441e7d13e10b2-work/memory/"
+    },
+    "runner_account": "_abm-sr-8418d3315c8a4f09327c",
+    "runner_home_lexical": "/var/agent-bot-soul-runner-_abm-sr-8418d3315c8a4f09327c",
+    "schema": "agent-bot-machine/stage2a-child-path-binding-local-test/v1",
+    "schema_version": 1,
+    "start_id": "st_111111111111111111111111",
+    "start_slot": "70799e6441e7d13e10b2",
+    "target_after": [
+      "first"
+    ],
+    "unexpected_field": true
+  },
+  "schema": "machine/local-test-v2/stage2a-child-path-binding-payload.schema.json"
+}

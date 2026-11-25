@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+Add draft `machine/local-test-v2` c5 per-start child path and ancillary-order
+schemas, a vendor-neutral re-signed vector pinned to the external reviewed
+source SHA-256, and signed stale-path and target-first refusal oracles. The
+selected stock ACP needs an exact recapture before any installed use. This
+source contract grants no guest authority or physical result.
+
+Add draft `machine/local-test-v1` observed-body local-test reservation,
+two-member assignment, B authority and FD3, ingress authorization, and a
+separate Machine-signed prewrite acceptance proof. Add the exact HQ ingress
+reply and completion ack shapes, a deterministic vendor-neutral signed tuple,
+and signature, join, expiry and refusal oracles. The frozen private source is
+pinned by SHA-256 and is not copied into the release. The prewrite proof is a
+new proposed checkpoint; frozen candidate 4 remains diagnostic. These source
+contracts establish no installed route, guest run, or Stage 2a acceptance.
+
 ## 0.9.0 — 2026-11-22
 
 Add a distinct `machine/v3` first-qualification candidate reservation, signed

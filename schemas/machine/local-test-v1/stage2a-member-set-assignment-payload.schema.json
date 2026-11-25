@@ -1,0 +1,477 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-member-set-assignment-payload.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "adapter_manifest_relpath": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "b_authority": {
+      "additionalProperties": false,
+      "properties": {
+        "envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "purpose": {
+          "const": "agent-bot/stage2a-observed-body-local-test-reservation/v1"
+        }
+      },
+      "required": [
+        "envelope_sha256",
+        "purpose"
+      ],
+      "type": "object"
+    },
+    "bridge": {
+      "additionalProperties": false,
+      "properties": {
+        "account": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "endpoints": {
+          "additionalProperties": false,
+          "properties": {
+            "broker": {
+              "additionalProperties": false,
+              "properties": {
+                "dir_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "directory": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "group_gid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "owner_uid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "peer_uids": {
+                  "items": false,
+                  "maxItems": 1,
+                  "minItems": 1,
+                  "prefixItems": [
+                    {
+                      "maximum": 9007199254740991,
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "socket_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "socket_path": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dir_mode",
+                "directory",
+                "group_gid",
+                "owner_uid",
+                "peer_uids",
+                "socket_mode",
+                "socket_path"
+              ],
+              "type": "object"
+            },
+            "member": {
+              "additionalProperties": false,
+              "properties": {
+                "dir_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "directory": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "group_gid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "owner_uid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "peer_uids": {
+                  "items": false,
+                  "maxItems": 2,
+                  "minItems": 2,
+                  "prefixItems": [
+                    {
+                      "maximum": 9007199254740991,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "maximum": 9007199254740991,
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "socket_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "socket_path": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dir_mode",
+                "directory",
+                "group_gid",
+                "owner_uid",
+                "peer_uids",
+                "socket_mode",
+                "socket_path"
+              ],
+              "type": "object"
+            },
+            "relay": {
+              "additionalProperties": false,
+              "properties": {
+                "dir_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "directory": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "group_gid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "owner_uid": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "peer_uids": {
+                  "items": false,
+                  "maxItems": 1,
+                  "minItems": 1,
+                  "prefixItems": [
+                    {
+                      "maximum": 9007199254740991,
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "socket_mode": {
+                  "maximum": 9007199254740991,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "socket_path": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dir_mode",
+                "directory",
+                "group_gid",
+                "owner_uid",
+                "peer_uids",
+                "socket_mode",
+                "socket_path"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "broker",
+            "member",
+            "relay"
+          ],
+          "type": "object"
+        },
+        "gid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "account",
+        "endpoints",
+        "gid",
+        "uid"
+      ],
+      "type": "object"
+    },
+    "contract": {
+      "const": "machine/local-test-v1"
+    },
+    "definition_measurement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "frozen_adapter_manifest_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "frozen_soul_info_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "host_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "host_projection_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "hq_epoch": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "installation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "issued_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "kind": {
+      "const": "stage2a-member-set-assignment"
+    },
+    "members": {
+      "items": false,
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "adapter_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adapter_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adjacent_cli_path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adjacent_cli_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "command_path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "command_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "launch_id": {
+              "pattern": "^(st|ln)_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            "member_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "member_selector": {
+              "pattern": "^mb_[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "role": {
+              "const": "lead"
+            }
+          },
+          "required": [
+            "adapter_id",
+            "adapter_version",
+            "adjacent_cli_path",
+            "adjacent_cli_sha256",
+            "command_path",
+            "command_sha256",
+            "launch_id",
+            "member_id",
+            "member_selector",
+            "role"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "adapter_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adapter_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adjacent_cli_path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "adjacent_cli_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "command_path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "command_sha256": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "launch_id": {
+              "pattern": "^(st|ln)_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            "member_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "member_selector": {
+              "pattern": "^mb_[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "role": {
+              "const": "specialist"
+            }
+          },
+          "required": [
+            "adapter_id",
+            "adapter_version",
+            "adjacent_cli_path",
+            "adjacent_cli_sha256",
+            "command_path",
+            "command_sha256",
+            "launch_id",
+            "member_id",
+            "member_selector",
+            "role"
+          ],
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "owner_plan_member_set_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "plan_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "plan_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "profile_in_force": {
+      "const": "managed-protected"
+    },
+    "reservation_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "runner_gid": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "runner_uid": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "soul_artifact_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "soul_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "start_id": {
+      "pattern": "^(st|ln)_[0-9a-f]{24}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "adapter_manifest_relpath",
+    "b_authority",
+    "bridge",
+    "contract",
+    "definition_measurement",
+    "expires_at",
+    "frozen_adapter_manifest_sha256",
+    "frozen_soul_info_sha256",
+    "host_id",
+    "host_projection_sha256",
+    "hq_epoch",
+    "installation_id",
+    "issued_at",
+    "kind",
+    "members",
+    "owner_plan_member_set_sha256",
+    "plan_digest",
+    "plan_id",
+    "profile_in_force",
+    "reservation_sha256",
+    "runner_gid",
+    "runner_uid",
+    "schema_version",
+    "soul_artifact_sha256",
+    "soul_id",
+    "start_id"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a member set assignment payload",
+  "type": "object"
+}

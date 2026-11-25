@@ -1,0 +1,40 @@
+{
+  "$id": "https://true-line.ai/soul-contracts/machine/local-test-v1/stage2a-signed-reservation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Source-enabling exact record shape; signed authority, cross-record joins, current lifetime and kernel observations require independent verification.",
+  "properties": {
+    "issuer_public_key_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    },
+    "payload_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    },
+    "payload_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "purpose": {
+      "const": "agent-bot/stage2a-observed-body-local-test-reservation/v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "signature_base64url": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "issuer_public_key_base64url",
+    "payload_base64url",
+    "payload_sha256",
+    "purpose",
+    "schema_version",
+    "signature_base64url"
+  ],
+  "title": "Stage 2a observed-body local-test stage2a signed reservation",
+  "type": "object"
+}
