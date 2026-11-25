@@ -246,6 +246,13 @@ check_soul_cooperative_member_ready_fixtures(ROOT, schemas, report)
 check_soul_cooperative_b_member_arm_fixtures(ROOT, schemas, report)
 check_stage2a_local_test_fixtures(ROOT, schemas, report)
 check_stage2a_local_test_c5_fixtures(ROOT, schemas, report)
+candidate_result = subprocess.run(
+    [sys.executable, str(ROOT / "scripts/test_candidate_fixtures.py")],
+    cwd=ROOT, capture_output=True, text=True, check=False,
+)
+report(candidate_result.returncode == 0,
+       "T21 cooperative candidate signed fixture and refusal joins",
+       candidate_result.stderr.strip() or candidate_result.stdout.strip())
 
 # Contract fixtures pin JCS binding bytes. Dummy fixture signatures only check
 # shape; runtime verifiers must verify the signature with a pinned public key.
@@ -453,7 +460,8 @@ def vendor_text(path):
                              "stage2a-member-attach.two-member-synthetic",
                              "stage2a-member-attach.cooperative-two-member-synthetic",
                              "stage2a-member-live-lease.two-member-synthetic", "neutral-tuple")) or
-        "local-test-neutral" in path.name) and \
+        ("local-test-neutral" in path.name or
+         "soul-cooperative-qualification-candidate" in path.name)) and \
             ("payload_base64url" in raw or "report_base64url" in raw or "envelope_jcs" in raw or
              "_envelope_base64url" in raw or
              "wire_jcs" in raw or "frame_base64url" in raw or "frames_base64url" in raw):
