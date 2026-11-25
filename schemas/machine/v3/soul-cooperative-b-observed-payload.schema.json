@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-b-observed-payload.schema.json",
+  "title": "A-observed cooperative native B after FD5/H bind (draft)",
+  "description": "Machine A issues this purpose-separated record only after its live paired H bind receipt, B FD5 relay status, one-use launch grant, exact cooperative primary/detached B assignment and A-reobserved native B child and B-private relay socket agree. The relay socket claim carries decimal-string device/inode to preserve 64-bit kernel identity. It binds the launched B child to its A-observed launcher process, not an H-minted assertion. H/R/B must verify the exact A signature and live identities before using this record; its presence alone grants no arm, ACP or physical T21 result.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "reservation_sha256", "bridge_assignment_sha256", "bind_receipt_sha256", "installation_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch", "grant_nonce", "launcher", "bridge", "relay_socket", "relay_socket_birthtime_ns", "observed_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "soul-cooperative-b-observed" },
+    "schema_version": { "const": 3 },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "bridge_assignment_sha256": { "$ref": "#/$defs/digest" },
+    "bind_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "grant_nonce": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$", "description": "Canonical unpadded base64url of exactly 32 one-use A launch-grant bytes." },
+    "launcher": { "$ref": "#/$defs/roleProcess" },
+    "bridge": { "$ref": "#/$defs/roleProcess" },
+    "relay_socket": { "type": "object", "required": ["path", "socket"], "properties": { "path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" }, "socket": { "$ref": "#/$defs/socket" } }, "additionalProperties": false },
+    "relay_socket_birthtime_ns": { "type": "string", "pattern": "^[1-9][0-9]*$", "description": "Canonical positive decimal nanoseconds from A's independent Fstatat/Btim of the relay socket, rechecked before signing; R compares against live lstat. It is a string to avoid IEEE-754 loss." },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "roleProcess": { "type": "object", "required": ["pid", "uid", "gid", "start_seconds", "start_micros"], "properties": { "pid": { "type": "integer", "minimum": 2 }, "uid": { "type": "integer", "minimum": 1 }, "gid": { "type": "integer", "minimum": 1 }, "start_seconds": { "type": "integer", "minimum": 1 }, "start_micros": { "type": "integer", "minimum": 0, "maximum": 999999 } }, "additionalProperties": false },
+    "socket": { "type": "object", "required": ["uid", "gid", "device", "inode", "mode"], "properties": { "uid": { "type": "integer", "minimum": 1 }, "gid": { "type": "integer", "minimum": 1 }, "device": { "type": "string", "pattern": "^[1-9][0-9]*$" }, "inode": { "type": "string", "pattern": "^[1-9][0-9]*$" }, "mode": { "const": 432 } }, "additionalProperties": false }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "base": {
+    "fixture": "positive/soul-cooperative-b-observed-payload.attach-synthetic.json",
+    "sha256": "sha256:04ce66e26142a2d68c5d7104e99bddbc643c78bb3f73ea3962288a6550e767ea"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "bind_receipt_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+    "bridge": {
+      "gid": 333,
+      "pid": 3902,
+      "start_micros": 70,
+      "start_seconds": 1795356918,
+      "uid": 333
+    },
+    "bridge_assignment_sha256": "sha256:9491f8118be1e9ae04fe2d5f8bc944cb5644b62d3d8ec72018f6aa5def882ce1",
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:36Z",
+    "grant_nonce": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "kind": "soul-cooperative-b-observed",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "launcher": {
+      "gid": 333,
+      "pid": 3901,
+      "start_micros": 80,
+      "start_seconds": 1795356917,
+      "uid": 333
+    },
+    "observed_at": "2026-11-22T14:15:20Z",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "relay_socket": {
+      "path": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock",
+      "socket": {
+        "device": "1",
+        "gid": 331,
+        "inode": "3001",
+        "mode": 432,
+        "uid": 333
+      }
+    },
+    "relay_socket_birthtime_ns": "0",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema_version": 3,
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/soul-cooperative-b-observed-payload.schema.json"
+}

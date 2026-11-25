@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-b-signed-observed.schema.json",
+  "title": "A-signed cooperative native B observation (draft)",
+  "description": "The secure-admin Machine signs ASCII agent-bot/soul-cooperative-b-observed/v3, one NUL and exact RFC 8785 JCS UTF-8 payload bytes with its installed Ed25519 authority. Verify fixed A pin, exact JCS bytes, signature, primary/detached assignment and paired H bind/FD5/live relay joins independently. This is distinct from protected B authority and does not itself permit ACP or provider ingress.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 3 },
+    "purpose": { "const": "agent-bot/soul-cooperative-b-observed/v3" },
+    "issuer_public_key_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+    "payload_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "payload_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}
