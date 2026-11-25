@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-signed-live-lease.schema.json",
+  "title": "Purpose-separated A-signed pre-finalization member live lease (draft)",
+  "description": "Ed25519 signs ASCII purpose agent-bot/stage2a-member-live-lease/v1, one NUL byte and exact RFC 8785 JCS UTF-8 payload bytes. The issuer field is not a trust anchor; wrappers open and verify the fixed root-owned installed A public key. A stale, wrong-member, repeated-sequence or missing signed two-child observation refuses. This does not release ACP input or provider ingress.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "purpose": { "const": "agent-bot/stage2a-member-live-lease/v1" },
+    "issuer_public_key_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+    "payload_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "payload_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}

@@ -1,15 +1,15 @@
 {
   "base": {
     "fixture": "positive/stage2a-relay-peer-challenge.live-peer-synthetic.json",
-    "sha256": "sha256:06af324c57d63f781f620293406159ad43de1a836532b6718d226c4cfeed4edb"
+    "sha256": "sha256:5d7335fd64e872e67f5357dc85c7eed658211729b8355e2491776353d3e05801"
   },
   "expect": {
     "schema": "invalid"
   },
   "input": {
     "accepted_at": "2026-11-22T14:15:22Z",
-    "assignment_envelope_sha256": "sha256:c5a3b3ce8d1800412eb42476abea7730f6bf55c66082f8a5af7b6d6e205ce817",
-    "child_observation_envelope_sha256": "sha256:06c3dc1f53e7298dc2c6cfe09762b66fd83ac74cc99452aec9a2d09a01af70fc",
+    "assignment_envelope_sha256": "sha256:e3b6357a4efea72ad8a521c88139b229c8a369c15db36c97654ef3cf728eba59",
+    "child_observation_envelope_sha256": "sha256:b49592ea4c96b438cf14aec355c38aff9a0293db37042b0d519991b331be33ed",
     "contract": "hq/v1",
     "deadline_at": "2026-11-22T14:15:32Z",
     "host_id": "synthetic-host",

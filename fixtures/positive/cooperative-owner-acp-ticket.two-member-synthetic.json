@@ -1,0 +1,15 @@
+{
+  "canonical_sha256": "sha256:b593b7f8bc3c172e81412b9327e73439a2f53afe5c3b381ef242a0f024c7ed27",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "acp_ticket_base64url": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "ready_envelope_sha256": "sha256:94a0ba54f199aee9f5338324762583f804daa35d46000d8efe07667a1af430c3",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "schema": "hq/cooperative-owner-acp-ticket/v3",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "hq/v1/cooperative-owner-acp-ticket.schema.json"
+}

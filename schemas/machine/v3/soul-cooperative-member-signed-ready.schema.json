@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-member-signed-ready.schema.json",
+  "title": "Purpose-separated A-signed cooperative two-member Ready (draft)",
+  "description": "Machine A signs ASCII agent-bot/soul-cooperative-member-ready/v3, one NUL byte and exact RFC 8785 JCS UTF-8 payload bytes with the installed secure-admin Ed25519 authority. Verify the fixed A pin, signature, exact payload digest, cooperative reservation, assignment, child/H/B observation joins and expiry; do not accept a protected Ready v1 signature as this purpose.",
+  "type": "object",
+  "required": ["schema_version", "purpose", "issuer_public_key_base64url", "payload_sha256", "payload_base64url", "signature_base64url"],
+  "properties": {
+    "schema_version": { "const": 3 },
+    "purpose": { "const": "agent-bot/soul-cooperative-member-ready/v3" },
+    "issuer_public_key_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+    "payload_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "payload_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "signature_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  },
+  "additionalProperties": false
+}

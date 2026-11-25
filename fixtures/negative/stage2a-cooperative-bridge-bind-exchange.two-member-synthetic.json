@@ -1,0 +1,24 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-cooperative-bridge-bind-exchange.two-member-synthetic.json",
+    "sha256": "sha256:5abfa0e046ee39293bcb27a12f92d90cb5f69c3eff7823a528ef921cfa9a6d13"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "bridge_assignment_envelope_sha256": "sha256:9491f8118be1e9ae04fe2d5f8bc944cb5644b62d3d8ec72018f6aa5def882ce1",
+    "bridge_uid": 333,
+    "broker_socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "installation_id": "inst_0000000000000001",
+    "launch_id": "ln_0123456789abcdef01234567",
+    "nonce": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "proof_hex": "85654DC15CB085F1A0CF9577E93141923BCDAD1AFA5BEA4073FBC3733EAD5683",
+    "reservation_sha256": "sha256:68e1a9e7703efe4e62b2e1d0732d4211cf049ad7f02a39d33a5b364aaf41af18",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "hq/v1/stage2a-cooperative-bridge-bind-exchange.schema.json"
+}

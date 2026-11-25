@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-b-member-fd3.schema.json",
+  "title": "Stage 2a trusted Machine-to-B FD3 two-member launch input (draft)",
+  "description": "Machine PrepareB constructs these exact JSON bytes from its stored A-signed assignment and B authority, never from H-supplied envelope bytes. FD3 is a fixed private pipe from Machine to B and is limited to 16,384 bytes including all JSON syntax. FD4 remains the separate 32-byte one-use bind key. B independently opens the fixed A public-key pin, verifies both envelopes and exact cross-record joins, then rechecks measured broker/relay endpoint identities. Broker parent is HQ-owned 02750 and socket is HQ-owned 0660; the B-owned relay parent is 02750 and its pre-B socket device/inode are zero until B creates it. All groups and paths equal the signed approved endpoints. Legacy v2 FD3 remains a one-member route.",
+  "type": "object",
+  "required": ["version", "machine_pin_path", "assignment_envelope_base64url", "authority_envelope_base64url", "selectors", "hq_epoch", "bridge_uid", "hq_uid", "runner_uid", "expires_at", "broker", "relay"],
+  "properties": {
+    "version": { "const": "stage2a-b-assignment/v3" },
+    "machine_pin_path": { "const": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub" },
+    "assignment_envelope_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$", "description": "Full exact RFC 8785 JCS bytes of A-signed #85 member-set assignment envelope, unpadded base64url." },
+    "authority_envelope_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$", "description": "Full exact RFC 8785 JCS bytes of A-signed two-member B authority envelope, unpadded base64url." },
+    "selectors": {
+      "type": "object",
+      "required": ["installation_id", "start_id", "plan_id", "plan_digest", "reservation_digest", "assignment_envelope_sha256", "authority_envelope_sha256", "member_selectors_sha256"],
+      "properties": {
+        "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+        "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+        "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+        "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+        "reservation_digest": { "$ref": "#/$defs/digest" },
+        "assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+        "authority_envelope_sha256": { "$ref": "#/$defs/digest" },
+        "member_selectors_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of RFC 8785 JCS UTF-8 bytes of the strictly sorted two-element array of member_selector strings from the signed assignment." }
+      },
+      "additionalProperties": false
+    },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "bridge_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "hq_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "runner_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "broker": { "$ref": "#/$defs/endpoint" },
+    "relay": { "$ref": "#/$defs/endpoint" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "identity": {
+      "type": "object",
+      "required": ["uid", "gid", "device", "inode", "mode"],
+      "properties": {
+        "uid": { "type": "integer", "minimum": 0 },
+        "gid": { "type": "integer", "minimum": 0 },
+        "device": { "type": "integer", "minimum": 0 },
+        "inode": { "type": "integer", "minimum": 0 },
+        "mode": { "type": "integer", "minimum": 0, "maximum": 4095 }
+      },
+      "additionalProperties": false
+    },
+    "endpoint": {
+      "type": "object",
+      "required": ["path", "parent", "socket"],
+      "properties": {
+        "path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+        "parent": { "$ref": "#/$defs/identity" },
+        "socket": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

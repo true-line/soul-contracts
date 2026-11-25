@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-cooperative-b-fd3.schema.json",
+  "title": "Closed A-to-cooperative-B pre-bind FD3 v3 (draft)",
+  "description": "The fixed Machine launcher gives this exact four-field RFC 8785 JCS UTF-8 frame on B FD3 before bind. Its encoded size is at most 32,768 bytes for this version only; the protected B FD3 limit stays 16,384 bytes. B opens the fixed root-owned installed A Ed25519 pin, decodes canonical unpadded base64url, verifies exact JCS/signature/purpose agent-bot/soul-cooperative-reservation/v3 for the primary and agent-bot/soul-cooperative-bridge-assignment/v3 for the detached B assignment, then joins detached reservation_sha256 to the exact primary envelope bytes and checks bridge launch, three endpoint parents, fixed argv, accounts, plan/start/expiry. FD3 carries no two-member policy rows, member selectors, owner ACP ticket or provider ingress. FD4 separately carries a fresh 32-byte A-private one-use HMAC key; FD5 separately reports B bind/relay status. After HMAC bind, B requests full A-signed two-member policy on that same H/B connection before arms or traffic. Missing/changed fields or stale authority refuse; no fallback to protected FD3.",
+  "type": "object",
+  "required": ["version", "machine_pin_path", "reservation_envelope_base64url", "bridge_assignment_envelope_base64url"],
+  "properties": {
+    "version": { "const": "agent-bot-comms/cooperative-b-start/v3" },
+    "machine_pin_path": { "const": "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub" },
+    "reservation_envelope_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "bridge_assignment_envelope_base64url": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" }
+  },
+  "additionalProperties": false
+}

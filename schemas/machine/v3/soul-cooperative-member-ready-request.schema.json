@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-member-ready-request.schema.json",
+  "title": "Paired H-to-A cooperative aggregate Ready request after two B arms (draft)",
+  "description": "H sends this exact closed request only after its fsynced two-child observation, A-signed cooperative child set and same-bound distinct cooperative B observe/arm exchanges exist. A checks the authenticated paired H context, live A-observed B/children, stored reservation/assignment/B authority and exact JCS bytes of both ordered B-to-H arm requests and H pending ACKs. The request has no signing authority: A signs agent-bot/soul-cooperative-member-ready/v3 only after every digest and kernel identity joins. B request.bridge_arm JCS bytes, never the H ACK, define each b_arm_receipt_sha256. Missing, swapped or replayed rows refuse; no provider ingress or physical result follows from this request.",
+  "type": "object",
+  "required": ["reservation_sha256", "installation_id", "start_id", "launch_id", "plan_id", "plan_digest", "hq_epoch", "child_observation_envelope_sha256", "member_b_authority_envelope_sha256", "bridge_observed_sha256", "arms"],
+  "properties": {
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "child_observation_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "member_b_authority_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "bridge_observed_sha256": { "$ref": "#/$defs/digest" },
+    "arms": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "type": "object", "required": ["arm_request", "arm_result"], "properties": { "arm_request": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/soul-cooperative-b-member-arm-exchange.schema.json#/$defs/armRequest" }, "arm_result": { "$ref": "https://true-line.ai/soul-contracts/hq/v1/soul-cooperative-b-member-arm-exchange.schema.json#/$defs/armResult" } }, "additionalProperties": false } }
+  },
+  "additionalProperties": false,
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }
+}

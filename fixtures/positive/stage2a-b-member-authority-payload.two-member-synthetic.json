@@ -1,0 +1,106 @@
+{
+  "canonical_sha256": "sha256:fe62f4bc46b79188bb7bc9749141f1f88fcaa0fbd957ec9677b9544e69d31338",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "b_authority": {
+      "envelope_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+      "purpose": "agent-bot/stage2a-reservation/v3"
+    },
+    "bridge": {
+      "account": "_abm-br-6a88e323518d66a7e3dd",
+      "endpoints": {
+        "broker": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd",
+          "group_gid": 333,
+          "owner_uid": 309,
+          "peer_uids": [
+            333
+          ],
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/ipc/_abm-br-6a88e323518d66a7e3dd/broker.sock"
+        },
+        "member": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d",
+          "group_gid": 333,
+          "owner_uid": 331,
+          "peer_uids": [
+            331,
+            333
+          ],
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/m/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
+        },
+        "relay": {
+          "dir_mode": 1512,
+          "directory": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d",
+          "group_gid": 331,
+          "owner_uid": 333,
+          "peer_uids": [
+            331
+          ],
+          "socket_mode": 432,
+          "socket_path": "/Library/Application Support/ai.true-line.agent-bot-hq/s/c7243bf6ae0e3efd076d/376d90b3c6543cbfc507.sock"
+        }
+      },
+      "gid": 333,
+      "uid": 333
+    },
+    "contract": "machine/v3",
+    "expires_at": "2026-11-22T14:15:35Z",
+    "host_id": "synthetic-host",
+    "hq_epoch": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hq_uid": 309,
+    "installation_id": "inst_0000000000000001",
+    "issued_at": "2026-11-22T14:15:18Z",
+    "kind": "stage2a-b-member-authority",
+    "member_set_assignment_envelope_sha256": "sha256:9c0e8586a3ccb62486c57994f3fcbceac374f5d2f1e78f2172b45ef540f07f5b",
+    "members": [
+      {
+        "adjacent_cli_path": "/fixture/r/adapter/fixture-cli",
+        "adjacent_cli_sha256": "sha256:4575517e516023fd0698342aec5e470a7533a94b5cf003b172af874cf773817f",
+        "launch_id": "ln_0123456789abcdef01234567",
+        "member_id": "m_lead",
+        "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+        "qualification": {
+          "client_key_sha256": "sha256:772349c5122c24ee9ec5319d632753a58f8cc80590b79cd2ffb17e310ba3b0c1",
+          "headers_sha256": "sha256:b70ade191d9d434671a090a1d0570fd7981634d6482575b3865be9780c94e1b8",
+          "http_host": "localhost",
+          "messages_query": "fixture=1",
+          "model": "fixture-model-1",
+          "request_sha256": "sha256:bfe4284316570cf4690f969808e463cd4bc7e99353fd1e98f1ddf6af07d2924b",
+          "response_text": "fixture response 1"
+        }
+      },
+      {
+        "adjacent_cli_path": "/fixture/r/adapter/fixture-cli",
+        "adjacent_cli_sha256": "sha256:4575517e516023fd0698342aec5e470a7533a94b5cf003b172af874cf773817f",
+        "launch_id": "ln_0123456789abcdef01234568",
+        "member_id": "m_spec",
+        "member_selector": "mb_fd87fbfbc1a19e41890485e6ba557c03c1649ddf18982f283796f2bb253ba688",
+        "qualification": {
+          "client_key_sha256": "sha256:772349c5122c24ee9ec5319d632753a58f8cc80590b79cd2ffb17e310ba3b0c1",
+          "headers_sha256": "sha256:4cbe8dbfc993fef2a82f95343a3a52b96231337e503b8d2cecc77c94c69b9963",
+          "http_host": "localhost",
+          "messages_query": "fixture=2",
+          "model": "fixture-model-2",
+          "request_sha256": "sha256:4981c7dac00d064c27930d7b49c5ce930db6056aa742758fc680e91308f257fd",
+          "response_text": "fixture response 2"
+        }
+      }
+    ],
+    "owner_plan_member_set_sha256": "sha256:40758695d8a20df897316151f464059180d45739b2a018ef8d6ea097f5d2baf3",
+    "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+    "plan_id": "plan-20261122T141516Z-abcd",
+    "profile_in_force": "managed-protected",
+    "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+    "runner_uid": 331,
+    "schema_version": 1,
+    "soul_id": "agent_01234567-0123-4567-0123-456789abcdef",
+    "start_id": "st_0123456789abcdef01234567"
+  },
+  "schema": "machine/v3/stage2a-b-member-authority-payload.schema.json"
+}

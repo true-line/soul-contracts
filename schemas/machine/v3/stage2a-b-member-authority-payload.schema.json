@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/machine/v3/stage2a-b-member-authority-payload.schema.json",
+  "title": "Stage 2a A-signed exact two-member B launch authority (draft)",
+  "description": "A/keyd signs this before B launch, from exactly two explicit owner-reviewed member_bridge_qualifications plan rows and the already signed member-set assignment. H cannot add a second policy to a legacy one-member FD3 or widen any signed member policy later. The same one B account and three existing approved endpoint paths/owners/modes apply. Runtime socket device/inode observations are separate trusted Machine FD3 data because the B-created relay socket does not yet exist.",
+  "type": "object",
+  "required": ["contract", "kind", "schema_version", "profile_in_force", "host_id", "installation_id", "soul_id", "start_id", "hq_epoch", "plan_id", "plan_digest", "reservation_sha256", "member_set_assignment_envelope_sha256", "owner_plan_member_set_sha256", "b_authority", "hq_uid", "runner_uid", "bridge", "members", "issued_at", "expires_at"],
+  "properties": {
+    "contract": { "const": "machine/v3" },
+    "kind": { "const": "stage2a-b-member-authority" },
+    "schema_version": { "const": 1 },
+    "profile_in_force": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/profile_in_force" },
+    "host_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/host_id" },
+    "installation_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/installation_id" },
+    "soul_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/soul_id" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "hq_epoch": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/hq_epoch" },
+    "plan_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_id" },
+    "plan_digest": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/plan_digest" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "member_set_assignment_envelope_sha256": { "$ref": "#/$defs/digest", "description": "SHA-256 of exact A-signed #85 member-set assignment envelope bytes, not its decoded payload." },
+    "owner_plan_member_set_sha256": { "$ref": "#/$defs/digest" },
+    "b_authority": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/b_authority" },
+    "hq_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "runner_uid": { "type": "integer", "minimum": 300, "maximum": 399 },
+    "bridge": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/bridge" },
+    "members": {
+      "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/member" },
+      "description": "Exactly the two assigned members, strictly ascending by member_id. Every row must match one explicit sorted member_bridge_qualifications row in the authenticated owner-reviewed installed plan; consumers enforce these cross-record rules. The same nonsecret local relay client_key_sha256 may occur in both explicit rows; member selectors, process identity and spent state remain separate."
+    },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "member": {
+      "type": "object",
+      "required": ["member_id", "launch_id", "member_selector", "adjacent_cli_path", "adjacent_cli_sha256", "qualification"],
+      "properties": {
+        "member_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_id" },
+        "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/launch_id" },
+        "member_selector": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/member_selector" },
+        "adjacent_cli_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/$defs/member/properties/adjacent_cli_path" },
+        "adjacent_cli_sha256": { "$ref": "#/$defs/digest" },
+        "qualification": {
+          "type": "object",
+          "required": ["model", "request_sha256", "headers_sha256", "client_key_sha256", "http_host", "messages_query", "response_text"],
+          "properties": {
+            "model": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+            "request_sha256": { "$ref": "#/$defs/digest" },
+            "headers_sha256": { "$ref": "#/$defs/digest" },
+            "client_key_sha256": { "$ref": "#/$defs/digest" },
+            "http_host": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+            "messages_query": { "type": "string", "pattern": "^[a-zA-Z0-9._=&%-]{0,128}$" },
+            "response_text": { "type": "string", "maxLength": 2048 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/hq/v1/cooperative-member-set-attach.schema.json",
+  "title": "Closed first cooperative two-member R admission reply (draft)",
+  "description": "Reply to the existing cooperative.attach.v3 request on the original authenticated H/R admission session. R has already verified the A-signed managed-cooperative FD3 v3 reservation and two-member assignment. This H reply is only inert routing metadata: reservation_sha256 is the exact signed primary envelope hash; launch_id is the primary R launch ID, not either ACP member launch ID; broker_socket_path equals the A-signed assignment bridge broker socket. R checks these and the assignment envelope hash before provisional Hello. The B authority hash is a future join hint; its full A-signed envelope is independently verified from both later stage2a.member.attach.prepare results before any bridge_ready, ACP child attach or provider bytes. No owner ACP ticket is present. Changed or missing fields refuse.",
+  "type": "object",
+  "required": ["schema", "reservation_sha256", "start_id", "launch_id", "broker_socket_path", "member_set_assignment_envelope_sha256", "member_b_authority_envelope_sha256"],
+  "properties": {
+    "schema": { "const": "hq/cooperative-member-set-attach/v3" },
+    "reservation_sha256": { "$ref": "#/$defs/digest" },
+    "start_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/stage2a-member-set-assignment-payload.schema.json#/properties/start_id" },
+    "launch_id": { "$ref": "https://true-line.ai/soul-contracts/machine/v3/soul-cooperative-reservation-payload.schema.json#/properties/assignment/properties/launch_id" },
+    "broker_socket_path": { "$ref": "https://true-line.ai/soul-contracts/machine/v2/snapshot-identity.schema.json#/properties/root_path" },
+    "member_set_assignment_envelope_sha256": { "$ref": "#/$defs/digest" },
+    "member_b_authority_envelope_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "additionalProperties": false,
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }
+}

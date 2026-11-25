@@ -1,0 +1,46 @@
+{
+  "base": {
+    "fixture": "positive/stage2a-b-member-arm-exchange.two-member-synthetic.json",
+    "sha256": "sha256:fb3c193052447b6431314a7a8d9f221176df239e6afa2f4479e8769ca52319fe"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "arm_nonce": "4acf58b276cdc6a317dd91c0575add072519b4b9831574e547c67f2521ca9b54",
+    "bridge_arm": {
+      "adapter_gid": 331,
+      "adapter_pid": 4101,
+      "adapter_start_micros": 100,
+      "adapter_start_seconds": 1795356918,
+      "adapter_uid": 331,
+      "armed_at": "2026-11-22T14:15:20Z",
+      "bridge_uid": 333,
+      "child_observation_envelope_sha256": "sha256:b94f6f09ea2d68f0ade0a4bd3cf48782f459456cbac1476811a440a9b338faf6",
+      "member_id": "m_lead",
+      "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+      "provider_ingress": "withheld-pending-per-peer-attestation",
+      "relay_peer_rule": "a-attested-live-direct-child-of-adapter-v1",
+      "relay_peer_state": "unobserved",
+      "runtime_id": "runtime_fixture_m_lead",
+      "state": "armed"
+    },
+    "bridge_arm_receipt_sha256": "sha256:86174dfdf16755301def73b9b4dd70728b6e5661ad49d99b6b189c6a06b846c1",
+    "child_observation_envelope_sha256": "sha256:b94f6f09ea2d68f0ade0a4bd3cf48782f459456cbac1476811a440a9b338faf6",
+    "kind": "bridge.member.arm.v2.request",
+    "member_id": "m_lead",
+    "member_selector": "mb_b5c91675d3e898c3130737e8b182afcf8e0fe49af27f62b150ab6ae4fb97311a",
+    "observe_nonce": "bfaaf7de31000c3514d0ebaf669c57894828c31b7403b9da9e152a82f16152aa",
+    "selectors": {
+      "assignment_envelope_sha256": "sha256:9c0e8586a3ccb62486c57994f3fcbceac374f5d2f1e78f2172b45ef540f07f5b",
+      "authority_envelope_sha256": "sha256:e19981334b0b8d5a118ecd80823601628527321665702e647c84aacbfccc7df3",
+      "installation_id": "inst_0000000000000001",
+      "member_selectors_sha256": "sha256:2852be7e2f819fbae5b54de8e4a090039b66683dd7f61abf5cf56750e83bedb1",
+      "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
+      "plan_id": "plan-20261122T141516Z-abcd",
+      "reservation_digest": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
+      "start_id": "st_0123456789abcdef01234567"
+    }
+  },
+  "schema": "hq/v1/stage2a-b-member-arm-exchange.schema.json"
+}

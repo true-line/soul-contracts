@@ -98,6 +98,9 @@ def profile_inputs(profile):
         envelope = json.loads(vector["bridge_envelope_jcs"])
         raw = base64.urlsafe_b64decode(envelope["payload_base64url"] + "=" * (-len(envelope["payload_base64url"]) % 4))
         b = json.loads(raw)
+        # This fixture re-signs the primary with one synthetic A key. Rebind the
+        # detached B payload to those exact newly signed primary envelope bytes.
+        b["reservation_sha256"] = sha(primary)
         private = sign_existing("agent-bot/soul-cooperative-bridge-assignment/v3", b)
         bridge = {"account": b["bridge"]["account"], "uid": b["bridge"]["uid"],
                   "gid": b["bridge"]["gid"], "endpoints": b["endpoints"]}
