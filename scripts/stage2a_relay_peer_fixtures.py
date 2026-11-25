@@ -68,8 +68,10 @@ def verify_vector(root, profile, vector, schemas, used):
             attestation["challenge_sha256"] == digest(challenge_raw) and
             attestation["reported_peer_token"] == challenge["peer_token"],
             "A signs exact one-use B challenge and reported kernel token")
-    one_use = (assignment["start_id"], challenge["rpc_id"], challenge["nonce_hex"])
-    require(one_use not in used, "RPC ID/nonce replay refused")
+    start_history = used.get(assignment["start_id"], {"rpc_ids": set(), "nonces": set()})
+    require(challenge["rpc_id"] not in start_history["rpc_ids"] and
+            challenge["nonce_hex"] not in start_history["nonces"],
+            "RPC ID and nonce must each be unused for this start")
     cli, parent, token, pinned_child = (attestation["observed_cli"], attestation["observed_adapter_parent"],
                                          challenge["peer_token"], observed_child["child_process"])
     require(cli["pid"] == token["pid"] and cli["uid"] == token["uid"] == assignment["runner_uid"] and
@@ -97,7 +99,9 @@ def verify_vector(root, profile, vector, schemas, used):
                 ("profile_in_force", "start_id", "rpc_id", "nonce_hex", "member_id", "member_selector",
                  "runtime_id", "peer_token")),
             "H bound-channel reply echoes exact verified A envelope/challenge/token")
-    used.add(one_use)
+    start_history = used.setdefault(assignment["start_id"], {"rpc_ids": set(), "nonces": set()})
+    start_history["rpc_ids"].add(challenge["rpc_id"])
+    start_history["nonces"].add(challenge["nonce_hex"])
 
 
 def resign_mutation(vector, change):
@@ -120,12 +124,29 @@ def resign_mutation(vector, change):
     return mutant
 
 
+def resign_challenge_mutation(vector, change):
+    """Re-sign a valid A proof for a changed B challenge and H reply."""
+    mutant = copy.deepcopy(vector)
+    challenge = parse_strict(mutant["challenge_jcs"].encode("utf-8"))
+    change(challenge)
+    challenge_raw = canonicalize(challenge)
+    mutant["challenge_jcs"] = challenge_raw.decode("utf-8")
+    mutant = resign_mutation(mutant, lambda payload: payload.update(
+        rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+        challenge_sha256=digest(challenge_raw)))
+    verified = parse_strict(mutant["verified_jcs"].encode("utf-8"))
+    verified.update(rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+                    challenge_sha256=digest(challenge_raw))
+    mutant["verified_jcs"] = canonicalize(verified).decode("utf-8")
+    return mutant
+
+
 def check_stage2a_relay_peer_fixtures(root, schemas, report):
     vectors = parse_strict((root / "fixtures/reservation/v3/stage2a-relay-peer.synthetic.json").read_bytes())
     for profile in ("managed-protected", "managed-cooperative"):
         vector = vectors[profile]
         try:
-            used = set()
+            used = {}
             verify_vector(root, profile, vector, schemas, used)
             report(True, "relay-peer " + profile + " exact challenge/A signature/H reply joins")
             try:
@@ -134,13 +155,24 @@ def check_stage2a_relay_peer_fixtures(root, schemas, report):
             except ValueError:
                 report(True, "relay-peer " + profile + " refuses nonce/RPC replay")
             for label, change in (
+                ("reused nonce with fresh RPC ID", lambda c: c.update(rpc_id="rpc_" + "c" * 32)),
+                ("reused RPC ID with fresh nonce", lambda c: c.update(nonce_hex="c" * 64)),
+            ):
+                mutant = resign_challenge_mutation(vector, change)
+                verify_vector(root, profile, mutant, schemas, {})
+                try:
+                    verify_vector(root, profile, mutant, schemas, used)
+                    report(False, "relay-peer " + profile + " refuses " + label)
+                except ValueError:
+                    report(True, "relay-peer " + profile + " refuses " + label)
+            for label, change in (
                 ("wrong direct parent", lambda p: p["observed_cli"].update(parent_pid=9999)),
                 ("wrong CLI bytes", lambda p: p["observed_cli"].update(executable_sha256="sha256:" + "0" * 64)),
                 ("stale A proof", lambda p: p.update(expires_at="2026-11-22T14:15:34Z")),
             ):
                 mutant = resign_mutation(vector, change)
                 try:
-                    verify_vector(root, profile, mutant, schemas, set())
+                    verify_vector(root, profile, mutant, schemas, {})
                     report(False, "relay-peer " + profile + " refuses " + label)
                 except ValueError:
                     report(True, "relay-peer " + profile + " refuses " + label)
