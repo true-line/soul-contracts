@@ -45,17 +45,34 @@ def check(results, source, schemas, public, cooperative=None):
             authority["member_set_assignment_envelope_sha256"] == digest(assignment_raw),
             "three exact A envelopes and distinct B policy close the assignment chain")
     if cooperative is not None:
+        detached_raw = source["private_b_authority_envelope_jcs"].encode()
+        detached = verify_existing_envelope(detached_raw, "agent-bot/soul-cooperative-bridge-assignment/v3",
+            "machine/v3/soul-cooperative-bridge-signed-assignment.schema.json",
+            "machine/v3/soul-cooperative-bridge-assignment-payload.schema.json", schemas, public)
         observed_raw = cooperative["envelope_jcs"].encode()
         observed = verify_existing_envelope(observed_raw, "agent-bot/soul-cooperative-b-observed/v3",
             "machine/v3/soul-cooperative-b-signed-observed.schema.json",
             "machine/v3/soul-cooperative-b-observed-payload.schema.json", schemas, public)
         require(ready["bridge_observed_sha256"] == digest(observed_raw) and
+                observed["bridge_assignment_sha256"] == digest(detached_raw) ==
+                    assignment["b_authority"]["envelope_sha256"] and
                 observed["reservation_sha256"] == assignment["reservation_sha256"] and
                 observed["installation_id"] == assignment["installation_id"] and
                 observed["start_id"] == assignment["start_id"] and
+                all(observed[key] == detached[key] == assignment[key] for key in
+                    ("plan_id", "plan_digest", "hq_epoch", "installation_id", "start_id")) and
+                observed["launch_id"] == detached["launch_id"] == assignment["members"][0]["launch_id"] and
+                observed["bridge"]["uid"] == detached["bridge"]["uid"] and
+                observed["bridge"]["gid"] == detached["bridge"]["gid"] and
                 observed["relay_socket_birthtime_ns"].isdigit() and
                 observed["relay_socket"]["path"] == assignment["bridge"]["endpoints"]["relay"]["socket_path"],
                 "exact A-observed B and relay identity join cooperative Ready")
+        require(when(assignment["issued_at"]) <= when(observed["observed_at"]) <=
+                when(ready["issued_at"]) <= min(when(observed["expires_at"]),
+                    when(detached["expires_at"]), when(assignment["expires_at"])) and
+                when(ready["expires_at"]) <= min(when(observed["expires_at"]),
+                    when(detached["expires_at"]), when(assignment["expires_at"])),
+                "cooperative B observation precedes Ready and bounds its expiry")
     seen = set()
     for i, result in enumerate(results):
         cap = 32768 if cooperative is not None else 131072
@@ -85,11 +102,25 @@ def check(results, source, schemas, public, cooperative=None):
                 "full exact A-signed child/B-policy/Ready envelopes and bounded expiry")
         if cooperative is not None:
             rows = [decode(row) for row in result["bridge_arm_rows_base64url"]]
+            arm_schema = schemas["machine/v3/stage2a-member-set-ready-payload.schema.json"].evolve(
+                schema={"$ref": "https://true-line.ai/soul-contracts/machine/v3/"
+                        "stage2a-member-set-ready-payload.schema.json#/$defs/readyMember/properties/bridge_arm"})
             require(decode(result["bridge_observed_envelope_base64url"]) == observed_raw and
                     rows == [row.encode() for row in cooperative["bridge_arm_rows_jcs"]] and
                     len({row for row in rows}) == 2 and
-                    all(canonicalize(parse_strict(row)) == row and
+                    all(canonicalize(parse_strict(row)) == row and arm_schema.is_valid(parse_strict(row)) and
                         parse_strict(row)["member_id"] == ready["members"][j]["member_id"] and
+                        parse_strict(row)["member_selector"] == ready["members"][j]["member_selector"] ==
+                            assignment["members"][j]["member_selector"] and
+                        parse_strict(row)["runtime_id"] == child["members"][j]["runtime_id"] and
+                        parse_strict(row)["child_observation_envelope_sha256"] == digest(child_raw) and
+                        parse_strict(row)["bridge_uid"] == detached["bridge"]["uid"] and
+                        all(parse_strict(row)[arm_key] == child["members"][j]["child_process"][child_key]
+                            for arm_key, child_key in (("adapter_pid", "pid"), ("adapter_uid", "uid"),
+                                ("adapter_gid", "gid"), ("adapter_start_seconds", "start_seconds"),
+                                ("adapter_start_micros", "start_micros"))) and
+                        when(child["observed_at"]) <= when(parse_strict(row)["armed_at"]) <=
+                            when(ready["issued_at"]) and
                         digest(row) == ready["members"][j]["b_arm_receipt_sha256"]
                         for j, row in enumerate(rows)),
                     "separate exact B arm JCS rows join A-signed Ready per member")
@@ -114,6 +145,48 @@ def check(results, source, schemas, public, cooperative=None):
                     armed["member_launch_id"] == observed["launch_id"] and
                     digest(decode(result["bridge_arm_rows_base64url"][i])) == armed["b_arm_receipt_sha256"],
                     "A-observed child and exact B arm row join cooperative Ready")
+
+
+def resign_cooperative_mutant(evidence, results, observed_field=None, observed_value=None,
+                              arm_field=None, arm_value=None):
+    changed_evidence = copy.deepcopy(evidence)
+    changed_results = copy.deepcopy(results)
+    signer = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
+
+    def resign(raw, payload):
+        envelope = parse_strict(raw.encode())
+        payload_raw = canonicalize(payload)
+        envelope["payload_base64url"] = base64.urlsafe_b64encode(payload_raw).rstrip(b"=").decode()
+        envelope["payload_sha256"] = digest(payload_raw)
+        envelope["signature_base64url"] = base64.urlsafe_b64encode(
+            signer.sign(envelope["purpose"].encode() + b"\0" + payload_raw)).rstrip(b"=").decode()
+        return canonicalize(envelope)
+
+    observed = parse_strict(changed_evidence["payload_jcs"].encode())
+    if observed_field is not None:
+        observed[observed_field] = observed_value
+    observed_raw = resign(changed_evidence["envelope_jcs"], observed)
+    changed_evidence["payload_jcs"] = canonicalize(observed).decode()
+    changed_evidence["envelope_jcs"] = observed_raw.decode()
+
+    ready = parse_strict(changed_evidence["ready_payload_jcs"].encode())
+    ready["bridge_observed_sha256"] = digest(observed_raw)
+    if arm_field is not None:
+        arm = parse_strict(changed_evidence["bridge_arm_rows_jcs"][0].encode())
+        arm[arm_field] = arm_value
+        arm_raw = canonicalize(arm)
+        changed_evidence["bridge_arm_rows_jcs"][0] = arm_raw.decode()
+        ready["members"][0]["b_arm_receipt_sha256"] = digest(arm_raw)
+    ready_raw = resign(changed_evidence["ready_envelope_jcs"], ready)
+    changed_evidence["ready_payload_jcs"] = canonicalize(ready).decode()
+    changed_evidence["ready_envelope_jcs"] = ready_raw.decode()
+    for result in changed_results:
+        result["bridge_observed_envelope_base64url"] = base64.urlsafe_b64encode(observed_raw).rstrip(b"=").decode()
+        result["ready_envelope_base64url"] = base64.urlsafe_b64encode(ready_raw).rstrip(b"=").decode()
+        result["ready_envelope_sha256"] = digest(ready_raw)
+        if arm_field is not None:
+            result["bridge_arm_rows_base64url"][0] = base64.urlsafe_b64encode(arm_raw).rstrip(b"=").decode()
+    return changed_evidence, changed_results
 
 
 def check_stage2a_member_attach_fixtures(root, schemas, report):
@@ -169,6 +242,31 @@ def check_stage2a_member_attach_fixtures(root, schemas, report):
             else:
                 raise ValueError("cross-profile A-signed Ready accepted")
             if profile == "managed-cooperative":
+                signed_mutants = (
+                    ("wrong detached B assignment", "bridge_assignment_sha256", "sha256:" + "0" * 64,
+                     None, None, "exact A-observed B and relay identity join cooperative Ready"),
+                    ("wrong plan", "plan_id", "plan_wrong", None, None,
+                     "exact A-observed B and relay identity join cooperative Ready"),
+                    ("wrong launch", "launch_id", "ln_ffffffffffffffffffffffff", None, None,
+                     "exact A-observed B and relay identity join cooperative Ready"),
+                    ("wrong epoch", "hq_epoch", "f" * 64, None, None,
+                     "exact A-observed B and relay identity join cooperative Ready"),
+                    ("stale observation", "observed_at", "2026-11-22T14:15:22Z", None, None,
+                     "cooperative B observation precedes Ready and bounds its expiry"),
+                    ("early observation expiry", "expires_at", "2026-11-22T14:15:20Z", None, None,
+                     "cooperative B observation precedes Ready and bounds its expiry"),
+                    ("wrong B arm selector", None, None, "member_selector", "mb_" + "f" * 64,
+                     "separate exact B arm JCS rows join A-signed Ready per member"),
+                )
+                for label, observed_field, observed_value, arm_field, arm_value, reason in signed_mutants:
+                    changed_evidence, changed = resign_cooperative_mutant(
+                        evidence, results, observed_field, observed_value, arm_field, arm_value)
+                    try:
+                        check(changed, source, schemas, public, changed_evidence)
+                    except ValueError as error:
+                        require(str(error) == reason, label + " refused for the intended signed join")
+                    else:
+                        raise ValueError("re-signed cooperative " + label + " accepted")
                 changed = copy.deepcopy(results)
                 changed[0]["bridge_arm_rows_base64url"][0] = changed[0]["bridge_arm_rows_base64url"][1]
                 try:
