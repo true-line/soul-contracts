@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "sha256:0979c2c03c2da7dac04b14fcace1a09bed3387de6cbb0a7c5354fb3028ace233",
+  "canonical_sha256": "sha256:9fc115bb29805d15452b19c5b7bdff74dac6788d037ccd64fd954b6b6e2192d5",
   "expect": {
     "schema": "valid"
   },
@@ -23,7 +23,7 @@
     "plan_digest": "471d910cb2d1a1a0edc8ded4d07b8edceace4bfd17e05e287ae59236623de87c",
     "plan_id": "plan-20261122T141516Z-abcd",
     "previous_lease_envelope_sha256": null,
-    "prior_expires_at": "2026-11-22T14:15:23Z",
+    "prior_expires_at": "2026-11-22T14:15:24Z",
     "ready_envelope_sha256": "sha256:be8818d5497cbb00cd0dc1ed80fb59e87a1f08abd7c3dee6d80f3f9f19112d1f",
     "reservation_sha256": "sha256:2387a437720b633194b6030046dd392b9232a35b5bac65288fd07a6b8268cba5",
     "start_id": "st_0123456789abcdef01234567"

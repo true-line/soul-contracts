@@ -119,7 +119,7 @@ def main():
                             "peer_uid": assignment["runner_uid"],
                             "peer_pid": first["launcher_process"]["pid"],
                             "challenge_nonce_base64url": b64(bytes(range(32))),
-                            "after_sequence": 0, "prior_expires_at": "2026-11-22T14:15:23Z",
+                            "after_sequence": 0, "prior_expires_at": "2026-11-22T14:15:24Z",
                             "ready_envelope_sha256": record["ready_envelope_sha256"],
                             "hq_finalization_sha256": digest(record_raw),
                             "hq_finalization_base64url": b64(record_raw),

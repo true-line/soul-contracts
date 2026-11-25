@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from jcs import canonicalize, parse_strict
 
-from stage2a_member_set_fixtures import decode, digest, require, verify_existing_envelope
+from stage2a_member_set_fixtures import decode, digest, require, verify_existing_envelope, when
 
 SCHEMA = "machine/v3/stage2a-cooperative-b-fd3.schema.json"
 PIN = "/Library/Application Support/ai.true-line.agent-bot-hq/soul-authority.pub"
@@ -34,9 +34,25 @@ def check(frame, source, schemas, public):
     assigned = primary["assignment"]
     require(detached["reservation_sha256"] == digest(primary_raw) and
             all(detached[key] == assigned[key] for key in
-                ("installation_id", "start_id", "launch_id", "plan_id", "plan_digest")) and
-            detached["expires_at"] <= primary["expires_at"],
+                ("installation_id", "start_id", "launch_id", "plan_id", "plan_digest")),
             "detached B assignment joins the exact primary and admission selectors")
+    require(when(detached["expires_at"]) <= when(primary["expires_at"]),
+            "detached B assignment expires no later than the primary reservation")
+
+
+def signed_detached_with_expiry(source, expires_at):
+    altered = copy.deepcopy(source)
+    envelope = parse_strict(source["private_b_authority_envelope_jcs"].encode())
+    payload = parse_strict(decode(envelope["payload_base64url"]))
+    payload["expires_at"] = expires_at
+    payload_raw = canonicalize(payload)
+    envelope["payload_base64url"] = base64.urlsafe_b64encode(payload_raw).rstrip(b"=").decode()
+    envelope["payload_sha256"] = digest(payload_raw)
+    key = Ed25519PrivateKey.from_private_bytes(bytes(range(1, 33)))
+    envelope["signature_base64url"] = base64.urlsafe_b64encode(key.sign(
+        envelope["purpose"].encode() + b"\0" + payload_raw)).rstrip(b"=").decode()
+    altered["private_b_authority_envelope_jcs"] = canonicalize(envelope).decode()
+    return altered
 
 
 def check_stage2a_cooperative_b_fd3_fixtures(root, schemas, report):
@@ -66,6 +82,17 @@ def check_stage2a_cooperative_b_fd3_fixtures(root, schemas, report):
             pass
         else:
             raise ValueError("noncanonical base64url accepted in FD3")
+        later = signed_detached_with_expiry(source, "2026-11-22T09:15:37-05:00")
+        altered = copy.deepcopy(frame)
+        altered["bridge_assignment_envelope_base64url"] = base64.urlsafe_b64encode(
+            later["private_b_authority_envelope_jcs"].encode()).rstrip(b"=").decode()
+        try:
+            check(altered, later, schemas, public)
+        except ValueError as error:
+            require(str(error) == "detached B assignment expires no later than the primary reservation",
+                    "signed offset expiry refused for the intended reason")
+        else:
+            raise ValueError("later signed detached B expiry accepted through offset ordering")
         report(True, "cooperative B FD3 exact A envelopes, digest join, frame cap and refusal")
     except Exception as error:
         report(False, "cooperative B FD3 exact A envelopes, digest join, frame cap and refusal", str(error))

@@ -1,7 +1,6 @@
 """Independent exact-byte oracle for same-bound-broker B observe/arm frames."""
 
 import copy
-import json
 from datetime import datetime
 
 from cryptography.hazmat.primitives import serialization

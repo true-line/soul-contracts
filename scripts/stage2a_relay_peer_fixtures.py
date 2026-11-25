@@ -57,8 +57,10 @@ def verify_vector(root, profile, vector, schemas, used):
     require(ready["assignment_envelope_sha256"] == challenge["assignment_envelope_sha256"] and
             ready["child_observation_envelope_sha256"] == challenge["child_observation_envelope_sha256"],
             "ready joins the same frozen set")
-    member = assignment["members"][0]
-    observed_child = child["members"][0]
+    assigned = [member for member in assignment["members"] if member["member_id"] == challenge["member_id"]]
+    observed = [member for member in child["members"] if member["member_id"] == challenge["member_id"]]
+    require(len(assigned) == len(observed) == 1, "one exact assigned and observed member")
+    member, observed_child = assigned[0], observed[0]
     require(challenge["member_id"] == attestation["member_id"] == member["member_id"] and
             challenge["member_selector"] == attestation["member_selector"] == member["member_selector"] and
             challenge["runtime_id"] == attestation["runtime_id"] == observed_child["runtime_id"],
@@ -68,8 +70,10 @@ def verify_vector(root, profile, vector, schemas, used):
             attestation["challenge_sha256"] == digest(challenge_raw) and
             attestation["reported_peer_token"] == challenge["peer_token"],
             "A signs exact one-use B challenge and reported kernel token")
-    one_use = (assignment["start_id"], challenge["rpc_id"], challenge["nonce_hex"])
-    require(one_use not in used, "RPC ID/nonce replay refused")
+    start_history = used.get(assignment["start_id"], {"rpc_ids": set(), "nonces": set()})
+    require(challenge["rpc_id"] not in start_history["rpc_ids"] and
+            challenge["nonce_hex"] not in start_history["nonces"],
+            "RPC ID and nonce must each be unused for this start")
     cli, parent, token, pinned_child = (attestation["observed_cli"], attestation["observed_adapter_parent"],
                                          challenge["peer_token"], observed_child["child_process"])
     require(cli["pid"] == token["pid"] and cli["uid"] == token["uid"] == assignment["runner_uid"] and
@@ -97,7 +101,9 @@ def verify_vector(root, profile, vector, schemas, used):
                 ("profile_in_force", "start_id", "rpc_id", "nonce_hex", "member_id", "member_selector",
                  "runtime_id", "peer_token")),
             "H bound-channel reply echoes exact verified A envelope/challenge/token")
-    used.add(one_use)
+    start_history = used.setdefault(assignment["start_id"], {"rpc_ids": set(), "nonces": set()})
+    start_history["rpc_ids"].add(challenge["rpc_id"])
+    start_history["nonces"].add(challenge["nonce_hex"])
 
 
 def resign_mutation(vector, change):
@@ -120,12 +126,57 @@ def resign_mutation(vector, change):
     return mutant
 
 
+def resign_challenge_mutation(vector, change, payload_change=None):
+    """Re-sign a valid A proof for a changed B challenge and H reply."""
+    mutant = copy.deepcopy(vector)
+    challenge = parse_strict(mutant["challenge_jcs"].encode("utf-8"))
+    change(challenge)
+    challenge_raw = canonicalize(challenge)
+    mutant["challenge_jcs"] = challenge_raw.decode("utf-8")
+    def update_payload(payload):
+        payload.update(rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+                       member_id=challenge["member_id"], member_selector=challenge["member_selector"],
+                       runtime_id=challenge["runtime_id"], reported_peer_token=challenge["peer_token"],
+                       challenge_sha256=digest(challenge_raw))
+        if payload_change is not None:
+            payload_change(payload)
+    mutant = resign_mutation(mutant, update_payload)
+    verified = parse_strict(mutant["verified_jcs"].encode("utf-8"))
+    verified.update(rpc_id=challenge["rpc_id"], nonce_hex=challenge["nonce_hex"],
+                    member_id=challenge["member_id"], member_selector=challenge["member_selector"],
+                    runtime_id=challenge["runtime_id"], peer_token=challenge["peer_token"],
+                    challenge_sha256=digest(challenge_raw))
+    mutant["verified_jcs"] = canonicalize(verified).decode("utf-8")
+    return mutant
+
+
+def second_member_vector(root, profile, vector):
+    source = json.loads((root / "fixtures/reservation/v3/stage2a-member-set.synthetic.json").read_text())[profile]
+    assignment = parse_strict(source["assignment_payload_jcs"].encode("utf-8"))
+    child = parse_strict(source["child_observation_payload_jcs"].encode("utf-8"))
+    member = assignment["members"][1]
+    observed = child["members"][1]
+    process = observed["child_process"]
+
+    def change_challenge(challenge):
+        challenge.update(member_id=member["member_id"], member_selector=member["member_selector"],
+                         runtime_id=observed["runtime_id"], peer_token={"pid": 4202,
+                             "pid_version": challenge["peer_token"]["pid_version"], "uid": process["uid"]})
+
+    def change_payload(payload):
+        payload["observed_cli"].update(pid=4202, parent_pid=process["pid"], start_micros=251)
+        payload["observed_adapter_parent"].update({key: process[key] for key in
+            ("pid", "uid", "start_seconds", "start_micros", "executable_sha256")})
+
+    return resign_challenge_mutation(vector, change_challenge, change_payload)
+
+
 def check_stage2a_relay_peer_fixtures(root, schemas, report):
     vectors = parse_strict((root / "fixtures/reservation/v3/stage2a-relay-peer.synthetic.json").read_bytes())
     for profile in ("managed-protected", "managed-cooperative"):
         vector = vectors[profile]
         try:
-            used = set()
+            used = {}
             verify_vector(root, profile, vector, schemas, used)
             report(True, "relay-peer " + profile + " exact challenge/A signature/H reply joins")
             try:
@@ -134,13 +185,34 @@ def check_stage2a_relay_peer_fixtures(root, schemas, report):
             except ValueError:
                 report(True, "relay-peer " + profile + " refuses nonce/RPC replay")
             for label, change in (
+                ("reused nonce with fresh RPC ID", lambda c: c.update(rpc_id="rpc_" + "c" * 32)),
+                ("reused RPC ID with fresh nonce", lambda c: c.update(nonce_hex="c" * 64)),
+            ):
+                mutant = resign_challenge_mutation(vector, change)
+                verify_vector(root, profile, mutant, schemas, {})
+                try:
+                    verify_vector(root, profile, mutant, schemas, used)
+                    report(False, "relay-peer " + profile + " refuses " + label)
+                except ValueError:
+                    report(True, "relay-peer " + profile + " refuses " + label)
+            second = second_member_vector(root, profile, vector)
+            verify_vector(root, profile, second, schemas, {})
+            report(True, "relay-peer " + profile + " accepts signed second member")
+            wrong_member = resign_challenge_mutation(second,
+                lambda challenge: challenge.update(member_selector="mb_" + "0" * 64))
+            try:
+                verify_vector(root, profile, wrong_member, schemas, {})
+                report(False, "relay-peer " + profile + " refuses wrong signed member selector")
+            except ValueError:
+                report(True, "relay-peer " + profile + " refuses wrong signed member selector")
+            for label, change in (
                 ("wrong direct parent", lambda p: p["observed_cli"].update(parent_pid=9999)),
                 ("wrong CLI bytes", lambda p: p["observed_cli"].update(executable_sha256="sha256:" + "0" * 64)),
                 ("stale A proof", lambda p: p.update(expires_at="2026-11-22T14:15:34Z")),
             ):
                 mutant = resign_mutation(vector, change)
                 try:
-                    verify_vector(root, profile, mutant, schemas, set())
+                    verify_vector(root, profile, mutant, schemas, {})
                     report(False, "relay-peer " + profile + " refuses " + label)
                 except ValueError:
                     report(True, "relay-peer " + profile + " refuses " + label)
