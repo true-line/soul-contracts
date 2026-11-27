@@ -1,0 +1,54 @@
+{
+  "schema": "package/core-v1/portable-definition.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "definition",
+    "layout": "contents-1",
+    "founding_orchestrator": {
+      "id": "founding-harness",
+      "version": "1.4"
+    },
+    "adopted_harnesses": [
+      {
+        "id": "adopted-harness",
+        "version": "2.2"
+      }
+    ],
+    "execution_profiles": {
+      "text-session": {
+        "harness": {
+          "id": "adopted-harness",
+          "version": "2.2"
+        },
+        "adapter": {
+          "id": "bridge",
+          "version": "3.1"
+        },
+        "provider": {
+          "id": "inference-service",
+          "version": "2026-10"
+        },
+        "model": "example-model",
+        "runtime_refs": [
+          "runtime-1"
+        ],
+        "state_namespace": "adopted-home",
+        "required_capabilities": [
+          "text"
+        ]
+      }
+    },
+    "extensions": {
+      "example.display": {
+        "required": false,
+        "value": {
+          "theme": "paper"
+        }
+      }
+    }
+  },
+  "canonical_sha256": "sha256:d3b056bc9fdc412f30eda7299036f0ce1bf20d2490ce10716bb816e4a0ec8a0b"
+}

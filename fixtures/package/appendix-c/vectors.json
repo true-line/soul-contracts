@@ -1,0 +1,122 @@
+{
+  "encoding": "soul-core-example-1",
+  "inventory": [
+    {
+      "mode": "0644",
+      "path": "Resources/SOUL.md",
+      "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+    },
+    {
+      "mode": "0644",
+      "path": "SoulInfo.json",
+      "sha256": "4b9c215f61322588219a75aa952b757af25660ffbf085bc24b8ff3b3ad12d241"
+    },
+    {
+      "mode": "0644",
+      "path": "SoulLock.json",
+      "sha256": "bf551427bb93b2762e29fc326bedde7a8e2cac4e25b3126cea8fc66f46d2e55b"
+    }
+  ],
+  "byte_lengths": [
+    29,
+    54,
+    16
+  ],
+  "preimage_file": "preimage.txt",
+  "preimage_length": 376,
+  "definition_revision": "36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+  "identity_fixtures": [
+    "positive/portable-identity.appendix-c-a.json",
+    "positive/portable-identity.appendix-c-b.json"
+  ],
+  "checkpoint_fixture": "positive/portable-checkpoint.appendix-c.json",
+  "expected_inspection": {
+    "definition_integrity": "pass",
+    "identity_authentication": "unverified",
+    "protected_content": "not-applicable",
+    "restriction_freshness": "unknown",
+    "execution_readiness": "unavailable"
+  },
+  "transfer_selections": {
+    "template": {
+      "definition_paths": [
+        "Resources/SOUL.md",
+        "SoulInfo.json",
+        "SoulLock.json"
+      ],
+      "template_provenance": {
+        "source_soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+        "source_definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768"
+      },
+      "destination_identity": "new"
+    },
+    "life": {
+      "definition_paths": [
+        "Resources/SOUL.md",
+        "SoulInfo.json",
+        "SoulLock.json"
+      ],
+      "identity_fixture": "positive/portable-identity.appendix-c-a.json",
+      "checkpoint_fixture": "positive/portable-checkpoint.appendix-c.json",
+      "prior_placement": "unresolved",
+      "destination_identity": "preserve"
+    }
+  },
+  "negative_vectors": [
+    {
+      "case": "one instruction byte",
+      "files": {
+        "Resources/SOUL.md": {
+          "mode": "0644",
+          "utf8": "You are a Careful assistant.\n"
+        }
+      },
+      "expected_refusal": "file-digest-mismatch",
+      "recomputed_revision": "f03c8e1e7af0b621a88858c830da5bac8a13eefa6dd07e93fe34a72f55db38bd"
+    },
+    {
+      "case": "duplicate manifest key",
+      "files": {
+        "SoulInfo.json": {
+          "mode": "0644",
+          "utf8": "{\"format\":\"soul-core-example-1\",\"layout\":\"other\",\"layout\":\"contents-1\"}"
+        }
+      },
+      "expected_refusal": "duplicate-manifest-key"
+    },
+    {
+      "case": "candidate exempts a new executable",
+      "files": {
+        "SoulInfo.json": {
+          "mode": "0644",
+          "utf8": "{\"format\":\"soul-core-example-1\",\"layout\":\"contents-1\",\"exclusions\":[\"bin/extra\"]}"
+        },
+        "bin/extra": {
+          "mode": "0755",
+          "utf8": "example executable fixture\n"
+        }
+      },
+      "expected_refusal": "candidate-controlled-exclusion"
+    },
+    {
+      "case": "undeclared executable mode",
+      "files": {
+        "Resources/SOUL.md": {
+          "mode": "0755",
+          "utf8": "You are a careful assistant.\n"
+        }
+      },
+      "expected_refusal": "undeclared-mode"
+    },
+    {
+      "case": "unlisted file",
+      "files": {
+        "Resources/extra.md": {
+          "mode": "0644",
+          "utf8": "unlisted\n"
+        }
+      },
+      "expected_refusal": "inventory-path-mismatch"
+    }
+  ]
+}

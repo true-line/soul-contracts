@@ -26,6 +26,7 @@ from referencing import Registry, Resource
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from jcs import canonicalize, parse_strict  # noqa: E402
+from portable_package_fixtures import check_portable_package_fixtures, portable_record_refusal  # noqa: E402
 from qualification_fixtures import check_qualification_fixtures  # noqa: E402
 from bridge_report_fixtures import check_bridge_report_fixtures  # noqa: E402
 from qualification_policy_fixtures import check_qualification_policy_fixtures  # noqa: E402
@@ -199,6 +200,10 @@ for fx in sorted((ROOT / "fixtures").glob("*/*.json")):
     if exp["schema"] != got:
         problems.append(f"schema expected {exp['schema']}, got {got}" + (f": {errs[0].message}" if errs else ""))
     if kind == "positive":
+        if not errs and sch.startswith("package/core-v1/"):
+            reason = portable_record_refusal(d["input"])
+            if reason:
+                problems.append(reason)
         if exp["schema"] != "valid" or exp.get("error"):
             problems.append("positive fixtures are valid and name no error")
         if d.get("canonical_sha256") != digest(canonicalize(d["input"])):
@@ -217,6 +222,7 @@ for fx in sorted((ROOT / "fixtures").glob("*/*.json")):
 for sch, c in covered.items():
     report(c["positive"] >= 1 and c["negative"] >= 1, f"coverage {sch}", f"{c['positive']} positive, {c['negative']} negative")
 
+check_portable_package_fixtures(ROOT, schemas, report)
 check_qualification_fixtures(ROOT, schemas, report)
 check_bridge_report_fixtures(ROOT, schemas, report)
 check_qualification_policy_v2_fixtures(ROOT, schemas, report)

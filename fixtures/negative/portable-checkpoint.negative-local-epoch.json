@@ -1,0 +1,38 @@
+{
+  "schema": "package/core-v1/portable-checkpoint.schema.json",
+  "base": {
+    "fixture": "positive/portable-checkpoint.appendix-c.json",
+    "sha256": "sha256:7c0b5a40111956a435507d82ff42ba9fff7bbb63833765601431aeb2d473f415"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "checkpoint",
+    "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+    "revision_profile": "soul-core-example-1",
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+    "checkpoint_id": "checkpoint-a",
+    "definition_inventory": [
+      {
+        "mode": "0644",
+        "path": "Resources/SOUL.md",
+        "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+      },
+      {
+        "mode": "0644",
+        "path": "SoulInfo.json",
+        "sha256": "4b9c215f61322588219a75aa952b757af25660ffbf085bc24b8ff3b3ad12d241"
+      },
+      {
+        "mode": "0644",
+        "path": "SoulLock.json",
+        "sha256": "bf551427bb93b2762e29fc326bedde7a8e2cac4e25b3126cea8fc66f46d2e55b"
+      }
+    ],
+    "selected_life": [],
+    "source_installation_id": "placement-a",
+    "source_restriction_epoch": -1
+  }
+}

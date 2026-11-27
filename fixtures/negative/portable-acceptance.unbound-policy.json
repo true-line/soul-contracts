@@ -1,0 +1,22 @@
+{
+  "schema": "package/core-v1/portable-acceptance.schema.json",
+  "base": {
+    "fixture": "positive/portable-acceptance.initial-statement.json",
+    "sha256": "sha256:9cd1f6071e35682cc84113ba90cc100bb46713128f4db11ee85b6f73dd72061b"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "acceptance",
+    "revision_profile": "soul-core-example-1",
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+    "expected_base_revision": null,
+    "policy_revision": "latest",
+    "evidence_refs": [
+      "sha256:1f49789e450b42af7ccf193988a0205588ccef66bc28a165332c2e782b9b4959"
+    ],
+    "authority_ref": "urn:example:owner"
+  }
+}

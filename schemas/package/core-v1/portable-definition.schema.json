@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/core-v1/portable-definition.schema.json",
+  "title": "Portable package definition record",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "layout",
+    "founding_orchestrator",
+    "adopted_harnesses",
+    "execution_profiles"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/core-v1"
+    },
+    "kind": {
+      "const": "definition"
+    },
+    "layout": {
+      "const": "contents-1"
+    },
+    "founding_orchestrator": {
+      "$ref": "#/$defs/component"
+    },
+    "adopted_harnesses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/component"
+      },
+      "uniqueItems": true
+    },
+    "execution_profiles": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "harness",
+          "adapter",
+          "provider",
+          "model",
+          "runtime_refs",
+          "state_namespace",
+          "required_capabilities"
+        ],
+        "properties": {
+          "harness": {
+            "$ref": "#/$defs/component"
+          },
+          "adapter": {
+            "$ref": "#/$defs/component"
+          },
+          "provider": {
+            "$ref": "#/$defs/component"
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtime_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "state_namespace": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "required",
+          "value"
+        ],
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "value": {}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "soulId": {
+      "type": "string",
+      "pattern": "^urn:uuid:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?![\\s\\S])"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "path",
+        "mode",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^(?!\\.{1,2}(?:/|$))(?!.*\\/\\.{1,2}(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*(?![\\s\\S])"
+        },
+        "mode": {
+          "enum": [
+            "0644",
+            "0755"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
