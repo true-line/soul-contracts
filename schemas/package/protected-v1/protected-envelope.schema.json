@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/protected-v1/protected-envelope.schema.json",
+  "title": "Protected content envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "kind",
+    "suite",
+    "nonce_hex",
+    "ciphertext_tag_hex",
+    "recipient_ref",
+    "wrapped_key_hex"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/protected-v1"
+    },
+    "kind": {
+      "const": "envelope"
+    },
+    "suite": {
+      "const": "fixture-a256gcm-a256kw-v1"
+    },
+    "nonce_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{24}(?![\\s\\S])"
+    },
+    "ciphertext_tag_hex": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{2})*(?![\\s\\S])",
+      "minLength": 32
+    },
+    "recipient_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "wrapped_key_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{80}(?![\\s\\S])"
+    }
+  }
+}

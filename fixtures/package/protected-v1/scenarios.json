@@ -1,0 +1,589 @@
+{
+  "host_defaults": {
+    "now": 10,
+    "freshness": "current",
+    "custody": "available",
+    "known_epoch": 6,
+    "known_held": [],
+    "revoked_grants": [
+      "revoked"
+    ],
+    "review_authority": "independent-reviewer",
+    "recovery_verified": true
+  },
+  "request_defaults": {
+    "credential": "base",
+    "session": "s1",
+    "peer": "peer-1",
+    "purpose": "task",
+    "recipient": "reader",
+    "corpus": "life-a"
+  },
+  "grant_changes": {
+    "second": {
+      "grant_id": "second",
+      "session": "s2"
+    },
+    "renewed": {
+      "grant_id": "renewed",
+      "session": "s3",
+      "expires": 50
+    },
+    "dream": {
+      "grant_id": "dream",
+      "purpose": "dream"
+    },
+    "revoked": {
+      "grant_id": "revoked"
+    },
+    "executor": {
+      "grant_id": "executor",
+      "operations": [
+        "execute"
+      ]
+    },
+    "approver": {
+      "grant_id": "approver",
+      "operations": [
+        "approve"
+      ]
+    },
+    "exporter": {
+      "grant_id": "exporter",
+      "operations": [
+        "export"
+      ]
+    },
+    "limited": {
+      "grant_id": "limited",
+      "max_output_bytes": 1
+    },
+    "other-version": {
+      "grant_id": "other-version",
+      "versions": [
+        "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+      ]
+    },
+    "dream-release": {
+      "grant_id": "dream-release",
+      "purpose": "dream",
+      "operations": [
+        "release"
+      ]
+    },
+    "derivative-only": {
+      "grant_id": "derivative-only",
+      "versions": [
+        "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9"
+      ]
+    },
+    "reviewer": {
+      "grant_id": "reviewer",
+      "peer": "independent-reviewer",
+      "operations": [
+        "release",
+        "quarantine"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "sessions and token renewal share one durable budget",
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "receipt": "r1",
+          "expected_spent": 2
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "receipt-already-used",
+          "receipt": "r1",
+          "expected_spent": 2
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "reserved-delivery-unknown",
+          "session": "s2",
+          "credential": "second",
+          "receipt": "r2",
+          "expected_spent": 4,
+          "delivery": "unknown"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-expired",
+          "now": 20,
+          "receipt": "r3",
+          "expected_spent": 4
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "budget-exhausted",
+          "now": 21,
+          "session": "s3",
+          "credential": "renewed",
+          "receipt": "r4",
+          "expected_spent": 4,
+          "reload_ledger": true
+        }
+      ]
+    },
+    {
+      "name": "quarantine applies to sources and all derivatives",
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+          "expected": "version-held",
+          "receipt": "attempt-1"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9",
+          "expected": "version-held",
+          "receipt": "attempt-2"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:b631b2fb0272db5da1a3635ef703c428b1522842b61895132111806164868642",
+          "expected": "version-held",
+          "receipt": "attempt-3"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "receipt": "r1",
+          "expected_spent": 2
+        }
+      ]
+    },
+    {
+      "name": "an ordinary dream cannot release its own finding",
+      "steps": [
+        {
+          "operation": "release",
+          "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+          "expected": "operation-denied",
+          "purpose": "dream",
+          "credential": "dream"
+        },
+        {
+          "operation": "release",
+          "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+          "expected": "independent-authority-required",
+          "purpose": "dream",
+          "credential": "dream-release"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9",
+          "expected": "version-held",
+          "receipt": "attempt-3"
+        }
+      ]
+    },
+    {
+      "name": "source journal rollback retains newer restrictions",
+      "known_epoch": 8,
+      "known_held": [
+        "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+      ],
+      "steps": [
+        {
+          "operation": "restore",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "checkpoint-stale"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "version-held",
+          "receipt": "attempt-2"
+        }
+      ]
+    },
+    {
+      "name": "unknown freshness permits inspection and bounded recovery",
+      "freshness": "unknown",
+      "steps": [
+        {
+          "operation": "inspect",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "metadata-only"
+        },
+        {
+          "operation": "execute",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "credential": "executor"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "receipt": "attempt-3"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "recovery": true,
+          "receipt": "r1",
+          "expected_spent": 2
+        },
+        {
+          "operation": "export",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "credential": "exporter",
+          "recovery": true,
+          "receipt": "attempt-5"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+          "expected": "version-held",
+          "recovery": true,
+          "receipt": "attempt-6"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "recovery": true,
+          "now": 31,
+          "credential": "renewed",
+          "session": "s3",
+          "receipt": "attempt-7"
+        }
+      ]
+    },
+    {
+      "name": "authorities and peer binding are independent",
+      "steps": [
+        {
+          "operation": "execute",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "operation-denied"
+        },
+        {
+          "operation": "approve",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "operation-denied"
+        },
+        {
+          "operation": "export",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "operation-denied",
+          "receipt": "attempt-3"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "peer": "other",
+          "receipt": "attempt-4"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "session": "s2",
+          "receipt": "attempt-5"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "recipient": "other",
+          "receipt": "attempt-6"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-revoked",
+          "credential": "revoked",
+          "receipt": "attempt-7"
+        },
+        {
+          "operation": "execute",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "credential": "executor"
+        },
+        {
+          "operation": "approve",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "credential": "approver"
+        },
+        {
+          "operation": "export",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "credential": "exporter",
+          "receipt": "out",
+          "expected_spent": 2
+        }
+      ]
+    },
+    {
+      "name": "earlier reservations survive later revocation",
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "allowed",
+          "receipt": "delivered",
+          "expected_spent": 2
+        },
+        {
+          "operation": "quarantine",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "held",
+          "credential": "reviewer",
+          "expected_spent": 2,
+          "peer": "independent-reviewer",
+          "decision_ref": "review-evidence-1"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "version-held",
+          "expected_spent": 2,
+          "receipt": "attempt-3"
+        }
+      ]
+    },
+    {
+      "name": "scope binds corpus, version, purpose and limits",
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "corpus": "other",
+          "receipt": "attempt-1"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "purpose": "other",
+          "receipt": "attempt-2"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "output-limit",
+          "credential": "limited",
+          "receipt": "attempt-3"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "grant-scope-mismatch",
+          "credential": "other-version",
+          "receipt": "attempt-4"
+        }
+      ]
+    },
+    {
+      "name": "custody outage leaves locked inspection available",
+      "custody": "unavailable",
+      "steps": [
+        {
+          "operation": "inspect",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "metadata-only"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "custody-unavailable",
+          "receipt": "attempt-2"
+        }
+      ]
+    },
+    {
+      "name": "independent release records an explicit decision",
+      "steps": [
+        {
+          "operation": "release",
+          "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+          "expected": "released",
+          "credential": "reviewer",
+          "peer": "independent-reviewer",
+          "decision_ref": "review-evidence-1"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9",
+          "expected": "grant-scope-mismatch",
+          "credential": "derivative-only",
+          "receipt": "attempt-2"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9",
+          "expected": "allowed",
+          "receipt": "after-review",
+          "expected_spent": 3
+        }
+      ]
+    },
+    {
+      "name": "fresh authorized restore",
+      "steps": [
+        {
+          "operation": "restore",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "restored"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:b631b2fb0272db5da1a3635ef703c428b1522842b61895132111806164868642",
+          "expected": "version-held",
+          "receipt": "attempt-2"
+        }
+      ]
+    },
+    {
+      "name": "conflicting authenticated epoch",
+      "known_epoch": 7,
+      "known_held": [
+        "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+      ],
+      "steps": [
+        {
+          "operation": "restore",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "checkpoint-conflict"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "checkpoint-conflict",
+          "receipt": "attempt-2"
+        }
+      ]
+    },
+    {
+      "name": "expired recovery with otherwise valid renewed grant",
+      "freshness": "unknown",
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "now": 31,
+          "credential": "renewed",
+          "session": "s3",
+          "recovery": true,
+          "receipt": "attempt-1"
+        }
+      ]
+    },
+    {
+      "name": "recovery requires trusted external decision",
+      "recovery_verified": false,
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "freshness-unknown",
+          "recovery": true,
+          "receipt": "attempt-1"
+        }
+      ],
+      "freshness": "unknown"
+    },
+    {
+      "name": "revoked custody capability",
+      "custody": "revoked",
+      "steps": [
+        {
+          "operation": "inspect",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "metadata-only"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "custody-unavailable",
+          "receipt": "attempt-2"
+        }
+      ]
+    },
+    {
+      "name": "destination holds survive newer imported journal",
+      "local_held": [
+        "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+      ],
+      "steps": [
+        {
+          "operation": "restore",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "restored"
+        },
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "expected": "version-held",
+          "receipt": "held-at-destination"
+        }
+      ]
+    },
+    {
+      "name": "same friendly name resolves to a different principal",
+      "binding_replace": {
+        "principal": "principal-b"
+      },
+      "steps": [
+        {
+          "operation": "disclose",
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135",
+          "receipt": "wrong-principal",
+          "expected": "credential-binding-mismatch",
+          "expected_spent": 0
+        }
+      ]
+    },
+    {
+      "name": "two simultaneous reservations for the last output",
+      "steps": [
+        {
+          "operation": "disclose",
+          "receipt": "prior",
+          "expected": "allowed",
+          "expected_spent": 2,
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+        },
+        {
+          "operation": "disclose",
+          "session": "s2",
+          "credential": "second",
+          "receipt": "winner",
+          "expected": "allowed",
+          "expected_spent": 4,
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+        },
+        {
+          "operation": "disclose",
+          "receipt": "loser",
+          "expected": "budget-exhausted",
+          "expected_spent": 4,
+          "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+        }
+      ]
+    }
+  ]
+}

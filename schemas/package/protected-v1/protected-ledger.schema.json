@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/protected-v1/protected-ledger.schema.json",
+  "title": "Protected content ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "kind",
+    "scope",
+    "limit_bytes",
+    "receipts"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/protected-v1"
+    },
+    "kind": {
+      "const": "ledger"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "host",
+        "soul_id",
+        "recipient",
+        "corpus",
+        "period"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "soul_id": {
+          "$ref": "../core-v1/portable-definition.schema.json#/$defs/soulId"
+        },
+        "recipient": {
+          "type": "string",
+          "minLength": 1
+        },
+        "corpus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "period": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "limit_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "receipts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "grant_id",
+          "version",
+          "output_bytes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "grant_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "$ref": "../core-v1/portable-definition.schema.json#/$defs/digest"
+          },
+          "output_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      }
+    }
+  }
+}

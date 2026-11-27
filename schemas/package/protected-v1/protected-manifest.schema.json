@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/protected-v1/protected-manifest.schema.json",
+  "title": "Protected content manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "kind",
+    "identity",
+    "checkpoint",
+    "corpus",
+    "sources",
+    "credential_requirements",
+    "restrictions"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/protected-v1"
+    },
+    "kind": {
+      "const": "manifest"
+    },
+    "identity": {
+      "$ref": "../core-v1/portable-identity.schema.json"
+    },
+    "checkpoint": {
+      "$ref": "../core-v1/portable-checkpoint.schema.json"
+    },
+    "corpus": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes_hex",
+          "parents",
+          "version"
+        ],
+        "properties": {
+          "path": {
+            "$ref": "../core-v1/portable-definition.schema.json#/$defs/entry/properties/path"
+          },
+          "bytes_hex": {
+            "type": "string",
+            "pattern": "^(?:[0-9a-f]{2})*(?![\\s\\S])",
+            "minLength": 0
+          },
+          "parents": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "$ref": "../core-v1/portable-definition.schema.json#/$defs/digest"
+            }
+          },
+          "version": {
+            "$ref": "../core-v1/portable-definition.schema.json#/$defs/digest"
+          }
+        }
+      }
+    },
+    "credential_requirements": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "binding",
+          "capability"
+        ],
+        "properties": {
+          "binding": {
+            "$ref": "protected-credential-status.schema.json#/$defs/binding"
+          },
+          "capability": {
+            "$ref": "protected-credential-status.schema.json#/$defs/capability"
+          }
+        }
+      }
+    },
+    "restrictions": {
+      "$ref": "protected-restrictions.schema.json"
+    }
+  }
+}

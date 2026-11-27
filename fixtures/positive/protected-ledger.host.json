@@ -1,0 +1,20 @@
+{
+  "schema": "package/protected-v1/protected-ledger.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "ledger",
+    "scope": {
+      "host": "host-b",
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "recipient": "reader",
+      "corpus": "life-a",
+      "period": "period-1"
+    },
+    "limit_bytes": 4,
+    "receipts": []
+  },
+  "canonical_sha256": "sha256:1a9dce00283076ee40d05f05c43217d9ec9ad4f364bc54f6cb52264683c124c6"
+}

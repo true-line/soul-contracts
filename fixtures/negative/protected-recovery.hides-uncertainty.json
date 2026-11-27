@@ -1,0 +1,27 @@
+{
+  "schema": "package/protected-v1/protected-recovery.schema.json",
+  "base": {
+    "fixture": "positive/protected-recovery.bounded.json",
+    "sha256": "sha256:b26fc61063d88fa19ffc1d0c7e60781dc11c57c316c9fec35ecfc286d0af5a5b"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "recovery",
+    "decision_id": "recovery-1",
+    "authority": "recovery-authority",
+    "host": "host-b",
+    "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+    "checkpoint_sha256": "sha256:970c1d5e9bdd0445a9d5a8cc3e55e0309d65cc36771f0070fe6b874addf7e332",
+    "uncertainty": "current",
+    "operations": [
+      "disclose"
+    ],
+    "versions": [
+      "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+    ],
+    "expires": 30
+  }
+}

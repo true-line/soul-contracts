@@ -1,0 +1,23 @@
+{
+  "schema": "package/protected-v1/protected-restrictions.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "restrictions",
+    "statement": {
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "checkpoint_sha256": "sha256:970c1d5e9bdd0445a9d5a8cc3e55e0309d65cc36771f0070fe6b874addf7e332",
+      "journal": "journal-a",
+      "signer": "authority-a",
+      "epoch": 7,
+      "held_versions": [
+        "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+      ],
+      "selection_sha256": "sha256:df567fada44747b4804551d21548b04fd3954a2dfa8debb94c781c98eb246d20"
+    },
+    "signature_hex": "a955286c10b66b08da0e87ca0b84fee8fbb8aaaee37ca6633969067434228e4089dc0f6334bac342e5272ca2207a544a3e531e52d9eb1b92c1f84529638d000a"
+  },
+  "canonical_sha256": "sha256:d86f54c27226c7e64b97743e5e458f6ad9e839eb5907ea641c7142f6f7cb922c"
+}
