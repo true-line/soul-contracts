@@ -1,0 +1,199 @@
+[
+  {
+    "base_fixture": "positive/portable-definition.adopted-harness.json",
+    "cases": [
+      {
+        "case": "adopted harness",
+        "replace": {},
+        "expected_refusal": null
+      },
+      {
+        "case": "founding harness",
+        "replace": {
+          "adopted_harnesses": [],
+          "founding_orchestrator": {
+            "id": "adopted-harness",
+            "version": "2.2"
+          }
+        },
+        "expected_refusal": null
+      },
+      {
+        "case": "undeclared harness id",
+        "replace": {
+          "adopted_harnesses": []
+        },
+        "expected_refusal": "unregistered-harness"
+      },
+      {
+        "case": "undeclared harness version",
+        "replace": {
+          "adopted_harnesses": [
+            {
+              "id": "adopted-harness",
+              "version": "2.1"
+            }
+          ]
+        },
+        "expected_refusal": "unregistered-harness"
+      }
+    ]
+  },
+  {
+    "base_fixture": "positive/portable-checkpoint.appendix-c.json",
+    "cases": [
+      {
+        "case": "distinct siblings share a directory",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "Docs/a",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0644",
+              "path": "Docs/b",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": null
+      },
+      {
+        "case": "duplicate path with different mode",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "Resources/SOUL.md",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0755",
+              "path": "Resources/SOUL.md",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "case-folded file collision",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "Docs/A",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0644",
+              "path": "Docs/a",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "directory spelling collision",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "Docs/a",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0644",
+              "path": "docs/b",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "existing file reused as directory",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "a",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0644",
+              "path": "a/b",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "existing directory reused as file",
+        "replace": {
+          "definition_inventory": [
+            {
+              "mode": "0644",
+              "path": "a/b",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0644",
+              "path": "a",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "overlapping definition and life",
+        "replace": {
+          "selected_life": [
+            {
+              "mode": "0644",
+              "path": "Resources/SOUL.md",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      },
+      {
+        "case": "life in shared directory",
+        "replace": {
+          "selected_life": [
+            {
+              "mode": "0644",
+              "path": "Resources/note.md",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": null
+      },
+      {
+        "case": "duplicate life paths",
+        "replace": {
+          "selected_life": [
+            {
+              "mode": "0644",
+              "path": "memo",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            },
+            {
+              "mode": "0755",
+              "path": "memo",
+              "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+            }
+          ]
+        },
+        "expected_refusal": "inventory-path-conflict"
+      }
+    ]
+  }
+]

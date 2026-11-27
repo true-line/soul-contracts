@@ -20,6 +20,8 @@ Determine coverage from the currently trusted profile and expected base. Include
 
 Parse manifest JSON strictly before interpretation, including duplicate-key rejection at every nesting level. The `extensions` object in the definition holds named payloads with a required flag. Preserve unknown fields and opaque entries on a same-artifact rewrite, including unsupported records retained as opaque bytes. Unknown extensions confer no execution or export permission. A reader can inspect the supported core with an unknown required extension, but execution stays unavailable until the extension is supported. Export requires explicit selection.
 
+After schema validation, check each execution profile against the registered harness ID and version. Check the combined definition and selected-life inventories as one path tree. Each file occurs once. Each shared directory prefix has one spelling and serves only as a directory. The record vectors replace the listed top-level fields of a positive fixture’s input. A null expected refusal means the record passes these checks. [Cross-field record vectors](../../../fixtures/package/core-v1/record-vectors.json)
+
 ## Digest and authentication profiles
 
 `soul-core-example-1` names only the paper's three-file example. It has a fixed ASCII domain and inventory encoding. Its original `SoulInfo.json` predates the proposed core-v1 declaration fields. The two illustrative core-v1 identity statements reference those exact historical bytes. Adding founding or execution declarations to the example manifest would change its revision. [Appendix C vectors and byte recipe](../../../fixtures/package/appendix-c/README.md)

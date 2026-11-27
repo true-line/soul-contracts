@@ -1,5 +1,9 @@
 """Fixture oracle for the three-file, unsigned Appendix C example."""
 import hashlib
+import os
+from pathlib import Path
+import stat
+from tempfile import TemporaryDirectory
 
 from jcs import canonicalize, parse_strict
 
@@ -39,22 +43,100 @@ def refusal(files, expected):
     return None
 
 
-def check_portable_package_fixtures(root, report):
+def portable_record_refusal(record):
+    """Cross-field constraints on a schema-valid core-v1 record."""
+    if record["kind"] == "definition":
+        registered = [record["founding_orchestrator"], *record["adopted_harnesses"]]
+        if any(profile["harness"] not in registered for profile in record["execution_profiles"].values()):
+            return "unregistered-harness"
+    if record["kind"] == "checkpoint":
+        # Both inventories share one Contents tree. Record the spelling and role
+        # of every prefix, including directories implied by multiple files.
+        seen = {}
+        for entry in record["definition_inventory"] + record["selected_life"]:
+            parts = entry["path"].split("/")
+            for end in range(1, len(parts) + 1):
+                prefix = "/".join(parts[:end])
+                key = prefix.lower()  # The schema restricts paths to ASCII.
+                directory = end < len(parts)
+                if key in seen and (not directory or seen[key] != (prefix, True)):
+                    return "inventory-path-conflict"
+                seen[key] = (prefix, directory)
+    return None
+
+
+def appendix_files(contents):
+    """Inspect physical entries before reading any of the three golden files."""
+    if not stat.S_ISDIR(contents.lstat().st_mode):
+        raise ValueError("expected a directory: " + str(contents))
+    paths = set()
+    for path in contents.rglob("*"):
+        info = path.lstat()
+        if stat.S_ISDIR(info.st_mode):
+            continue
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+            raise ValueError("expected a single-link regular file: " + str(path))
+        paths.add(path.relative_to(contents).as_posix())
+    if paths != MODES.keys():
+        raise ValueError("unexpected Appendix C file inventory")
+    return {name: (mode, (contents / name).read_bytes()) for name, mode in MODES.items()}
+
+
+def check_link_refusals(files, report):
+    # Git cannot store hard-link relationships. Materialize both cases with the
+    # exact expected bytes, so a content-only check would accept either one.
+    with TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        contents = base / "Contents"
+        (contents / "Resources").mkdir(parents=True)
+        for name, (_, data) in files.items():
+            (contents / name).write_bytes(data)
+        target = base / "target"
+        target.write_bytes(files["SoulLock.json"][1])
+        entry = contents / "SoulLock.json"
+        for kind, link in (("symbolic link", os.symlink), ("hard link", os.link)):
+            entry.unlink()
+            link(target, entry)
+            try:
+                appendix_files(contents)
+            except ValueError as exc:
+                refused = str(exc).startswith("expected a single-link regular file:")
+            else:
+                refused = False
+            report(refused, "Appendix C refuses " + kind + " input")
+
+
+def check_record_vectors(fixtures, schemas, report):
+    vectors = parse_strict((fixtures / "package/core-v1/record-vectors.json").read_bytes())
+    for group in vectors:
+        base = parse_strict((fixtures / group["base_fixture"]).read_bytes())
+        for case in group["cases"]:
+            candidate = {**base["input"], **case["replace"]}
+            report(schemas[base["schema"]].is_valid(candidate)
+                   and portable_record_refusal(candidate) == case["expected_refusal"],
+                   "portable core " + case["case"])
+
+
+def check_portable_package_fixtures(root, schemas, report):
     fixtures = root / "fixtures"
     folder = fixtures / "package/appendix-c"
     vector = parse_strict((folder / "vectors.json").read_text())
     contents = folder / "Contents"
-    paths = {p.relative_to(contents).as_posix() for p in contents.rglob("*") if p.is_file()}
-    files = {name: (mode, (contents / name).read_bytes()) for name, mode in MODES.items()}
+    try:
+        files = appendix_files(contents)
+    except (OSError, ValueError) as exc:
+        raise SystemExit(f"FAIL Appendix C physical inventory: {exc}") from exc
+    check_link_refusals(files, report)
+    check_record_vectors(fixtures, schemas, report)
     entries = inventory(files)
-    report(paths == MODES.keys() and refusal(files, vector["inventory"]) is None,
+    report(refusal(files, vector["inventory"]) is None,
            "Appendix C exact paths, portable modes and three file hashes")
     lengths = [len(files[entry["path"]][1]) for entry in entries]
     report(lengths == vector["byte_lengths"] == [29, 54, 16], "Appendix C file lengths")
 
     preimage = PREFIX + canonicalize(entries)
     revision = sha256(preimage)
-    report(preimage == (folder / vector["preimage_file"]).read_bytes()
+    report(vector["preimage_file"] == "preimage.txt" and preimage == (folder / "preimage.txt").read_bytes()
            and len(preimage) == vector["preimage_length"] == 376
            and revision == vector["definition_revision"] == REVISION, "Appendix C revision " + revision)
 
