@@ -1,0 +1,168 @@
+{
+  "records": {
+    "envelope": "positive/protected-envelope.recipient-a.json",
+    "manifest": "positive/protected-manifest.selected-life.json",
+    "restrictions": "positive/protected-restrictions.source-held.json",
+    "grant": "positive/protected-grant.session.json",
+    "ledger": "positive/protected-ledger.host.json",
+    "recovery": "positive/protected-recovery.bounded.json",
+    "credential_status": "positive/protected-credential-status.local-custody.json"
+  },
+  "appendix_c": "package/appendix-c/vectors.json",
+  "external_test_context": {
+    "keks_hex": {
+      "slot-a": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "slot-b": "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f"
+    },
+    "journal_trust": {
+      "journal": "journal-a",
+      "signer": "authority-a",
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "public_key_hex": "79b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664",
+      "source_installation_id": "placement-a"
+    },
+    "recovery_authority": "recovery-authority",
+    "recovery_slot": "slot-b",
+    "recovery_allowed": true
+  },
+  "rewrapped_header": {
+    "recipient_ref": "slot-b",
+    "wrapped_key_hex": "9ba74ec0a3394a43baa95548a2d07bd4ac4f6ead62c4dd166837dcc58680468653db29b899a7668d"
+  },
+  "rewrap_policy": {
+    "identity_sha256": "sha256:ea6f622954ecda34f2c69071338baaccfaf83890070d15865437a8427982ad94",
+    "from": "slot-a",
+    "to": "slot-b"
+  },
+  "cases": [
+    {
+      "name": "locked inspection",
+      "action": "inspect",
+      "expected": {
+        "result": "metadata-only",
+        "unlock": "locked",
+        "logical_integrity": "unchecked",
+        "identity": "unverified",
+        "execution": "unavailable",
+        "credential_status": {
+          "contract": "package/protected-v1",
+          "kind": "credential-status",
+          "capability": "content-custody",
+          "status": "unknown"
+        },
+        "metadata": {
+          "contract": "package/protected-v1",
+          "suite": "fixture-a256gcm-a256kw-v1",
+          "recipient_ref": "slot-a",
+          "ciphertext_tag_bytes": 3182
+        }
+      }
+    },
+    {
+      "name": "recipient opens sealed selection",
+      "action": "open",
+      "key_slot": "slot-a",
+      "expected": "same-logical-content"
+    },
+    {
+      "name": "wrong recipient key",
+      "action": "open",
+      "key_slot": "slot-b",
+      "expected": "unwrap-failed"
+    },
+    {
+      "name": "ciphertext changed",
+      "action": "open",
+      "key_slot": "slot-a",
+      "flip_ciphertext_byte": 0,
+      "expected": "authentication-failed"
+    },
+    {
+      "name": "rewrap for authorized recipient",
+      "action": "rewrap",
+      "destination": "slot-b",
+      "expected": "same-logical-content"
+    },
+    {
+      "name": "unapproved recipient",
+      "action": "rewrap",
+      "destination": "slot-c",
+      "expected": "rewrap-denied"
+    },
+    {
+      "name": "designated external recovery after rewrap",
+      "action": "recover",
+      "key_slot": "slot-b",
+      "expected": "same-logical-content"
+    },
+    {
+      "name": "missing recovery capability",
+      "action": "recover",
+      "key_slot": "slot-c",
+      "expected": "recovery-unavailable"
+    },
+    {
+      "name": "changed restriction epoch",
+      "action": "verify-restrictions",
+      "statement_replace": {
+        "epoch": 8
+      },
+      "expected": "checkpoint-unauthenticated"
+    },
+    {
+      "name": "valid signature for a different selection",
+      "action": "verify-restrictions",
+      "checkpoint_replace": {
+        "checkpoint_id": "another"
+      },
+      "expected": "checkpoint-binding-mismatch"
+    },
+    {
+      "name": "other Appendix C identity over identical bytes",
+      "action": "open",
+      "key_slot": "slot-a",
+      "expected_identity_index": 1,
+      "expected": "identity-binding-mismatch"
+    },
+    {
+      "name": "recovery without authorization",
+      "action": "recover",
+      "key_slot": "slot-b",
+      "recovery_allowed": false,
+      "expected": "recovery-unavailable"
+    },
+    {
+      "name": "untrusted restriction signer",
+      "action": "verify-restrictions",
+      "statement_replace": {
+        "signer": "unknown"
+      },
+      "expected": "checkpoint-unauthenticated"
+    },
+    {
+      "name": "missing contributing version",
+      "action": "verify-manifest",
+      "omit_source_index": 0,
+      "expected": "source-binding-mismatch"
+    },
+    {
+      "name": "tampered derivative bytes",
+      "action": "verify-manifest",
+      "source_index": 1,
+      "source_replace": {
+        "bytes_hex": "00"
+      },
+      "expected": "source-binding-mismatch"
+    },
+    {
+      "name": "derivative relabelled as an independent source",
+      "action": "verify-manifest",
+      "source_index": 2,
+      "source_replace": {
+        "parents": [],
+        "version": "sha256:be2a39bfdc0f7d14731792f46f42a886081181beb346de88469969b358d15a53"
+      },
+      "expected": "selection-binding-mismatch"
+    }
+  ]
+}

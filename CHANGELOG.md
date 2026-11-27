@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+Add the draft protected-content profile and offline crypto, disclosure and
+restriction-restore vectors over the portable core records.
+
 Add draft portable package core-v1 records and the unsigned Appendix C digest,
 identity, checkpoint and refusal vectors.
 

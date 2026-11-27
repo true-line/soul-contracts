@@ -1,0 +1,37 @@
+{
+  "schema": "package/protected-v1/protected-grant.schema.json",
+  "base": {
+    "fixture": "positive/protected-grant.session.json",
+    "sha256": "sha256:fff7940eb3086b91fdcffa282e8f23e46098ab36a741da2f48ec79fc5423a821"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "grant",
+    "grant_id": "grant-1",
+    "session": "s1",
+    "peer": "peer-1",
+    "purpose": "task",
+    "scope": {
+      "host": "host-b",
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "recipient": "reader",
+      "corpus": "life-a",
+      "period": "period-1"
+    },
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+    "operations": [
+      "*"
+    ],
+    "versions": [
+      "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393",
+      "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9",
+      "sha256:b631b2fb0272db5da1a3635ef703c428b1522842b61895132111806164868642",
+      "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+    ],
+    "expires": 20,
+    "max_output_bytes": 8
+  }
+}

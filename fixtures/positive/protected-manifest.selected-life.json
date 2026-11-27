@@ -1,0 +1,127 @@
+{
+  "schema": "package/protected-v1/protected-manifest.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "manifest",
+    "identity": {
+      "contract": "package/core-v1",
+      "kind": "identity",
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "identity_key_ref": "urn:example:external-key:a",
+      "identity_event_refs": [],
+      "revision_profile": "soul-core-example-1",
+      "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768"
+    },
+    "checkpoint": {
+      "contract": "package/core-v1",
+      "kind": "checkpoint",
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "revision_profile": "soul-core-example-1",
+      "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+      "checkpoint_id": "protected-a",
+      "definition_inventory": [
+        {
+          "mode": "0644",
+          "path": "Resources/SOUL.md",
+          "sha256": "6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"
+        },
+        {
+          "mode": "0644",
+          "path": "SoulInfo.json",
+          "sha256": "4b9c215f61322588219a75aa952b757af25660ffbf085bc24b8ff3b3ad12d241"
+        },
+        {
+          "mode": "0644",
+          "path": "SoulLock.json",
+          "sha256": "bf551427bb93b2762e29fc326bedde7a8e2cac4e25b3126cea8fc66f46d2e55b"
+        }
+      ],
+      "selected_life": [
+        {
+          "mode": "0644",
+          "path": "memorial/source",
+          "sha256": "19b25856e1c150ca834cffc8b59b23adbd0ec0389e58eb22b3b64768098d002b"
+        },
+        {
+          "mode": "0644",
+          "path": "memorial/summary",
+          "sha256": "09f5ffef28309853265c4a98d0e56e1be522b6b402d8193594fd05103064fc6a"
+        },
+        {
+          "mode": "0644",
+          "path": "memorial/derived",
+          "sha256": "fb8e20fc2e4c3f248c60c39bd652f3c1347298bb977b8b4d5903b85055620603"
+        },
+        {
+          "mode": "0644",
+          "path": "memorial/independent",
+          "sha256": "2689367b205c16ce32ed4200942b8b8b1e262dfc70d9bc9fbc77c49699a4f1df"
+        }
+      ],
+      "source_installation_id": "placement-a",
+      "source_restriction_epoch": 7
+    },
+    "corpus": "life-a",
+    "sources": [
+      {
+        "path": "memorial/source",
+        "bytes_hex": "73656564",
+        "parents": [],
+        "version": "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+      },
+      {
+        "path": "memorial/summary",
+        "bytes_hex": "73756d",
+        "parents": [
+          "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+        ],
+        "version": "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9"
+      },
+      {
+        "path": "memorial/derived",
+        "bytes_hex": "6162",
+        "parents": [
+          "sha256:c07cad432d1b447f20b3b606c48b197cce3eeb0a96936e3a6d2c80ba0ffe37c9"
+        ],
+        "version": "sha256:b631b2fb0272db5da1a3635ef703c428b1522842b61895132111806164868642"
+      },
+      {
+        "path": "memorial/independent",
+        "bytes_hex": "6f6b",
+        "parents": [],
+        "version": "sha256:658e450f44b49fae8136970ccdf6b882dc3570bd7d4b64ac1cbc7451d2f94135"
+      }
+    ],
+    "credential_requirements": [
+      {
+        "binding": {
+          "binding_ref": "protected-life",
+          "principal": "principal-a",
+          "scope": "life-a",
+          "purpose": "open-selection"
+        },
+        "capability": "content-custody"
+      }
+    ],
+    "restrictions": {
+      "contract": "package/protected-v1",
+      "kind": "restrictions",
+      "statement": {
+        "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+        "checkpoint_sha256": "sha256:970c1d5e9bdd0445a9d5a8cc3e55e0309d65cc36771f0070fe6b874addf7e332",
+        "journal": "journal-a",
+        "signer": "authority-a",
+        "epoch": 7,
+        "held_versions": [
+          "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+        ],
+        "selection_sha256": "sha256:df567fada44747b4804551d21548b04fd3954a2dfa8debb94c781c98eb246d20"
+      },
+      "signature_hex": "a955286c10b66b08da0e87ca0b84fee8fbb8aaaee37ca6633969067434228e4089dc0f6334bac342e5272ca2207a544a3e531e52d9eb1b92c1f84529638d000a"
+    }
+  },
+  "canonical_sha256": "sha256:a78fed64472c57c7ef37c17ce77a615a72e8af5502ec3120253d80a743f58bc6"
+}

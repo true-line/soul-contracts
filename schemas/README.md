@@ -5,6 +5,7 @@ One JSON Schema (draft 2020-12) per record in draft 0.4 Appendix A, plus the `ta
 | Record | Schema file | Since |
 | --- | --- | --- |
 | Descriptive harness adapter package manifest (no qualified profiles) | `adapter/v1/adapter-manifest.schema.json` | 0.6.0 |
+| [Protected package content, custody, disclosure and restore](package/protected-v1/README.md) | `package/protected-v1/protected-*.schema.json` | draft |
 | [Portable package core inspection records](package/core-v1/README.md) | `package/core-v1/portable-*.schema.json` | draft |
 | Draft adapter qualification evidence payload (unverified) | `adapter/v1/qualification-evidence.schema.json` | draft |
 | Draft macOS protected qualification statement (decoded attestation payload) | `adapter/v1/qualification-attestation.schema.json` | draft |

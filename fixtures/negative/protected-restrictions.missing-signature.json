@@ -1,0 +1,26 @@
+{
+  "schema": "package/protected-v1/protected-restrictions.schema.json",
+  "base": {
+    "fixture": "positive/protected-restrictions.source-held.json",
+    "sha256": "sha256:66dba8b9cdcdf9aceae1d16b826441ddcbc70cb915a86c2b7abfee3093848d1c"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/protected-v1",
+    "kind": "restrictions",
+    "statement": {
+      "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+      "checkpoint_sha256": "sha256:970c1d5e9bdd0445a9d5a8cc3e55e0309d65cc36771f0070fe6b874addf7e332",
+      "journal": "journal-a",
+      "signer": "authority-a",
+      "epoch": 7,
+      "held_versions": [
+        "sha256:25d432a714b2e5a7c8ebed91dc30db2c0672600439e767b90d0a7482a8839393"
+      ],
+      "selection_sha256": "sha256:df567fada44747b4804551d21548b04fd3954a2dfa8debb94c781c98eb246d20"
+    },
+    "signature_hex": ""
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/protected-v1/protected-grant.schema.json",
+  "title": "Protected content grant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "kind",
+    "grant_id",
+    "session",
+    "peer",
+    "purpose",
+    "scope",
+    "definition_revision",
+    "operations",
+    "versions",
+    "expires",
+    "max_output_bytes"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/protected-v1"
+    },
+    "kind": {
+      "const": "grant"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session": {
+      "type": "string",
+      "minLength": 1
+    },
+    "peer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "host",
+        "soul_id",
+        "recipient",
+        "corpus",
+        "period"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "soul_id": {
+          "$ref": "../core-v1/portable-definition.schema.json#/$defs/soulId"
+        },
+        "recipient": {
+          "type": "string",
+          "minLength": 1
+        },
+        "corpus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "period": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "definition_revision": {
+      "$ref": "../core-v1/portable-definition.schema.json#/$defs/digest"
+    },
+    "operations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "disclose",
+          "execute",
+          "approve",
+          "export",
+          "release",
+          "quarantine",
+          "rewrap"
+        ]
+      }
+    },
+    "versions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "../core-v1/portable-definition.schema.json#/$defs/digest"
+      }
+    },
+    "expires": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "max_output_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}
