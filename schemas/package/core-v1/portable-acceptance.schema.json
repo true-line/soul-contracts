@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/core-v1/portable-acceptance.schema.json",
+  "title": "Portable package acceptance record",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "revision_profile",
+    "definition_revision",
+    "expected_base_revision",
+    "policy_revision",
+    "evidence_refs",
+    "authority_ref"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/core-v1"
+    },
+    "kind": {
+      "const": "acceptance"
+    },
+    "revision_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "definition_revision": {
+      "$ref": "portable-definition.schema.json#/$defs/digest"
+    },
+    "expected_base_revision": {
+      "oneOf": [
+        {
+          "$ref": "portable-definition.schema.json#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "policy_revision": {
+      "$ref": "portable-definition.schema.json#/$defs/digest"
+    },
+    "evidence_refs": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "$ref": "portable-definition.schema.json#/$defs/digest"
+      },
+      "uniqueItems": true
+    },
+    "authority_ref": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "additionalProperties": false
+}

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+Add draft portable package core-v1 records and the unsigned Appendix C digest,
+identity, checkpoint and refusal vectors.
+
 Correct the draft local-test reservation's nested sealed R reference to use
 the `machine/v3` inventory-ref kind and read-only sidecar mode. Re-sign the
 neutral tuple and dependent fixtures, and reject the stale kind and mode.

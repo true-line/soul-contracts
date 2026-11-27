@@ -1,0 +1,21 @@
+{
+  "schema": "package/core-v1/portable-installation.schema.json",
+  "base": {
+    "fixture": "positive/portable-installation.source-host.json",
+    "sha256": "sha256:e9eae9de5d6b6a86d7032228982d8ee6cfe60bcad79b4b8007f3628ec65d6174"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "installation",
+    "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+    "revision_profile": "soul-core-example-1",
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768",
+    "host_id": "source-host",
+    "installation_id": "placement-a",
+    "selected_checkpoint_id": "checkpoint-a",
+    "grant": "example"
+  }
+}

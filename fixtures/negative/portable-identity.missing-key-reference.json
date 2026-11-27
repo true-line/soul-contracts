@@ -1,0 +1,19 @@
+{
+  "schema": "package/core-v1/portable-identity.schema.json",
+  "base": {
+    "fixture": "positive/portable-identity.appendix-c-a.json",
+    "sha256": "sha256:e4a04c78897a0c88023885e4b3eeb71626672e797f85657ee7eed39c93cdcfda"
+  },
+  "expect": {
+    "schema": "invalid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "identity",
+    "soul_id": "urn:uuid:655fc577-804b-4e75-a5d8-70f9a21a19ce",
+    "identity_key_ref": null,
+    "identity_event_refs": [],
+    "revision_profile": "soul-core-example-1",
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768"
+  }
+}

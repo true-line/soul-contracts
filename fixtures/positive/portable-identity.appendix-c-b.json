@@ -1,0 +1,16 @@
+{
+  "schema": "package/core-v1/portable-identity.schema.json",
+  "expect": {
+    "schema": "valid"
+  },
+  "input": {
+    "contract": "package/core-v1",
+    "kind": "identity",
+    "soul_id": "urn:uuid:2d36cd18-b647-4b71-b673-f0c4ecec5827",
+    "identity_key_ref": "urn:example:external-key:b",
+    "identity_event_refs": [],
+    "revision_profile": "soul-core-example-1",
+    "definition_revision": "sha256:36a0351bd2ac3db3b091b65c85def71064632889c34215e75a97ae88595ce768"
+  },
+  "canonical_sha256": "sha256:674fee7a9b4be0db38b9d71ee253ff6d2a274a8b8472abcbb5902f5a4850c19e"
+}

@@ -1,0 +1,2 @@
+SOUL-DEFINITION-EXAMPLE-1
+[{"mode":"0644","path":"Resources/SOUL.md","sha256":"6055fd8b575e7ae95ac3e52ab2590a9a2a586b93154dede1353929573f6d56af"},{"mode":"0644","path":"SoulInfo.json","sha256":"4b9c215f61322588219a75aa952b757af25660ffbf085bc24b8ff3b3ad12d241"},{"mode":"0644","path":"SoulLock.json","sha256":"bf551427bb93b2762e29fc326bedde7a8e2cac4e25b3126cea8fc66f46d2e55b"}]

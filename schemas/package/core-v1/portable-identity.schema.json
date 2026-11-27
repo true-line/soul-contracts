@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://true-line.ai/soul-contracts/package/core-v1/portable-identity.schema.json",
+  "title": "Portable package identity record",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "soul_id",
+    "revision_profile",
+    "definition_revision",
+    "identity_key_ref",
+    "identity_event_refs"
+  ],
+  "properties": {
+    "contract": {
+      "const": "package/core-v1"
+    },
+    "kind": {
+      "const": "identity"
+    },
+    "soul_id": {
+      "$ref": "portable-definition.schema.json#/$defs/soulId"
+    },
+    "revision_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "definition_revision": {
+      "$ref": "portable-definition.schema.json#/$defs/digest"
+    },
+    "identity_key_ref": {
+      "type": "string",
+      "format": "uri"
+    },
+    "identity_event_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "portable-definition.schema.json#/$defs/digest"
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}
