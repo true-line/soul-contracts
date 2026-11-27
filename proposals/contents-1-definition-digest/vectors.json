@@ -1,0 +1,376 @@
+{
+  "status": "draft-nonbinding",
+  "algorithm": "contents-1-definition-v1",
+  "positive": [
+    {
+      "name": "base",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJkZWZpbml0aW9uX2RpZ2VzdCI6InNoYTI1NjplZDY4YWFjNjJhNTlmNDU5ZTEyZWQ1ZDljMzYzYzdhZjA5NDAyZjJhMDIzYjA2ODQ3NDUzM2UyMDU4MDgzNTYzIiwicmV2aXNpb24iOjF9Cg=="
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:ed68aac62a59f459e12ed5d9c363c7af09402f2a023b068474533e2058083563",
+      "claimed_digest_matches": true,
+      "equivalent_directory_variants": [
+        {
+          "path": "primitives",
+          "state": "absent"
+        },
+        {
+          "path": "primitives",
+          "state": "empty"
+        }
+      ]
+    },
+    {
+      "name": "lock-reformatted-and-claimed-value-changed",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyAicmV2aXNpb24iIDogMSwgImRlZmluaXRpb25fZGlnZXN0IiA6ICJzaGEyNTY6ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZiIgfQo="
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:ed68aac62a59f459e12ed5d9c363c7af09402f2a023b068474533e2058083563",
+      "claimed_digest_matches": false
+    },
+    {
+      "name": "excluded-host-state",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJkZWZpbml0aW9uX2RpZ2VzdCI6InNoYTI1NjplZDY4YWFjNjJhNTlmNDU5ZTEyZWQ1ZDljMzYzYzdhZjA5NDAyZjJhMDIzYjA2ODQ3NDUzM2UyMDU4MDgzNTYzIiwicmV2aXNpb24iOjF9Cg=="
+        },
+        {
+          "path": "host/runtime.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJzdGF0ZSI6dHJ1ZX0K"
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:ed68aac62a59f459e12ed5d9c363c7af09402f2a023b068474533e2058083563",
+      "claimed_digest_matches": true
+    },
+    {
+      "name": "nonexecutable-primitive",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJkZWZpbml0aW9uX2RpZ2VzdCI6InNoYTI1NjplZDY4YWFjNjJhNTlmNDU5ZTEyZWQ1ZDljMzYzYzdhZjA5NDAyZjJhMDIzYjA2ODQ3NDUzM2UyMDU4MDgzNTYzIiwicmV2aXNpb24iOjF9Cg=="
+        },
+        {
+          "path": "primitives/check/run.sh",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "IyEvYmluL3NoCmV4aXQgMAo="
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          },
+          "primitives/check/run.sh": {
+            "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+            "size": 17,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14},\"primitives/check/run.sh\":{\"mode\":\"100644\",\"sha256\":\"306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb\",\"size\":17}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:9caa50dc8f0e932b1cdb3d993883b8b2eef2b4cdf2542bc783afd213fb8b3980",
+      "claimed_digest_matches": false
+    },
+    {
+      "name": "executable-primitive",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJkZWZpbml0aW9uX2RpZ2VzdCI6InNoYTI1NjplZDY4YWFjNjJhNTlmNDU5ZTEyZWQ1ZDljMzYzYzdhZjA5NDAyZjJhMDIzYjA2ODQ3NDUzM2UyMDU4MDgzNTYzIiwicmV2aXNpb24iOjF9Cg=="
+        },
+        {
+          "path": "primitives/check/run.sh",
+          "type": "file",
+          "mode": "100755",
+          "content_base64": "IyEvYmluL3NoCmV4aXQgMAo="
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          },
+          "primitives/check/run.sh": {
+            "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+            "size": 17,
+            "mode": "100755"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14},\"primitives/check/run.sh\":{\"mode\":\"100755\",\"sha256\":\"306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb\",\"size\":17}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:59f68b5ad5ba3f1f397b3782ab44efa656a312a3854e76ca262e3efd9de100ef",
+      "claimed_digest_matches": false
+    },
+    {
+      "name": "producer-no-top-level-claim",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJyZXZpc2lvbiI6MX0K"
+        }
+      ],
+      "projected_lock_utf8": "{\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f",
+            "size": 14,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"d8560b7658c792bdded69837b055e2ed54708be6123b7bb4cc9fadf261ea091f\",\"size\":14}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:ed68aac62a59f459e12ed5d9c363c7af09402f2a023b068474533e2058083563",
+      "claimed_digest_matches": null
+    },
+    {
+      "name": "nested-definition-digest-remains-hashed",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJtZW1iZXJzIjpbeyJhZGFwdGVyX2lkIjoiZmFrZS1hZGFwdGVyIiwiYWRhcHRlcl92ZXJzaW9uIjoiMC4xLjAiLCJtZW1iZXJfaWQiOiJtX2xlYWQiLCJyb2xlIjoibGVhZCJ9LHsiYWRhcHRlcl9pZCI6ImZha2UtYWRhcHRlciIsImFkYXB0ZXJfdmVyc2lvbiI6IjAuMS4wIiwibWVtYmVyX2lkIjoibV9zcGVjIiwicm9sZSI6InNwZWNpYWxpc3QifV0sInNvdWxfaWQiOiJhZ2VudF8wYjNmMWUyYS03YzRkLTRlOGYtOWExYi0yYzNkNGU1ZjZhN2IifQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "eyJkZWZpbml0aW9uX2RpZ2VzdCI6InNoYTI1NjowMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIiwibmVzdGVkIjp7ImRlZmluaXRpb25fZGlnZXN0Ijoic2hhMjU2OjExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTEifSwicmV2aXNpb24iOjF9Cg=="
+        }
+      ],
+      "projected_lock_utf8": "{\"nested\":{\"definition_digest\":\"sha256:1111111111111111111111111111111111111111111111111111111111111111\"},\"revision\":1}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7",
+            "size": 257,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "10f9f13eea177ac956dae3e3c0389c1f9f7db640ff7f6533e6a2a45f2115098f",
+            "size": 119,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"6cfb4aa51308795d9c53adf72138286fcda1b9bcc5d42d43ed8fc198c24370f7\",\"size\":257},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"10f9f13eea177ac956dae3e3c0389c1f9f7db640ff7f6533e6a2a45f2115098f\",\"size\":119}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:2b3c4518303863846e1c6312df63fd185cf2d7e5ea4fedf3855817366395c280",
+      "claimed_digest_matches": false
+    },
+    {
+      "name": "pinned-real-hello-soul-template",
+      "files": [
+        {
+          "path": "SoulInfo.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "ewogICJzb3VsX2lkIjogImFnZW50XzBiM2YxZTJhLTdjNGQtNGU4Zi05YTFiLTJjM2Q0ZTVmNmE3YiIsCiAgIm1lbWJlcnMiOiBbCiAgICB7CiAgICAgICJtZW1iZXJfaWQiOiAibV9sZWFkIiwKICAgICAgInJvbGUiOiAibGVhZCIsCiAgICAgICJhZGFwdGVyX2lkIjogImZha2UtYWRhcHRlciIsCiAgICAgICJhZGFwdGVyX3ZlcnNpb24iOiAiMC4xLjAiCiAgICB9LAogICAgewogICAgICAibWVtYmVyX2lkIjogIm1fc3BlYyIsCiAgICAgICJyb2xlIjogInNwZWNpYWxpc3QiLAogICAgICAiYWRhcHRlcl9pZCI6ICJmYWtlLWFkYXB0ZXIiLAogICAgICAiYWRhcHRlcl92ZXJzaW9uIjogIjAuMS4wIgogICAgfQogIF0KfQo="
+        },
+        {
+          "path": "SoulLock.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "ewogICJkZWZpbml0aW9uX2RpZ2VzdCI6ICJzaGEyNTY6YTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMWExYTFhMSIKfQo="
+        },
+        {
+          "path": "primitives/quickstart-task.json",
+          "type": "file",
+          "mode": "100644",
+          "content_base64": "ewogICJvcGVyYXRpb25faWQiOiAiaGVsbG9fc291bF9xdWlja3N0YXJ0IiwKICAib2JqZWN0aXZlIjogIkludmVzdGlnYXRlIHRoZSBzZWVkZWQgaXNzdWUsIHJlcGFpciBhbnN3ZXIudHh0LCBydW4gdGhlIGFwcHJvdmVkIGNoZWNrLCBhbmQgcHJvZHVjZSBhIHJldmlld2FibGUgcHJvcG9zYWwuIiwKICAiZG9uZV9jcml0ZXJpYSI6ICJhbnN3ZXIudHh0IGNvbnRhaW5zIHN0YXR1cz1maXhlZCBhbmQgY2hlY2subWpzIGV4aXRzIHN1Y2Nlc3NmdWxseS4iLAogICJ3cml0ZV9zY29wZSI6IFsKICAgICJ3b3Jrc3BhY2U6aGVsbG8tc291bC1zY3JhdGNoIgogIF0KfQo="
+        }
+      ],
+      "projected_lock_utf8": "{}",
+      "manifest": {
+        "format": "contents-1-definition-v1",
+        "files": {
+          "SoulInfo.json": {
+            "sha256": "ca0c2f5a2a820d5cf1b279632ff801ccc63f5970bf0e71a2b90a22e863c9382b",
+            "size": 353,
+            "mode": "100644"
+          },
+          "SoulLock.json": {
+            "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "size": 2,
+            "mode": "100644"
+          },
+          "primitives/quickstart-task.json": {
+            "sha256": "c055c7a8d65632147e78000b6a8d12039e165b81e5b94464d09b2a56cc246d87",
+            "size": 320,
+            "mode": "100644"
+          }
+        }
+      },
+      "canonical_manifest_utf8": "{\"files\":{\"SoulInfo.json\":{\"mode\":\"100644\",\"sha256\":\"ca0c2f5a2a820d5cf1b279632ff801ccc63f5970bf0e71a2b90a22e863c9382b\",\"size\":353},\"SoulLock.json\":{\"mode\":\"100644\",\"sha256\":\"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a\",\"size\":2},\"primitives/quickstart-task.json\":{\"mode\":\"100644\",\"sha256\":\"c055c7a8d65632147e78000b6a8d12039e165b81e5b94464d09b2a56cc246d87\",\"size\":320}},\"format\":\"contents-1-definition-v1\"}",
+      "definition_digest": "sha256:fa48673ddf4e9e471b934f8173358acfa22580fb435c9c6c5bc2dc78ee46d57f",
+      "claimed_digest_matches": false,
+      "provenance": {
+        "repository": "https://github.com/true-line/soul-conformance",
+        "commit": "080e48aac3f6c8653a9aa9062aa0c324761dd632",
+        "template_url": "https://github.com/true-line/soul-conformance/tree/080e48aac3f6c8653a9aa9062aa0c324761dd632/templates/hello.soul",
+        "selection": "exact tracked Definition-class file bytes and Git modes; other template files excluded"
+      }
+    }
+  ],
+  "negative": [
+    {
+      "name": "parent-traversal",
+      "path": "primitives/../escape",
+      "type": "file",
+      "reason": "path-component"
+    },
+    {
+      "name": "decomposed-unicode",
+      "path": "primitives/é.txt",
+      "type": "file",
+      "reason": "non-nfc"
+    },
+    {
+      "name": "selected-symlink",
+      "path": "primitives/link",
+      "type": "symlink",
+      "reason": "non-regular"
+    },
+    {
+      "name": "duplicate-lock-key",
+      "path": "SoulLock.json",
+      "type": "file",
+      "content_base64": "eyJyZXZpc2lvbiI6MSwicmV2aXNpb24iOjJ9",
+      "reason": "duplicate-json-key"
+    }
+  ]
+}
